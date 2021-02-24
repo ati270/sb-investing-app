@@ -1,0 +1,740 @@
+<div class="container-fluid">
+  <div class="row">
+
+    <div style="width:100%;margin-left: 1rem;margin-right: 1rem;">
+      <!-- megjelenített tartalom-->
+      <h4>Célkitűzés és időbeosztás</h4>
+      <br>
+      <hr>
+      <!--Tartalom-->
+      <div class="stepper">
+        <!--Stepper: 1. Célitűzés; 2 . Havi terv; 3. Havi tervezet-->
+        <mat-horizontal-stepper [linear]="isLinear" #stepper>
+          <mat-step [stepControl]="celkituzesFormGroup">
+            <form [formGroup]="celkituzesFormGroup" (ngSubmit)="submitCelkituzes()">
+              <ng-template matStepLabel>Célkitűzés</ng-template>
+              <button type="button" mat-raised-button color="success" (click)="resetFeladatok()">Elértem a
+                célom</button>
+              <br>
+              <span class="badge badge-primary titleBadge">Igényfelmérés</span>
+              <!-- Adatok és képek-->
+              <div class="container">
+                <div class="row z-depth-2 igenyfelmeres">
+                  <div class="col-5">
+
+                    <!-- Célom-->
+                    <mat-form-field>
+                      <mat-label>Célom</mat-label>
+                      <input matInput formControlName="celMegnevezesCtrl" placeholder="Nevezd meg az elérendő célod"
+                        required>
+                    </mat-form-field>
+                    <!-- Mikorra akarom elérni-->
+                    <mat-form-field>
+                      <mat-label>Mikorra akarom elérni a célom</mat-label>
+                      <input matInput type="date" placeholder="Dátum" formControlName="mikorraDatumCtrl" required>
+                    </mat-form-field>
+                    <!-- Célom elérésének nehézségi szintje-->
+                    <mat-form-field>
+                      <mat-label>Célom elérésének nehézségi szintje</mat-label>
+                      <mat-select required formControlName="celEleresiSzintCtrl">
+                        <mat-option *ngFor="let nehezseg of celEleresiNehezseg" [value]="nehezseg">
+                          {{nehezseg}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-hint align="end">Válasszon egy nehézségi szintet a listából</mat-hint>
+                    </mat-form-field>
+                    <!--Elérhető-e a cél a megadott határidőre-->
+                    <mat-form-field>
+                      <mat-label>Elérhető-e a cél a megadott határidőre</mat-label>
+                      <mat-select required formControlName="celElerhetoECtrl">
+                        <mat-option *ngFor="let elerheto of celElerhetoE" [value]="elerheto">
+                          {{elerheto}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-hint align="end">Válasszon egyet a listából</mat-hint>
+                    </mat-form-field>
+                    <!--Saját igényeim, vagy mások igényei miatt tűztem ki ezt a célt? -->
+                    <mat-form-field>
+                      <mat-label>Saját igényeim, vagy mások igényei miatt tűztem ki ezt a célt?</mat-label>
+                      <mat-select required formControlName="celOkCtrl">
+                        <mat-option *ngFor="let ok of celKituzesOka" [value]="ok">
+                          {{ok}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-hint align="end">Válasszon egy okot a listából</mat-hint>
+                    </mat-form-field>
+                    <!--Biztos, hogy van igény a célomra?-->
+                    <mat-form-field>
+                      <mat-label>Biztos, hogy van igény a célomra?</mat-label>
+                      <mat-select required formControlName="celIgenyCtrl">
+                        <mat-option *ngFor="let igeny of celIgenyek" [value]="igeny">
+                          {{igeny}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-hint align="end">Válasszon egy igényt a listából</mat-hint>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6" style="margin-left: 2rem;width: 98%;">
+                    <div>
+                      <!--Inspiráló kép feltöltése-->
+                      <div class="inspImageText">
+                        <span>
+                          Tölts fel egy vagy több inspiráló képet,
+                          mely segít a céljaid elérésében.
+                        </span>
+                      </div>
+                      <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
+                        <ngx-dropzone-label>
+                          <div>
+                            <h2>Húzd ide a kívánt képet vagy képeket</h2>
+                          </div>
+                        </ngx-dropzone-label>
+                        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
+                          [file]="f" [removable]="true" (removed)="onRemove(f)">
+                        </ngx-dropzone-image-preview>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <br>
+                <span class="badge badge-primary titleBadge">Előkészületek</span>
+                <div class="row z-depth-2 igenyfelmeres">
+                  <form [formGroup]="vizsgalatFromGroup">
+                    <div class="col-12">
+                      <table class="table table-bordered table-hover z-depth-2" formArrayName="vizsgalatArray">
+                        <thead>
+                          <tr class="mat-header-row">
+                            <th class="mat-header-cell">Kérdés</th>
+                            <th class="mat-header-cell">Válasz</th>
+                            <th class="mat-header-cell">
+                              Milyen feladatokat kell ennek érdekében elvégezni ?
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="mat-row">
+                            <!--Kérdés-->
+                            <td style="margin-right: 2rem;">
+                              Van valami elengedhetetlen előfeltétele annak , hogy elérjem ezt a célt ?
+                            </td>
+                            <!--Válasz-->
+                            <td class="igenNemStyle">
+                              <mat-form-field>
+                                <mat-select required formControlName="elsoIgenNemCtrl"
+                                  (selectionChange)="elsoChange($event)">
+                                  <mat-option *ngFor="let igennem of VizsgIgenNem" [value]="igennem">
+                                    {{igennem}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </td>
+                            <td *ngIf="!isDisableFirst">
+                              <!--Feladatok-->
+                              <mat-chip-list #chipList aria-label="Előfeltételek">
+                                <mat-chip color="primary" selected *ngFor="let elofeltetel of elofeltetelek"
+                                  [selectable]="selectable" [removable]="removable"
+                                  (removed)="removeElofeltetelek(elofeltetel)">
+                                  {{elofeltetel}}
+                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input placeholder="Új feladat" [matChipInputFor]="chipList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addElofeltetel($event)">
+                              </mat-chip-list>
+                            </td>
+
+                          </tr>
+
+                          <tr class="mat-row">
+                            <td style="margin-right: 2rem;">
+                              Kell valakinek a segítsége , hogy elérjem ezt a célt ?
+                            </td>
+                            <!--Válasz-->
+                            <td class="igenNemStyle">
+                              <mat-form-field>
+                                <mat-select required formControlName="masodikIgenNemCtrl"
+                                  (selectionChange)="masodikChange($event)">
+                                  <mat-option *ngFor="let igennem of VizsgIgenNem" [value]="igennem">
+                                    {{igennem}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </td>
+                            <td *ngIf="!isDisableSecond">
+                              <!--Segitség-->
+                              <mat-chip-list #chipList aria-label="Segítségek">
+                                <mat-chip color="primary" selected *ngFor="let segitseg of segitsegek"
+                                  [selectable]="selectable" [removable]="removable"
+                                  (removed)="removeSegitseg(segitseg)">
+                                  {{segitseg}}
+                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input placeholder="Új feladat" [matChipInputFor]="chipList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addSegitseg($event)">
+                              </mat-chip-list>
+                            </td>
+
+                          </tr>
+
+                          <tr class="mat-row">
+                            <td style="margin-right: 2rem;">
+                              Kell valami speciális tudás , hogy elérjem ezt a célt ?
+                            </td>
+                            <!--Válasz-->
+                            <td class="igenNemStyle">
+                              <mat-form-field>
+                                <mat-select required formControlName="harmadikIgenNemCtrl"
+                                  (selectionChange)="harmadikChange($event)">
+                                  <mat-option *ngFor="let igennem of VizsgIgenNem" [value]="igennem">
+                                    {{igennem}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </td>
+                            <td *ngIf="!isDisable3">
+                              <!-- Speciális-->
+                              <mat-chip-list #chipList aria-label="Speciális">
+                                <mat-chip color="primary" selected *ngFor="let specialis of specialisTudas"
+                                  [selectable]="selectable" [removable]="removable"
+                                  (removed)="removeSpecialis(specialis)">
+                                  {{specialis}}
+                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input placeholder="Új feladat" [matChipInputFor]="chipList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addSpecialis($event)">
+                              </mat-chip-list>
+                            </td>
+
+                          </tr>
+
+                          <tr class="mat-row">
+                            <td style="margin-right: 2rem;">
+                              Kell valami tárgy , vagy felszerelés , hogy elérjem ezt a célt ?
+                            </td>
+                            <!--Válasz-->
+                            <td class="igenNemStyle">
+                              <mat-form-field>
+                                <mat-select required formControlName="negyedikIgenNemCtrl"
+                                  (selectionChange)="negyedikChange($event)">
+                                  <mat-option *ngFor="let igennem of VizsgIgenNem" [value]="igennem">
+                                    {{igennem}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </td>
+                            <td *ngIf="!isDisable4">
+                              <!-- Tárgyak-->
+                              <mat-chip-list #chipList aria-label="Tárgyak">
+                                <mat-chip color="primary" selected *ngFor="let targy of targyak"
+                                  [selectable]="selectable" [removable]="removable" (removed)="removeTargy(targy)">
+                                  {{targy}}
+                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input placeholder="Új feladat" [matChipInputFor]="chipList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addTargy($event)">
+                              </mat-chip-list>
+                            </td>
+
+                          </tr>
+
+                          <tr class="mat-row">
+                            <td style="margin-right: 2rem;">
+                              Milyen akadályokkal találkozhatok a célomhoz vezető úton ?
+                            </td>
+                            <!--Válasz-->
+                            <td class="igenNemStyle" style="padding: 0.3rem;">
+                              <!--Akadály-->
+                              <mat-chip-list #chipList aria-label="Akadaly">
+                                <mat-chip color="primary" selected *ngFor="let akadaly of akadalyok"
+                                  [selectable]="selectable" [removable]="removable" (removed)="removeAkadaly(akadaly)">
+                                  {{akadaly}}
+                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input style="margin-top: 0.8rem;" placeholder="Új akadály" [matChipInputFor]="chipList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addAkadaly($event)">
+                              </mat-chip-list>
+                            </td>
+
+                            <td *ngIf="!isDisable5">
+                              <!--Feladatok-->
+                              <mat-chip-list #chipList aria-label="akadalyFeladatok">
+                                <mat-chip color="primary" selected *ngFor="let akadalyFeladat of akadalyFeladatok"
+                                  [selectable]="selectable" [removable]="removable"
+                                  (removed)="removeAkadalyFeladat(akadalyFeladat)">
+                                  {{akadalyFeladat}}
+                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input style="margin-top: 0.8rem;" placeholder="Új feladat" [matChipInputFor]="chipList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  [matChipInputAddOnBlur]="addOnBlur"
+                                  (matChipInputTokenEnd)="addAkadalyFeladat($event)">
+                              </mat-chip-list>
+                            </td>
+
+
+                          </tr>
+
+                          <tr class="mat-row">
+                            <td style="margin-right: 2rem;">
+                              Mennyi pénz kell hozzá , hogy elérjem ezt a célt ?
+                            </td>
+                            <!--Válasz-->
+                            <td class="igenNemStyle">
+                              <mat-form-field>
+                                <input type="number" matInput formControlName="szuksegesOsszegCtrl"
+                                  placeholder="Adja meg az összeget" required (keyup.enter)="addedPenz()">
+                                <span matSuffix>Ft</span>
+                              </mat-form-field>
+                            </td>
+
+                            <td *ngIf="!isDisable6">
+                              <mat-chip-list #chipList aria-label="akadalyFeladatok">
+                                <mat-chip color="primary" selected *ngFor="let penz of penzek" [selectable]="selectable"
+                                  [removable]="removable" (removed)="removePenz(penz)">
+                                  {{penz}}
+                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input style="margin-top: 0.8rem;" placeholder="Új feladat" [matChipInputFor]="chipList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addPenz($event)">
+                              </mat-chip-list>
+                            </td>
+
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <span class="badge badge-primary titleBadge">Feladatok megszervezése</span>
+                    <div class="col-12">
+                      <table class="table table-bordered table-hover z-depth-2" formArrayName="lepesekArray">
+                        <thead>
+                          <tr class="mat-header-row">
+                            <th class="mat-header-cell">
+                              Milyen lépéseket kell tennem ,hogy elérjem ezt a célt ?
+                            </th>
+                            <!-- TODO: később-->
+                            <!--<th class="mat-header-cell">
+                            <div class="d-flex">
+                              <div class="p-2">Lépések</div>
+                              <div class="ml-auto p-2">
+                                <a (click)="addNewLepes()">
+                                  <mat-icon>add_box</mat-icon>
+                                </a>
+                              </div>
+                            </div>
+
+                          </th>-->
+                            <th class="mat-header-cell">
+                              Milyen feladatokat kell ennek érdekében elvégezni ?
+                            </th>
+                          </tr>
+
+                        </thead>
+                        <tbody>
+                          <!-- TODO: később: *ngFor="let item of getTableControls();let i = index;" [formGroupName]="i"-->
+                          <tr>
+                            <td>
+                              <mat-form-field>
+                                <input type="text" matInput formControlName="lepes1Ctrl" placeholder="">
+                              </mat-form-field>
+                            </td>
+                            <td>
+                              <mat-chip-list #chipList>
+                                <mat-chip color="primary" selected *ngFor="let lepes of lepesek1"
+                                  [selectable]="selectable" [removable]="removable" (removed)="removeLepes1(lepes)">
+                                  {{lepes}}
+                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input style="margin-top: 0.8rem;" placeholder="Új feladat" [matChipInputFor]="chipList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addLepes1($event)">
+                              </mat-chip-list>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td>
+                              <mat-form-field>
+                                <input type="text" matInput formControlName="lepes2Ctrl" placeholder="">
+                              </mat-form-field>
+                            </td>
+                            <td>
+                              <mat-chip-list #chipList>
+                                <mat-chip color="primary" selected *ngFor="let lepes of lepesek2"
+                                  [selectable]="selectable" [removable]="removable" (removed)="removeLepes2(lepes)">
+                                  {{lepes}}
+                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input style="margin-top: 0.8rem;" placeholder="Új feladat" [matChipInputFor]="chipList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addLepes2($event)">
+                              </mat-chip-list>
+                            </td>
+                          </tr>
+                          <!-- 3. -->
+                          <tr>
+                            <td>
+                              <mat-form-field>
+                                <input type="text" matInput formControlName="lepes3Ctrl" placeholder="">
+                              </mat-form-field>
+                            </td>
+                            <td>
+                              <mat-chip-list #chipList>
+                                <mat-chip color="primary" selected *ngFor="let lepes of lepesek3"
+                                  [selectable]="selectable" [removable]="removable" (removed)="removeLepes3(lepes)">
+                                  {{lepes}}
+                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input style="margin-top: 0.8rem;" placeholder="Új feladat" [matChipInputFor]="chipList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addLepes3($event)">
+                              </mat-chip-list>
+                            </td>
+                          </tr>
+                          <!-- 4. -->
+                          <tr>
+                            <td>
+                              <mat-form-field>
+                                <input type="text" matInput formControlName="lepes4Ctrl" placeholder="">
+                              </mat-form-field>
+                            </td>
+                            <td>
+                              <mat-chip-list #chipList>
+                                <mat-chip color="primary" selected *ngFor="let lepes of lepesek4"
+                                  [selectable]="selectable" [removable]="removable" (removed)="removeLepes4(lepes)">
+                                  {{lepes}}
+                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input style="margin-top: 0.8rem;" placeholder="Új feladat" [matChipInputFor]="chipList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addLepes4($event)">
+                              </mat-chip-list>
+                            </td>
+                          </tr>
+
+                          <!--5. -->
+                          <tr>
+                            <td>
+                              <mat-form-field>
+                                <input type="text" matInput formControlName="lepes5Ctrl" placeholder="">
+                              </mat-form-field>
+                            </td>
+                            <td>
+                              <mat-chip-list #chipList>
+                                <mat-chip color="primary" selected *ngFor="let lepes of lepesek5"
+                                  [selectable]="selectable" [removable]="removable" (removed)="removeLepes5(lepes)">
+                                  {{lepes}}
+                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input style="margin-top: 0.8rem;" placeholder="Új feladat" [matChipInputFor]="chipList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addLepes5($event)">
+                              </mat-chip-list>
+                            </td>
+                          </tr>
+
+                          <!-- 6. -->
+                          <tr>
+                            <td>
+                              <mat-form-field>
+                                <input type="text" matInput formControlName="lepes6Ctrl" placeholder="">
+                              </mat-form-field>
+                            </td>
+                            <td>
+                              <mat-chip-list #chipList>
+                                <mat-chip color="primary" selected *ngFor="let lepes of lepesek6"
+                                  [selectable]="selectable" [removable]="removable" (removed)="removeLepes6(lepes)">
+                                  {{lepes}}
+                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input style="margin-top: 0.8rem;" placeholder="Új feladat" [matChipInputFor]="chipList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addLepes6($event)">
+                              </mat-chip-list>
+                            </td>
+                          </tr>
+
+                          <!-- 7. -->
+                          <tr>
+                            <td>
+                              <mat-form-field>
+                                <input type="text" matInput formControlName="lepes7Ctrl" placeholder="">
+                              </mat-form-field>
+                            </td>
+                            <td>
+                              <mat-chip-list #chipList>
+                                <mat-chip color="primary" selected *ngFor="let lepes of lepesek7"
+                                  [selectable]="selectable" [removable]="removable" (removed)="removeLepes7(lepes)">
+                                  {{lepes}}
+                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input style="margin-top: 0.8rem;" placeholder="Új feladat" [matChipInputFor]="chipList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addLepes7($event)">
+                              </mat-chip-list>
+                            </td>
+                          </tr>
+
+                          <!-- 8. -->
+                          <tr>
+                            <td>
+                              <mat-form-field>
+                                <input type="text" matInput formControlName="lepes8Ctrl" placeholder="">
+                              </mat-form-field>
+                            </td>
+                            <td>
+                              <mat-chip-list #chipList>
+                                <mat-chip color="primary" selected *ngFor="let lepes of lepesek8"
+                                  [selectable]="selectable" [removable]="removable" (removed)="removeLepes8(lepes)">
+                                  {{lepes}}
+                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input style="margin-top: 0.8rem;" placeholder="Új feladat" [matChipInputFor]="chipList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addLepes8($event)">
+                              </mat-chip-list>
+                            </td>
+                          </tr>
+
+                          <!-- 9. -->
+                          <tr>
+                            <td>
+                              <mat-form-field>
+                                <input type="text" matInput formControlName="lepes9Ctrl" placeholder="">
+                              </mat-form-field>
+                            </td>
+                            <td>
+                              <mat-chip-list #chipList>
+                                <mat-chip color="primary" selected *ngFor="let lepes of lepesek9"
+                                  [selectable]="selectable" [removable]="removable" (removed)="removeLepes9(lepes)">
+                                  {{lepes}}
+                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input style="margin-top: 0.8rem;" placeholder="Új feladat" [matChipInputFor]="chipList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addLepes9($event)">
+                              </mat-chip-list>
+                            </td>
+                          </tr>
+
+                          <!-- 10. -->
+                          <tr>
+                            <td>
+                              <mat-form-field>
+                                <input type="text" matInput formControlName="lepes10Ctrl" placeholder="">
+                              </mat-form-field>
+                            </td>
+                            <td>
+                              <mat-chip-list #chipList>
+                                <mat-chip color="primary" selected *ngFor="let lepes of lepesek10"
+                                  [selectable]="selectable" [removable]="removable" (removed)="removeLepes10(lepes)">
+                                  {{lepes}}
+                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input style="margin-top: 0.8rem;" placeholder="Új feladat" [matChipInputFor]="chipList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addLepes10($event)">
+                              </mat-chip-list>
+                            </td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </form>
+                  <br>
+                  <div>
+                    <button type="submit" mat-raised-button color="primary" matStepperNext
+                      style="margin-top: 2rem">Következő</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <br>
+
+          </mat-step>
+          <!-- Havi terv készitése-->
+          <mat-step [stepControl]="haviTervFormGroup">
+            <form [formGroup]="haviTervFormGroup">
+              <ng-template matStepLabel>Havi terv</ng-template>
+              <button type="button" class="btn btn-outline-primary" (click)="openResourceEventDialog()">
+                Új feladat
+              </button>
+              <br>
+              <!--<div class="container">
+                  <div class="row">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-primary" (click)="openResourceEventDialog()">
+                          Új feladat
+                        </button>
+                      </div>
+                      <div class="col-2">
+                        <button type="button" class="btn btn-danger" (click)="refreshCalendar()" disabled>
+                          Google naptár szinkronizáció
+                        </button>
+                      </div>
+                  </div>
+              </div>-->
+              <br>
+
+              <!-- Full calendar-->
+              <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
+              <br>
+
+              <h5 style="color: #3f729B;">Célkitűzés feladatok</h5>
+
+              <br>
+              <!-- Célkitüzés-->
+              <div class="z-depth-2">
+              <ul class="list-group list-group-flush" *ngFor="let feladat of $feladatok">
+                <li class="list-group-item">
+
+                    <div class="d-flex">
+                      <div class="mr-auto p-2" style="color: #3f729B;">
+                        {{feladat.$title}}
+                    </div>
+                      <div class="p-2">
+                        <span class="badge badge-primary badge-pill">{{feladat.$besorolas}}</span>
+                      </div>
+                      <div class="p-2">
+                        <span class="badge badge-primary badge-pill">{{feladat.$hatarido}}</span>
+                      </div>
+                      <div class="divider-vertical"></div>
+                      <div class="p-2">
+                        <span class="badge badge-danger">
+                          <a (click)="openAddTimePickerDialog(feladat)">
+                            Ütemezés
+                          </a>
+                        </span>
+                      </div>
+                      <div class="p-2">
+                        <span class="badge badge-warning">
+                          <a (click)="feladatModositas(feladat)">
+                          Módosítás
+                        </a>
+                      </span>
+                      </div>
+                      <div class="p-2">
+                        <span class="badge badge-success">
+                            <a (click)="feladatLezaras(feladat)">
+                            Lezárás
+                          </a>
+                        </span>
+                      </div>
+                    </div>
+                  <hr style="padding:0; margin: 0; color: #3f729B;">
+                </li>
+              </ul>
+            </div>
+              <br>
+              <!-- Havi szintű-->
+              <h5 style="color: #3f729B;">Havi szintű feladatok</h5>
+              <br>
+              <div class="z-depth-2">
+                <ul class="list-group list-group-flush" *ngFor="let feladat of $haviSzintuFeladatok">
+                  <li class="list-group-item">
+
+                      <div class="d-flex">
+                        <div class="mr-auto p-2" style="color: #3f729B;">
+                          {{feladat.$title}}
+                      </div>
+                        <div class="p-2">
+                          <span class="badge badge-primary badge-pill">{{feladat.$besorolas}}</span>
+                        </div>
+                        <div class="p-2">
+                          <span class="badge badge-primary badge-pill">{{feladat.$hatarido}}</span>
+                        </div>
+                        <div class="divider-vertical"></div>
+                        <div class="p-2">
+                          <span class="badge badge-warning">
+                            <a (click)="feladatHaviModositas(feladat)">
+                            Módosítás
+                          </a>
+                        </span>
+                        </div>
+                        <div class="p-2">
+                          <span class="badge badge-success">
+                              <a (click)="feladatHaviLezaras(feladat)">
+                              Lezárás
+                            </a>
+                          </span>
+                        </div>
+                      </div>
+                    <hr style="padding:0; margin: 0; color: #3f729B;">
+                  </li>
+                </ul>
+              </div>
+                <br>
+              <hr>
+              <!--Magyarázat-->
+              <div>
+                <h5 style="color: #3f729B;">Magyarázat</h5>
+                <br>
+                <mat-accordion>
+                  <mat-expansion-panel hideToggle style="background: whitesmoke;color: red">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title style="color: red">
+                        Fontos és sürgős feladatok
+                      </mat-panel-title>
+                      <mat-panel-description>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <p>Ezeket a feladatokat kell a leghamarabb elvégezned</p>
+                  </mat-expansion-panel>
+
+                  <mat-expansion-panel hideToggle style="background: whitesmoke;color: orange">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title style="color: orange">
+                        Kevésbé fontos, sürgős feladatok
+                      </mat-panel-title>
+                      <mat-panel-description>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <p>Ezeket a feladatokat mielőbb el kell végezni. Oszd le másnak a feladatot</p>
+                  </mat-expansion-panel>
+
+                  <mat-expansion-panel hideToggle style="background: whitesmoke;color: blue">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title style="color: blue">
+                        Fontos, kevésbé sürgős feladatok
+                      </mat-panel-title>
+                      <mat-panel-description>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <p>Ezeket a feladatokat próbáld meg olyan napokon elvégezni , amikor kevesebb az elfoglaltságod</p>
+                  </mat-expansion-panel>
+
+                  <mat-expansion-panel hideToggle style="background: whitesmoke;color: violet">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title style="color: violet">
+                        Kevésbé fontos és kevésbé sürgős feladatok
+                      </mat-panel-title>
+                      <mat-panel-description>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <p>
+                      Gyűjtsd össze ezeket a feladatokat a hónap , vagy esetleg a hét egy-két napjára , és akkor old meg
+                      őket . A feladatokat oszd le másnak
+                    </p>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+              <!--<div>
+                <br>
+                <button mat-raised-button color="primary" matStepperNext>Következő</button>
+              </div>-->
+              <br>
+            </form>
+          </mat-step>
+          <!-- Havi tervezet: megjeleníti az elkészitett terveket : nyomtatható-->
+        </mat-horizontal-stepper>
+      </div>
+    </div>
+  </div>
+</div>

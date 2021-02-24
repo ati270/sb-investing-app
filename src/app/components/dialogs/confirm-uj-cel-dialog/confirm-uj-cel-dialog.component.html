@@ -1,0 +1,13 @@
+<div>
+    <span style="color: #3F729B;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: medium;">Meglévő cél törlése</span>
+</div>
+<br>
+<div>
+    <h4 style="color: #3F729B;">Biztosan új célt szeretne hozzáadni?</h4>
+    <span style="color: gray;">A meglévő célja törlésre fog kerülni!</span>
+</div>
+
+<div mat-dialog-actions style="float: right;margin-top: 0.5rem;">
+    <button class="btn btn-outline-dark z-depth-2" mat-dialog-close (click)="noUjCel()">Mégsem</button>
+    <button type="button" class="btn btn-outline-success z-depth-2" style="margin-left: 2rem;" (click)="ujCel()">Igen</button>
+</div>

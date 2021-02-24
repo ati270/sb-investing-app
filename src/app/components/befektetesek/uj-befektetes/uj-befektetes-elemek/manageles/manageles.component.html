@@ -1,0 +1,714 @@
+<span class="badge badge-light z-depth-2 badge-header">Managelés
+</span>
+<br>
+<br>
+
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="managelesAdatokFormGroup">
+    <form [formGroup]="managelesAdatokFormGroup">
+      <button mat-stroked-button color="success" class="kihagyBtn" (click)="saveReszvenyElemzes()">Később töltöm ki. Tovább az elemzés mentéséhez</button>
+      <ng-template matStepLabel>Befektetés adatai</ng-template>
+      <div formArrayName="altalanosMenegelesAdatok">
+        <!-- Vállalat neve-->
+        <mat-form-field>
+          <input matInput placeholder="Vállalat neve" formControlName="vallNeveCtrl" required>
+        </mat-form-field>
+        <br>
+        <!--Részvény rövidített jele-->
+        <mat-form-field>
+          <input matInput placeholder="Részvény rövidített jele" formControlName="reszvenyRovJeleCtrl" required>
+        </mat-form-field>
+        <br>
+        <!-- Piaci kapitalizáció-->
+        <mat-form-field>
+          <mat-label>Piaci kapitalizáció</mat-label>
+          <mat-select required formControlName="piaciKapCtrl">
+            <mat-option *ngFor="let kapitalizacio of $piaciKapitalizacio" [value]="kapitalizacio">
+              {{kapitalizacio}}
+            </mat-option>
+          </mat-select>
+          <mat-hint align="end">Válasszon egy piaci kapitalizációt a listából</mat-hint>
+        </mat-form-field>
+        <br>
+        <!-- Stratégia-->
+        <mat-form-field>
+          <mat-label>Menedzselési stratégia</mat-label>
+          <mat-select required formControlName="strategiaCtrl">
+            <mat-option *ngFor="let strategia of $strategiak" [value]="strategia">
+              {{strategia}}
+            </mat-option>
+          </mat-select>
+          <mat-hint align="end">Válasszon egy strategiát a listából</mat-hint>
+        </mat-form-field>
+        <br>
+        <!-- Szektor-->
+        <mat-form-field>
+          <mat-label>Szektor</mat-label>
+          <mat-select required formControlName="szektorCtrl">
+            <mat-option *ngFor="let szektor of $szektorok" [value]="szektor">
+              {{szektor}}
+            </mat-option>
+            <mat-divider></mat-divider>
+            <mat-form-field style="margin-left: 1rem;margin-right: 1rem;">
+              <input matInput #egyebSzektor placeholder="Egyéb szektor hozzáadása">
+              <button class="addBtn" mat-raised-button color="primary" matSuffix aria-label="addSzektor"
+                (click)="addSelectNewSzektor(egyebSzektor.value)">
+                Hozzáad
+              </button>
+            </mat-form-field>
+          </mat-select>
+          <mat-hint align="end">Válasszon egy szektort a listából</mat-hint>
+        </mat-form-field>
+        <br>
+        <!--Elemzési árfolyam-->
+        <div class="row">
+          <div class="col-8">
+            <mat-form-field>
+              <input matInput placeholder="Elemzési árfolyam {{penznemElemzes}}" formControlName="elemzesiArfolyamCtrl" required>
+            </mat-form-field>
+          </div>
+          <div class="col-4" >
+            <mat-form-field style="padding-right: 10%;">
+              <mat-label>Pénznem</mat-label>
+              <mat-select [(value)]="penznemElemzes" formControlName="elemzesPenznemCtrl">
+                <mat-option value="(USD)">
+                  <i class="united states flag"> USA Dollár(USD)</i>
+                </mat-option>
+                <mat-option value="(EUR)">
+                  <i class="undefined"></i>
+                  Euro</mat-option>
+                <mat-option value="(YEN)">Japan YEN</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <br>
+
+        <!-- Célár árfolyam-->
+        <div class="row">
+          <div class="col-8">
+            <mat-form-field>
+              <input matInput placeholder="Célár árfolyam {{penznemCelar}}" formControlName="celarArfolyamCtrl" required>
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field style="padding-right: 10%;">
+              <mat-label>Pénznem</mat-label>
+
+              <mat-select [(value)]="penznemCelar" formControlName="celarPenznemCtrl">
+                <mat-option value="(USD)">
+                  <i class="united states flag"> USA Dollár(USD)</i>
+                </mat-option>
+                <mat-option value="(EUR)">
+                  <i class="undefined"></i>
+                  Euro</mat-option>
+                <mat-option value="(YEN)">Japan YEN</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <br>
+        <!--Éves megtakaritás-->
+        <mat-form-field>
+          <input matInput placeholder="Éves megtakarítás" formControlName="evesMegtakaritasCtrl" required>
+        </mat-form-field>
+        <br>
+      </div>
+      <br>
+      <div>
+        <button mat-raised-button color="primary" matStepperNext>Tovább</button>
+        <!--[disabled]="!managelesFormGroup.valid"-->
+      </div>
+
+      <br>
+    </form>
+
+  </mat-step>
+  <mat-step [stepControl]="managelesReszvenyFormGroup">
+    <form [formGroup]="managelesReszvenyFormGroup">
+      <ng-template matStepLabel>Részvény vásárlás feltételei</ng-template>
+      <div formArrayName="reszvenyMenegelesAdatok">
+        <!--Vásárlás a stratégia alapján-->
+        <mat-form-field>
+          <mat-label>Vásárlás a stratégia alapján</mat-label>
+          <mat-select required formControlName="vasarlasCtrl">
+            <mat-option *ngFor="let vasarlas of $vasarlas" [value]="vasarlas">
+              {{vasarlas}}
+            </mat-option>
+          </mat-select>
+          <mat-hint align="end">Válasszon egy strategiát a listából</mat-hint>
+        </mat-form-field>
+        <br>
+        <!--Befektetési eszköz-->
+        <mat-form-field>
+          <mat-label>Befektetési eszköz</mat-label>
+          <mat-select required formControlName="eszkozCtrl">
+            <mat-option *ngFor="let eszkoz of $eszkozok" [value]="eszkoz">
+              {{eszkoz}}
+            </mat-option>
+          </mat-select>
+          <mat-hint align="end">Válasszon egy befektetési eszközt a listából</mat-hint>
+        </mat-form-field>
+        <br>
+        <!--Megtérülés-->
+        <mat-form-field>
+          <mat-label>Megtérülés</mat-label>
+          <mat-select required formControlName="megterulesCtrl">
+            <mat-option *ngFor="let megterules of $megterules" [value]="megterules">
+              {{megterules}}
+            </mat-option>
+          </mat-select>
+          <mat-hint align="end">Válasszon egy megtérülési időt a listából</mat-hint>
+        </mat-form-field>
+        <br>
+        <br>
+        <!-- Megtérülési árfolyamok-->
+        <mat-card class="z-depth-2 card-megterules">
+          <mat-card-header>
+            <mat-card-title>Megtérülési árfolyamok</mat-card-title>
+            <hr>
+          </mat-card-header>
+          <mat-card-content>
+            <div *ngFor="let i of $megterules" class="input-group mb-3 ">
+              <input type="text" class="form-control" placeholder="Kötési árfolyam {{i}} megtérülés esetén" readonly>
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2"
+                  style="background-color: darkgreen;color: white;">{{i}}</span>
+              </div>
+            </div>
+            <!--TODO: lista a megtérülési árfolyamokról másik componentből-->
+          </mat-card-content>
+        </mat-card>
+        <br>
+        <!--Stop szint vásárláskor-->
+        <mat-card class="card-megterules z-depth-2">
+          <mat-form-field>
+            <mat-label>Stop szint vásárláskor</mat-label>
+            <mat-select required formControlName="stopSzintCtrl">
+              <mat-option *ngFor="let stopSzint of $stopSzintek" [value]="stopSzint">
+                {{stopSzint}}
+              </mat-option>
+            </mat-select>
+            <mat-hint align="end">Válasszon egy stop szintet a listából</mat-hint>
+          </mat-form-field>
+        </mat-card>
+        <br>
+        <br>
+        <!--Rizikó faktor-->
+        <mat-card class="card-megterules z-depth-2">
+          <mat-card-header>
+            <mat-card-subtitle>Rizikó faktor</mat-card-subtitle>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <br>
+          <mat-card-content >
+            <mat-button-toggle-group required name="rizikoFaktor" formControlName="rizikoFaktorCtrl">
+              <mat-button-toggle value="kicsi">Kicsi</mat-button-toggle>
+              <mat-button-toggle value="kozepes">Közepes</mat-button-toggle>
+              <mat-button-toggle value="nagy">Nagy</mat-button-toggle>
+            </mat-button-toggle-group>
+          </mat-card-content>
+          <br>
+          <br>
+        </mat-card>
+        <br>
+        <br>
+        <!--Befektethető tőke-->
+        <mat-card class="card-megterules z-depth-2">
+          <mat-card-header>
+            <mat-card-subtitle>Befektethető tőke</mat-card-subtitle>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <br>
+          <mat-card-content>
+            <mat-button-toggle-group required name="befToke" formControlName="befTokeCtrl">
+              <mat-button-toggle value="100" (change)="onValChange($event.value)">100 %
+              </mat-button-toggle>
+              <mat-button-toggle value="70" (change)="onValChange($event.value)">70 %</mat-button-toggle>
+              <mat-button-toggle value="30" (change)="onValChange($event.value)">30 %</mat-button-toggle>
+              <mat-button-toggle value="nem" (change)="onValChange($event.value)">Nem vásárolok
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </mat-card-content>
+          <br>
+          <br>
+          <mat-card-footer style="padding-left: 1rem;padding-right: 1rem;">
+            <!--Befektethető összeg-->
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Befektethető összeg" readonly>
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2"
+                  style="background-color: darkgreen;color: white;">{{$befektethetoOsszeg | number}}</span>
+              </div>
+            </div>
+          </mat-card-footer>
+        </mat-card>
+        <br>
+        <!--Mikor lehet vásárolni-->
+        <mat-card class="card-megterules z-depth-2">
+          <mat-form-field>
+            <mat-label>Mikor lehet vásárolni</mat-label>
+            <mat-select required formControlName="mikorVasarolniCtrl">
+              <mat-option *ngFor="let mikorVasarolni of $mikorVasarol" [value]="mikorVasarolni">
+                {{mikorVasarolni}}
+              </mat-option>
+            </mat-select>
+            <mat-hint align="end">Válasszon egyet a listából</mat-hint>
+          </mat-form-field>
+        </mat-card>
+        <br>
+
+        <br>
+        <!--Halasztás vagy elvetés magyarázata-->
+        <div class="card z-depth-2">
+          <div class="card-header text-white unique-color">
+            Halasztás vagy elvetés magyarázata
+          </div>
+          <div class="card-body">
+            <!--Form with table-->
+            <table class="table table-bordered table-hover z-depth-2" formArrayName="halasztasAdatok">
+              <thead>
+                <tr class="mat-header-row">
+                  <th class="mat-header-cell" colspan="2">Indok</th>
+                  <th class="mat-header-cell">Magyarázat</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!--Túl nagy gadasági ingadozás-->
+                <tr class="mat-row">
+                  <td class="mat-cell">
+                    Túl nagy gadasági ingadozás
+                  </td>
+                  <td class="mat-cell" style="padding: 0.2rem;">
+                    <mat-checkbox color="primary" formControlName="gazdasagiIngadozasCtrl"
+                      (change)="gazdasagiIngChange($event)"></mat-checkbox>
+                  </td>
+                  <td class="mat-cell">
+                    <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                      <input #gazdIngadozasInput matInput formControlName="gazdasagiIngadozasMagyarazatCtrl" type="text"
+                        disabled>
+                      <a #gazdasagiIcon matSuffix mat-icon-button aria-label="editGazdIng"
+                        (click)="openGazdasagiIngadozasDialog()">
+                        <mat-icon>edit</mat-icon>
+                      </a>
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <!--A vállalati rizikó túl magas-->
+                <tr class="mat-row">
+                  <td class="mat-cell">
+                    A vállalati rizikó túl magas
+                  </td>
+                  <td class="mat-cell" style="padding: 0.2rem;">
+                    <mat-checkbox color="primary" formControlName="vallalatiRizikoCtrl"
+                      (change)="vallRizikoChange($event)"></mat-checkbox>
+                  </td>
+                  <td class="mat-cell">
+                    <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                      <input #magasRizikoInput matInput formControlName="valallatiRizikoMagyarazatCtrl" type="text" disabled>
+                      <a #vallRizikoIcon matSuffix mat-icon-button
+                      (click)="openMagasRizikoDialog()">
+                        <mat-icon>edit</mat-icon>
+                      </a>
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <!--Vállalat rossz pénzügyi mutatója-->
+                <tr class="mat-row">
+                  <td class="mat-cell">
+                    Vállalat rossz pénzügyi mutatója
+                  </td>
+                  <td class="mat-cell" style="padding: 0.2rem;">
+                    <mat-checkbox color="primary" formControlName="vallalatiRosszPenzMutatoCtrl"
+                      (change)="vallRosszPenzMutatoChange($event)"></mat-checkbox>
+                  </td>
+                  <td class="mat-cell">
+                    <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                      <input #rosszPenzInput matInput formControlName="vallalatiRosszPenzMutatoMagyCtrl" type="text" disabled>
+                      <a #rosszPenzMutIcon matSuffix mat-icon-button
+                      (click)="openRosszPenzMutatoDialog()">
+                        <mat-icon>edit</mat-icon>
+                      </a>
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <!--Vállalat rossz hatékonysági mutatója-->
+                <tr class="mat-row">
+                  <td class="mat-cell">
+                    Vállalat rossz hatékonysági mutatója
+                  </td>
+                  <td class="mat-cell" style="padding: 0.2rem;">
+                    <mat-checkbox color="primary" formControlName="vallRosszHatMutCtrl"
+                      (change)="vallalatRosszHAtMutatoChange($event)"></mat-checkbox>
+                  </td>
+                  <td class="mat-cell">
+                    <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                      <input #rosszHatInput matInput formControlName="vallalatRosszHatMutMagyarazatCtrl" type="text" disabled>
+                      <a #rosszHatIcon matSuffix mat-icon-button 
+                      (click)="openRosszHatekonysagDialog()">
+                        <mat-icon>edit</mat-icon>
+                      </a>
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <!--Válallat hosszú távú eladósodottsága-->
+                <tr class="mat-row">
+                  <td class="mat-cell">
+                    Válallat hosszú távú eladósodottsága
+                  </td>
+                  <td class="mat-cell" style="padding: 0.2rem;">
+                    <mat-checkbox color="primary" formControlName="vallHosszuEladosodasCtrl"
+                      (change)="vallalatHosszuEladosodasChange($event)"></mat-checkbox>
+                  </td>
+                  <td class="mat-cell">
+                    <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                      <input #hosszuTavEladInput matInput formControlName="vallalatHosszuEladosodasMagyarazatCtrl" type="text" disabled>
+                      <a #hosszuTavEladosodasIcon matSuffix mat-icon-button aria-label="editVallHosszuEladosodas"
+                      (click)="openHosszuTavEladDialog()">
+                        <mat-icon>edit</mat-icon>
+                      </a>
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <!--Válallat rövid távú eladósodottsága-->
+                <tr class="mat-row">
+                  <td class="mat-cell">
+                    Válallat rövid távú eladósodottsága
+                  </td>
+                  <td class="mat-cell" style="padding: 0.2rem;">
+                    <mat-checkbox color="primary" formControlName="vallRovidEladosodasCtrl"
+                      (change)="vallalatRovidEladosodasChange($event)"></mat-checkbox>
+                  </td>
+                  <td class="mat-cell">
+                    <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                      <input #rovidTavEladInput matInput formControlName="vallalatRovidEladosodasMagyarazatCtrl" type="text" disabled>
+                      <a #rovidTavEladosodasIcon matSuffix mat-icon-button 
+                      (click)="openRovidTavEladDialog()">
+                        <mat-icon>edit</mat-icon>
+                      </a>
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <!-- Vállalat piaci mutatói túlértékeltek-->
+                <tr class="mat-row">
+                  <td class="mat-cell">
+                    Vállalat piaci mutatói túlértékeltek
+                  </td>
+                  <td class="mat-cell" style="padding: 0.2rem;">
+                    <mat-checkbox color="primary" formControlName="vallPiaciMutCtrl"
+                      (change)="vallalatPiaciMutChange($event)"></mat-checkbox>
+                  </td>
+                  <td class="mat-cell">
+                    <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                      <input #piaciMutInput matInput formControlName="vallalatPiaciMutMagyarazatCtrl" type="text" disabled>
+                      <a #piaciMutIcon matSuffix mat-icon-button 
+                      (click)="openPiaciMutatoDialog()">
+                        <mat-icon>edit</mat-icon>
+                      </a>
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <!--Túl magas részvény árfolyam-->
+                <tr class="mat-row">
+                  <td class="mat-cell">
+                    Túl magas részvény árfolyam
+                  </td>
+                  <td class="mat-cell" style="padding: 0.2rem;">
+                    <mat-checkbox color="primary" formControlName="vallMagasReszvenyCtrl"
+                      (change)="vallalatMagasReszvenyChange($event)"></mat-checkbox>
+                  </td>
+                  <td class="mat-cell">
+                    <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                      <input #magasReszvenyInput matInput formControlName="vallalatMagasReszvenyMagyarazatCtrl" type="text" disabled>
+                      <a #magasReszveny matSuffix mat-icon-button 
+                      (click)="openMagasReszvenyDialog()">
+                        <mat-icon>edit</mat-icon>
+                      </a>
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <!--Befektetés nettó jelenértéke negatív-->
+                <tr class="mat-row">
+                  <td class="mat-cell">
+                    Befektetés nettó jelenértéke negatív
+                  </td>
+                  <td class="mat-cell" style="padding: 0.2rem;">
+                    <mat-checkbox color="primary" formControlName="BefNettoJelenCtrl"
+                      (change)="befNettoJelenChange($event)"></mat-checkbox>
+                  </td>
+                  <td class="mat-cell">
+                    <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                      <input #nettoJelenNegativInput matInput formControlName="befNettoJelenMagyarazatCtrl" type="text" disabled>
+                      <a #nettoJelenIcon matSuffix mat-icon-button 
+                      (click)="openNettoJelenNegativDialog()">
+                        <mat-icon>edit</mat-icon>
+                      </a>
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <!--Egyéb-->
+                <tr class="mat-row">
+                  <td class="mat-cell">
+                    Egyéb
+                  </td>
+                  <td class="mat-cell" style="padding: 0.2rem;">
+                    <mat-checkbox color="primary" formControlName="egyebCtrl" (change)="egyebChange($event)">
+                    </mat-checkbox>
+                  </td>
+                  <td class="mat-cell">
+                    <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                      <input #egyebInput matInput formControlName="egyebMagyarazatCtrl" type="text" disabled>
+                      <a #egyebIcon matSuffix mat-icon-button 
+                      (click)="openEgyebDialog()">
+                        <mat-icon>edit</mat-icon>
+                      </a>
+                    </mat-form-field>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <br>
+        <!---->
+      </div>
+      <div>
+        <button mat-raised-button color="primary" matStepperNext>Tovább</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="managelesKulonbozoFormGroup">
+    <form [formGroup]="managelesKulonbozoFormGroup">
+      <ng-template matStepLabel>Menedzselési stratégia</ng-template>
+      <span class="badge badge-pill badge-primary badge-megjegyzes">
+        Mit tegyünk különböző esetekben a befektetés menedzselésekor
+      </span>
+      <br>
+      <br>
+      <div formArrayName="menegelesStrategiaAdatok">
+
+        <!-- Mit csinálok, ha vásárlás után esik az árfolyam -->
+        <mat-form-field>
+          <mat-label>Mit csinálok, ha vásárlás után esik az árfolyam</mat-label>
+          <mat-select required formControlName="arfolyamEsesCtrl">
+            <mat-option *ngFor="let arfolyamEses of $arfolyamEsesek" [value]="arfolyamEses">
+              {{arfolyamEses}}
+            </mat-option>
+            <mat-divider></mat-divider>
+            <mat-form-field style="margin-left: 1rem;margin-right: 1rem;">
+              <input class="addBtn" matInput #arfolyamEsesInput placeholder="Egyéb hozzáadása">
+              <button mat-raised-button color="primary" matSuffix aria-label="addSzektor"
+                (click)="addValueToArfolyamEses(arfolyamEsesInput.value)">
+                Hozzáad
+              </button>
+            </mat-form-field>
+          </mat-select>
+          <mat-hint align="end">Válasszon egy lehetőséget a listából</mat-hint>
+        </mat-form-field>
+
+        <!-- Mit csinálok, ha felmegy a részvény árfolyama-->
+        <mat-form-field>
+          <mat-label>Mit csinálok, ha felmegy a részvény árfolyama</mat-label>
+          <mat-select required formControlName="arfolyamEmelkedesCtrl">
+            <mat-option *ngFor="let arfolyamEmelkedes of $arfolyamEmelkedesek" [value]="arfolyamEmelkedes">
+              {{arfolyamEmelkedes}}
+            </mat-option>
+
+            <mat-divider></mat-divider>
+            <mat-form-field style="margin-left: 1rem;margin-right: 1rem;">
+              <input class="addBtn" matInput #arfolyamEmelkedesInput placeholder="Egyéb hozzáadása">
+              <button mat-raised-button color="primary" matSuffix aria-label="addArfolyamEmelkedes"
+                (click)="addValueToArfolyamEmelkedes(arfolyamEmelkedesInput.value)">
+                Hozzáad
+              </button>
+            </mat-form-field>
+          </mat-select>
+          <mat-hint align="end">Válasszon egy lehetőséget a listából</mat-hint>
+        </mat-form-field>
+        <br>
+        <!-- Mit csinálok, ha az árfolyam elérte a célárat -->
+        <mat-form-field>
+          <mat-label>Mit csinálok, ha az árfolyam elérte a célárat</mat-label>
+          <mat-select required formControlName="arfolyamCelarCtrl">
+            <mat-option *ngFor="let arfolyamCelar of $arfolyamCelarak" [value]="arfolyamCelar">
+              {{arfolyamCelar}}
+            </mat-option>
+            <mat-divider></mat-divider>
+            <mat-form-field style="margin-left: 1rem;margin-right: 1rem;">
+              <input class="addBtn" matInput #arfolyamCelarInput placeholder="Egyéb hozzáadása">
+              <button mat-raised-button color="primary" matSuffix aria-label="addArfolyamCelar"
+                (click)="addValueToArfolyamCelar(arfolyamCelarInput.value)">
+                Hozzáad
+              </button>
+            </mat-form-field>
+          </mat-select>
+          <mat-hint align="end">Válasszon egy lehetőséget a listából</mat-hint>
+        </mat-form-field>
+        <br>
+        <!--Mit csinálok , ha a vállalatnak a rizikó faktora nőtt-->
+        <mat-form-field>
+          <mat-label>Mit csinálok , ha a vállalatnak a rizikó faktora nőtt</mat-label>
+          <mat-select required formControlName="rizikoFaktorNottCtrl">
+            <mat-option *ngFor="let rizikoFaktorNott of $rizikoFaktorok" [value]="rizikoFaktorNott">
+              {{rizikoFaktorNott}}
+            </mat-option>
+            <mat-divider></mat-divider>
+            <mat-form-field style="margin-left: 1rem;margin-right: 1rem;">
+              <input class="addBtn" matInput #rizikoFaktorNottInput placeholder="Egyéb hozzáadása">
+              <button mat-raised-button color="primary" matSuffix aria-label="addRizikoFaktorNott"
+                (click)="addValueToRizikoFaktorNott(rizikoFaktorNottInput.value)">
+                Hozzáad
+              </button>
+            </mat-form-field>
+          </mat-select>
+          <mat-hint align="end">Válasszon egy lehetőséget a listából</mat-hint>
+        </mat-form-field>
+        <br>
+        <!--Mit csinálok , ha a vállalat jövedelmezősége romlott-->
+        <mat-form-field>
+          <mat-label>Mit csinálok , ha a vállalat jövedelmezősége romlott</mat-label>
+          <mat-select required formControlName="jovRomlottCtrl">
+            <mat-option *ngFor="let jovRomlott of $jovRomottak" [value]="jovRomlott">
+              {{jovRomlott}}
+            </mat-option>
+            <mat-divider></mat-divider>
+            <mat-form-field style="margin-left: 1rem;margin-right: 1rem;">
+              <input class="addBtn" matInput #jovRomlottInput placeholder="Egyéb hozzáadása">
+              <button mat-raised-button color="primary" matSuffix aria-label="addJovRomlott"
+                (click)="addValueToJovRomlott(jovRomlottInput.value)">
+                Hozzáad
+              </button>
+            </mat-form-field>
+          </mat-select>
+          <mat-hint align="end">Válasszon egy lehetőséget a listából</mat-hint>
+        </mat-form-field>
+        <br>
+        <!--Mit csinálok , ha a vállalat hitelmutatói romlottak-->
+        <mat-form-field>
+          <mat-label>Mit csinálok , ha a vállalat hitelmutatói romlottak</mat-label>
+          <mat-select required formControlName="hitelRomlottCtrl">
+            <mat-option *ngFor="let hitelRomlott of $hitelRomlottak" [value]="hitelRomlott">
+              {{hitelRomlott}}
+            </mat-option>
+            <mat-divider></mat-divider>
+            <mat-form-field style="margin-left: 1rem;margin-right: 1rem;">
+              <input class="addBtn" matInput #hitelRomlottInput placeholder="Egyéb hozzáadása">
+              <button mat-raised-button color="primary" matSuffix aria-label="addHitelRomlott"
+                (click)="addValueToHitelRomlott(hitelRomlottInput.value)">
+                Hozzáad
+              </button>
+            </mat-form-field>
+          </mat-select>
+          <mat-hint align="end">Válasszon egy lehetőséget a listából</mat-hint>
+        </mat-form-field>
+        <br>
+
+        <!--Mit csinálok , ha a gazdasági mutatók romlottak-->
+        <mat-form-field>
+          <mat-label>Mit csinálok , ha a gazdasági mutatók romlottak</mat-label>
+          <mat-select required formControlName="gazdRomlottCtrl">
+            <mat-option *ngFor="let gazdRomlott of $gazdRomlottak" [value]="gazdRomlott">
+              {{gazdRomlott}}
+            </mat-option>
+            <mat-divider></mat-divider>
+            <mat-form-field style="margin-left: 1rem;margin-right: 1rem;">
+              <input class="addBtn" matInput #gazdRomlottInput placeholder="Egyéb hozzáadása">
+              <button mat-raised-button color="primary" matSuffix aria-label="addGazdRomlott"
+                (click)="addValueToGazdRomlott(gazdRomlottInput.value)">
+                Hozzáad
+              </button>
+            </mat-form-field>
+          </mat-select>
+          <mat-hint align="end">Válasszon egy lehetőséget a listából</mat-hint>
+        </mat-form-field>
+        <br>
+
+      </div>
+      <br>
+      <div>
+        <button mat-raised-button color="primary" matStepperNext>Tovább</button>
+        <!--[disabled]="!managelesFormGroup.valid"-->
+      </div>
+
+      <br>
+    </form>
+
+  </mat-step>
+
+  <mat-step [stepControl]="befManagelesFormGroup">
+    <form [formGroup]="befManagelesFormGroup">
+      <ng-template matStepLabel>Befektetés menedzselése</ng-template>
+      <button style="float: right;margin-bottom: 1rem;" mat-raised-button color="primary" matSuffix
+        (click)="addNewRow()">
+        Új adat
+      </button>
+      <br>
+      <table class="table table-bordered z-depth-2" formArrayName="tableRows">
+        <thead>
+          <tr class="mat-header-row">
+            <th class="mat-header-cell">Következő dátum</th>
+            <th class="mat-header-cell">Árfolyam</th>
+            <th class="mat-header-cell">Bekövetkezett változások</th>
+            <th class="mat-header-cell">Intézkedéseim</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of getTableControls();let i = index;" [formGroupName]="i" class="mat-row">
+            <td>
+              <mat-form-field>
+                <input type="date" matInput formControlName="kovDatum" placeholder="">
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field>
+                <input type="number" matInput formControlName="arfolyam" placeholder="">
+              </mat-form-field>
+
+            </td>
+            <td>
+              <mat-form-field>
+                <input matInput formControlName="bekValtozasok" placeholder="">
+              </mat-form-field>
+
+            </td>
+            <td>
+              <mat-form-field>
+                <input matInput formControlName="intezkedeseim" placeholder="">
+              </mat-form-field>
+            </td>
+            <!--Delete row-->
+            <td style="vertical-align: middle; width: 2rem;">
+              <button mat-icon-button color="warn" (click)="deleteRow(i)">
+                <mat-icon class="mat-18">delete</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <div>
+        <button type="submit" mat-raised-button color="primary" matStepperNext>Befejezés</button>
+        <!--[disabled]="!managelesFormGroup.valid"-->
+      </div>
+      <br>
+    </form>
+
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Kész</ng-template>
+    <mat-divider></mat-divider>
+    <br>
+    <div style="color: darkgreen;">
+      <span style="font-weight: bold;font-stretch: semi-expanded;">Sikeresen kitöltötte az adatokat!</span>
+      <mat-icon>done_outline</mat-icon>
+    </div>
+    <br>
+    <mat-divider></mat-divider>
+    <br>
+    <div>
+      <button mat-raised-button color="success" (click)="saveReszvenyElemzes()">Részvényelemzés mentése</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+button:focus, button:active:focus, button.active:focus {
+  outline: none !important;
+  outline-style: none !important;
+  }
+
+  .menu-btn{
+    background-color: #3f729B;
+    border: 1px solid #3f729b;
+    color: white;
+    vertical-align: middle;
+    padding: 2px;
+  }
+
+  .outer-div {
+    flex-direction: column;
+    align-items: center;
+    font-size: xx-large;
+    padding: 0;
+  }
+
+  .outer-div{
+    .mat-icon{
+      color: white;
+      padding: 0;
+    }
+  }
+
+  .mat-card-subtitle{
+    color: #3f729B;
+  }
+
+  .mat-card{
+    border: none;
+    box-shadow: none;
+    transition: none;
+    }
+
+  .mat-card-content{
+    text-align: center;
+  }
+
+.card{
+  margin: 2rem;
+}
+
+.card-group{
+  margin-left: 2rem;
+  margin-right: 2rem;
+  margin-bottom: 2rem;
+}
+
+small{
+  color: #3f729B;
+}
+
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.example-button-row {
+  display: table-cell;
+  width: 490px;
+}
+
+.mat-btn{
+  width: 6rem;
+  height: 6rem;
+}
+
+.mat-btn-i{
+  width: 6rem;
+  height: 6rem;
+  background: white;
+  border: 1px solid #CC0000;
+}
+
+.mat-icon{
+  font-size: 1.5rem;
+}

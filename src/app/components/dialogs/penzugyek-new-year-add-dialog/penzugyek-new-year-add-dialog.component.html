@@ -1,0 +1,26 @@
+<div>
+    <span style="color: #3F729B;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: large;">Év megadása</span>
+</div>
+<br>
+<div>
+   <!-- <form>
+        <mat-form-field>
+            <input  matInput #yearInput type="number" placeholder="Létrehozáshoz, kérem adja meg az évet">
+            <br>
+        </mat-form-field>
+    </form>-->
+    <mat-form-field >
+        <mat-label>Év kiválasztása</mat-label>
+        <mat-select #val>
+            <mat-option *ngFor="let ev of evek" [value]="ev">
+                {{ev}}
+            </mat-option>
+        </mat-select>
+        <br>
+    </mat-form-field>
+</div>
+
+<div mat-dialog-actions style="float: right;margin-top: 0.5rem;">
+    <button class="z-depth-2" mat-raised-button mat-dialog-close>Mégsem</button>
+    <button mat-raised-button color="primary" (click)="onMentes(val.value)" class="z-depth-2">Mentés</button>
+</div>

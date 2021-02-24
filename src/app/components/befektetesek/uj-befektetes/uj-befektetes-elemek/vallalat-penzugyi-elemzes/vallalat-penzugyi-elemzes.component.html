@@ -1,0 +1,1761 @@
+<span class="badge badge-light z-depth-2 badge-header">Vállalat pénzügyi elemzése</span>
+<br>
+<br>
+
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+
+  <!--Jövedelmezésőgi mutatók-->
+  <mat-step [stepControl]="jovedelmezosegiFormGroup">
+    <form [formGroup]="jovedelmezosegiFormGroup">
+      <button mat-stroked-button color="warn" class="kihagyBtn" (click)="submitPenzugyiElemzes()">Kihagyom</button>
+      <ng-template matStepLabel>Jövedelmezőségi mutatók</ng-template>
+      <!-- Jövedelmezőségi mutatók-->
+      <br>
+      <!-- Eszközarányos nyereség (ROA)-->
+      <div class="card z-depth-2">
+        <div class="card-header text-white unique-color">
+          Eszközarányos nyereség (ROA)
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered  table-hover z-depth-2" formArrayName="jovedelemEszkozAdatok">
+            <thead>
+              <tr class="mat-header-row">
+                <th class="mat-header-cell">Társaságnak tulajdonítható nettó eredmény</th>
+                <th class="mat-header-cell">Eszközök összesen</th>
+                <th class="mat-header-cell">Százalékos hozam(eszköz áll.által)</th>
+                <th class="mat-header-cell" colspan="2">Összehasonlítás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 1. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">
+                  <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                    <input matInput formControlName="nettoEszkozCtrl" type="number" #nettoEszkoz class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="eszkozokEszkozCtrl" type="number" #eszkozokEszkoz class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Tárgyév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="targyevEszkozCtrl" #targyevEszkoz type="number" class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 2. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">Társaságnak tulajdonítható nettó eredmény</td>
+                <td class="mat-cell">Eszközök összesen</td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Előző év eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput type="number" formControlName="elozoevEszkozCtrl" #elozoevEszkoz class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 3. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">{{nettoEszkoz.value}}</td>
+                <td class="mat-cell">{{eszkozokEszkoz.value}}</td>
+                <td class="mat-cell">{{(nettoEszkoz.value/eszkozokEszkoz.value) *100 }}</td>
+                <td class="mat-cell">Konkurencia eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="konkurenciaEszkozCtrl" #konkurenciaEszkoz type="number"
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <!-- Saját tőkearányos nyereség (ROA)-->
+      <div class="card z-depth-2">
+        <div class="card-header text-white unique-color">
+          Saját tőkearányos nyereség (ROA)
+        </div>
+        <div class="card-body">
+          <table class="table table-md table-bordered table-hover z-depth-2" formArrayName="jovedelemSajatAdatok">
+            <thead>
+              <tr class="mat-header-row">
+                <th class="mat-header-cell">Társaságnak tulajdonítható nettó eredmény</th>
+                <th class="mat-header-cell">Összes saját tőke</th>
+                <th class="mat-header-cell">Százalékos hozam(saját tőke által)</th>
+                <th class="mat-header-cell" colspan="2">Összehasonlítás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 1. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">
+                  <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                    <input matInput formControlName="nettoSajatCtrl" type="number" #nettoSajat class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="osszSajatTokeCtrl" type="number" #osszSajatToke class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Tárgyév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="targyevSajatCtrl" #targyevSajat type="number" class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 2. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">Társaságnak tulajdonítható nettó eredmény</td>
+                <td class="mat-cell">Összes saját tőke</td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Előző év eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput type="number" formControlName="elozoevSajatCtrl" #elozoevSajat class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 3. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">{{nettoSajat.value}}</td>
+                <td class="mat-cell">{{osszSajatToke.value}}</td>
+                <td class="mat-cell">{{(nettoSajat.value/osszSajatToke.value)*100 | percent }}</td>
+                <td class="mat-cell">Konkurencia eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="konkurenciaSajatCtrl" #konkurenciaSajat type="number"
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <!--Egy részvényre jutó eredmény (EPS)-->
+      <div class="card z-depth-2">
+        <div class="card-header text-white unique-color">
+          Egy részvényre jutó eredmény (EPS)
+        </div>
+        <div class="card-body">
+          <table class="table table-md table-bordered table-hover z-depth-2" formArrayName="jovedelemReszvenyAdatok">
+            <thead>
+              <tr class="mat-header-row">
+                <th class="mat-header-cell">Társaságnak tulajdonítható nettó eredmény</th>
+                <th class="mat-header-cell">Részvény darabszáma</th>
+                <th class="mat-header-cell">Nyereség (egy részvényre)</th>
+                <th class="mat-header-cell" colspan="2">Összehasonlítás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 1. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">
+                  <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                    <input matInput formControlName="nettoReszvenyCtrl" type="number" #nettoReszveny class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="reszvenyDbCtrl" type="number" #reszvenyDb class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Tárgyév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="targyevReszvenyCtrl" #targyevReszveny type="number" class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 2. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">Társaságnak tulajdonítható nettó eredmény</td>
+                <td class="mat-cell">Részvény darabszáma</td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Előző év eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput type="number" formControlName="elozoevReszvenyCtrl" #elozoevReszveny class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 3. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">{{nettoReszveny.value}}</td>
+                <td class="mat-cell">{{reszvenyDb.value}}</td>
+                <td class="mat-cell">{{(nettoReszveny.value/reszvenyDb.value) | number }}</td>
+                <td class="mat-cell">Konkurencia eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="konkurenciaReszvenyCtrl" #konkurenciaReszveny type="number"
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <!--Árbevétel arányos nyereség (margrin)-->
+      <div class="card z-depth-2">
+        <div class="card-header text-white unique-color">
+          Árbevétel arányos nyereség (margrin)
+        </div>
+        <div class="card-body">
+          <table class="table table-md table-bordered table-hover z-depth-2" formArrayName="jovedelemArbevetelAdatok">
+            <thead>
+              <tr class="mat-header-row">
+                <th class="mat-header-cell">Társaságnak tulajdonítható nettó eredmény</th>
+                <th class="mat-header-cell">Nettó árbevétel</th>
+                <th class="mat-header-cell">Nyereség ennyi részét teszi ki az árbevételnek</th>
+                <th class="mat-header-cell" colspan="2">Összehasonlítás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 1. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">
+                  <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                    <input matInput formControlName="nettoArbevetelCtrl" type="number" #nettoArbevetel class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="arbevetelCtrl" type="number" #arbevetel class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Tárgyév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="targyevArbevetelCtrl" #targyevArbevetel type="number"
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 2. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">Társaságnak tulajdonítható nettó eredmény</td>
+                <td class="mat-cell">Nettó árbevétel</td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Előző év eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput type="number" formControlName="elozoevArbevetelCtrl" #elozoevArbevetel
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 3. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">{{nettoArbevetel.value}}</td>
+                <td class="mat-cell">{{arbevetel.value}}</td>
+                <td class="mat-cell ">{{(nettoArbevetel.value/arbevetel.value)*100 | percent }}</td>
+                <td class="mat-cell">Konkurencia eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="konkurenciaArbevetelCtrl" #konkurenciaArbevetel type="number"
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <!-- Fedezeti mutató-->
+      <div class="card z-depth-2">
+        <div class="card-header text-white unique-color">
+          Fedezeti mutató
+        </div>
+        <div class="card-body ">
+          <table class="table table-md table-bordered table-hover z-depth-2" formArrayName="jovedelemFedezetiAdatok">
+            <thead>
+              <tr class="mat-header-row">
+                <th class="mat-header-cell ">Nettó árbevétel</th>
+                <th class="mat-header-cell">Eladott áruk költsége</th>
+                <th class="mat-header-cell">Nettó árbevétel</th>
+                <th class="mat-header-cell">A termelési vagy szolgáltatási árrés százalékban</th>
+                <th class="mat-header-cell" colspan="2">Összehasonlítás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 1. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">
+                  <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                    <input matInput formControlName="bruttoFedezetCtrl" type="number" #bruttoFedezet class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="eladottArukKtgCtrl" type="number" #eladottArukKtg class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="nettoFedezetCtrl" type="number" #nettoFedezet class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Tárgyév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="targyevFedezetCtrl" #targyevFedezet type="number" class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 2. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell" colspan="2">Bruttó fedezet</td>
+                <td class="mat-cell">Nettó árbevétel</td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Előző év eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput type="number" formControlName="elozoevFedezetCtrl" #elozoevFedezet class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 3. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell" colspan="2">{{bruttoFedezet.value - eladottArukKtg.value }}</td>
+                <td class="mat-cell">{{nettoFedezet.value}}</td>
+                <td class="mat-cell">
+                  {{((bruttoFedezet.value - eladottArukKtg.value)/nettoFedezet.value)*100 | percent }}</td>
+                <td class="mat-cell">Konkurencia eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="konkurenciaFedezetCtrl" #konkurenciaFedezet type="number"
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <mat-divider></mat-divider>
+      <br>
+      <!--<label for="jovedelmezosegiMutatokEredmeny">
+        <h6 style="color: darkblue;text-transform: uppercase;">Jövedelmezőségi mutatók eredménye</h6>
+      </label> -->
+      <span class="badge badge-primary badge-eredmenye-jov">Jövedelmezőségi mutatók eredménye</span>
+      <!-- Eredmény összesítő-->
+      <table class="table table-bordered table-hover z-depth-2">
+        <thead>
+          <tr class="mat-header-row">
+            <th class="mat-header-cell"></th>
+            <th class="mat-header-cell">Előző év</th>
+            <th class="mat-header-cell">Tárgyév</th>
+            <th class="mat-header-cell">Konkurencia</th>
+          </tr>
+        </thead>
+        <tbody class="jovEredmeny">
+          <!-- eszközarányos nyereség-->
+          <tr class="mat-row eredmeny_jovedelem">
+            <td>Eszközarányos nyereség (ROA)</td>
+            <td> {{elozoevEszkoz.value}}</td>
+            <td>{{targyevEszkoz.value}}</td>
+            <td>{{konkurenciaEszkoz.value}}</td>
+          </tr>
+
+          <!-- Saját tőkearányos nyereség-->
+
+          <tr class="mat-row eredmeny_jovedelem">
+            <td>Saját tőkearányos nyereség (ROE)</td>
+            <td>{{elozoevSajat.value}}</td>
+            <td>{{targyevSajat.value}}</td>
+            <td>{{konkurenciaSajat.value}}</td>
+
+          </tr>
+
+          <!--Egy részvényre jutó eredmény (EPS)-->
+          <tr class="mat-row eredmeny_jovedelem">
+            <td>Egy részvényre jutó eredmény (EPS)</td>
+            <td>{{elozoevReszveny.value}}</td>
+            <td>{{targyevReszveny.value}}</td>
+            <td>{{konkurenciaReszveny.value}}</td>
+
+          </tr>
+
+          <!--Árbevétel arányos nyereség (margrin)-->
+          <tr class="mat-row eredmeny_jovedelem">
+            <td>Árbevétel arányos nyereség (margrin)</td>
+            <td>{{elozoevArbevetel.value}}</td>
+            <td>{{targyevArbevetel.value}}</td>
+            <td>{{konkurenciaArbevetel.value}}</td>
+
+          </tr>
+
+          <!-- Fedezeti mutató-->
+          <tr class="mat-row eredmeny_jovedelem">
+            <td>Fedezeti mutató</td>
+            <td>{{elozoevFedezet.value}}</td>
+            <td>{{targyevFedezet.value}}</td>
+            <td>{{konkurenciaFedezet.value}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <!-- Megjegyzés-->
+      <div class="form-group ">
+        <!--  <label for="jovedelmezosegiMutatokMegjegyzes">
+          <h6 style="color: darkblue;text-transform: uppercase;">Megjegyzés</h6>
+        </label>-->
+        <span class="badge  badge-light badge-megj-jov">Megjegyzés
+          <a matSuffix mat-icon-button aria-label="megjegyzes">
+            <mat-icon>rate_review</mat-icon>
+          </a>
+        </span>
+        <textarea class="form-control z-depth-2" formControlName="jovMegjegyzesCtrl" rows="5"></textarea>
+      </div>
+      <br>
+      <div>
+        <button mat-raised-button color="primary" (click)="jovClick()"
+          matStepperNext>Tovább</button>
+      </div>
+    </form>
+    <!-- Hatékonysági mutatók-->
+  </mat-step>
+
+  <!--Hatékonysági mutatók-->
+  <mat-step [stepControl]="hatekonysagiFormGroup">
+    <form [formGroup]="hatekonysagiFormGroup">
+      <ng-template matStepLabel>Hatékonysági mutatók</ng-template>
+      <br>
+      <!-- Készletek forgási sebessége-->
+      <div class="card z-depth-2">
+        <div class="card-header text-white warning-color-dark">
+          Készletek forgási sebessége
+        </div>
+        <div class="card-body">
+          <table class="table table-md table-bordered  table-hover z-depth-2" formArrayName="hatekonysagKeszletAdatok">
+            <thead>
+              <tr class="mat-header-row">
+                <th class="mat-header-cell">Nettó árbevétel</th>
+                <th class="mat-header-cell">Készletek</th>
+                <th class="mat-header-cell">ennyiszer sikerült egy éven belül megforgatni a készletet</th>
+                <th class="mat-header-cell" colspan="2">Összehasonlítás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 1. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">
+                  <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                    <input matInput formControlName="nettoHatCtrl" type="number" #nettoKeszlet class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="keszletHatCtrl" type="number" #keszlet class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Tárgyév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="targyevKeszletHatCtrl" #targyevKeszletHat type="number"
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 2. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">Nettó árbevétel</td>
+                <td class="mat-cell">Készletek</td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Előző év eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput type="number" formControlName="elozoevKeszletHatCtrl" #elozoevKeszlet class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 3. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">{{nettoKeszlet.value}}</td>
+                <td class="mat-cell">{{keszlet.value}}</td>
+                <td class="mat-cell">{{(nettoKeszlet.value/keszlet.value) }}</td>
+                <td class="mat-cell">Konkurencia eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="konkurenciaKeszletHatCtrl" #konkurenciaKeszlet type="number"
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+              <br>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <!--Költséghatékonysági mutató-->
+      <div class="card z-depth-2">
+        <div class="card-header text-white warning-color-dark">
+          Költséghatékonysági mutató
+        </div>
+        <div class="card-body">
+          <table class="table table-md table-bordered table-hover z-depth-2" formArrayName="hatekonysagKoltsegAdatok">
+            <thead>
+              <tr class="mat-header-row">
+                <th class="mat-header-cell">Értékesítés és adminisztratív költségek</th>
+                <th class="mat-header-cell">Egyéb működési költség</th>
+                <th class="mat-header-cell">Nettó árbevétel</th>
+                <th class="mat-header-cell">Ennyi százalákát teszi ki az adminisztratív költség a Netto bevételnek</th>
+                <th class="mat-header-cell" colspan="2">Összehasonlítás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 1. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">
+                  <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                    <input matInput formControlName="ertHatCtrl" type="number" #ertHat class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="hatEgyebMukodesiCtrl" type="number" #egyebMukKtg class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="hatNettoArbevetelCtrl" type="number" #nettoKtgArbevetel
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Tárgyév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="targyevKoltsegHatCtrl" #targyevKoltsegHat type="number"
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 2. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell" colspan="2">Összes értékesítés és adminisztratív költségek</td>
+                <td class="mat-cell" colspan="1">Nettó árbevétel</td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Előző év eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput type="number" formControlName="elozoevKoltsegHatCtrl" #elozoevKoltsegHat
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 3. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell" colspan="2">{{$osszErtekesites}}</td>
+                <td class="mat-cell">{{nettoKtgArbevetel.value}}</td>
+                <td class="mat-cell">
+                  {{ $koltsegHatekonySzazelek | percent}}</td>
+                <td class="mat-cell">Konkurencia eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="konkurenciaKoltsegHatCtrl" #konkurenciaKoltsegHat type="number"
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <!--Átlagos beszedési idő = NAP-->
+      <div class="card z-depth-2">
+        <div class="card-header text-white warning-color-dark">
+          Átlagos beszedési idő = NAP
+        </div>
+        <div class="card-body">
+          <table class="table table-md table-bordered table-hover z-depth-2"
+            formArrayName="hatekonysagAtlagosBeszedesiIdoAdatok">
+            <thead>
+              <tr class="mat-header-row">
+                <th class="mat-header-cell">Naptári napok száma</th>
+                <th class="mat-header-cell">Nettó árbevétel</th>
+                <th class="mat-header-cell">Követelések áruszállításból és szolgáltatásból</th>
+                <th class="mat-header-cell">Átlagosan ennyi nap alatt szedi be a kintlévőségeit.</th>
+                <th class="mat-header-cell" colspan="2">Összehasonlítás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 1. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">
+                  <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                    <input matInput formControlName="naptarHatCtrl" type="number" #naptarHat class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="hatAtlagosNettoArbevetelCtrl" type="number" #nettoAtlagosArbevetel
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="hatAtlagosKovetelesCtrl" type="number" #kovetelesAtlagos
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Tárgyév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="targyevAtlagosHatCtrl" #targyevAtlagosHat type="number"
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 2. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">Naptári napok száma</td>
+                <td class="mat-cell" colspan="2">Vevők forgási sebessége</td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Előző év eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput type="number" formControlName="elozoevAtlagosHatCtrl" #elozoevAtlagosHat
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 3. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">{{naptarHat.value}}</td>
+                <td class="mat-cell" colspan="2">{{nettoAtlagosArbevetel.value / kovetelesAtlagos.value }}</td>
+                <td class="mat-cell">
+                  {{(naptarHat.value/ (nettoAtlagosArbevetel.value / kovetelesAtlagos.value)) }}</td>
+                <td class="mat-cell">Konkurencia eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="konkurenciaAtlagosHatCtrl" #konkurenciaAtlagosHat type="number"
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <!-- Szállítók átlagos forgási ( fizetési ) ideje = NAP-->
+      <div class="card z-depth-2">
+        <div class="card-header text-white warning-color-dark">
+          Szállítók átlagos forgási ( fizetési ) ideje = NAP
+        </div>
+        <div class="card-body">
+          <table class="table table-md table-bordered table-hover z-depth-2"
+            formArrayName="hatekonysagSzallitokForgasiIdejeAdatok">
+            <thead>
+              <tr class="mat-header-row">
+                <th class="mat-header-cell">Naptári napok száma</th>
+                <th class="mat-header-cell">Nettó árbevétel</th>
+                <th class="mat-header-cell">Kötelezettségek áruszállításból és szolgáltatásból</th>
+                <th class="mat-header-cell">Átalgosan ennyi nap alatt fizeti ki a számláit ( követeléseket )</th>
+                <th class="mat-header-cell" colspan="2">Összehasonlítás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 1. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">
+                  <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                    <input matInput formControlName="naptarHatSzallitoCtrl" type="number" #naptarSzallitoHat
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="hatSzallitoNettoArbevetelCtrl" type="number"
+                      #nettoSzallitoArbevetel class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="hatSzallitoKotelezettsegCtrl" type="number" #kotelezettsegSzallito
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Tárgyév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="targyevSzallitoHatCtrl" #targyevSzallitoHat type="number"
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 2. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">Naptári napok száma</td>
+                <td class="mat-cell" colspan="2">Szállítók forgási sebessége</td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Előző év eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput type="number" formControlName="elozoevSzallitoHatCtrl" #elozoevSzallitoHat
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 3. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">{{naptarSzallitoHat.value}}</td>
+                <td class="mat-cell" colspan="2">{{$szallitoForgasiSebessege }}</td>
+                <td class="mat-cell">
+                  {{ $szallitoKifizetesiNapokSzama }}</td>
+                <td class="mat-cell">Konkurencia eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="konkurenciaSzallitoHatCtrl" #konkurenciaSzallitoHat type="number"
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <!--Egy főre jutó árbevétel-->
+      <div class="card z-depth-2">
+        <div class="card-header text-white warning-color-dark">
+          Egy főre jutó árbevétel
+        </div>
+        <div class="card-body">
+          <table class="table table-md table-bordered  table-hover z-depth-2"
+            formArrayName="hatekonysagForeJutoArbevetelAdatok">
+            <thead>
+              <tr class="mat-header-row">
+                <th class="mat-header-cell">Nettó árbevétel</th>
+                <th class="mat-header-cell">Átlagos létszám</th>
+                <th class="mat-header-cell">Átlagosan ennyi nettó összeget termel egy beosztott egy hónapban</th>
+                <th class="mat-header-cell" colspan="2">Összehasonlítás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 1. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">
+                  <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                    <input matInput formControlName="foreJutoNettoHatCtrl" type="number" #nettoForeJuto class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="foreJutoLetszamHatCtrl" type="number" #letszam class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Tárgyév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="targyevForeJutoHatCtrl" #targyevForeJutotHat type="number"
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 2. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">Nettó árbevétel</td>
+                <td class="mat-cell">Átlagos létszám</td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Előző év eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput type="number" formControlName="elozoevForeJutoHatCtrl" #elozoevForeJutoHat
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 3. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">{{nettoForeJuto.value}}</td>
+                <td class="mat-cell">{{letszam.value}}</td>
+                <td class="mat-cell">{{ $beosztottAltalTermeltNetto }}</td>
+                <td class="mat-cell">Konkurencia eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="konkurenciaForeJutoHatCtrl" #konkurenciaForeJutoHat type="number"
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+              <br>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <!--Forgótőke forgási sebessége ( menedzsment mutató )-->
+      <div class="card z-depth-2">
+        <div class="card-header text-white warning-color-dark">
+          Forgótőke forgási sebessége ( menedzsment mutató )
+        </div>
+        <div class="card-body">
+          <table class="table table-md table-bordered table-hover z-depth-2" formArrayName="hatekonysagForgoTokeAdatok">
+            <thead>
+              <tr class="mat-header-row">
+                <th class="mat-header-cell">Nettó árbevétel</th>
+                <th class="mat-header-cell">Összes forgóeszköz</th>
+                <th class="mat-header-cell">Rövid lejáratú kötelezettségek</th>
+                <th class="mat-header-cell">Ennyiszer térül meg egy év alatt a forgótőke.</th>
+                <th class="mat-header-cell" colspan="2">Összehasonlítás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 1. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">
+                  <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                    <input matInput formControlName="forgoTokeHatNettoArbevetelCtrl" type="number"
+                      #forgoTokeHatNettoArbevetel class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="forgoTokeHatForgoEszkozCtrl" type="number" #forgoTokeHatForgoEszkoz
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="forgoTokeHatRovidLejKotCtrl" type="number" #forgoTokeHatRovidLejKot
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Tárgyév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="targyevForgoTokeHatCtrl" #targyevForgoTokeHat type="number"
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 2. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">Nettó árbevétel</td>
+                <td class="mat-cell" colspan="2">Forgótőke állománya</td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Előző év eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput type="number" formControlName="elozoevForgoTokeHatCtrl" #elozoevForgoTokeHat
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 3. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">{{forgoTokeHatNettoArbevetel.value}}</td>
+                <td class="mat-cell" colspan="2">{{$forgoTokeAllomanya }}</td>
+                <td class="mat-cell">
+                  {{ $forgoTokeMegterules }}</td>
+                <td class="mat-cell">Konkurencia eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="konkurenciaForgoTokeHatCtrl" #konkurenciaForgoTokeHat type="number"
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <mat-divider></mat-divider>
+      <br>
+      <!--<label for="hatekonysagiMutatoEredmeny">
+        <h6 style="color: orangered;text-transform: uppercase;">Hatékonysági mutatók eredménye</h6>
+      </label>-->
+      <span class="badge badge-primary badge-eredmenye-hat">Hatékonysági mutatók eredménye</span>
+      <br>
+      <!-- Eredmény összesítő-->
+      <table class="table table-bordered table-hover z-depth-2">
+        <thead>
+          <tr class="mat-header-row">
+            <th class="mat-header-cell"></th>
+            <th class="mat-header-cell">Előző év</th>
+            <th class="mat-header-cell">Tárgyév</th>
+            <th class="mat-header-cell">Konkurencia</th>
+          </tr>
+        </thead>
+        <tbody class="hatEredmeny">
+          <!-- Készletek forgási sebessége-->
+          <tr class="mat-row eredmeny_jovedelem">
+            <td>Készletek forgási sebessége</td>
+            <td> {{elozoevKeszlet.value}}</td>
+            <td>{{targyevKeszletHat.value}}</td>
+            <td>{{konkurenciaKeszlet.value}}</td>
+          </tr>
+
+          <!-- Költséghatékonysági mutató -->
+
+          <tr class="mat-row eredmeny_jovedelem">
+            <td>Költséghatékonysági mutató</td>
+            <td>{{elozoevKoltsegHat.value}}</td>
+            <td>{{targyevKoltsegHat.value}}</td>
+            <td>{{konkurenciaKoltsegHat.value}}</td>
+
+          </tr>
+
+          <!--  Átlagos beszedési idő. = NAP-->
+          <tr class="mat-row eredmeny_jovedelem">
+            <td> Átlagos beszedési idő. = NAP</td>
+            <td>{{elozoevAtlagosHat.value}}</td>
+            <td>{{targyevAtlagosHat.value}}</td>
+            <td>{{konkurenciaAtlagosHat.value}}</td>
+
+          </tr>
+
+          <!--Szállítók átlagos forgási ( fizetési ) ideje. = NAP-->
+          <tr class="mat-row eredmeny_jovedelem">
+            <td>Szállítók átlagos forgási ( fizetési ) ideje. = NAP</td>
+            <td>{{elozoevSzallitoHat.value}}</td>
+            <td>{{targyevSzallitoHat.value}}</td>
+            <td>{{konkurenciaSzallitoHat.value}}</td>
+
+          </tr>
+
+          <!-- Egy főre jutó árbevétel-->
+          <tr class="mat-row eredmeny_jovedelem">
+            <td>Egy főre jutó árbevétel</td>
+            <td>{{elozoevForeJutoHat.value}}</td>
+            <td>{{targyevForeJutotHat.value}}</td>
+            <td>{{konkurenciaForeJutoHat.value}}</td>
+          </tr>
+
+          <!--Forgótőke forgási sebessége (menedzsment mutató)-->
+          <tr class="mat-row eredmeny_jovedelem">
+            <td>Forgótőke forgási sebessége (menedzsment mutató)</td>
+            <td>{{elozoevForgoTokeHat.value}}</td>
+            <td>{{targyevForgoTokeHat.value}}</td>
+            <td>{{konkurenciaForgoTokeHat.value}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <!-- Megjegyzés-->
+      <div class="form-group ">
+        <!--<label for="hatekonysagiMutatoMegjegyzes">
+          <h6 style="color: orangered;text-transform: uppercase;">Megjegyzés</h6>
+        </label>-->
+        <span class="badge badge-light badge-megj-hat">Megjegyzés
+          <a matSuffix mat-icon-button aria-label="megjegyzes">
+            <mat-icon>rate_review</mat-icon>
+          </a>
+        </span>
+        <textarea class="form-control z-depth-2" formControlName="hatMegjegyzesCtrl" rows="5"></textarea>
+      </div>
+      <div>
+        <button mat-raised-button color="primary" matStepperNext>Tovább</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <!-- Hitelmutatók-->
+  <mat-step [stepControl]="hitelFormGroup">
+    <form [formGroup]="hitelFormGroup">
+      <ng-template matStepLabel>Hitelmutatók</ng-template>
+
+      <!--Saját tőke arány-->
+      <div class="card z-depth-2">
+        <div class="card-header text-white success-color-dark">
+          Saját tőke arány
+        </div>
+        <div class="card-body">
+          <table class="table table-md table-bordered table-hover z-depth-2" formArrayName="hitelSajatTokeAdatok">
+            <thead>
+              <tr class="mat-header-row">
+                <th class="mat-header-cell">Saját tőke</th>
+                <th class="mat-header-cell">Immateriális javak</th>
+                <th class="mat-header-cell">Jóváírás</th>
+                <th class="mat-header-cell">Összes hosszú lej. köt.</th>
+                <th class="mat-header-cell">Ennyiszerese a sajàt töke az idegen tőkének</th>
+                <th class="mat-header-cell" colspan="2">Összehasonlítás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 1. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">
+                  <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                    <input matInput formControlName="hitelSajatTokeCtrl" type="number" #hitelSajatTokeArany
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="hitelImmJavakCtrl" type="number" class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="hitelJovairasCtrl" type="number" class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="hitelOsszHosszLejKotCtrl" type="number" class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Tárgyév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="targyevSajatTokeHitelCtrl" type="number" #targyevSajatTokehitel
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 2. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell" colspan="3">Szigorított saját tőke</td>
+                <td class="mat-cell">Összes hosszú lej. köt.</td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Előző év eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput type="number" formControlName="elozoevSajatTokeHitelCtrl" #elozoevSajatTokehitel
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 3. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell" colspan="3">{{$hitelSzigoritottSajatToke}}</td>
+                <td class="mat-cell">{{$hitelOsszHosszuLejKot}}</td>
+                <td class="mat-cell">{{$hitelSajatTokeAranyIdegenToke}}</td>
+                <td class="mat-cell">Konkurencia eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="konkurenciaSajatTokeHitelCtrl" type="number"
+                      #konkurenciaSajatTokehitel class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+
+      <!--Kamatfedezeti mutató-->
+      <div class="card z-depth-2">
+        <div class="card-header text-white success-color-dark">
+          Kamatfedezeti mutató
+        </div>
+        <div class="card-body">
+          <table class="table table-md table-bordered table-hover z-depth-2" formArrayName="hitelKamatFedezetAdatok">
+            <thead>
+              <tr class="mat-header-row">
+                <th class="mat-header-cell">Kamat és jövedelemadó előtti eredmény</th>
+                <th class="mat-header-cell">Elszámolt értékcs. és amortizáció</th>
+                <th class="mat-header-cell">Kamat</th>
+                <th class="mat-header-cell">Kifizetett osztalék</th>
+                <th class="mat-header-cell">ennyiszeresen fedezi a kamatokat a nyereség</th>
+                <th class="mat-header-cell" colspan="2">Összehasonlítás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 1. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">
+                  <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                    <input matInput formControlName="hitelKamatJovAdoElottiEredmenyCtrl" type="number" class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="hitelElszamoltAmortizacioCtrl" type="number" class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="hitelKamatCtrl" type="number" class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="hitelKifizetettOsztalekCtrl" type="number" class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Tárgyév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="targyevKamatHitelCtrl" type="number" #targyevKamatHitel
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 2. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell" colspan="2">EBIDTA</td>
+                <td class="mat-cell">Kamat</td>
+                <td class="mat-cell">Kifizetett osztalék</td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Előzőév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput type="number" formControlName="elozoevKamatHitelCtrl" #elozoevKamatHitel
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 3. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell" colspan="2">{{$hitelEBIDTA}}</td>
+                <td class="mat-cell">{{$hitelKamat}}</td>
+                <td class="mat-cell">{{$hitelKifOsztalek}}</td>
+                <td class="mat-cell">{{$hitelNyeresegFedezet}}</td>
+                <td class="mat-cell">Konkurencia eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="konkurenciaKamatHitelCtrl" type="number" #konkurenciaKamatHitel
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+
+      <!--Likviditási ráta (rövidtávú eladósodottság)-->
+      <div class="card z-depth-2">
+        <div class="card-header text-white success-color-dark">
+          Likviditási ráta (rövidtávú eladósodottság)
+        </div>
+        <div class="card-body">
+          <table class="table table-md table-bordered table-hover z-depth-2" formArrayName="hitelRovidLikviditasAdatok">
+            <thead>
+              <tr class="mat-header-row">
+                <th class="mat-header-cell">Összes forgóeszköz</th>
+                <th class="mat-header-cell">Rövid lejáratú kötelezettségek</th>
+                <th class="mat-header-cell">Ennyiszerese a forgóeszközök értéke a kötelezettségeknek</th>
+                <th class="mat-header-cell" colspan="2">Összehasonlítás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 1. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">
+                  <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                    <input matInput formControlName="hitelRovidLikvOsszforgoEszkozCtrl" type="number" class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="hitelRovidLikvKotelezettsegekCtrl" type="number" class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Tárgyév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="targyevRovidLikvHitelCtrl" type="number" #targyevRovidLikvHitel
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 2. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">Összes forgóeszköz</td>
+                <td class="mat-cell">Rövid lejáratú kötelezettségek</td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Előzőév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput type="number" formControlName="elozoevRovidLikvHitelCtrl" #elozoevRovidLikvHitel
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 3. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">{{$hitelOsszForgo}}</td>
+                <td class="mat-cell">{{$hitelRovidKot}}</td>
+                <td class="mat-cell">{{$hitelForgoEszkozErteke}}</td>
+                <td class="mat-cell">Konkurencia eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="konkurenciaRovidLikvHitelCtrl" type="number"
+                      #konkurenciaRovidLikvHitel class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+
+      <!--Likviditási gyorsráta-->
+      <div class="card z-depth-2">
+        <div class="card-header text-white success-color-dark">
+          Likviditási gyorsráta
+        </div>
+        <div class="card-body">
+          <table class="table table-md table-bordered table-hover z-depth-2" formArrayName="hitelLikviditasGyorsAdatok">
+            <thead>
+              <tr class="mat-header-row">
+                <th class="mat-header-cell">Összes forgóeszköz</th>
+                <th class="mat-header-cell">Készletek</th>
+                <th class="mat-header-cell">Rövid lejáratú kötelezettségek</th>
+                <th class="mat-header-cell">ennyiszerese a pénzeszközök értéke a kötelezettségeknek</th>
+                <th class="mat-header-cell" colspan="2">Összehasonlítás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 1. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">
+                  <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                    <input matInput formControlName="hitelLikvOsszforgoEszkozCtrl" type="number" class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="hitelLikvKeszletekCtrl" type="number" class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="hitelLikvRovidLejKotCtrl" type="number" class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Tárgyév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="targyevLikvHitelCtrl" type="number" #targyevLikvHitel
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 2. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell" colspan="2">Készlet nélküli forgóeszköz</td>
+                <td class="mat-cell">Rövid lejáratú kötelezettségek</td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Előzőév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput type="number" formControlName="elozoevLikvHitelCtrl" #elozoevLikvHitel
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 3. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell" colspan="2">{{$hitelGyorsKeszNelkuliForgo}}</td>
+                <td class="mat-cell">{{$hitelGyorsRovidLejKot}}</td>
+                <td class="mat-cell">{{$hitelGyorsPenzeszkozokErteke}}</td>
+                <td class="mat-cell">Konkurencia eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="konkurenciaLikvHitelCtrl" type="number" #konkurenciaLikvHitel
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <mat-divider></mat-divider>
+      <br>
+      <!--<label for="hitelMutatoEredmeny">
+        <h6 style="color: darkgreen;text-transform: uppercase;">Eladósodottsági mutatók eredménye</h6>
+      </label>-->
+      <span class="badge badge-primary badge-eredmenye-hitel">Eladósodottsági mutatók eredménye</span>
+      <br>
+
+      <!-- Eredmény összesítő-->
+      <table class="table table-bordered table-hover z-depth-2">
+        <thead>
+          <tr class="mat-header-row">
+            <th class="mat-header-cell"></th>
+            <th class="mat-header-cell">Előző év</th>
+            <th class="mat-header-cell">Tárgyév</th>
+            <th class="mat-header-cell">Konkurencia</th>
+          </tr>
+        </thead>
+        <tbody class="hitelEredmeny">
+
+          <!-- Saját tőke arány-->
+          <tr class="mat-row eredmeny_jovedelem">
+            <td>Saját tőke arány</td>
+            <td> {{elozoevSajatTokehitel.value}}</td>
+            <td>{{targyevSajatTokehitel.value}}</td>
+            <td>{{konkurenciaSajatTokehitel.value}}</td>
+          </tr>
+
+          <!-- Kamatfedezeti mutató -->
+
+          <tr class="mat-row eredmeny_jovedelem">
+            <td>Kamatfedezeti mutató</td>
+            <td>{{elozoevKamatHitel.value}}</td>
+            <td>{{targyevKamatHitel.value}}</td>
+            <td>{{konkurenciaKamatHitel.value}}</td>
+
+          </tr>
+
+          <!--  Likviditási ráta-->
+          <tr class="mat-row eredmeny_jovedelem">
+            <td>Likviditási ráta</td>
+            <td>{{elozoevRovidLikvHitel.value}}</td>
+            <td>{{targyevRovidLikvHitel.value}}</td>
+            <td>{{konkurenciaRovidLikvHitel.value}}</td>
+
+          </tr>
+
+          <!--Likviditási gyorsráta -->
+          <tr class="mat-row eredmeny_jovedelem">
+            <td>Likviditási gyorsráta</td>
+            <td>{{elozoevLikvHitel.value}}</td>
+            <td>{{targyevLikvHitel.value}}</td>
+            <td>{{konkurenciaLikvHitel.value}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <!-- Megjegyzés-->
+      <div class="form-group">
+        <!--<label for="hitelMutatoMegjegyzes">
+          <h6 style="color: darkgreen;text-transform: uppercase;">Megjegyzés</h6>
+        </label>-->
+         <mat-card class="z-depth-2"><mat-card-header>
+           <mat-card-subtitle>
+            <span class="badge-megj-hitel">
+              Megjegyzés
+              <a matSuffix mat-icon-button aria-label="megjegyzes">
+                <mat-icon>rate_review</mat-icon>
+              </a>
+            </span>
+           </mat-card-subtitle>
+         </mat-card-header>
+         <mat-card-content>
+          <textarea class="form-control z-depth-2" formControlName="hitelMegjegyzesCtrl" rows="5"></textarea>
+         </mat-card-content>
+      </mat-card>
+      </div>
+
+      <div>
+        <button mat-raised-button color="primary" matStepperNext>Következő</button>
+      </div>
+    </form>
+  </mat-step>
+  <!-- PIACI MUTATÓK -->
+  <mat-step [stepControl]="piaciFormGroup">
+    <form [formGroup]="piaciFormGroup">
+      <ng-template matStepLabel>Piaci mutatók</ng-template>
+
+      <!-- Árfolyam nyereség arány P/E mutató-->
+      <div class="card z-depth-2">
+        <div class="card-header text-white danger-color-dark">
+          Árfolyam nyereség arány P/E mutató
+        </div>
+        <div class="card-body">
+          <table class="table table-md table-bordered table-hover z-depth-2" formArrayName="piaciArfolyamAdatok">
+            <thead>
+              <tr class="mat-header-row">
+                <th class="mat-header-cell">A részvény aktuális árfolyama</th>
+                <th class="mat-header-cell">Társaságnak tulajdonítható nettó eredmény</th>
+                <th class="mat-header-cell">Részvények darabszáma</th>
+                <th class="mat-header-cell">Az árfolyam ennyiszerese az egy részvényre jutó nyereségnek</th>
+                <th class="mat-header-cell" colspan="2">Összehasonlítás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 1. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">
+                  <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                    <input matInput formControlName="piaciArfolyamNyeresegCtrl" type="number" class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="piaciTarsNettoEredmenyCtrl" type="number" class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="piaciReszvenyekDbSzamaCtrl" type="number" class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Tárgyév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="targyevPiaciArfolyamNyeresegCtrl" type="number"
+                      #targyevPiaciArfolyamNyereseg class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 2. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">A részvények aktuális árfolyama</td>
+                <td class="mat-cell" colspan="2">Egy részvényre jutó eredmény</td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Előző év eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput type="number" formControlName="elozoevPiaciArfolyamNyeresegCtrl"
+                      #elozoevPiaciArfolyamNyereseg class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 3. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">{{$piaciReszvenyArfolyam}}</td>
+                <td class="mat-cell" colspan="2">{{$piaciReszvenyreJutoEredmeny}}</td>
+                <td class="mat-cell">{{$piaciArfolyamEgyReszvenyre}}</td>
+                <td class="mat-cell">Konkurencia eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="konkurenciaPiaciArfolyamNyeresegCtrl" type="number"
+                      #konkurenciaPiaciArfolyamNyereseg class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <!--Befektetés belső kamatlába-->
+      <div class="card z-depth-2">
+        <div class="card-header text-white danger-color-dark">
+          Befektetés belső kamatlába
+        </div>
+        <div class="card-body">
+          <table class="table table-md table-bordered table-hover z-depth-2"
+            formArrayName="piaciBefektetesKamatlabAdatok">
+            <thead>
+              <tr class="mat-header-row">
+                <th class="mat-header-cell">Társaságnak tulajdonítható nettó eredmény</th>
+                <th class="mat-header-cell">Összes részvény darabszáma</th>
+                <th class="mat-header-cell">Részvények árfolyama</th>
+                <th class="mat-header-cell">Ekkora a befektetés belső kamatlába</th>
+                <th class="mat-header-cell" colspan="2">Összehasonlítás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 1. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">
+                  <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                    <input matInput formControlName="piaciBefKamNettoEredmenyCtrl" type="number" class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="piaciBefKamReszvDbSzamaCtrl" type="number" class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="piaciBefKamReszvenyArfolyamaCtrl" type="number" class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Tárgyév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="targyevPiaciBefKamatlabCtrl" type="number" #targyevPiaciBefKamatlab
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 2. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">Társaságnak tulajdonítható nettó eredmény</td>
+                <td class="mat-cell" colspan="2">Cég piaci értéke</td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Előző év eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput type="number" formControlName="elozoevPiaciBefKamatlabCtrl" #elozoevPiaciBefKamatlab
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 3. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">{{$piaciBefNettoEredmeny}}</td>
+                <td class="mat-cell" colspan="2">{{$piaciBefCegPiaciErteke}}</td>
+                <td class="mat-cell">{{$piaciBefBelsoKamatlaba | percent}}</td>
+                <td class="mat-cell">Konkurencia eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="konkurenciaPiaciBefKamatlabCtrl" type="number"
+                      #konkurenciaPiaciBefKamatlab class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+
+      <!-- Árfolyam / könyv szerinti érték-->
+      <div class="card z-depth-2">
+        <div class="card-header text-white danger-color-dark">
+          Árfolyam / könyv szerinti érték (P/BV)
+        </div>
+        <div class="card-body">
+          <table class="table table-md table-bordered table-hover z-depth-2" formArrayName="piaciKonyvAdatok">
+            <thead>
+              <tr class="mat-header-row">
+                <th class="mat-header-cell">A részvény aktuális árfolyama</th>
+                <th class="mat-header-cell">Saját tőke</th>
+                <th class="mat-header-cell">Goodwill</th>
+                <th class="mat-header-cell">Immateriális javak</th>
+                <th class="mat-header-cell">Részvények databszáma</th>
+                <th class="mat-header-cell">Az árfolyam ennyiszerese a könyv szerinti értéknek</th>
+                <th class="mat-header-cell" colspan="2">Összehasonlítás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 1. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">
+                  <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                    <input matInput formControlName="piaciKonyvReszvenyArfolyamCtrl" type="number" class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="piaciKonyvSajatTokeCtrl" type="number" class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="piaciKonyvGoodwillCtrl" type="number" class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="piaciKonyvImmJavakCtrl" type="number" class="center" required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="piaciKonyvReszvenyekDbSzamaCtrl" type="number" class="center"
+                      required>
+                  </mat-form-field>
+                </td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Tárgyév eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="targyevPiaciKonyvCtrl" type="number" #targyevPiaciKonyv
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 2. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">A részvény aktuális árfolyama</td>
+                <td class="mat-cell" colspan="4">Könyv szerinti érték</td>
+                <td class="mat-cell"></td>
+                <td class="mat-cell">Előző év eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput type="number" formControlName="elozoevPiaciKonyvCtrl" #elozoevPiaciKonyv
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <!-- 3. sor-->
+              <tr class="mat-row">
+                <td class="mat-cell">{{$piaciKonyvReszvenyArfolyam}}</td>
+                <td class="mat-cell" colspan="4">{{$piaciKonyvKonyvSzerintiErtek}}</td>
+                <td class="mat-cell">{{$piaciKonyvArfolyamErteke}}</td>
+                <td class="mat-cell">Konkurencia eredménye</td>
+                <td class="mat-cell">
+                  <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
+                    <input matInput formControlName="konkurenciaPiaciKonyvCtrl" type="number" #konkurenciaPiaciKonyv
+                      class="center" required>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <!--<label for="piaciMutatoEredmeny">
+        <h6 style="color: darkred;text-transform: uppercase;">Piaci mutatók eredménye</h6>
+      </label>-->
+      <span class="badge badge-primary badge-eredmenye-piaci">Piaci mutatók eredménye</span>
+      <br>
+      <!-- Eredmény összesítő-->
+      <table class="table table-bordered table-hover z-depth-2">
+        <thead>
+          <tr class="mat-header-row">
+            <th class="mat-header-cell"></th>
+            <th class="mat-header-cell">Előző év</th>
+            <th class="mat-header-cell">Tárgyév</th>
+            <th class="mat-header-cell">Konkurencia</th>
+          </tr>
+        </thead>
+        <tbody class="piaciEredmeny">
+
+          <!-- Árfolyam nyereség arány P/E mutató-->
+          <tr class="mat-row eredmeny_jovedelem">
+            <td>Árfolyam nyereség arány P/E mutató</td>
+            <td> {{elozoevPiaciArfolyamNyereseg.value}}</td>
+            <td>{{targyevPiaciArfolyamNyereseg.value}}</td>
+            <td>{{konkurenciaPiaciArfolyamNyereseg.value}}</td>
+          </tr>
+
+          <!-- Befektetés belső kamatlába  -->
+
+          <tr class="mat-row eredmeny_jovedelem">
+            <td>Befektetés belső kamatlába</td>
+            <td>{{elozoevPiaciBefKamatlab.value}}</td>
+            <td>{{targyevPiaciBefKamatlab.value}}</td>
+            <td>{{konkurenciaPiaciBefKamatlab.value}}</td>
+
+          </tr>
+
+          <!-- Árfolyam / könyv szerinti érték P/BV-->
+          <tr class="mat-row eredmeny_jovedelem">
+            <td>Árfolyam / könyv szerinti érték (P/BV)</td>
+            <td>{{elozoevPiaciKonyv.value}}</td>
+            <td>{{targyevPiaciKonyv.value}}</td>
+            <td>{{konkurenciaPiaciKonyv.value}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <!-- Megjegyzés-->
+      <div class="form-group ">
+        <!--<label for="piaciMutatoMegjegyzes">
+          <h6 style="color: darkred;text-transform: uppercase;">Megjegyzés</h6>
+        </label>-->
+        <span class="badge  badge-light badge-megj-piaci">Megjegyzés
+          <a matSuffix mat-icon-button aria-label="megjegyzes">
+            <mat-icon>rate_review</mat-icon>
+          </a>
+        </span>
+        <textarea class="form-control z-depth-2" formControlName="piaciMegjegyzesCtrl" rows="5"></textarea>
+      </div>
+      <div>
+        <button type="submit" mat-raised-button color="primary" matStepperNext>Befejezés</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Kész</ng-template>
+    <mat-divider></mat-divider>
+    <br>
+    <div style="color: darkgreen;">
+      <span style="font-weight: bold;font-stretch: semi-expanded;">Sikeresen kitöltötte az adatokat!</span>
+      <mat-icon>done_outline</mat-icon>
+    </div>
+    <br>
+    <mat-divider></mat-divider>
+    <br>
+    <div>
+      <button mat-raised-button color="primary" (click)="submitPenzugyiElemzes()">Tovább</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

@@ -1,0 +1,234 @@
+<mat-drawer-container>
+  <mat-drawer #drawer mode="side" class="side-menu z-depth-2">
+    <app-penzugyek-menu (emitCelok)="getCelAdatok($event)"></app-penzugyek-menu>
+  </mat-drawer>
+  <mat-drawer-content class="penzugyek-container">
+    <!--<div class="row">
+        <div class="col-2" style="margin-left: 0;">
+          <button type="button" class="btn btn-outline-danger"
+          (click)="drawer.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        </div>
+        <div class="col-10">
+          <h4 style="color: black; text-transform: uppercase;margin-top: 2rem;margin-left: 1rem;">Pénzügyek</h4>
+        </div>
+
+      </div>-->
+    <div class="row">
+
+        <button mat-icon-button color="primary" aria-label="Célok"
+        (click)="drawer.toggle()" style="margin-top: 1.5rem;" class="celBtn"
+        [disableRipple]="true">
+          <mat-icon style="color: red;">menu</mat-icon>
+        </button>
+
+        <h4 style="color: black; text-transform: uppercase;margin-top: 2rem;margin-left: 1rem;">Megtakarítások</h4>
+
+    </div>
+
+    <hr>
+    <br>
+    <mat-tab-group>
+      <mat-tab label="Bevétel-kiadás">
+        <!--Form panel letrehozásához-->
+
+        <button class="btn btn-outline-primary" (click)="openNewYearDialog()">Új
+          bevétel-kiadás</button>
+        <!-- <div class="input-group mb-3" style="margin-top: 2rem;" [hidden]="clicked">
+                  <input #yearInput type="text" class="form-control"
+                    placeholder="Adja meg az évet a bevételek-kiadások kezeléséhez" aria-label="Recipient's username"
+                    aria-describedby="basic-addon2">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="button"
+                      (click)="addNewPanel(yearInput.value)">Létrehozás</button>
+                  </div>
+                </div>-->
+        <br>
+        <div class="outer-div" *ngIf="mapList.length < 1">
+          <mat-icon appearance="outline">feedback</mat-icon>
+          <span style="margin-left: 1rem;vertical-align: middle;">Nem található bejegyzés</span>
+        </div>
+
+        <!--Extension panel-->
+        <!--Lekérem az egys map-eket-->
+        <!-- TODO: [expanded]="!isHonapZarva"-->
+        <div *ngFor="let item of mapList">
+          <div *ngFor="let year of item | keyvalue">
+            <mat-accordion class="example-headers-align">
+              <mat-expansion-panel
+                (click)="getPanelId(year.key)" class="z-depth-2"
+                style="background-color: #3F729B;margin-top: 0.2rem;width: 97%; margin-left: 1rem;margin-right: 1rem;opacity: 95%">
+                <mat-expansion-panel-header style="border: 1px solid #3F729B;background-color: whitesmoke;opacity: 95%">
+                  <mat-panel-title>
+                    <span style="color: #3F729B; font-size: large;">{{year.key}}</span>
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    <span style="color: #3F729B;">Bevételek és kiadások</span>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <br>
+
+                <span *ngIf="year.value.length < 1" style="color:white;">Nem található hozzáadott hónap. Adjon hozzá
+                  egyet!</span>
+                <div *ngFor="let ho of year.value" style="width: 100%">
+                  <mat-expansion-panel class="z-depth-3" (click)="getMonthPanel(ho)">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title><span
+                          style="text-transform: uppercase;margin-top: 0.3rem;margin-bottom: 0.2rem;color: #3F729B;">{{ho}}</span>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <span style="color: gray;"></span>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <!--Bevétel - kiadás-->
+                    <!-- át kell hozni az adatokat: dátum + hozzá tartozo összeg-->
+                    <app-bevetel-kiadas (emitBevetelekKiadasok)="getBevetelekKiadasok($event)" [rezsi]="rezsiDateStr">
+                    </app-bevetel-kiadas>
+
+                    <!--  <div class="input-group osszBevetel">
+
+                                  <input type="text" class="form-control" placeholder="Összes bevétel" readonly>
+                                  <div class="input-group-append">
+                                    <span class="input-group-text">0</span>
+                                    <span class="input-group-text">Ft</span>
+                                  </div>
+                                </div>
+                                  <br>
+                                  <div class="input-group osszKiadas">
+
+                                  <input type="text" class="form-control" placeholder="Összes kiadás" readonly>
+                                  <div class="input-group-append">
+                                    <span class="input-group-text">0</span>
+                                    <span class="input-group-text">Ft</span>
+
+                                  </div>
+                                  </div>
+                                  <br>
+
+                                  <div class="input-group elerhetoEgyenleg">
+                                  <input type="text" class="form-control" placeholder="Elérhető összeg" readonly>
+                                  <div class="input-group-append">
+                                    <span class="input-group-text">0</span>
+                                    <span class="input-group-text">Ft</span>
+                                  </div>
+                                  </div> -->
+
+                  </mat-expansion-panel>
+                </div>
+                <!--Új hónap-->
+                <mat-action-row style="background-color: white;">
+                  <button mat-button color="primary" (click)="openNewMonthDialog(year.key)">Új hónap
+                    hozzáadása</button>
+                </mat-action-row>
+              </mat-expansion-panel>
+              <br>
+            </mat-accordion>
+          </div>
+
+        </div>
+
+      </mat-tab>
+      <!--Stat + charts-->
+      <mat-tab label="Statisztika">
+        <!--MEgosztott tartalom --fenn diagrramok kicsiben -->
+        <div class="container">
+          <div class="row">
+            <div class="col-12 miniDiagram"><span style="color: #3F729B;">Diagramok</span>
+              <!-- mat card in list group-->
+              <ul class="list-group list-group-horizontal z-depth-2">
+                <li class="list-group-item">
+                  <mat-card class="z-depth-2">
+                    <canvas #canvasminiOsszMegtakaritas id="canvasmini" (click)="selectMegtakaritas()"></canvas>
+                  </mat-card>
+                </li>
+                <li class="list-group-item">
+                  <mat-card class="z-depth-2">
+                    <canvas #canvasminiOsszBevetel id="canvasmini" (click)="selectOsszBevetel()"></canvas>
+                  </mat-card>
+                </li>
+                <li class="list-group-item">
+                  <!--Össz kiadás-->
+                  <mat-card class="z-depth-2">
+                    <canvas #canvasminiOsszKiadas id="canvasmini" (click)="selectOsszKiadas()"></canvas>
+                  </mat-card>
+                </li>
+                <li class="list-group-item">
+                  <!--Rezsi-->
+                  <mat-card class="z-depth-2">
+                    <canvas #canvasminiRezsi id="canvasmini" (click)="selectMiniRezsi()"></canvas>
+                  </mat-card>
+                </li>
+                <li class="list-group-item">
+                  <!--Élv. cikkek-->
+                  <mat-card class="z-depth-2">
+                    <canvas #canvasminiElvCikkek id="canvasmini" (click)="selectElvCikkek()"></canvas>
+                  </mat-card>
+                </li>
+                <li class="list-group-item">
+                  <!--Utazási költségek-->
+                  <mat-card class="z-depth-2">
+                    <canvas #canvasminiUtazasiKoltsegek id="canvasmini" (click)="selectUtazasiKtg()"></canvas>
+                  </mat-card>
+                </li>
+                <li class="list-group-item">
+                  <!--Fogy. cikkek-->
+                  <mat-card class="z-depth-2">
+                    <canvas #canvasminiFogyCikkek id="canvasmini" (click)="selectFogyCikkek()"></canvas>
+                  </mat-card>
+                </li>
+                <li class="list-group-item">
+                  <!--Ruházkodás-->
+                  <mat-card class="z-depth-2">
+                    <canvas #canvasminiRuhazkodas id="canvasmini" (click)="selectRuhazkodas()"></canvas>
+                  </mat-card>
+                </li>
+                <li class="list-group-item">
+                  <!--egyeb-->
+                  <mat-card class="z-depth-2">
+                    <canvas #canvasminiEgyeb id="canvasmini" (click)="selectEgyeb()"></canvas>
+                  </mat-card>
+                </li>
+                <!--Jelenlegi cél-->
+                <li class="list-group-item" style="display: none;">
+                  <!--egyeb-->
+                  <mat-card class="z-depth-2">
+                    <canvas #canvasminiCel id="canvasmini"></canvas>
+                  </mat-card>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 mainDiagram" style="margin-top: 2rem;">
+              <div class="row">
+                <div class="col-8">
+                  <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+                    <mat-button-toggle value="1" disabled>1 év</mat-button-toggle>
+                    <mat-button-toggle value="5" disabled>5 év</mat-button-toggle>
+                    <mat-button-toggle value="10" disabled>10 év</mat-button-toggle>
+                    <mat-button-toggle value="kezdet" disabled>Kezdetektől</mat-button-toggle>
+                    <mat-button-toggle value="cel" (click)="showJelenlegiCelDiagram()" disabled>Jelenlegi cél</mat-button-toggle>
+                  </mat-button-toggle-group>
+                </div>
+                <div class="col-4">
+                  <mat-form-field style="width: 100%;">
+                    <mat-label>Diagram típus kiválasztása</mat-label>
+                    <mat-select (selectionChange)="getChartType($event)">
+                      <mat-option *ngFor="let chart of chartTypes" [value]="chart">
+                        {{chart}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!--Select chart type-->
+              <canvas #canvasKivalasztott id="canvasKivalasztott"></canvas>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-drawer-content>
+</mat-drawer-container>

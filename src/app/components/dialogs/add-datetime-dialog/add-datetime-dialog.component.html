@@ -1,0 +1,23 @@
+<p><span style="color: #3f729b;font-weight: bold;">{{title}}</span> felvétele naptárba</p>
+<hr>
+<form [formGroup]="feladatFormGroup" (ngSubmit)="submitFeladat()">
+  <div class="form-group row">
+    <label for="example-datetime-local-input" class="col-2 col-form-label">Kezdő időpont</label>
+    <div class="col-10">
+      <input class="form-control" type="datetime-local" formControlName="startCtrl">
+    </div>
+  </div>
+  <hr>
+  <div class="form-group row">
+    <label for="example-datetime-local-input" class="col-2 col-form-label">Vég időpont</label>
+    <div class="col-10">
+      <input class="form-control" type="datetime-local" formControlName="endCtrl">
+    </div>
+  </div>
+  <br>
+  <div mat-dialog-actions style="float: right;margin-top: 0.5rem;">
+    <button type="submit" style="margin-left: 1rem;" class="btn btn-outline-primary btn-save z-depth-2"
+    [disabled]="!feladatFormGroup.valid">Felvétel a
+      naptárba</button>
+  </div>
+</form>

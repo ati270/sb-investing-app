@@ -1,0 +1,58 @@
+.mat-card {
+    margin-top: 2%;
+    width: 95%;
+    margin-left: 1rem;
+    margin-right: 2rem;
+    text-align: center;
+    color: #3F729B;
+    font-weight: bold;
+}
+
+table {
+    width: 95%;
+    margin-left: 1rem;
+    margin-right: 2rem;
+    padding: 0;
+}
+
+
+button {
+    margin-left: 1rem;
+}
+
+.center {
+    text-align: center;
+}
+
+.mat-header-cell{
+    text-align: center;
+}
+
+.mat-cell{
+    text-align: center;
+    padding: 0;
+    vertical-align: middle;
+}
+
+
+button:focus, button:active:focus, button.active:focus {
+    outline: none !important;
+    outline-style: none !important;
+}
+
+.badge-header{
+    padding: 1rem;
+    margin-top:1rem;
+     width:95%;
+     color: #3F729B;
+     font-size: small;
+     margin-left: 1rem;
+     margin-right: 2rem;
+     text-transform: uppercase;
+}
+
+.kihagyBtn{
+    margin-left: 1rem;
+    border: 1px solid #CC0000;
+    margin-bottom: 1.5rem;
+}

@@ -1,0 +1,58 @@
+@import url("https://fonts.googleapis.com/css?family=Orbitron");
+
+
+
+h6{
+    color: #3F729B;
+    margin-bottom: 2rem;
+    font-family: Orbitron;
+    text-align: right;
+    font-size: medium;
+}
+
+.menu{
+    height: 100vh;
+}
+
+img{
+    border: 0 none;
+}
+
+.mat-card{
+    border: 1px solid lightgray;
+    border-radius: 30px solid lightgray;
+    margin-right: 0.5rem;
+    padding: 0.5rem;
+}
+
+.mat-progress-bar{
+    margin-top: 2rem;
+}
+
+.mat-card-footer{
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.badge{
+    background: #3F729B;
+}
+
+ul{
+    list-style-type: none;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 100%;
+}
+
+.badge-cel{
+    padding: 0.5rem;
+    vertical-align: middle;
+    width: 98%;
+    color: #3F729B;
+    background-color: whitesmoke;
+    font-size: medium;
+    border: 1px solid #3F729B;
+}

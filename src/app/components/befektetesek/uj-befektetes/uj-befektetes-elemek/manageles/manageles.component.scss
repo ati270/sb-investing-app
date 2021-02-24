@@ -1,0 +1,119 @@
+.mat-card-title {
+    margin-top: 2%;
+    width: 95%;
+    margin-left: 1rem;
+    margin-right: 2rem;
+    text-align: center;
+    color: #3F729B;
+    font-size: medium;
+    font-weight: bold;
+    padding: 1%;
+    text-align: center;
+}
+.badge-header{
+  padding: 1rem;
+  margin-top:1rem;
+   width:95%;
+   color: #3F729B;
+   font-size: small;
+   margin-left: 1rem;
+   margin-right: 2rem;
+   text-transform: uppercase;
+}
+
+.table{
+  margin-right: 1rem;
+}
+
+.card-megterules{
+    margin-right: 3rem;
+    text-align: left;
+}
+
+.blue-snackbar{
+  background: #3F729B;
+}
+
+.badge-megjegyzes{
+  background-color: #3F729B;
+  color: white;
+  padding: 0.6rem;
+}
+
+.mat-form-field{
+    width: 95%;
+}
+
+form{
+    padding-top: 1rem;
+    margin-left: 1rem;
+    margin-right: 0.5rem;
+}
+.card{
+  width: 95%;
+  margin-right: 1rem;
+}
+
+.mat-button-toggle-group {
+    float: left;
+    margin-right: 3rem;
+  }
+
+  .mat-button-toggle-button:focus {
+    outline: none;
+    border: none;
+  }
+
+  .mat-header-cell{
+    text-align: center;
+  }
+
+
+  .mat-cell{
+    padding: 0;
+    padding-top: 1rem;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .addBtn{
+    margin-right: 1rem;
+  }
+
+.mat-button-toggle-checked {
+  border: none;
+  background-color: #3F729B !important;
+  color: white;
+  outline: none;
+}
+
+.mat-button.mat-success {
+    color: #155724;
+}
+
+.mat-raised-button.mat-success {
+  color: #f0fff3;
+  background-color: #155724;
+}
+
+.button {
+  outline: 0;
+}
+
+.badge-header{
+  padding: 1rem;
+  margin-top:1rem;
+   width:95%;
+   color: #3F729B;
+   font-size: small;
+   margin-left: 1rem;
+   margin-right: 2rem;
+   text-transform: uppercase;
+}
+
+.kihagyBtn{
+  vertical-align: middle;
+  border: 2px solid darkgreen;
+  color: darkgreen;
+  margin-bottom: 1.5rem;
+}

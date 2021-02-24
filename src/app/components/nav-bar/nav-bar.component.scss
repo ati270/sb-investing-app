@@ -1,0 +1,82 @@
+.navbar {
+  min-height: 4rem;
+
+  .nav-link {
+    color: #3f729b !important;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.navbar-brand {
+  padding: 0 5rem;
+  height: 2rem;
+  line-height: 2rem;
+}
+
+@media (min-width: 768px) {
+  .navbar-nav > li > a {
+    /* (80px - line-height of 27px) / 2 = 26.5px */
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    line-height: 1rem;
+  }
+}
+
+.navbar .divider-vertical {
+  height: 4rem;
+  margin-right: 2rem;
+  margin-left: 2rem;
+  border-left: 1px solid #f2f2f2;
+  border-image: linear-gradient(to bottom, gray, rgba(0, 0, 0, 0)) 1 100%;
+}
+
+.nav-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.my-4 {
+  border: 0.2rem solid white;
+}
+
+.jumbotron {
+  background: url("../../../assets/img/rsz_11header.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  height: 50rem;
+}
+
+.jumbotron .container {
+  margin-left: 0rem;
+  width: 100%;
+  height: 50%;
+  z-index: 2;
+  border-radius: 12px;
+  padding-top: 2rem;
+  padding-left: 2rem;
+  h2 {
+    font-family: "Segoe Print", Courier, monospace;
+    font-weight: bold;
+    font-size: xx-large;
+    text-transform: uppercase;
+    font-stretch: expanded;
+    text-align: left;
+  }
+}
+
+.btn {
+  margin-top: 15%;
+}
+
+button:focus,
+button:active:focus,
+button.active:focus {
+  outline: none !important;
+  outline-style: none !important;
+}

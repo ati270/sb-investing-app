@@ -1,0 +1,166 @@
+.mat-panel-title {
+  text-align: center;
+}
+
+.container {
+  margin-top: 1rem;
+}
+
+.example-headers-align .mat-expansion-panel {
+  margin-bottom: 0.5rem;
+  width: 99%;
+}
+
+.osszBevetel {
+  background-color: darkgreen;
+  color: white;
+}
+
+.osszKiadas {
+  background-color: #cc0000;
+  color: white;
+}
+
+.example-action-buttons {
+  padding-bottom: 20px;
+}
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mat-action-row {
+  padding: 0.3rem;
+}
+
+.btn{
+  outline-color: #3F729B;
+  float: right;
+  margin-top:2rem;
+  margin-bottom: 2rem;
+}
+
+.addYearFormField {
+  width: 98%;
+}
+
+.outer-div {
+  margin-top: 7%;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  color: black;
+  padding: 0.8rem;
+  vertical-align: middle;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: gray;
+
+  span {
+    font-size: medium;
+    color: gray;
+    font-weight: bold;
+    opacity: 80%;
+  }
+
+  .mat-expansion-panel-body {
+    background-color: lightgray !important;
+  }
+
+  mat-icon {
+    font-size: 5rem;
+    margin-bottom: 5rem;
+    color: #3f729b;
+    opacity: 60%;
+    margin-right: 2rem;
+  }
+
+  .no-month {
+    color: white;
+    font-weight: bold;
+  }
+}
+
+.list-group {
+  overflow: scroll;
+  border: none;
+  margin-top: 2rem;
+}
+
+.list-group-item {
+  padding: 0.3rem;
+}
+
+.mat-card {
+  padding: 0;
+  height: 100%;
+  width: 13rem;
+}
+
+#canvasmini {
+  padding: 1rem;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.mat-button-toggle-group {
+  border: 1px solid #3f729b;
+  outline: none;
+}
+
+.mat-button-toggle-button:focus {
+  outline: none;
+}
+
+.mat-button-toggle-checked {
+  background-color: #3f729b !important;
+  color: white;
+  outline: none !important;
+  outline-style: none !important;
+}
+
+.col-8,.col-4{
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.mainDiagram{
+  margin-bottom: 2rem;
+}
+
+.celBtn{
+  border: none !important;
+  outline: none !important;
+}
+
+.z-depth-2 {
+  color: #3f729b;
+}
+
+#canvasKivalasztott {
+  height: 20%;
+}
+
+
+.side-menu{
+  width: 30%;
+  padding-top: 0.3rem;
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+  
+}
+
+.btn:active{
+  background-color: #3f729b;
+}
+
+.penzugyek-container{
+  padding-left: 2rem;
+  padding-right: 2rem;
+}

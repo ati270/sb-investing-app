@@ -1,0 +1,62 @@
+.mat-card {
+    margin-top: 2%;
+    width: 95%;
+    margin-left: 1rem;
+    margin-right: 2rem;
+    text-align: center;
+    color: #3F729B;
+    font-weight: bold;
+    padding: 1%;
+    text-align: center;
+}
+
+
+table {
+    width: 100%;
+    margin-right: 2rem;
+}
+
+.mat-cell, .mat-header-cell{
+    border-right: 1px solid lightgray;
+    text-align: center;
+}
+
+.badge-header{
+    padding: 1rem;
+    margin-top:1rem;
+     width:95%;
+     color: #3F729B;
+     font-size: small;
+     margin-left: 1rem;
+     margin-right: 2rem;
+     text-transform: uppercase;
+}
+
+.mat-icon{
+    font-size: xx-large;
+    margin-left: 1rem;
+}
+
+.mat-raised-button.mat-success{
+    background-color: darkgreen;
+    color: white;
+}
+
+
+.mat-form-field{
+    width: 100%;
+}
+
+form{
+    padding-top: 1rem;
+}
+
+.center{
+    text-align: center;
+}
+
+.kihagyBtn{
+    margin-left: 1rem;
+    border: 1px solid #CC0000;
+    margin-bottom: 1.5rem;
+}

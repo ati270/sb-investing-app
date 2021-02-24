@@ -1,0 +1,2333 @@
+<div class="container-fluid">
+  <div class="row">
+
+    <div style="width:100%;margin-left: 1rem;margin-right: 1rem;margin-bottom: 2rem;">
+      <!-- megjelenített tartalom-->
+      <h4>Gazdasági állapot és stratégia meghatározása</h4>
+    </div>
+
+    <div style="width:100%;margin-left: 2rem;margin-right: 2rem;">
+
+      <!--STepper-->
+      <mat-horizontal-stepper #stepper>
+        <mat-step [stepControl]="gazdElemzesFormGroup">
+          <form [formGroup]="gazdElemzesFormGroup">
+            <ng-template matStepLabel>Gazdasági elemzés</ng-template>
+            <br>
+            <span class="badge badge-pill badge-primary z-depth-2" style="padding: 0.8rem; width: 100%">Makrogazdasági
+              elemzés</span>
+            <br>
+            <br>
+            <!-- tabs-->
+            <mat-tab-group mat-align-tabs="center">
+              <mat-tab label="Gazdasági mutatók">
+                <!-- GAZDASÁGI MUTATÓK-->
+                <!-- eXPANSION PANELEK-->
+                <!-- BENNÜK LISTA-->
+                <!--Potenciális GDP meghatározása-->
+                <br>
+                <mat-accordion>
+                  <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Összesített PMI
+                      </mat-panel-title>
+                      <mat-panel-description>
+
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <!-- lista balra? diagram jobbra -->
+                    <div class="row">
+                      <div class="col-md-4">
+                        <!--lista-->
+                        <!-- IDe kerül a lista-->
+
+                        <mat-form-field>
+                          <input #addEredmenyPMI type="number" min="0" matInput formControlName="eredmenyPMICtrl" placeholder="Eredmény">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input #addEredmenyDatePMI type="date" matInput formControlName="datePMICtrl">
+                        </mat-form-field>
+                        <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                          lekerdez
+                        </button>-->
+                        <br>
+                        <button mat-raised-button color="primary" (click)="addPMI()">Hozzáadás
+                        </button>
+                        <hr>
+                        <span>
+                          <br>
+                          <!--Szűrés két dátum között-->
+                          <mat-form-field>
+                            <mat-label>Kereséshez válaszd ki a dátumokat</mat-label>
+                            <mat-date-range-input  [rangePicker]="pickerPMI">
+                              <input matStartDate placeholder="Kezdő dátum" formControlName="startPMIDateCtrl">
+                              <input matEndDate placeholder="Végdátum" formControlName="endPMIDateCtrl">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="pickerPMI"></mat-datepicker-toggle>
+                            <mat-date-range-picker #pickerPMI></mat-date-range-picker>
+                          </mat-form-field>
+                        </span>
+                        <br>
+                        <button type="button" mat-stroked-button color="success" (click)="filterList()">Szűrés</button>
+                        <button type="button" mat-stroked-button color="warn"
+                        style="margin-left: 1rem;" (click)="revertPMIArray()">Teljes lista mutatása</button>
+                        <br>
+                        <br>
+
+                        <!-- Table -->
+                        <mat-accordion>
+                          <mat-expansion-panel hideToggle>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel (opened)="panelOpenState = true"
+                                               (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                <b style="color: #3f729b;">Eredmények</b>
+                              </mat-panel-title>
+                              <mat-panel-description>
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <table class="table" >
+                              <thead>
+                                <tr>
+                                  <th scope="col">Eredmény</th>
+                                  <th scope="col">Dátum</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of osszesitettPMIArray">
+                                  <td style="color: #3f729b;font-weight: bold;">{{item.eredmeny | number:'1.0':'en-US' |  spaceDecimal}}</td>
+                                  <td>{{item.date | date: 'yyyy.MM.dd.'}}</td>
+                                  <td>
+                                    <mat-icon style="color: red;"
+                                    (click)=deletePmiListItem(item)>delete</mat-icon>
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+
+
+
+
+
+                        <!--<mat-list *ngFor="let item of osszesitettPMIArray">
+                          <span class="badge badge-primary z-depth-2"
+                            style="padding: 0.8rem; width: 100%; font-size: small;">
+                            Eredmény: {{item.eredmeny}} ( {{item.date}} )
+                          </span>
+                        </mat-list>-->
+                      </div>
+                      <div class="col-md-8">
+                        <mat-card class="z-depth-2">
+                          <canvas #canvasPMI id="canvasPMI"></canvas>
+                        </mat-card>
+                      </div>
+                    </div>
+
+                  </mat-expansion-panel>
+
+                  <!--Üzleti  bizalmi index-->
+                  <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Üzleti bizalmi index
+                      </mat-panel-title>
+                      <mat-panel-description>
+
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <!-- IDe kerül a lista-->
+                    <div class="row">
+                      <div class="col-md-4">
+                        <!--lista-->
+                        <!-- IDe kerül a lista-->
+
+                        <mat-form-field>
+                          <input #addEredmenyUzleti type="number" min="0" matInput formControlName="eredmenyUzletiCtrl">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input #addEredmenyDateUzleti type="date" matInput formControlName="dateUzletiCtrl">
+                        </mat-form-field>
+
+                        <br>
+                        <button mat-raised-button color="primary" (click)="addUzleti()">Hozzáadás
+                        </button>
+                        <hr>
+
+                        <span>
+                          <br>
+                          <!--Szűrés két dátum között-->
+                          <mat-form-field>
+                            <mat-label>Kereséshez válaszd ki a dátumokat</mat-label>
+                            <mat-date-range-input  [rangePicker]="pickerUzleti">
+                              <input matStartDate placeholder="Kezdő dátum" formControlName="startUzletiDateCtrl">
+                              <input matEndDate placeholder="Végdátum" formControlName="endUzletiDateCtrl">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="pickerUzleti"></mat-datepicker-toggle>
+                            <mat-date-range-picker #pickerUzleti></mat-date-range-picker>
+                          </mat-form-field>
+                        </span>
+                        <br>
+                        <button type="button" mat-stroked-button color="success" (click)="filterUzletiList()">Szűrés</button>
+                        <button type="button" mat-stroked-button color="warn"
+                        style="margin-left: 1rem;" (click)="revertUzletiArray()">Teljes lista mutatása</button>
+                        <br>
+                        <br>
+
+                        <!-- Table -->
+                        <mat-accordion>
+                          <mat-expansion-panel hideToggle>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel (opened)="panelOpenState = true"
+                                               (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                <b style="color: #3f729b;">Eredmények</b>
+                              </mat-panel-title>
+                              <mat-panel-description>
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <table class="table" >
+                              <thead>
+                                <tr>
+                                  <th scope="col">Eredmény</th>
+                                  <th scope="col">Dátum</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of osszesitettUzletiArray">
+                                  <td style="color: #3f729b;font-weight: bold;">{{item.eredmeny | number:'1.0':'en-US' |  spaceDecimal}}</td>
+                                  <td>{{item.date | date: 'yyyy.MM.dd.'}}</td>
+                                  <td>
+                                    <mat-icon style="color: red;"
+                                    (click)=deleteUzletiListItem(item)>delete</mat-icon>
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+
+                      </div>
+                      <div class="col-md-8">
+                        <mat-card class="z-depth-2">
+                          <canvas #canvasUzleti id="canvasUzleti"></canvas>
+                        </mat-card>
+                      </div>
+                    </div>
+
+                  </mat-expansion-panel>
+
+                  <!--Ipari termelés-->
+                  <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Ipari termelés
+                      </mat-panel-title>
+                      <mat-panel-description>
+
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <!-- IDe kerül a lista-->
+                    <div class="row">
+                      <div class="col-md-4">
+                        <!--lista-->
+                        <!-- IDe kerül a lista-->
+
+                        <mat-form-field>
+                          <input #addEredmenyIpari type="number" min="0" matInput formControlName="eredmenyIpariCtrl">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input #addEredmenyDateIpari type="date" matInput formControlName="dateIpariCtrl">
+                        </mat-form-field>
+                        <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                          lekerdez
+                        </button>-->
+                        <br>
+                        <button mat-raised-button color="primary" (click)="addIpari()">Hozzáadás
+                        </button>
+                        <hr>
+                        <span>
+                          <br>
+                          <!--Szűrés két dátum között-->
+                          <mat-form-field>
+                            <mat-label>Kereséshez válaszd ki a dátumokat</mat-label>
+                            <mat-date-range-input  [rangePicker]="pickerIpari">
+                              <input matStartDate placeholder="Kezdő dátum" formControlName="startIpariDateCtrl">
+                              <input matEndDate placeholder="Végdátum" formControlName="endIpariDateCtrl">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="pickerIpari"></mat-datepicker-toggle>
+                            <mat-date-range-picker #pickerIpari></mat-date-range-picker>
+                          </mat-form-field>
+                        </span>
+                        <br>
+                        <button type="button" mat-stroked-button color="success" (click)="filterIpariList()">Szűrés</button>
+                        <button type="button" mat-stroked-button color="warn"
+                        style="margin-left: 1rem;" (click)="revertIpariArray()">Teljes lista mutatása</button>
+                        <br>
+                        <br>
+
+                        <!-- Table -->
+                        <mat-accordion>
+                          <mat-expansion-panel hideToggle>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel (opened)="panelOpenState = true"
+                                               (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                <b style="color: #3f729b;">Eredmények</b>
+                              </mat-panel-title>
+                              <mat-panel-description>
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <table class="table" >
+                              <thead>
+                                <tr>
+                                  <th scope="col">Eredmény</th>
+                                  <th scope="col">Dátum</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of osszesitettIpariArray">
+                                  <td style="color: #3f729b;font-weight: bold;">{{item.eredmeny | number:'1.0':'en-US' |  spaceDecimal}}</td>
+                                  <td>{{item.date | date: 'yyyy.MM.dd.'}}</td>
+                                  <td>
+                                    <mat-icon style="color: red;"
+                                    (click)=deleteIpariListItem(item)>delete</mat-icon>
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+                        <!--<mat-list *ngFor="let item of osszesitettIpariArray">
+                          <span class="badge badge-primary z-depth-2"
+                            style="padding: 0.8rem; width: 100%; font-size: small;">
+                            Eredmény: {{item.eredmeny}} ( {{item.date}} )
+                          </span>
+                        </mat-list>-->
+                      </div>
+                      <div class="col-md-8">
+                        <mat-card class="z-depth-2">
+                          <canvas #canvasIpari id="canvasIpari"></canvas>
+                        </mat-card>
+                      </div>
+                    </div>
+
+                  </mat-expansion-panel>
+
+                  <!--Kapacitáskihasználtság-->
+                  <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Kapacitáskihasználtság
+                      </mat-panel-title>
+                      <mat-panel-description>
+
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <!-- IDe kerül a lista-->
+                    <div class="row">
+                      <div class="col-md-4">
+                        <!--lista-->
+                        <!-- IDe kerül a lista-->
+
+                        <mat-form-field>
+                          <input #addEredmenyKapacitas type="number" min="0" matInput formControlName="eredmenyKapacitasCtrl">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input #addEredmenyDateKapacitas type="date" matInput formControlName="dateKapacitasCtrl">
+                        </mat-form-field>
+                        <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                          lekerdez
+                        </button>-->
+                        <br>
+                        <button mat-raised-button color="primary" (click)="addKapacitas()">Hozzáadás
+                        </button>
+                        <hr>
+                        <span>
+                          <br>
+                          <!--Szűrés két dátum között-->
+                          <mat-form-field>
+                            <mat-label>Kereséshez válaszd ki a dátumokat</mat-label>
+                            <mat-date-range-input  [rangePicker]="pickerKapacitas">
+                              <input matStartDate placeholder="Kezdő dátum" formControlName="startKapacitasDateCtrl">
+                              <input matEndDate placeholder="Végdátum" formControlName="endKapacitasDateCtrl">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="pickerKapacitas"></mat-datepicker-toggle>
+                            <mat-date-range-picker #pickerKapacitas></mat-date-range-picker>
+                          </mat-form-field>
+                        </span>
+                        <br>
+                        <button type="button" mat-stroked-button color="success" (click)="filterKapacitasList()">Szűrés</button>
+                        <button type="button" mat-stroked-button color="warn"
+                        style="margin-left: 1rem;" (click)="revertKapacitasArray()">Teljes lista mutatása</button>
+                        <br>
+                        <br>
+
+                        <!-- Table -->
+                        <mat-accordion>
+                          <mat-expansion-panel hideToggle>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel (opened)="panelOpenState = true"
+                                               (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                <b style="color: #3f729b;">Eredmények</b>
+                              </mat-panel-title>
+                              <mat-panel-description>
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <table class="table" >
+                              <thead>
+                                <tr>
+                                  <th scope="col">Eredmény</th>
+                                  <th scope="col">Dátum</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of osszesitettKapacitasArray">
+                                  <td style="color: #3f729b;font-weight: bold;">{{item.eredmeny | number:'1.0':'en-US' |  spaceDecimal}}</td>
+                                  <td>{{item.date | date: 'yyyy.MM.dd.'}}</td>
+                                  <td>
+                                    <mat-icon style="color: red;"
+                                    (click)=deleteKapacitasListItem(item)>delete</mat-icon>
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+                        <!--<mat-list *ngFor="let item of osszesitettKapacitasArray">
+                          <span class="badge badge-primary z-depth-2"
+                            style="padding: 0.8rem; width: 100%; font-size: small;">
+                            Eredmény: {{item.eredmeny}} ( {{item.date}} )
+                          </span>
+                        </mat-list>-->
+                      </div>
+                      <div class="col-md-8">
+                        <mat-card class="z-depth-2">
+                          <canvas #canvasKapacitas id="canvasKapacitas"></canvas>
+                        </mat-card>
+                      </div>
+                    </div>
+
+                  </mat-expansion-panel>
+
+                  <!--GDP éves növekedési ráta-->
+                  <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        GDP éves növekedési ráta
+                      </mat-panel-title>
+                      <mat-panel-description>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <!-- IDe kerül a lista-->
+                    <div class="row">
+                      <div class="col-md-4">
+                        <!--lista-->
+                        <!-- IDe kerül a lista-->
+
+                        <mat-form-field>
+                          <input #addEredmenyGDP type="number" min="0" matInput formControlName="eredmenyGDPCtrl">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input #addEredmenyDateGDP type="date" matInput formControlName="dateGDPCtrl">
+                        </mat-form-field>
+                        <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                          lekerdez
+                        </button>-->
+                        <br>
+                        <button mat-raised-button color="primary" (click)="addGDP()">Hozzáadás
+                        </button>
+                        <hr>
+
+                        <span>
+                          <br>
+                          <!--Szűrés két dátum között-->
+                          <mat-form-field>
+                            <mat-label>Kereséshez válaszd ki a dátumokat</mat-label>
+                            <mat-date-range-input  [rangePicker]="pickerGDP">
+                              <input matStartDate placeholder="Kezdő dátum" formControlName="startGDPDateCtrl">
+                              <input matEndDate placeholder="Végdátum" formControlName="endGDPDateCtrl">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="pickerGDP"></mat-datepicker-toggle>
+                            <mat-date-range-picker #pickerGDP></mat-date-range-picker>
+                          </mat-form-field>
+                        </span>
+                        <br>
+                        <button type="button" mat-stroked-button color="success" (click)="filterGDPList()">Szűrés</button>
+                        <button type="button" mat-stroked-button color="warn"
+                        style="margin-left: 1rem;" (click)="revertGDPArray()">Teljes lista mutatása</button>
+                        <br>
+                        <br>
+
+                        <!-- Table -->
+                        <mat-accordion>
+                          <mat-expansion-panel hideToggle>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel (opened)="panelOpenState = true"
+                                               (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                <b style="color: #3f729b;">Eredmények</b>
+                              </mat-panel-title>
+                              <mat-panel-description>
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <table class="table" >
+                              <thead>
+                                <tr>
+                                  <th scope="col">Eredmény</th>
+                                  <th scope="col">Dátum</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of osszesitettGDPArray">
+                                  <td style="color: #3f729b;font-weight: bold;">{{item.eredmeny | number:'1.0':'en-US' |  spaceDecimal}}</td>
+                                  <td>{{item.date | date: 'yyyy.MM.dd.'}}</td>
+                                  <td>
+                                    <mat-icon style="color: red;"
+                                    (click)=deleteGDPListItem(item)>delete</mat-icon>
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+                        <!--<mat-list *ngFor="let item of osszesitettGDPArray">
+                          <span class="badge badge-primary z-depth-2"
+                            style="padding: 0.8rem; width: 100%; font-size: small;">
+                            Eredmény: {{item.eredmeny}} ( {{item.date}} )
+                          </span>
+                        </mat-list>-->
+                      </div>
+                      <div class="col-md-8">
+                        <mat-card class="z-depth-2">
+                          <canvas #canvasGDP id="canvasGDP"></canvas>
+                        </mat-card>
+                      </div>
+                    </div>
+
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </mat-tab>
+              <mat-tab label="Gazdaságot befolyásoló kormányzati intézkedések">
+                <br>
+                <mat-accordion>
+                  <!-- M0 pénzmennyiség-->
+                  <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        M0 pénzmennyiség
+                      </mat-panel-title>
+                      <mat-panel-description>
+
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <!-- IDe kerül a lista-->
+                    <div class="row">
+                      <div class="col-md-4">
+                        <!--lista-->
+                        <!-- IDe kerül a lista-->
+                        <mat-form-field>
+                          <input #addEredmenyPenzmennyiseg type="number" min="0" matInput formControlName="eredmenyPenzmennyisegCtrl">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input #addEredmenyDatePenzmennyiseg type="date" matInput formControlName="datePenzmennyisegCtrl">
+                        </mat-form-field>
+                        <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                          lekerdez
+                        </button>-->
+                        <br>
+                        <button mat-raised-button color="primary" (click)="addPenzmennyiseg()">Hozzáadás
+                        </button>
+                        <hr>
+                        <span>
+                          <br>
+                          <!--Szűrés két dátum között-->
+                          <mat-form-field>
+                            <mat-label>Kereséshez válaszd ki a dátumokat</mat-label>
+                            <mat-date-range-input  [rangePicker]="pickerPenzmennyiseg">
+                              <input matStartDate placeholder="Kezdő dátum" formControlName="startPenzmennyisegDateCtrl">
+                              <input matEndDate placeholder="Végdátum" formControlName="endPenzmennyisegDateCtrl">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="pickerPenzmennyiseg"></mat-datepicker-toggle>
+                            <mat-date-range-picker #pickerPenzmennyiseg></mat-date-range-picker>
+                          </mat-form-field>
+                        </span>
+                        <br>
+                        <button type="button" mat-stroked-button color="success" (click)="filterPenzmennyisegList()">Szűrés</button>
+                        <button type="button" mat-stroked-button color="warn"
+                        style="margin-left: 1rem;" (click)="revertPenzmennyisegArray()">Teljes lista mutatása</button>
+                        <br>
+                        <br>
+
+                        <!-- Table -->
+                        <mat-accordion>
+                          <mat-expansion-panel hideToggle>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel (opened)="panelOpenState = true"
+                                               (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                <b style="color: #3f729b;">Eredmények</b>
+                              </mat-panel-title>
+                              <mat-panel-description>
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <table class="table" >
+                              <thead>
+                                <tr>
+                                  <th scope="col">Eredmény</th>
+                                  <th scope="col">Dátum</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of osszesitettPenzmennyisegArray">
+                                  <td style="color: #3f729b;font-weight: bold;">{{item.eredmeny | number:'1.0':'en-US' |  spaceDecimal}}</td>
+                                  <td>{{item.date | date: 'yyyy.MM.dd.'}}</td>
+                                  <td>
+                                    <mat-icon style="color: red;"
+                                    (click)=deletePenzmennyisegListItem(item)>delete</mat-icon>
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+                       <!-- <mat-list *ngFor="let item of osszesitettPenzmennyisegArray">
+                          <span class="badge badge-primary z-depth-2"
+                            style="padding: 0.8rem; width: 100%; font-size: small;">
+                            {{item.eredmeny}} ( {{item.date}} )
+                          </span>
+                        </mat-list>-->
+                      </div>
+                      <div class="col-md-8">
+                        <mat-card class="z-depth-2">
+                          <canvas #canvasPenzmennyiseg id="canvasPenzmennyiseg"></canvas>
+                        </mat-card>
+                      </div>
+                    </div>
+
+                  </mat-expansion-panel>
+
+                  <!--Fiskális kiadások-->
+                  <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Fiskális kiadások
+                      </mat-panel-title>
+                      <mat-panel-description>
+
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <!-- IDe kerül a lista-->
+                    <div class="row">
+                      <div class="col-md-4">
+                        <!--lista-->
+                        <!-- IDe kerül a lista-->
+
+                        <mat-form-field>
+                          <input #addEredmenyFiskalis type="number" min="0" matInput formControlName="eredmenyFiskalisCtrl">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input #addEredmenyDateFiskalis type="date" matInput formControlName="dateFiskalisCtrl">
+                        </mat-form-field>
+                        <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                          lekerdez
+                        </button>-->
+                        <br>
+                        <button mat-raised-button color="primary" (click)="addFiskalis()">Hozzáadás
+                        </button>
+                        <hr>
+                        <span>
+                          <br>
+                          <!--Szűrés két dátum között-->
+                          <mat-form-field>
+                            <mat-label>Kereséshez válaszd ki a dátumokat</mat-label>
+                            <mat-date-range-input  [rangePicker]="pickerFiskalis">
+                              <input matStartDate placeholder="Kezdő dátum" formControlName="startFiskalisDateCtrl">
+                              <input matEndDate placeholder="Végdátum" formControlName="endFiskalisDateCtrl">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="pickerFiskalis"></mat-datepicker-toggle>
+                            <mat-date-range-picker #pickerFiskalis></mat-date-range-picker>
+                          </mat-form-field>
+                        </span>
+                        <br>
+                        <button type="button" mat-stroked-button color="success" (click)="filterFiskalisList()">Szűrés</button>
+                        <button type="button" mat-stroked-button color="warn"
+                        style="margin-left: 1rem;" (click)="revertFiskalisArray()">Teljes lista mutatása</button>
+                        <br>
+                        <br>
+
+                        <!-- Table -->
+                        <mat-accordion>
+                          <mat-expansion-panel hideToggle>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel (opened)="panelOpenState = true"
+                                               (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                <b style="color: #3f729b;">Eredmények</b>
+                              </mat-panel-title>
+                              <mat-panel-description>
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <table class="table" >
+                              <thead>
+                                <tr>
+                                  <th scope="col">Eredmény</th>
+                                  <th scope="col">Dátum</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of osszesitettFiskalisArray">
+                                  <td style="color: #3f729b;font-weight: bold;">{{item.eredmeny | number:'1.0':'en-US' |  spaceDecimal}}</td>
+                                  <td>{{item.date | date: 'yyyy.MM.dd.'}}</td>
+                                  <td>
+                                    <mat-icon style="color: red;"
+                                    (click)=deleteFiskalisListItem(item)>delete</mat-icon>
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+                        <!--<mat-list *ngFor="let item of osszesitettFiskalisArray">
+                          <span class="badge badge-primary z-depth-2"
+                            style="padding: 0.8rem; width: 100%; font-size: small;">
+                            {{item.eredmeny}} ( {{item.date}} )
+                          </span>
+                        </mat-list>-->
+                      </div>
+                      <div class="col-md-8">
+                        <mat-card class="z-depth-2">
+                          <canvas #canvasFiskalis id="canvasFiskalis"></canvas>
+                        </mat-card>
+                      </div>
+                    </div>
+
+                  </mat-expansion-panel>
+
+                  <!--Kamatláb-->
+                  <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Kamatláb
+                      </mat-panel-title>
+                      <mat-panel-description>
+
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <!-- IDe kerül a lista-->
+                    <div class="row">
+                      <div class="col-md-4">
+                        <!--lista-->
+                        <!-- IDe kerül a lista-->
+
+                        <mat-form-field>
+                          <input #addEredmenyKamatlab type="number" min="0" matInput formControlName="eredmenyKamatlabCtrl">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input #addEredmenyDateKamatlab type="date" matInput formControlName="dateKamatlabCtrl">
+                        </mat-form-field>
+                        <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                          lekerdez
+                        </button>-->
+                        <br>
+                        <button mat-raised-button color="primary" (click)="addKamatlab()">Hozzáadás
+                        </button>
+                        <hr>
+                        <span>
+                          <br>
+                          <!--Szűrés két dátum között-->
+                          <mat-form-field>
+                            <mat-label>Kereséshez válaszd ki a dátumokat</mat-label>
+                            <mat-date-range-input  [rangePicker]="pickerKamatlab">
+                              <input matStartDate placeholder="Kezdő dátum" formControlName="startKamatlabDateCtrl">
+                              <input matEndDate placeholder="Végdátum" formControlName="endKamatlabDateCtrl">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="pickerKamatlab"></mat-datepicker-toggle>
+                            <mat-date-range-picker #pickerKamatlab></mat-date-range-picker>
+                          </mat-form-field>
+                        </span>
+                        <br>
+                        <button type="button" mat-stroked-button color="success" (click)="filterKamatlabList()">Szűrés</button>
+                        <button type="button" mat-stroked-button color="warn"
+                        style="margin-left: 1rem;" (click)="revertKamatlabArray()">Teljes lista mutatása</button>
+                        <br>
+                        <br>
+
+                        <!-- Table -->
+                        <mat-accordion>
+                          <mat-expansion-panel hideToggle>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel (opened)="panelOpenState = true"
+                                               (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                <b style="color: #3f729b;">Eredmények</b>
+                              </mat-panel-title>
+                              <mat-panel-description>
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <table class="table" >
+                              <thead>
+                                <tr>
+                                  <th scope="col">Eredmény</th>
+                                  <th scope="col">Dátum</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of osszesitettKamatlabArray">
+                                  <td style="color: #3f729b;font-weight: bold;">{{item.eredmeny | number:'1.0':'en-US' |  spaceDecimal}}</td>
+                                  <td>{{item.date | date: 'yyyy.MM.dd.'}}</td>
+                                  <td>
+                                    <mat-icon style="color: red;"
+                                    (click)=deleteKamatlabListItem(item)>delete</mat-icon>
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+                        <!--<mat-list *ngFor="let item of osszesitettKamatlabArray">
+                          <span class="badge badge-primary z-depth-2"
+                            style="padding: 0.8rem; width: 100%; font-size: small;">
+                            {{item.eredmeny}} ( {{item.date}} )
+                          </span>
+                        </mat-list>-->
+                      </div>
+                      <div class="col-md-8">
+                        <mat-card class="z-depth-2">
+                          <canvas #canvasKamatlab id="canvasKamatlab"></canvas>
+                        </mat-card>
+                      </div>
+                    </div>
+
+                  </mat-expansion-panel>
+
+                </mat-accordion>
+              </mat-tab>
+              <mat-tab label="A gazasági ciklus változásának jelei">
+                <br>
+                <mat-accordion>
+                  <!--Államkötvények-->
+                  <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Államkötvények
+                      </mat-panel-title>
+                      <mat-panel-description>
+
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <!-- IDe kerül a lista-->
+                    <div class="row">
+                      <div class="col-md-4">
+                        <!--lista-->
+                        <!-- IDe kerül a lista-->
+                        <mat-form-field>
+                          <input #addEredmenyAllam type="number" min="0" matInput formControlName="eredmenyAllamCtrl">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input #addEredmenyDateAllam type="date" matInput formControlName="dateAllamCtrl">
+                        </mat-form-field>
+                        <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                          lekerdez
+                        </button>-->
+                        <br>
+                        <button mat-raised-button color="primary" (click)="addAllam()">Hozzáadás
+                        </button>
+                        <hr>
+                        <span>
+                          <br>
+                          <!--Szűrés két dátum között-->
+                          <mat-form-field>
+                            <mat-label>Kereséshez válaszd ki a dátumokat</mat-label>
+                            <mat-date-range-input  [rangePicker]="pickerAllam">
+                              <input matStartDate placeholder="Kezdő dátum" formControlName="startAllamDateCtrl">
+                              <input matEndDate placeholder="Végdátum" formControlName="endAllamDateCtrl">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="pickerAllam"></mat-datepicker-toggle>
+                            <mat-date-range-picker #pickerAllam></mat-date-range-picker>
+                          </mat-form-field>
+                        </span>
+                        <br>
+                        <button type="button" mat-stroked-button color="success" (click)="filterAllamList()">Szűrés</button>
+                        <button type="button" mat-stroked-button color="warn"
+                        style="margin-left: 1rem;" (click)="revertAllamArray()">Teljes lista mutatása</button>
+                        <br>
+                        <br>
+
+                        <!-- Table -->
+                        <mat-accordion>
+                          <mat-expansion-panel hideToggle>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel (opened)="panelOpenState = true"
+                                               (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                <b style="color: #3f729b;">Eredmények</b>
+                              </mat-panel-title>
+                              <mat-panel-description>
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <table class="table" >
+                              <thead>
+                                <tr>
+                                  <th scope="col">Eredmény</th>
+                                  <th scope="col">Dátum</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of osszesitettAllamArray">
+                                  <td style="color: #3f729b;font-weight: bold;">{{item.eredmeny | number:'1.0':'en-US' |  spaceDecimal}}</td>
+                                  <td>{{item.date | date: 'yyyy.MM.dd.'}}</td>
+                                  <td>
+                                    <mat-icon style="color: red;"
+                                    (click)=deleteAllamListItem(item)>delete</mat-icon>
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+                       <!-- <mat-list *ngFor="let item of osszesitettAllamArray">
+                          <span class="badge badge-primary z-depth-2"
+                            style="padding: 0.8rem; width: 100%; font-size: small;">
+                            {{item.eredmeny}} ( {{item.date}} )
+                          </span>
+                        </mat-list>-->
+                      </div>
+                      <div class="col-md-8">
+                        <mat-card class="z-depth-2">
+                          <canvas #canvasAllam id="canvasAllam"></canvas>
+                        </mat-card>
+                      </div>
+                    </div>
+
+                  </mat-expansion-panel>
+
+                  <!--Lakossági megtakarítások-->
+                  <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Lakossági megtakarítások
+                      </mat-panel-title>
+                      <mat-panel-description>
+
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <!-- IDe kerül a lista-->
+                    <div class="row">
+                      <div class="col-md-4">
+                        <!--lista-->
+                        <!-- IDe kerül a lista-->
+                        <mat-form-field>
+                          <input #addEredmenyLakossag type="number" min="0" matInput formControlName="eredmenyLakossagCtrl">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input #addEredmenyDateLakossag type="date" matInput formControlName="dateLakossagCtrl">
+                        </mat-form-field>
+                        <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                          lekerdez
+                        </button>-->
+                        <br>
+                        <button mat-raised-button color="primary" (click)="addLakossag()">Hozzáadás
+                        </button>
+                        <hr>
+                        <span>
+                          <br>
+                          <!--Szűrés két dátum között-->
+                          <mat-form-field>
+                            <mat-label>Kereséshez válaszd ki a dátumokat</mat-label>
+                            <mat-date-range-input  [rangePicker]="pickerLakossag">
+                              <input matStartDate placeholder="Kezdő dátum" formControlName="startLakossagDateCtrl">
+                              <input matEndDate placeholder="Végdátum" formControlName="endLakossagDateCtrl">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="pickerLakossag"></mat-datepicker-toggle>
+                            <mat-date-range-picker #pickerLakossag></mat-date-range-picker>
+                          </mat-form-field>
+                        </span>
+                        <br>
+                        <button type="button" mat-stroked-button color="success" (click)="filterLakossagList()">Szűrés</button>
+                        <button type="button" mat-stroked-button color="warn"
+                        style="margin-left: 1rem;" (click)="revertLakossagArray()">Teljes lista mutatása</button>
+                        <br>
+                        <br>
+
+                        <!-- Table -->
+                        <mat-accordion>
+                          <mat-expansion-panel hideToggle>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel (opened)="panelOpenState = true"
+                                               (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                <b style="color: #3f729b;">Eredmények</b>
+                              </mat-panel-title>
+                              <mat-panel-description>
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <table class="table" >
+                              <thead>
+                                <tr>
+                                  <th scope="col">Eredmény</th>
+                                  <th scope="col">Dátum</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of osszesitettLakossagArray">
+                                  <td style="color: #3f729b;font-weight: bold;">{{item.eredmeny | number:'1.0':'en-US' |  spaceDecimal}}</td>
+                                  <td>{{item.date | date: 'yyyy.MM.dd.'}}</td>
+                                  <td>
+                                    <mat-icon style="color: red;"
+                                    (click)=deleteLakossagListItem(item)>delete</mat-icon>
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+                       <!-- <mat-list *ngFor="let item of osszesitettLakossagArray">
+                          <span class="badge badge-primary z-depth-2"
+                            style="padding: 0.8rem; width: 100%; font-size: small;">
+                            {{item.eredmeny}} ( {{item.date}} )
+                          </span>
+                        </mat-list>-->
+                      </div>
+                      <div class="col-md-8">
+                        <mat-card class="z-depth-2">
+                          <canvas #canvasLakossag id="canvasLakossag"></canvas>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+
+                  <!--Inflációs ütem-->
+                  <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Inflációs ütem
+                      </mat-panel-title>
+                      <mat-panel-description>
+
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <!-- IDe kerül a lista-->
+                    <div class="row">
+                      <div class="col-md-4">
+                        <!--lista-->
+                        <!-- IDe kerül a lista-->
+                        <mat-form-field>
+                          <input #addEredmenyInflacio type="number" min="0" matInput formControlName="eredmenyInflacioCtrl">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input #addEredmenyDateInflacio type="date" matInput formControlName="dateInflacioCtrl">
+                        </mat-form-field>
+                        <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                          lekerdez
+                        </button>-->
+                        <br>
+                        <button mat-raised-button color="primary" (click)="addInflacio()">Hozzáadás
+                        </button>
+                        <hr>
+                        <span>
+                          <br>
+                          <!--Szűrés két dátum között-->
+                          <mat-form-field>
+                            <mat-label>Kereséshez válaszd ki a dátumokat</mat-label>
+                            <mat-date-range-input  [rangePicker]="pickerInflacio">
+                              <input matStartDate placeholder="Kezdő dátum" formControlName="startInflacioDateCtrl">
+                              <input matEndDate placeholder="Végdátum" formControlName="endInflacioDateCtrl">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="pickerInflacio"></mat-datepicker-toggle>
+                            <mat-date-range-picker #pickerInflacio></mat-date-range-picker>
+                          </mat-form-field>
+                        </span>
+                        <br>
+                        <button type="button" mat-stroked-button color="success" (click)="filterInflacioList()">Szűrés</button>
+                        <button type="button" mat-stroked-button color="warn"
+                        style="margin-left: 1rem;" (click)="revertInflacioArray()">Teljes lista mutatása</button>
+                        <br>
+                        <br>
+
+                        <!-- Table -->
+                        <mat-accordion>
+                          <mat-expansion-panel hideToggle>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel (opened)="panelOpenState = true"
+                                               (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                <b style="color: #3f729b;">Eredmények</b>
+                              </mat-panel-title>
+                              <mat-panel-description>
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <table class="table" >
+                              <thead>
+                                <tr>
+                                  <th scope="col">Eredmény</th>
+                                  <th scope="col">Dátum</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of osszesitettInflacioArray">
+                                  <td style="color: #3f729b;font-weight: bold;">{{item.eredmeny | number:'1.0':'en-US' |  spaceDecimal}}</td>
+                                  <td>{{item.date | date: 'yyyy.MM.dd.'}}</td>
+                                  <td>
+                                    <mat-icon style="color: red;"
+                                    (click)=deleteInflacioListItem(item)>delete</mat-icon>
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+                       <!-- <mat-list *ngFor="let item of osszesitettInflacioArray">
+                          <span class="badge badge-primary z-depth-2"
+                            style="padding: 0.8rem; width: 100%; font-size: small;">
+                            {{item.eredmeny}} ( {{item.date}} )
+                          </span>
+                        </mat-list>-->
+                      </div>
+                      <div class="col-md-8">
+                        <mat-card class="z-depth-2">
+                          <canvas #canvasInflacio id="canvasInflacio"></canvas>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+
+                  <!--Munkanélküliségi ráta-->
+                  <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Munkanélküliségi ráta
+                      </mat-panel-title>
+                      <mat-panel-description>
+
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <!-- IDe kerül a lista-->
+                    <div class="row">
+                      <div class="col-md-4">
+                        <!--lista-->
+                        <!-- IDe kerül a lista-->
+                        <mat-form-field>
+                          <input #addEredmenyMunkanelkuli type="number" min="0" matInput formControlName="eredmenyMunkanelkuliCtrl">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input #addEredmenyDateMunkanelkuli type="date" matInput formControlName="dateMunkanelkuliCtrl">
+                        </mat-form-field>
+                        <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                          lekerdez
+                        </button>-->
+                        <br>
+                        <button mat-raised-button color="primary" (click)="addMunkanelkuli()">Hozzáadás
+                        </button>
+                        <hr>
+                        <span>
+                          <br>
+                          <!--Szűrés két dátum között-->
+                          <mat-form-field>
+                            <mat-label>Kereséshez válaszd ki a dátumokat</mat-label>
+                            <mat-date-range-input  [rangePicker]="pickerMunkanelkuli">
+                              <input matStartDate placeholder="Kezdő dátum" formControlName="startMunkanelkuliDateCtrl">
+                              <input matEndDate placeholder="Végdátum" formControlName="endMunkanelkuliDateCtrl">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="pickerMunkanelkuli"></mat-datepicker-toggle>
+                            <mat-date-range-picker #pickerMunkanelkuli></mat-date-range-picker>
+                          </mat-form-field>
+                        </span>
+                        <br>
+                        <button type="button" mat-stroked-button color="success" (click)="filterMunkanelkuliList()">Szűrés</button>
+                        <button type="button" mat-stroked-button color="warn"
+                        style="margin-left: 1rem;" (click)="revertMunkanelkuliArray()">Teljes lista mutatása</button>
+                        <br>
+                        <br>
+
+                        <!-- Table -->
+                        <mat-accordion>
+                          <mat-expansion-panel hideToggle>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel (opened)="panelOpenState = true"
+                                               (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                <b style="color: #3f729b;">Eredmények</b>
+                              </mat-panel-title>
+                              <mat-panel-description>
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <table class="table" >
+                              <thead>
+                                <tr>
+                                  <th scope="col">Eredmény</th>
+                                  <th scope="col">Dátum</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of osszesitettMunkanelkuliArray">
+                                  <td style="color: #3f729b;font-weight: bold;">{{item.eredmeny | number:'1.0':'en-US' |  spaceDecimal}}</td>
+                                  <td>{{item.date | date: 'yyyy.MM.dd.'}}</td>
+                                  <td>
+                                    <mat-icon style="color: red;"
+                                    (click)=deleteMunkanelkuliListItem(item)>delete</mat-icon>
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+                       <!-- <mat-list *ngFor="let item of osszesitettMunkanelkuliArray">
+                          <span class="badge badge-primary z-depth-2"
+                            style="padding: 0.8rem; width: 100%; font-size: small;">
+                            {{item.eredmeny}} ( {{item.date}} )
+                          </span>
+                        </mat-list>-->
+                      </div>
+                      <div class="col-md-8">
+                        <mat-card class="z-depth-2">
+                          <canvas #canvasMunkanelkuli id="canvasMunkanelkuli"></canvas>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+
+                  <!--Bérnövekedés-->
+                  <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Bérnövekedés
+                      </mat-panel-title>
+                      <mat-panel-description>
+
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <!-- IDe kerül a lista-->
+                    <div class="row">
+                      <div class="col-md-4">
+                        <!--lista-->
+                        <!-- IDe kerül a lista-->
+                        <mat-form-field>
+                          <input #addEredmenyBernovekedes type="number" min="0" matInput formControlName="eredmenyBernovekedesCtrl">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input #addEredmenyDateBernovekedes type="date" matInput formControlName="dateBernovekedesCtrl">
+                        </mat-form-field>
+                        <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                          lekerdez
+                        </button>-->
+                        <br>
+                        <button mat-raised-button color="primary" (click)="addBernovekedes()">Hozzáadás
+                        </button>
+                        <hr>
+                        <span>
+                          <br>
+                          <!--Szűrés két dátum között-->
+                          <mat-form-field>
+                            <mat-label>Kereséshez válaszd ki a dátumokat</mat-label>
+                            <mat-date-range-input  [rangePicker]="pickerBernovekedes">
+                              <input matStartDate placeholder="Kezdő dátum" formControlName="startBernovekedesDateCtrl">
+                              <input matEndDate placeholder="Végdátum" formControlName="endBernovekedesDateCtrl">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="pickerBernovekedes"></mat-datepicker-toggle>
+                            <mat-date-range-picker #pickerBernovekedes></mat-date-range-picker>
+                          </mat-form-field>
+                        </span>
+                        <br>
+                        <button type="button" mat-stroked-button color="success" (click)="filterBernovekedesList()">Szűrés</button>
+                        <button type="button" mat-stroked-button color="warn"
+                        style="margin-left: 1rem;" (click)="revertBernovekedesArray()">Teljes lista mutatása</button>
+                        <br>
+                        <br>
+
+                        <!-- Table -->
+                        <mat-accordion>
+                          <mat-expansion-panel hideToggle>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel (opened)="panelOpenState = true"
+                                               (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                <b style="color: #3f729b;">Eredmények</b>
+                              </mat-panel-title>
+                              <mat-panel-description>
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <table class="table" >
+                              <thead>
+                                <tr>
+                                  <th scope="col">Eredmény</th>
+                                  <th scope="col">Dátum</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of osszesitettBernovekedesArray">
+                                  <td style="color: #3f729b;font-weight: bold;">{{item.eredmeny | number:'1.0':'en-US' |  spaceDecimal}}</td>
+                                  <td>{{item.date | date: 'yyyy.MM.dd.'}}</td>
+                                  <td>
+                                    <mat-icon style="color: red;"
+                                    (click)=deleteBernovekedesListItem(item)>delete</mat-icon>
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+                       <!-- <mat-list *ngFor="let item of osszesitettBernovekedesArray">
+                          <span class="badge badge-primary z-depth-2"
+                            style="padding: 0.8rem; width: 100%; font-size: small;">
+                            {{item.eredmeny}} ( {{item.date}} )
+                          </span>
+                        </mat-list>-->
+                      </div>
+                      <div class="col-md-8">
+                        <mat-card class="z-depth-2">
+                          <canvas #canvasBernovekedes id="canvasBernovekedes"></canvas>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+
+                  <!--Fogyasztói bizalom-->
+                  <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Fogyasztói bizalom
+                      </mat-panel-title>
+                      <mat-panel-description>
+
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <!-- IDe kerül a lista-->
+                    <div class="row">
+                      <div class="col-md-4">
+                        <!--lista-->
+                        <!-- IDe kerül a lista-->
+                        <mat-form-field>
+                          <input #addEredmenyFogyaszto type="number" min="0" matInput formControlName="eredmenyFogyasztoCtrl">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input #addEredmenyDateFogyaszto type="date" matInput formControlName="dateFogyasztoCtrl">
+                        </mat-form-field>
+                        <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                          lekerdez
+                        </button>-->
+                        <br>
+                        <button mat-raised-button color="primary" (click)="addFogyaszto()">Hozzáadás
+                        </button>
+                        <hr>
+                        <span>
+                          <br>
+                          <!--Szűrés két dátum között-->
+                          <mat-form-field>
+                            <mat-label>Kereséshez válaszd ki a dátumokat</mat-label>
+                            <mat-date-range-input  [rangePicker]="pickerFogyaszto">
+                              <input matStartDate placeholder="Kezdő dátum" formControlName="startFogyasztoDateCtrl">
+                              <input matEndDate placeholder="Végdátum" formControlName="endFogyasztoDateCtrl">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="pickerFogyaszto"></mat-datepicker-toggle>
+                            <mat-date-range-picker #pickerFogyaszto></mat-date-range-picker>
+                          </mat-form-field>
+                        </span>
+                        <br>
+                        <button type="button" mat-stroked-button color="success" (click)="filterFogyasztoList()">Szűrés</button>
+                        <button type="button" mat-stroked-button color="warn"
+                        style="margin-left: 1rem;" (click)="revertFogyasztoArray()">Teljes lista mutatása</button>
+                        <br>
+                        <br>
+
+                        <!-- Table -->
+                        <mat-accordion>
+                          <mat-expansion-panel hideToggle>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel (opened)="panelOpenState = true"
+                                               (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                <b style="color: #3f729b;">Eredmények</b>
+                              </mat-panel-title>
+                              <mat-panel-description>
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <table class="table" >
+                              <thead>
+                                <tr>
+                                  <th scope="col">Eredmény</th>
+                                  <th scope="col">Dátum</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of osszesitettFogyasztoArray">
+                                  <td style="color: #3f729b;font-weight: bold;">{{item.eredmeny | number:'1.0':'en-US' |  spaceDecimal}}</td>
+                                  <td>{{item.date | date: 'yyyy.MM.dd.'}}</td>
+                                  <td>
+                                    <mat-icon style="color: red;"
+                                    (click)=deleteFogyasztoListItem(item)>delete</mat-icon>
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+                       <!-- <mat-list *ngFor="let item of osszesitettFogyasztoArray">
+                          <span class="badge badge-primary z-depth-2"
+                            style="padding: 0.8rem; width: 100%; font-size: small;">
+                            {{item.eredmeny}} ( {{item.date}} )
+                          </span>
+                        </mat-list>-->
+                      </div>
+                      <div class="col-md-8">
+                        <mat-card class="z-depth-2">
+                          <canvas #canvasFogyaszto id="canvasFogyaszto"></canvas>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+
+                  <!--Nyersolaj ára-->
+                  <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Nyersolaj ára
+                      </mat-panel-title>
+                      <mat-panel-description>
+
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <!-- IDe kerül a lista-->
+                    <div class="row">
+                      <div class="col-md-4">
+                        <!--lista-->
+                        <!-- IDe kerül a lista-->
+                        <mat-form-field>
+                          <input #addEredmenyNyersolaj type="number" min="0" matInput formControlName="eredmenyNyersolajCtrl">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input #addEredmenyDateNyersolaj type="date" matInput formControlName="dateNyersolajCtrl">
+                        </mat-form-field>
+                        <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                          lekerdez
+                        </button>-->
+                        <br>
+                        <button mat-raised-button color="primary" (click)="addNyersolaj()">Hozzáadás
+                        </button>
+                        <hr>
+                        <span>
+                          <br>
+                          <!--Szűrés két dátum között-->
+                          <mat-form-field>
+                            <mat-label>Kereséshez válaszd ki a dátumokat</mat-label>
+                            <mat-date-range-input  [rangePicker]="pickerNyersolaj">
+                              <input matStartDate placeholder="Kezdő dátum" formControlName="startNyersolajDateCtrl">
+                              <input matEndDate placeholder="Végdátum" formControlName="endNyersolajDateCtrl">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="pickerNyersolaj"></mat-datepicker-toggle>
+                            <mat-date-range-picker #pickerNyersolaj></mat-date-range-picker>
+                          </mat-form-field>
+                        </span>
+                        <br>
+                        <button type="button" mat-stroked-button color="success" (click)="filterNyersolajList()">Szűrés</button>
+                        <button type="button" mat-stroked-button color="warn"
+                        style="margin-left: 1rem;" (click)="revertNyersolajArray()">Teljes lista mutatása</button>
+                        <br>
+                        <br>
+
+                        <!-- Table -->
+                        <mat-accordion>
+                          <mat-expansion-panel hideToggle>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel (opened)="panelOpenState = true"
+                                               (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                <b style="color: #3f729b;">Eredmények</b>
+                              </mat-panel-title>
+                              <mat-panel-description>
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <table class="table" >
+                              <thead>
+                                <tr>
+                                  <th scope="col">Eredmény</th>
+                                  <th scope="col">Dátum</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of osszesitettNyersolajArray">
+                                  <td style="color: #3f729b;font-weight: bold;">{{item.eredmeny | number:'1.0':'en-US' |  spaceDecimal}}</td>
+                                  <td>{{item.date | date: 'yyyy.MM.dd.'}}</td>
+                                  <td>
+                                    <mat-icon style="color: red;"
+                                    (click)=deleteNyersolajListItem(item)>delete</mat-icon>
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+                       <!-- <mat-list *ngFor="let item of osszesitettNyersolajArray">
+                          <span class="badge badge-primary z-depth-2"
+                            style="padding: 0.8rem; width: 100%; font-size: small;">
+                            {{item.eredmeny}} ( {{item.date}} )
+                          </span>
+                        </mat-list>-->
+                      </div>
+                      <div class="col-md-8">
+                        <mat-card class="z-depth-2">
+                          <canvas #canvasNyersolaj id="canvasNyersolaj"></canvas>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+
+                </mat-accordion>
+              </mat-tab>
+            </mat-tab-group>
+            <br>
+            <div>
+              <button mat-raised-button color="primary" matStepperNext>Tovább</button>
+            </div>
+          </form>
+        </mat-step>
+
+        <!-- Stratégia meghatározás -->
+        <mat-step [stepControl]="stratMeghatarozasFormGroup">
+          <form [formGroup]="stratMeghatarozasFormGroup">
+            <ng-template matStepLabel>Stratégia meghatározása</ng-template>
+            <br>
+            <span class="badge badge-pill badge-primary z-depth-2" style="padding: 0.8rem; width: 100%">
+              A gazdasági állapot alapján a stratégia kiválasztása
+            </span>
+            <br>
+            <br>
+            <mat-form-field>
+              <mat-label>Stratégia</mat-label>
+              <mat-select required formControlName="strategiaTipusaCtrl"
+              (selectionChange)="selectedStrategy($event)">
+                <mat-option *ngFor="let strategia of strategiak" [value]="strategia">
+                  {{strategia}}
+                </mat-option>
+              </mat-select>
+              <mat-hint align="end">Válasszon egy stratégiát a listából</mat-hint>
+            </mat-form-field>
+            <button mat-mini-fab color="primary" (click)="redirectStrategy()"
+            style="outline: none;">
+              <mat-icon>read_more</mat-icon>
+            </button>
+            <br>
+            <br>
+            <span style="font-weight: italic;color: #3f729b">További információ</span>
+            <br>
+            <br>
+            <div>
+              <button mat-raised-button color="primary" matStepperNext>Tovább</button>
+            </div>
+          </form>
+        </mat-step>
+
+        <mat-step [stepControl]="agazatiElemzesFormGroup">
+          <form [formGroup]="agazatiElemzesFormGroup">
+            <ng-template matStepLabel>Ágazati elemzés</ng-template>
+            <br>
+            <span class="badge badge-pill badge-primary z-depth-2" style="padding: 0.8rem; width: 100%">Szektor (ágazat)
+              elemzése</span>
+            <br>
+            <br>
+            <!-- listák-->
+            <mat-accordion>
+              <!-- basic material-->
+              <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Alapanyaggyártó cégek (Basic Material)
+                  </mat-panel-title>
+                  <mat-panel-description>
+
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- IDe kerül a lista-->
+                <div class="row">
+                  <div class="col-md-4">
+                    <!--lista-->
+                    <!-- IDe kerül a lista-->
+                    <button mat-raised-button color="primary" (click)="addBasicMaterial()">Hozzáadás
+                    </button>
+                    <mat-form-field>
+                      <input #addTeljesitmenyBasicMaterial type="number" min="0" matInput
+                        formControlName="basicMaterialTeljesitmenyCtrl" placeholder="Teljesítmény">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPEBasicMaterial type="number" matInput formControlName="basicMaterialPECtrl"
+                        placeholder="P/E mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPBBasicMaterial type="number" matInput formControlName="basicMaterialPBCtrl"
+                        placeholder="P/B mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addBasicDate type="date" matInput formControlName="basicDateCtrl">
+                    </mat-form-field>
+
+                    <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                      lekerdez
+                    </button>-->
+                    <br>
+                    <hr>
+                    <mat-list *ngFor="let item of osszesitettBasicMaterialArray">
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        Teljesítmény: {{item.teljesitmeny}} ( {{item.date}} )
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/E mutató: {{item.PE}}
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/B mutató: {{item.PB}}
+                      </span>
+                    </mat-list>
+                  </div>
+                  <div class="col-md-8">
+                    <mat-card class="z-depth-2">
+                      <canvas #canvasBasicMaterial id="canvasBasicMaterial"></canvas>
+                    </mat-card>
+                  </div>
+                </div>
+
+              </mat-expansion-panel>
+              <!--energy-->
+              <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Energia szektor (Energy)
+                  </mat-panel-title>
+                  <mat-panel-description>
+
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- IDe kerül a lista-->
+                <!-- IDe kerül a lista-->
+                <div class="row">
+                  <div class="col-md-4">
+                    <!--lista-->
+                    <!-- IDe kerül a lista-->
+                    <button mat-raised-button color="primary" (click)="addEnergy()">Hozzáadás
+                    </button>
+                    <mat-form-field>
+                      <input #addTeljesitmenyEnergy type="number" min="0" matInput
+                        formControlName="energyTeljesitmenyCtrl" placeholder="Teljesítmény">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPEEnergy type="number" matInput formControlName="energyPECtrl"
+                        placeholder="P/E mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPBEnergy type="number" matInput formControlName="energyPBCtrl"
+                        placeholder="P/B mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addEnergyDate type="date" matInput formControlName="energyDateCtrl">
+                    </mat-form-field>
+
+                    <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                      lekerdez
+                    </button>-->
+                    <br>
+                    <hr>
+                    <mat-list *ngFor="let item of osszesitettEnergyArray">
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        Teljesítmény: {{item.teljesitmeny}} ( {{item.date}} )
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/E mutató: {{item.PE}}
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/B mutató: {{item.PB}}
+                      </span>
+                    </mat-list>
+                  </div>
+                  <div class="col-md-8">
+                    <mat-card class="z-depth-2">
+                      <canvas #canvasEnergy id="canvasEnergy"></canvas>
+                    </mat-card>
+                  </div>
+                </div>
+
+              </mat-expansion-panel>
+              <!--industrial goods-->
+              <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Ipari termelési szektor (Industrial goods)
+                  </mat-panel-title>
+                  <mat-panel-description>
+
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- IDe kerül a lista-->
+                <div class="row">
+                  <div class="col-md-4">
+                    <!--lista-->
+                    <!-- IDe kerül a lista-->
+                    <button mat-raised-button color="primary" (click)="addIndustrial()">Hozzáadás
+                    </button>
+                    <mat-form-field>
+                      <input #addTeljesitmenyIndustrial type="number" min="0" matInput
+                        formControlName="industrialTeljesitmenyCtrl" placeholder="Teljesítmény">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPEIndustrial type="number" matInput formControlName="industrialPECtrl"
+                        placeholder="P/E mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPBIndustrial type="number" matInput formControlName="industrialPBCtrl"
+                        placeholder="P/B mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addIndustrialDate type="date" matInput formControlName="industrialDateCtrl">
+                    </mat-form-field>
+
+                    <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                      lekerdez
+                    </button>-->
+                    <br>
+                    <hr>
+                    <mat-list *ngFor="let item of osszesitettIndustrialArray">
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        Teljesítmény: {{item.teljesitmeny}} ( {{item.date}} )
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/E mutató: {{item.PE}}
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/B mutató: {{item.PB}}
+                      </span>
+                    </mat-list>
+                  </div>
+                  <div class="col-md-8">
+                    <mat-card class="z-depth-2">
+                      <canvas #canvasIndustrial id="canvasIndustrial"></canvas>
+                    </mat-card>
+                  </div>
+                </div>
+
+              </mat-expansion-panel>
+              <!-- Technology-->
+              <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Technológiai szektor (Technology)
+                  </mat-panel-title>
+                  <mat-panel-description>
+
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- IDe kerül a lista-->
+                <div class="row">
+                  <div class="col-md-4">
+                    <!--lista-->
+                    <!-- IDe kerül a lista-->
+                    <button mat-raised-button color="primary" (click)="addTechnology()">Hozzáadás
+                    </button>
+                    <mat-form-field>
+                      <input #addTeljesitmenyTechnology type="number" min="0" matInput
+                        formControlName="technologyTeljesitmenyCtrl" placeholder="Teljesítmény">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPETechnology type="number" matInput formControlName="technologyPECtrl"
+                        placeholder="P/E mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPBTechnology type="number" matInput formControlName="technologyPBCtrl"
+                        placeholder="P/B mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addTechnologyDate type="date" matInput formControlName="technologyDateCtrl">
+                    </mat-form-field>
+
+                    <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                      lekerdez
+                    </button>-->
+                    <br>
+                    <hr>
+                    <mat-list *ngFor="let item of osszesitettTechnologyArray">
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        Teljesítmény: {{item.teljesitmeny}} ( {{item.date}} )
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/E mutató: {{item.PE}}
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/B mutató: {{item.PB}}
+                      </span>
+                    </mat-list>
+                  </div>
+                  <div class="col-md-8">
+                    <mat-card class="z-depth-2">
+                      <canvas #canvasTechnology id="canvasTechnology"></canvas>
+                    </mat-card>
+                  </div>
+                </div>
+
+              </mat-expansion-panel>
+              <!--consumer cyclical-->
+              <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Ciklikus fogyasztási javak (Consumer cyclical)
+                  </mat-panel-title>
+                  <mat-panel-description>
+
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- IDe kerül a lista-->
+                <div class="row">
+                  <div class="col-md-4">
+                    <!--lista-->
+                    <!-- IDe kerül a lista-->
+                    <button mat-raised-button color="primary" (click)="addConsumer()">Hozzáadás
+                    </button>
+                    <mat-form-field>
+                      <input #addTeljesitmenyConsumer type="number" min="0" matInput
+                        formControlName="consumerTeljesitmenyCtrl" placeholder="Teljesítmény">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPEConsumer type="number" matInput formControlName="consumerPECtrl"
+                        placeholder="P/E mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPBConsumer type="number" matInput formControlName="consumerPBCtrl"
+                        placeholder="P/B mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addConsumerDate type="date" matInput formControlName="consumerDateCtrl">
+                    </mat-form-field>
+
+                    <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+                      lekerdez
+                    </button>-->
+                    <br>
+                    <hr>
+                    <mat-list *ngFor="let item of osszesitettConsumerArray">
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        Teljesítmény: {{item.teljesitmeny}} ( {{item.date}} )
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/E mutató: {{item.PE}}
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/B mutató: {{item.PB}}
+                      </span>
+                    </mat-list>
+                  </div>
+                  <div class="col-md-8">
+                    <mat-card class="z-depth-2">
+                      <canvas #canvasConsumer id="canvasConsumer"></canvas>
+                    </mat-card>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+              <!--Communication services-->
+              <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Kommunikációs szolgáltatások (Communication services )
+                  </mat-panel-title>
+                  <mat-panel-description>
+
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- IDe kerül a lista-->
+                <div class="row">
+                  <div class="col-md-4">
+                    <!--lista-->
+                    <!-- IDe kerül a lista-->
+                    <button mat-raised-button color="primary" (click)="addCommunication()">Hozzáadás
+                    </button>
+                    <mat-form-field>
+                      <input #addTeljesitmenyCommunication type="number" min="0" matInput
+                        formControlName="communicationTeljesitmenyCtrl" placeholder="Teljesítmény">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPECommunication type="number" matInput formControlName="communicationPECtrl"
+                        placeholder="P/E mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPBCommunication type="number" matInput formControlName="communicationPBCtrl"
+                        placeholder="P/B mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addCommunicationDate type="date" matInput formControlName="communicationDateCtrl">
+                    </mat-form-field>
+
+                    <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+      lekerdez
+    </button>-->
+                    <br>
+                    <hr>
+                    <mat-list *ngFor="let item of osszesitettCommunicationArray">
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        Teljesítmény: {{item.teljesitmeny}} ( {{item.date}} )
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/E mutató: {{item.PE}}
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/B mutató: {{item.PB}}
+                      </span>
+                    </mat-list>
+                  </div>
+                  <div class="col-md-8">
+                    <mat-card class="z-depth-2">
+                      <canvas #canvasCommunication id="canvasCommunication"></canvas>
+                    </mat-card>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+              <!--Real estate-->
+              <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Ingatlan ( Real estate)
+                  </mat-panel-title>
+                  <mat-panel-description>
+
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- IDe kerül a lista-->
+                <div class="row">
+                  <div class="col-md-4">
+                    <!--lista-->
+                    <!-- IDe kerül a lista-->
+                    <button mat-raised-button color="primary" (click)="addReal()">Hozzáadás
+                    </button>
+                    <mat-form-field>
+                      <input #addTeljesitmenyReal type="number" min="0" matInput formControlName="realTeljesitmenyCtrl"
+                        placeholder="Teljesítmény">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPEReal type="number" matInput formControlName="realPECtrl" placeholder="P/E mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPBReal type="number" matInput formControlName="realPBCtrl" placeholder="P/B mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addRealDate type="date" matInput formControlName="realDateCtrl">
+                    </mat-form-field>
+
+                    <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+      lekerdez
+    </button>-->
+                    <br>
+                    <hr>
+                    <mat-list *ngFor="let item of osszesitettRealArray">
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        Teljesítmény: {{item.teljesitmeny}} ( {{item.date}} )
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/E mutató: {{item.PE}}
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/B mutató: {{item.PB}}
+                      </span>
+                    </mat-list>
+                  </div>
+                  <div class="col-md-8">
+                    <mat-card class="z-depth-2">
+                      <canvas #canvasReal id="canvasReal"></canvas>
+                    </mat-card>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+              <!--Healthcare-->
+              <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Egészségügyi szolgáltatás (Healthcare)
+                  </mat-panel-title>
+                  <mat-panel-description>
+
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- IDe kerül a lista-->
+                <div class="row">
+                  <div class="col-md-4">
+                    <!--lista-->
+                    <!-- IDe kerül a lista-->
+                    <button mat-raised-button color="primary" (click)="addHealth()">Hozzáadás
+                    </button>
+                    <mat-form-field>
+                      <input #addTeljesitmenyHealth type="number" min="0" matInput
+                        formControlName="healthTeljesitmenyCtrl" placeholder="Teljesítmény">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPEHealth type="number" matInput formControlName="healthPECtrl"
+                        placeholder="P/E mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPBHealth type="number" matInput formControlName="healthPBCtrl"
+                        placeholder="P/B mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addHealthDate type="date" matInput formControlName="healthDateCtrl">
+                    </mat-form-field>
+
+                    <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+      lekerdez
+    </button>-->
+                    <br>
+                    <hr>
+                    <mat-list *ngFor="let item of osszesitettHealthArray">
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        Teljesítmény: {{item.teljesitmeny}} ( {{item.date}} )
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/E mutató: {{item.PE}}
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/B mutató: {{item.PB}}
+                      </span>
+                    </mat-list>
+                  </div>
+                  <div class="col-md-8">
+                    <mat-card class="z-depth-2">
+                      <canvas #canvasHealth id="canvasHealth"></canvas>
+                    </mat-card>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+              <!-- Utilities-->
+              <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Közszolgáltatás/Segédprogramok ( Utilities)
+                  </mat-panel-title>
+                  <mat-panel-description>
+
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- IDe kerül a lista-->
+                <div class="row">
+                  <div class="col-md-4">
+                    <!--lista-->
+                    <!-- IDe kerül a lista-->
+                    <button mat-raised-button color="primary" (click)="addUtilities()">Hozzáadás
+                    </button>
+                    <mat-form-field>
+                      <input #addTeljesitmenyUtilities type="number" min="0" matInput
+                        formControlName="utilitiesTeljesitmenyCtrl" placeholder="Teljesítmény">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPEUtilities type="number" matInput formControlName="utilitiesPECtrl"
+                        placeholder="P/E mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPBUtilities type="number" matInput formControlName="utilitiesPBCtrl"
+                        placeholder="P/B mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addUtilitiesDate type="date" matInput formControlName="utilitiesDateCtrl">
+                    </mat-form-field>
+
+                    <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+      lekerdez
+    </button>-->
+                    <br>
+                    <hr>
+                    <mat-list *ngFor="let item of osszesitettUtilitiesArray">
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        Teljesítmény: {{item.teljesitmeny}} ( {{item.date}} )
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/E mutató: {{item.PE}}
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/B mutató: {{item.PB}}
+                      </span>
+                    </mat-list>
+                  </div>
+                  <div class="col-md-8">
+                    <mat-card class="z-depth-2">
+                      <canvas #canvasUtilities id="canvasUtilities"></canvas>
+                    </mat-card>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+              <!-- Financial service-->
+              <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Pénzügyi szolgálgatások (Financial service)
+                  </mat-panel-title>
+                  <mat-panel-description>
+
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- IDe kerül a lista-->
+                <div class="row">
+                  <div class="col-md-4">
+                    <!--lista-->
+                    <!-- IDe kerül a lista-->
+                    <button mat-raised-button color="primary" (click)="addFinancial()">Hozzáadás
+                    </button>
+                    <mat-form-field>
+                      <input #addTeljesitmenyFinancial type="number" min="0" matInput
+                        formControlName="financialTeljesitmenyCtrl" placeholder="Teljesítmény">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPEFinancial type="number" matInput formControlName="financialPECtrl"
+                        placeholder="P/E mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPBFinancial type="number" matInput formControlName="financialPBCtrl"
+                        placeholder="P/B mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addFinancialDate type="date" matInput formControlName="financialDateCtrl">
+                    </mat-form-field>
+
+                    <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+      lekerdez
+    </button>-->
+                    <br>
+                    <hr>
+                    <mat-list *ngFor="let item of osszesitettFinancialArray">
+                      <span class="badge badge-primary z-depth-2"
+                      style="padding: 0.8rem; width: 100%; font-size: small;">
+                      Teljesítmény: {{item.teljesitmeny}} ( {{item.date}} )
+                    </span>
+                    <span class="badge badge-primary z-depth-2"
+                      style="padding: 0.8rem; width: 100%; font-size: small;">
+                      P/E mutató: {{item.PE}}
+                    </span>
+                    <span class="badge badge-primary z-depth-2"
+                      style="padding: 0.8rem; width: 100%; font-size: small;">
+                      P/B mutató: {{item.PB}}
+                    </span>
+                    </mat-list>
+                  </div>
+                  <div class="col-md-8">
+                    <mat-card class="z-depth-2">
+                      <canvas #canvasFinancial id="canvasFinancial"></canvas>
+                    </mat-card>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+              <!--consumer defensive-->
+              <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Védekező fogyasztási javak (Consumer defensive)
+                  </mat-panel-title>
+                  <mat-panel-description>
+
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- IDe kerül a lista-->
+                <div class="row">
+                  <div class="col-md-4">
+                    <!--lista-->
+                    <!-- IDe kerül a lista-->
+                    <button mat-raised-button color="primary" (click)="addDefensive()">Hozzáadás
+                    </button>
+                    <mat-form-field>
+                      <input #addTeljesitmenyDefensive type="number" min="0" matInput
+                        formControlName="defensiveTeljesitmenyCtrl" placeholder="Teljesítmény">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPEDefensive type="number" matInput formControlName="defensivePECtrl"
+                        placeholder="P/E mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addPBDefensive type="number" matInput formControlName="defensivePBCtrl"
+                        placeholder="P/B mutató">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input #addDefensiveDate type="date" matInput formControlName="defensiveDateCtrl">
+                    </mat-form-field>
+
+                    <!--<button mat-raised-button color="warning" (click)="getGazdAdatok()">
+      lekerdez
+    </button>-->
+                    <br>
+                    <hr>
+                    <mat-list *ngFor="let item of osszesitettDefensiveArray">
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        Teljesítmény: {{item.teljesitmeny}} ( {{item.date}} )
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/E mutató: {{item.PE}}
+                      </span>
+                      <span class="badge badge-primary z-depth-2"
+                        style="padding: 0.8rem; width: 100%; font-size: small;">
+                        P/B mutató: {{item.PB}}
+                      </span>
+                    </mat-list>
+                  </div>
+                  <div class="col-md-8">
+                    <mat-card class="z-depth-2">
+                      <canvas #canvasDefensive id="canvasDefensive"></canvas>
+                    </mat-card>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+            <br>
+            <div>
+              <button mat-raised-button color="primary" matStepperNext>Tovább</button>
+            </div>
+          </form>
+        </mat-step>
+
+        <mat-step [stepControl]="reszvenyKivalasztasFormGroup">
+          <form [formGroup]="reszvenyKivalasztasFormGroup">
+            <ng-template matStepLabel>Részvény kiválasztás</ng-template>
+            <button mat-raised-button color="primary" (click)="addReszveny()">
+              új megadása
+            </button>
+            <br>
+                  <mat-form-field>
+                    <mat-select required formControlName="reszvenySzuresCtrl"
+                    (selectionChange)="selectedReszvenySzures($event)">
+                      <mat-option *ngFor="let strategia of strategiak" [value]="strategia">
+                        {{strategia}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint align="end">Részvény szűrése</mat-hint>
+                  </mat-form-field>
+            <button mat-mini-fab color="primary" (click)="redirectReszvenySzures()"
+            style="outline: none;">
+              <mat-icon>read_more</mat-icon>
+            </button>
+            <br>
+            <br>
+
+            <table class="table table-bordered z-depth-2" formArrayName="tableRowsReszveny">
+              <thead>
+                <tr class="mat-header-row">
+                  <th class="mat-header-cell">Vállalat neve</th>
+                  <th class="mat-header-cell">Ticker</th>
+                  <th class="mat-header-cell">Utolsó 1 év hozama</th>
+                  <th class="mat-header-cell">Részvény P/BV</th>
+                  <th class="mat-header-cell">EPS utolsó 5 év</th>
+                  <th class="mat-header-cell">Ágazat</th>
+                  <th class="mat-header-cell">Ipar</th>
+                  <th class="mat-header-cell">Kapitalizáció</th>
+                  <th class="mat-header-cell">Ország</th>
+                  <th class="mat-header-cell">Kész</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of getTableControlsReszvenyKivalasztas();let i = index;" [formGroupName]="i"
+                  class="mat-row">
+                  <td>
+                    <mat-form-field style="width: 5rem;">
+                      <input style="width: 98%;" type="text" matInput formControlName="vallalatNeveCtrl" placeholder="">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field style="width: 5rem;">
+                      <input type="text" matInput formControlName="tickerCtrl" placeholder="">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field style="width: 5rem;">
+                      <input type="number" matInput formControlName="utolsoHozamCtrl" placeholder="">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field style="width: 5rem;">
+                      <input type="number" matInput formControlName="reszvenyCtrl" placeholder="">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field style="width: 5rem;">
+                      <input type="number" matInput formControlName="epsCtrl" placeholder="">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field style="width: 5rem;">
+                      <input type="text" matInput formControlName="agazatCtrl" placeholder="">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field style="width: 5rem;">
+                      <input type="text" matInput formControlName="iparCtrl" placeholder="">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field style="width: 5rem;">
+                      <input type="text" matInput formControlName="kapitalizacioCtrl" placeholder="">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field style="width: 5rem;">
+                      <input type="text" matInput formControlName="orszagCtrl" placeholder="">
+                    </mat-form-field>
+                  </td>
+                  <td style="text-align: center; vertical-align: middle">
+                    <mat-checkbox color="primary" formControlName="readyCtrl">
+                   </mat-checkbox>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+
+  </div>
+</div>

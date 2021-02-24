@@ -1,0 +1,86 @@
+table {
+    width: 95%;
+    margin-left: 1rem;
+    margin-right: 2rem;
+    margin-top: 1rem;
+}
+
+.nextBtn {
+    margin-left: 1rem;
+    background-color: #3F729B;
+    color: white;
+}
+
+.kihagyBtn{
+    margin-left: 1rem;
+    border: 1px solid #CC0000;
+}
+
+.badge-megjegyzes{
+    background-color: #CC0000;
+    color: white;
+    padding: 0.6rem;
+    margin-left: 1rem;
+}
+
+.badge-header{
+    padding: 1rem;
+    margin-top:1rem;
+     width:95%;
+     color: #3F729B;
+     font-size: small;
+     margin-left: 1rem;
+     margin-right: 2rem;
+     text-transform: uppercase;
+}
+
+table th {
+    text-align: center;
+}
+
+
+.utasitas {
+    width: 25%;
+    margin-right: 1rem;
+}
+
+.mat-card {
+    margin-top: 2%;
+    width: 95%;
+    margin-left: 1rem;
+    margin-right: 2rem;
+    text-align: center;
+    color: #3F729B;
+    font-weight: bold;
+}
+
+.rb1{
+    margin-right: 1rem;
+    margin-left: 0.5rem;
+}
+.mat-radio-group{
+    vertical-align: middle;
+}
+
+.mat-header-cell{
+    text-align: center;
+}
+
+#fokozott .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+#fokozott:hover .tooltiptext{
+  visibility: visible;
+}
+
+a mat-icon{
+  color: #3F729B;
+}

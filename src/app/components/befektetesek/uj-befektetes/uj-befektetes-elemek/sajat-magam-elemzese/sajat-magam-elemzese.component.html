@@ -1,0 +1,243 @@
+<span class="badge badge-light z-depth-2 badge-header">Ha valamelyik tünetet érezzük magunkon, akkor a feladatokat
+  kötelező elvégezni
+</span>
+<hr>
+<span class="badge badge-pill badge-primary badge-megjegyzes">Ha szükséges, a pontosabb értékeléshez végezze el a
+  javasolt eljárásokat!</span>
+<form [formGroup]="sajatMagamElemzesFormGroup" (ngSubmit)="sajatMagamElemzeseSubmit()">
+  <!--Kihagyás-->
+  <br>
+  <button type="submit" mat-stroked-button color="warn" class="kihagyBtn">Kihagyom</button>
+  <br>
+  <table class="table table-bordered table-hover z-depth-2">
+    <thead>
+      <tr class="mat-header-row">
+        <th class="mat-header-cell">Hangulat</th>
+        <th class="mat-header-cell">Igen/Nem</th>
+        <th class="mat-header-cell" colspan="10">Elvégezve</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 1. sor-->
+      <tr class="mat-row">
+        <td style="margin-right: 2rem;">
+          Fokozott érzelmi hangulat
+        </td>
+        <td class="d-flex justify-content-center">
+          <mat-radio-group formControlName="fokozottCtrl" color="primary">
+            <mat-radio-button class="rb1" value="igen" (change)="radioFokozottIgenChange($event)"></mat-radio-button>
+            <mat-radio-button class="rb2" value="nem" (change)="radioFokozottNemChange($event)"></mat-radio-button>
+          </mat-radio-group>
+        </td>
+        <td *ngFor="let elvegezItem of getFokozottControl(); let i = index;" style="padding-right: 1rem;">
+          <mat-checkbox color="primary" [formControl]="elvegezItem" [disabled]="!$isFokozottElv"></mat-checkbox>
+        </td>
+        <td>
+          <a (click)="redirectToBlogFokozott()">
+            <mat-icon>read_more</mat-icon>
+          </a>
+        </td>
+      </tr>
+
+      <!-- 2. sor-->
+      <tr class="mat-row">
+        <td style="margin-right: 2rem;">
+          Kavargó gondolatok
+        </td>
+        <td class="d-flex justify-content-center">
+          <mat-radio-group formControlName="kavargoCtrl" color="primary">
+            <mat-radio-button class="rb1" value="igen" (change)="radioKavargoIgenChange($event)"></mat-radio-button>
+            <mat-radio-button class="rb2" value="nem" (change)="radioKavargoNemChange($event)"></mat-radio-button>
+          </mat-radio-group>
+        </td>
+        <td *ngFor="let elvegezItem of getKavargoControl(); let i = index;" style="padding-right: 1rem;">
+          <mat-checkbox color="primary" [formControl]="elvegezItem" [disabled]="!$isKavargoElv"></mat-checkbox>
+        </td>
+        <td>
+          <a (click)="redirectToBlogKavargo()" >
+            <mat-icon>read_more</mat-icon>
+          </a>
+        </td>
+      </tr>
+
+      <!-- 3. sor-->
+      <tr class="mat-row" style="margin-right: 2rem;">
+        <td>
+          Indokolatlan rossz érzés, kedvtelenség
+        </td>
+        <td class="d-flex justify-content-center">
+          <mat-radio-group formControlName="indokolatlanCtrl" color="primary">
+            <mat-radio-button class="rb1" value="igen" (change)="radioIndokolatlanIgenChange($event)">
+            </mat-radio-button>
+            <mat-radio-button class="rb2" value="nem" (change)="radioIndokolatlanNemChange($event)"></mat-radio-button>
+          </mat-radio-group>
+        </td>
+        <td *ngFor="let elvegezItem of getIndokolatlanControl(); let i = index;" style="padding-right: 1rem;">
+          <mat-checkbox color="primary" [formControl]="elvegezItem" [disabled]="!$isIndokolatlanElv"></mat-checkbox>
+        </td>
+        <td>
+          <a (click)="redirectToBlogIndokolatlan()" >
+            <mat-icon>read_more</mat-icon>
+          </a>
+        </td>
+      </tr>
+
+      <!-- 4. sor-->
+      <tr class="mat-row" style="margin-right: 2rem;">
+        <td>
+          Kellemetlen események, düh
+        </td>
+        <td class="d-flex justify-content-center">
+          <mat-radio-group formControlName="kellemetlenCtrl" color="primary">
+            <mat-radio-button class="rb1" value="igen" (change)="radioKellemetlenIgenChange($event)"></mat-radio-button>
+            <mat-radio-button class="rb2" value="nem" (change)="radioKellemetlenNemChange($event)"></mat-radio-button>
+          </mat-radio-group>
+        </td>
+        <td *ngFor="let elvegezItem of getKellemetlenControl(); let i = index;" style="padding-right: 1rem;">
+          <mat-checkbox color="primary" [formControl]="elvegezItem" [disabled]="!$isKellemetlenElv"></mat-checkbox>
+        </td>
+        <td>
+          <a (click)="redirectToBlogKellemetlen()">
+            <mat-icon>read_more</mat-icon>
+          </a>
+        </td>
+      </tr>
+
+      <!-- 5. sor-->
+      <tr class="mat-row" style="margin-right: 2rem;">
+        <td>
+          Ellenségesség
+        </td>
+        <td class="d-flex justify-content-center">
+          <mat-radio-group formControlName="ellensegessegCtrl" color="primary">
+            <mat-radio-button class="rb1" value="igen" (change)="radioEllensegessegIgenChange($event)">
+            </mat-radio-button>
+            <mat-radio-button class="rb2" value="nem" (change)="radioEllensegessegNemChange($event)"></mat-radio-button>
+          </mat-radio-group>
+        </td>
+        <td *ngFor="let elvegezItem of getEllensegessegControl(); let i = index;" style="padding-right: 1rem;">
+          <mat-checkbox color="primary" [formControl]="elvegezItem" [disabled]="!$isEllensegessegElv"></mat-checkbox>
+        </td>
+        <td>
+          <a (click)="redirectToBlogEllensegesseg()">
+            <mat-icon>read_more</mat-icon>
+          </a>
+        </td>
+      </tr>
+
+      <!-- 6. sor-->
+      <tr class="mat-row" style="margin-right: 2rem;">
+        <td>
+          Önbizalomhiány
+        </td>
+        <td class="d-flex justify-content-center">
+          <mat-radio-group formControlName="onbizalomCtrl" color="primary">
+            <mat-radio-button class="rb1" value="igen" (change)="radioOnbizalomIgenChange($event)"></mat-radio-button>
+            <mat-radio-button class="rb2" value="nem" (change)="radioOnbizalomNemChange($event)"></mat-radio-button>
+          </mat-radio-group>
+        </td>
+        <td *ngFor="let elvegezItem of getOnbizalomControl(); let i = index;" style="padding-right: 1rem;">
+          <mat-checkbox color="primary" [formControl]="elvegezItem" [disabled]="!$isOnbizalomElv"></mat-checkbox>
+        </td>
+        <td>
+          <a (click)="redirectToBlogOnbizalom()">
+            <mat-icon>read_more</mat-icon>
+          </a>
+        </td>
+      </tr>
+
+      <!-- 7. sor-->
+
+      <tr class="mat-row" style="margin-right: 2rem;">
+        <td>
+          Félelem
+        </td>
+        <td class="d-flex justify-content-center">
+          <mat-radio-group formControlName="felelemCtrl" color="primary">
+            <mat-radio-button class="rb1" value="igen" (change)="radioFelelemIgenChange($event)"></mat-radio-button>
+            <mat-radio-button class="rb2" value="nem" (change)="radioFelelemNemChange($event)"></mat-radio-button>
+          </mat-radio-group>
+        </td>
+        <td *ngFor="let elvegezItem of getFelelemControl(); let i = index;" style="padding-right: 1rem;">
+          <mat-checkbox color="primary" [formControl]="elvegezItem" [disabled]="!$isFelelemElv"></mat-checkbox>
+        </td>
+        <td>
+          <a (click)="redirectToBlogFelelem()">
+            <mat-icon>read_more</mat-icon>
+          </a>
+        </td>
+      </tr>
+
+      <!-- 8. sor-->
+
+      <tr class="mat-row" style="margin-right: 2rem;">
+        <td>
+          Kimerültség
+        </td>
+        <td class="d-flex justify-content-center">
+          <mat-radio-group formControlName="kimerultsegCtrl" color="primary">
+            <mat-radio-button class="rb1" value="igen" (change)="radioKimerultsegIgenChange($event)"></mat-radio-button>
+            <mat-radio-button class="rb2" value="nem" (change)="radioKimerultsegNemChange($event)"></mat-radio-button>
+          </mat-radio-group>
+        </td>
+        <td *ngFor="let elvegezItem of getKimerultsegControl(); let i = index;" style="padding-right: 1rem;">
+          <mat-checkbox color="primary" [formControl]="elvegezItem" [disabled]="!$isKimerultsegElv"></mat-checkbox>
+        </td>
+        <td>
+          <a (click)="redirectToBlogKimerultseg()">
+            <mat-icon>read_more</mat-icon>
+          </a>
+        </td>
+      </tr>
+
+      <!-- 9. sor-->
+
+      <tr class="mat-row" style="margin-right: 2rem;">
+        <td>
+          Introvertáltság(befelé fordultság)
+        </td>
+        <td class="d-flex justify-content-center">
+          <mat-radio-group formControlName="introvertaltCtrl" color="primary">
+            <mat-radio-button class="rb1" value="igen" (change)="radioIntrovertaltIgenChange($event)">
+            </mat-radio-button>
+            <mat-radio-button class="rb2" value="nem" (change)="radioIntrovertaltNemChange($event)"></mat-radio-button>
+          </mat-radio-group>
+        </td>
+        <td *ngFor="let elvegezItem of getIntrovertaltControl(); let i = index;" style="padding-right: 1rem;">
+          <mat-checkbox color="primary" [formControl]="elvegezItem" [disabled]="!$isIntrovertaltElv"></mat-checkbox>
+        </td>
+        <td>
+          <a (click)="redirectToBlogIntrovertalt()">
+            <mat-icon>read_more</mat-icon>
+          </a>
+        </td>
+      </tr>
+
+      <!-- 10- sor-->
+
+      <tr class="mat-row" style="margin-right: 2rem;">
+        <td>
+          Szomorúság
+        </td>
+        <td class="d-flex justify-content-center">
+          <mat-radio-group formControlName="szomorusagCtrl" color="primary">
+            <mat-radio-button class="rb1" value="igen" (change)="radioSzomorusagIgenChange($event)"></mat-radio-button>
+            <mat-radio-button class="rb2" value="nem" (change)="radioSzomorusagNemChange($event)"></mat-radio-button>
+          </mat-radio-group>
+        </td>
+        <td *ngFor="let elvegezItem of getSzomorusagControl(); let i = index;" style="padding-right: 1rem;">
+          <mat-checkbox color="primary" [formControl]="elvegezItem" [disabled]="!$isSzomorusagElv"></mat-checkbox>
+        </td>
+        <td>
+          <a (click)="redirectToBlogSzomorusag()">
+            <mat-icon>read_more</mat-icon>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <button type="submit" mat-raised-button class="nextBtn">Tovább</button>
+  <!-- [disabled]="!sajatMagamElemzesFormGroup.valid"-->
+</form>
+<br>

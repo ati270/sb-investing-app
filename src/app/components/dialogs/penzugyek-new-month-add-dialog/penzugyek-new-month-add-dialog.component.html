@@ -1,0 +1,20 @@
+<div>
+    <span style="color: #3F729B;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: medium;">Hónap megadása</span>
+</div>
+<br>
+<div>
+    <mat-form-field >
+        <mat-label>Hónap kiválasztása</mat-label>
+        <mat-select #val>
+            <mat-option *ngFor="let ho of maradekHonapok" [value]="ho">
+                {{ho}}
+            </mat-option>
+        </mat-select>
+        <br>
+    </mat-form-field>
+</div>
+
+<div mat-dialog-actions style="float: right;margin-top: 0.5rem;">
+    <button class="z-depth-2" mat-raised-button mat-dialog-close>Mégsem</button>
+    <button mat-raised-button color="primary" (click)="onMentes(val.value)" class="z-depth-2">Mentés</button>
+</div>

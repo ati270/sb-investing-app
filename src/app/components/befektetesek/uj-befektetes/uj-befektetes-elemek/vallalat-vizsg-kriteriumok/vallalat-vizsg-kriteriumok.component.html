@@ -1,0 +1,506 @@
+
+<span class="badge badge-light z-depth-2 badge-header">Vállalati kockázat elemzés</span>
+<br>
+<br>
+<form [formGroup]="vallVizsgKritGroup" (ngSubmit)="vallVizsgKritSubmit()">
+  <button type="submit" mat-stroked-button color="warn" class="kihagyBtn">Kihagyom</button>
+  
+  <table class="table table-bordered  table-hover z-depth-2" formArrayName="kriteriumok">
+    <thead>
+      <tr class="mat-header-row">
+        <th class="mat-header-cell">Kritérium</th>
+        <th class="mat-header-cell">Eredmény</th>
+        <th class="mat-header-cell">Rizikó</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- részvény-->
+      <tr>
+        <td class="mat-cell">
+          Részvény diagramm
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="text" #inputReszveny matInput placeholder="" formControlName="reszvenyEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openReszvenyDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="reszvenyRizikoCtrl" required matInput
+              placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <!-- Könyv szerinti érték-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Könyv szerinti érték /árfolyam
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+
+            <input type="text" #inputKonyv matInput placeholder="" formControlName="konyvEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openKonyvDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="konyvRizikoCtrl" required matInput
+              placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <!-- Egy részvényre jutó eredmény ( EPS )-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Egy részvényre jutó eredmény (EPS)
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="text" #inputEPS matInput placeholder="" formControlName="epsEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openEPSDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="epsRizikoCtrl" required matInput
+              placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <!--Piaci kapitalizáció-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Piaci kapitalizáció
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+
+            <input type="text" #inputPiaci matInput placeholder="" formControlName="piaciKapEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openPiaciDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="piaciKapRizikoCtrl" required matInput
+              placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <!-- Hitelbesorolás-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Hitelbesorolás
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+
+            <input type="text" #inputHitel matInput placeholder="" formControlName="hitelBesorolasEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openHitelDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="hitelBesorolasRizikoCtrl" required
+              matInput placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <!-- Többségi tulajdonosok-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Többségi tulajdonosok
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="text" #inputTobbseg matInput placeholder="" formControlName="tobbsegiTulajEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openTobbsegDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="tobbsegiTulajRizikoCtrl" required
+              matInput placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <!-- Céginformáció-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Céginformáció
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+
+            <input type="text" #inputCegInfo matInput placeholder="" formControlName="cegInfoEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openCegInfoDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" matInput min="1" max="5" class="center" formControlName="cegInfoRizikoCtrl" required
+              placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+
+      <!-- Termékinformáció-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Termékinformáció
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="text" #inputTermekInfo matInput placeholder="" formControlName="termekInfoEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openTermekInfoDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="termekInfoRizikoCtrl" required matInput
+              placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+
+      <!-- Kutatás/fejlesztés-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Kutatás / fejlesztés
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="text" #inputKF matInput placeholder="" formControlName="kutFejEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openKFDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="kutFejRizikoCtrl" required matInput
+              placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+
+      <!-- Immaterialis javak-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Immateriális javak
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+
+            <input type="text" #inputImm matInput placeholder="" formControlName="immaterialisEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openImmDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="immaterialisRizikoCtrl" required
+              matInput placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+
+      <!-- Egyéb bevétel / kiadás-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Egyéb bevétel / kiadás
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+
+            <input type="text" #inputEgyeb matInput placeholder="" formControlName="egyebEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openEgyebDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="egyebRizikoCtrl" required matInput
+              placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <!-- Szükséges munkaerőállomány-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Szülséges munkaerőállomány
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+
+            <input type="text" #inputSzukseges matInput placeholder="" formControlName="szuksegesAllEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openSzuksegesDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="szuksegesAllRizikoCtrl" required
+              matInput placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <!--  Elérhető információk-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Elérhető információk
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+
+            <input type="text" #inputElerheto matInput placeholder="" formControlName="elerhetoInfoEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openElerhetoDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="elerhetoInfoRizikoCtrl" required
+              matInput placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <!-- Osztalékfizetés-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Osztalékfizetés
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+
+            <input type="text" #inputOsztalek matInput placeholder="" formControlName="osztalekEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openOsztalekDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="osztalekRizikoCtrl" required matInput
+              placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <!--Vállalat a tőzsdén (éve)-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Vállalat a tőzsdén (éve)
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+
+            <input type="text" #inputTozsde matInput placeholder="" formControlName="vallTozsdeEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openTozsdeDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="vallTozsdeRizikoCtrl" required matInput
+              placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <!--Fontos technikai szint-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Fontos technikai szint
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+
+            <input type="text" #inputFontos matInput placeholder="" formControlName="fontosTechEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openFontosDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="fontosTechRizikoCtrl" required matInput
+              placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <!--Volt-e már csúcson és mélyponton előzőleg-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Volt-e már csúcson és mélyponton előzőleg
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+
+            <input type="text" #inputCsucs matInput placeholder="" formControlName="voltCsucsonEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openCsucsDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="voltCsucsonRizikoCtrl" required
+              matInput placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <!-- Fúzió-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Fúzió
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+
+            <input type="text" #inputFuzio matInput placeholder="" formControlName="fuzioEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openFuzioDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="fuzioRizikoCtrl" required matInput
+              placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <!-- BÉTA-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          BÉTA
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+
+            <input type="text" #inputBeta matInput placeholder="" formControlName="betaEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openBetaDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="betaRizikoCtrl" required matInput
+              placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <!--Vezetőség / Menedzsment-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Vezetőség / Menedzsment
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+
+            <input type="text" #inputVezeto matInput placeholder="" formControlName="vezMeEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openVezetoDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="vezMeRizikoCtrl" required matInput
+              placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <!--Új részvény kibocsátások-->
+      <tr class="mat-row">
+        <td class="mat-cell">
+          Új részvény kibocsátások
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+
+            <input type="text" #inputUjReszveny matInput placeholder="" formControlName="ujReszvenyKiEredmenyCtrl">
+            <a matSuffix mat-icon-button aria-label="Edit" (click)="openUjReszvenyDialog()">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <mat-hint align="end">Eredmény megadása</mat-hint>
+          </mat-form-field>
+        </td>
+        <td class="mat-cell">
+          <mat-form-field>
+            <input type="number" min="1" max="5" class="center" formControlName="ujReszvenyKiRizikoCtrl" required
+              matInput placeholder="">
+            <mat-hint align="end">Kérem adja meg a rizikót (1-5)</mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <button type="submit" mat-raised-button color="primary">Tovább</button>
+  <!--TODO:  [disabled]="!vallVizsgKritGroup.valid" visszarkni-->
+  <br>
+</form>
+<br>

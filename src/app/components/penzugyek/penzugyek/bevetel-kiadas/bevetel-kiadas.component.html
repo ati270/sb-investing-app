@@ -1,0 +1,189 @@
+<span class="badge badge-primary bevetel ">
+    BEVÉTELEK
+  </span>
+  <!--Bevétel táblázat-->
+  <form [formGroup]="penzugyekBevetelFormGroup">
+    <table class="table table-bordered z-depth-2 tableBevetel" formArrayName="tableBevetelRows" >
+      <thead>
+        <tr class="mat-header-row">
+          <th class="mat-header-cell">Bevétel</th>
+          <th class="mat-header-cell">
+            <button style="width: 100%;" class="btn btn-outline-primary addBtn" matSuffix
+              (click)="addNewBevetelRow()"  [disabled]="isDisable">
+              Új adat
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of getBevetelTableControls();let i = index;" [formGroupName]="i"
+          class="mat-row" [ngClass]="{'disabled': isDisable}">
+          <td>
+            <mat-form-field style="width: 98%;">
+              <input matInput type="number" formControlName="bevetelCtrl"
+              placeholder="" [(ngModel)]="bevetelekArr[i]" (input)="onChanges()">
+            </mat-form-field>
+          </td>
+
+          <!--Delete row-->
+          <td style="vertical-align: middle; width: 2rem;text-align: center;margin-bottom: 0;">
+            <button mat-icon-button color="warn" (click)="deleteBevetelRow(i)" [disabled]="isDisable">
+              <mat-icon class="mat-18">delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+        <tr style="background-color: darkgreen;opacity: 90%;color: white">
+          <td colspan="2">
+             Összesen:  <b style="font-size: medium;text-align: center;">{{$osszBevetel}}</b>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+  </form>
+
+  <span class="badge badge-primary z-depth-1 kiadas">
+    KIADÁSOK
+  </span>
+  <br>
+  <!--Kiadások táblázat-->
+  <form [formGroup]="penzugyKiadasFormGroup">
+    <table class="table table-bordered z-depth-2 tableKiadas" formArrayName="tableKiadasRows">
+      <thead>
+        <tr class="mat-header-row"  [ngClass]="{'disabled': isDisable}">
+          <th class="mat-header-cell">Nap</th>
+          <th class="mat-header-cell">Rezsi</th>
+          <th class="mat-header-cell">Megtakarítás</th>
+          <th class="mat-header-cell">Élvezeti cikkek</th>
+          <th class="mat-header-cell">Utazási költségek</th>
+          <th class="mat-header-cell">Fogyasztási cikkek</th>
+          <th class="mat-header-cell">Ruházkodás</th>
+          <th class="mat-header-cell">Egyéb</th>
+          <th class="mat-header-cell">
+            <button class="btn btn-outline-primary addBtn" matSuffix
+              (click)="addNewKiadasRow()" [disabled]="isDisable">
+              Új adat
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of getKiadasTableControls();let i = index;" [formGroupName]="i"
+          >
+          <!--Nap-->
+          <td>
+            <mat-form-field>
+              <input type="number" min="1" max="31" matInput formControlName="napCtrl" placeholder="">
+            </mat-form-field>
+          </td>
+          <!--Rezsi-->
+          <td>
+            <mat-form-field >
+              <input type="number" matInput
+              formControlName="rezsiCtrl" [(ngModel)]="rezsiKiadasArr[i]" (input)="rezsiKiadChanges()">
+            </mat-form-field>
+          </td>
+          <!--Megtakaritas-->
+          <td>
+            <mat-form-field>
+              <input type="number" matInput formControlName="megtakaritasCtrl"
+              [(ngModel)]="megtakaritasKiadasArr[i]" (input)="megtakaritasKiadChanges()">
+            </mat-form-field>
+          </td>
+          <!--Elv.cikkek-->
+          <td>
+            <mat-form-field>
+              <input type="number" matInput formControlName="elvCikkekCtrl"
+              [(ngModel)]="elvCikkekKiadasArr[i]" (input)="elvCikkekChanges()">
+            </mat-form-field>
+          </td>
+          <!--Ut.ktg-->
+          <td>
+            <mat-form-field>
+              <input type="number" matInput formControlName="utazasKtgCtrl"
+              [(ngModel)]="utazasiKtgKiadasArr[i]" (input)="utazasiKtgChanges()">
+            </mat-form-field>
+          </td>
+          <!--Fogy.cikkek-->
+          <td>
+            <mat-form-field>
+              <input type="number" matInput formControlName="fogyasztasCikkCtrl"
+              [(ngModel)]="fogyCikkekKiadasArr[i]" (input)="fogyCikkekChanges()">
+            </mat-form-field>
+          </td>
+          <!--Ruházkodás-->
+          <td>
+            <mat-form-field>
+              <input type="number" matInput formControlName="ruhazkodasCtrl"
+              [(ngModel)]="ruhazkodasKiadasArr[i]" (input)="ruhazkodasChanges()">
+            </mat-form-field>
+          </td>
+          <!--Egyéb-->
+          <td>
+            <mat-form-field>
+              <input type="number" matInput formControlName="egyebCtrl"
+              [(ngModel)]="egyebKiadasArr[i]" (input)="egyebChanges()">
+            </mat-form-field>
+          </td>
+
+          <!--Delete row-->
+          <td style="vertical-align: middle; width: 2rem;text-align: center;margin-bottom: 0;">
+            <button mat-icon-button color="warn" (click)="deleteKiadasRow(i)" [disabled]="isDisable">
+              <mat-icon class="mat-18">delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+        <!-- Összesen-->
+        <tr>
+          <td class="mat-cell osszKiad">
+            <mat-icon>functions</mat-icon>
+          </td>
+          <!--Össz rezsi-->
+          <td class="mat-cell osszKiad">{{$osszRezsi}}</td>
+
+          <td class="mat-cell osszKiad">{{$osszMegtakaritas}}</td>
+
+          <td class="mat-cell osszKiad">{{$osszElvCikkek}}</td>
+
+          <td class="mat-cell osszKiad">{{$osszUtazasiKtg}}</td>
+
+          <td class="mat-cell osszKiad">{{$osszFogyCikkek}}</td>
+
+          <td class="mat-cell osszKiad">{{$osszRuhazkodas}}</td>
+
+          <td class="mat-cell osszKiad">{{$osszEgyeb}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+  </form>
+
+  <br>
+  <h5 class="osszegzes">Összegzés</h5>
+  <!---Összegzés-->
+  <div class="md-form input-group mb-0" style="padding-left: 2rem;padding-right:2rem">
+    <input type="text"  class="form-control" placeholder="ÖSSZES BEVÉTEL"  readonly style="color: darkgreen;">
+    <div class="input-group-append">
+      <span class="input-group-text md-addon" style="background-color: darkgreen;color: white;opacity: 90%;">{{$osszBevetel}}</span>
+      <span class="input-group-text md-addon" style="background-color: darkgreen;color: white;opacity: 90%;">Ft</span>
+    </div>
+  </div>
+<div class="md-form input-group mb-0" style="padding-left: 2rem;padding-right:2rem;">
+  <input type="text" class="form-control" placeholder="ÖSSZES KIADÁS" readonly>
+  <div class="input-group-append">
+    <span class="input-group-text md-addon" style="background-color: #CC0000;color: white;">{{$osszKiadas}}</span>
+    <span class="input-group-text md-addon" style="background-color: #CC0000;color: white;">Ft</span>
+  </div>
+</div>
+<div class="md-form input-group mb-0" style="padding-left: 2rem;padding-right: 2rem;">
+  <input type="text" class="form-control" placeholder="ELÉRHETŐ ÖSSZEG" readonly>
+  <div class="input-group-append">
+    <span class="input-group-text md-addon" style="background-color: gray;color: white;">{{$osszFennmarado}}</span>
+    <span class="input-group-text md-addon" style="background-color: gray;color: white;">Ft</span>
+  </div>
+</div>
+<br>
+<!--Hónap zárása-->
+<button #lezarasBtn style="width: 100%;" class="btn btn-outline-primary z-deth-2"
+(click)="honapZaras()" [disabled]="isDisable">Hónap zárása
+</button>

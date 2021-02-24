@@ -1,0 +1,74 @@
+<div>
+  <span style="color: #3F729B;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: large;">Új feladat
+    létrehozása</span>
+  <br>
+</div>
+<br>
+<!--Form-->
+<form [formGroup]="eventFormGroup" (ngSubmit)="saveEvent()">
+  <!--Esemény megnevezése-->
+  <mat-form-field>
+    <mat-label>Feladat megnevezése</mat-label>
+    <input matInput formControlName="eventMegnevezesCtrl" required placeholder="Adjon meg egy eseményt">
+  </mat-form-field>
+  <!--<div style="color: #3F729B;font-weight: bold;">
+    <mat-label>Kezdődátum: </mat-label>
+    {{startDate | date: 'yyyy.MM.dd'}}
+  </div>
+  <br>
+  <div style="color: #3F729B;font-weight: bold;">
+  <mat-label>Végdátum: </mat-label>
+   {{$endDate | date: 'yyyy.MM.dd'}}
+  </div>-->
+  <br>
+  <!--<mat-form-field>
+    <mat-date-range-input [rangePicker]="picker" formArrayName="range">
+      <input matStartDate placeholder="Kezdődátum" formControlName="startCtrl">
+      <input  matEndDate placeholder="Végdátum" formControlName="endCtrl">
+    </mat-date-range-input>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <br>
+  </mat-form-field>-->
+  <div class="form-group row">
+    <label for="example-datetime-local-input" class="col-2 col-form-label">Kezdő időpont</label>
+    <div class="col-10">
+      <input class="form-control" type="datetime-local" formControlName="startCtrl">
+    </div>
+  </div>
+  <hr>
+  <div class="form-group row">
+    <label for="example-datetime-local-input" class="col-2 col-form-label">Vég időpont</label>
+    <div class="col-10">
+      <input class="form-control" type="datetime-local" formControlName="endCtrl">
+    </div>
+  </div>
+  <br>
+  <mat-form-field>
+    <mat-label>Besorolás</mat-label>
+    <mat-select required formControlName="besorolasCtrl">
+      <mat-option *ngFor="let besorolas of besorolasok" [value]="besorolas">
+        {{besorolas}}
+      </mat-option>
+    </mat-select>
+    <mat-hint align="end">Válasszon egy besorolást a listából</mat-hint>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <!--Határidő-->
+    <mat-label>Határidő</mat-label>
+    <mat-select required formControlName="hataridoCtrl">
+      <mat-option *ngFor="let hatarido of hataridok" [value]="hatarido">
+        {{hatarido}}
+      </mat-option>
+    </mat-select>
+    <mat-hint align="end">Válasszon egy hataridőt a listából</mat-hint>
+  </mat-form-field>
+  <br>
+  <div mat-dialog-actions style="float: right;margin-top: 0.5rem;">
+    <button class="z-depth-2" mat-raised-button mat-dialog-close>Mégsem</button>
+    <button type="submit" style="margin-left: 1rem;" class="btn btn-outline-primary btn-save z-depth-2">Létrehozom a
+      feladatot</button>
+    <!--[disabled]="!eventFormGroup.valid"-->
+  </div>
+</form>

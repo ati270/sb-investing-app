@@ -1,0 +1,263 @@
+<app-nav-bar [mainPanel]="mainPanel"></app-nav-bar>
+
+<!-- Panel fő ikonokkal-->
+<div #mainPanel class="panel panel-default" style="margin-top: 0px;">
+  <!-- Default panel contents -->
+  <div class="panel-heading">
+  </div>
+  <div class="panel-body">
+    <div fxLayout="row" fxLayoutAlign="space-around center" style="margin-bottom: 2rem;margin-top: 2rem;
+      margin-left: 2rem;
+  margin-right: 2rem">
+      <div class="example-button-container">
+        <button mat-fab color="primary" class="mat-btn z-depth-2" (click)="routeToCelkituzes()">
+          <mat-icon>fact_check</mat-icon>
+        </button>
+      </div>
+      <div class="example-button-container">
+        <button mat-fab color="primary" class="mat-btn z-depth-2" (click)="routeToPenzugyek()">
+          <mat-icon>attach_money</mat-icon>
+        </button>
+      </div>
+      <div class="example-button-container">
+        <button mat-fab color="primary" class="mat-btn z-depth-2" (click)="routeToStrategia()">
+          <mat-icon>bar_chart</mat-icon>
+        </button>
+      </div>
+      <div class="example-button-container">
+        <button mat-fab color="primary" class="mat-btn z-depth-2" routerLink="/befektetes">
+          <mat-icon>show_chart</mat-icon>
+        </button>
+      </div>
+      <div class="example-button-container">
+        <button mat-fab color="warn" class="mat-btn-i z-depth-2">
+          <span>
+            <h1 style="font-family: Georgia;font-style: italic; color: #CC0000;">i</h1>
+          </span>
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- <mat-fab-menu color="primary" [fabButtons]="fabButtonsRandom"
+    direction="left">
+    </mat-fab-menu>
+    <!--<div class="content">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxFlex="25%">
+          <mat-card class="mat-elevation-z4">
+            <mat-card-header>
+              <mat-card-subtitle>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <button mat-fab class="menu-btn" routerLink="/befektetes">
+                <mat-icon>fact_check</mat-icon>
+              </button>
+            </mat-card-content>
+            <mat-card-actions>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+        <div fxFlex="25%">
+          <mat-card>
+            <mat-card-header>
+              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-title>
+
+              </mat-card-title>
+              <br>
+              <mat-card-subtitle></mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <button mat-fab class="menu-btn" (click)="routeToPenzugyek()">
+                <div class="outer-div">
+                  <mat-icon>attach_money</mat-icon>
+                </div>
+              </button>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <div fxFlex="25%">
+          <mat-card>
+            <mat-card-header>
+              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-title>
+
+              </mat-card-title>
+              <br>
+              <mat-card-subtitle></mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <button mat-fab aria-label="Befektetesek" class="menu-btn" (click)="routeToStrategia()">
+                <div class="outer-div">
+                  <mat-icon>bar_chart</mat-icon>
+                </div>
+              </button>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div fxFlex="25%">
+          <mat-card>
+            <mat-card-header>
+              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-title>
+
+              </mat-card-title>
+              <br>
+              <mat-card-subtitle></mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <button mat-fab aria-label="Example icon button with a delete icon" class="menu-btn"
+                routerLink="/befektetes">
+                <div class="outer-div">
+                  <mat-icon>show_chart</mat-icon>
+                </div>
+              </button>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div fxFlex="25%">
+          <mat-card>
+            <mat-card-header>
+              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-title>
+
+              </mat-card-title>
+              <br>
+              <mat-card-subtitle></mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <button mat-fab aria-label="Example icon button with a delete icon" routerLink="/investing-info"
+                style="background-color: white;width: 7rem;height: 7rem;border: 1px solid #CC0000;">
+                <div class="outer-div">
+                  <span>
+                    <h1 style="font-family: Georgia;font-style: italic; color: #CC0000;">i</h1>
+                  </span>
+                </div>
+              </button>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <br>
+      <!-- <div class="btn-group d-flex justify-content-center" role="group"
+        style="margin-top: 2rem;margin-bottom: 2rem;">
+            <button mat-fab  class="menu-btn"
+                (click)="routeToCelkituzes()">
+                <div class="outer-div">
+                    <mat-icon>fact_check</mat-icon>
+
+                </div>
+
+            </button>
+            <button mat-fab
+                class="menu-btn"
+                (click)="routeToPenzugyek()">
+                <div class="outer-div">
+
+                    <mat-icon>attach_money</mat-icon>
+                </div>
+            </button>
+
+            <button mat-fab aria-label="Befektetesek"
+            class="menu-btn">
+                <div class="outer-div">
+
+                    <mat-icon>bar_chart</mat-icon>
+                </div>
+            </button>
+
+            <button mat-fab aria-label="Example icon button with a delete icon"
+            class="menu-btn"
+                routerLink="/befektetes">
+                <div class="outer-div">
+                    <mat-icon>show_chart</mat-icon>
+                </div>
+            </button>
+
+            <button mat-fab aria-label="Example icon button with a delete icon" routerLink="/investing-info"
+                style="background-color: white;margin-left: 7rem;width: 7rem;height: 7rem;border: 3px solid #CC0000;">
+                <div class="outer-div">
+
+                    <span>
+                        <h1 style="font-family: Georgia;font-style: italic; color: #CC0000;">i</h1>
+                    </span>
+                </div>
+            </button>
+
+        </div>
+    </div>
+    <!-- Table -->
+  </div>
+  <mat-divider></mat-divider>
+
+  <!-- Body-->
+  <div class="container-fluid" style="padding-left: 0; padding-right: 0">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- Tartalom-->
+        <div>
+          <!-- megjelenített tartalom-->
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="page-footer font-small unique-color darken-3">
+
+    <!-- Footer Elements -->
+    <div class="container">
+
+      <!-- Grid row-->
+      <div class="row">
+
+        <!-- Grid column -->
+        <div class="col-md-12 py-5">
+          <div class="mb-5 flex-center">
+
+            <!-- Facebook -->
+            <a class="fb-ic">
+              <i class="fab fa-facebook-f fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+            </a>
+            <!-- Twitter -->
+            <a class="tw-ic">
+              <i class="fab fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+            </a>
+            <!-- Google +-->
+            <a class="gplus-ic">
+              <i class="fab fa-google-plus-g fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+            </a>
+            <!--Linkedin -->
+            <a class="li-ic">
+              <i class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+            </a>
+            <!--Instagram-->
+            <a class="ins-ic">
+              <i class="fab fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+            </a>
+          </div>
+        </div>
+        <!-- Grid column -->
+
+      </div>
+      <!-- Grid row-->
+
+    </div>
+    <!-- Footer Elements -->
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+      <a href="https://mdbootstrap.com/">
+        <span>SB Investing</span>
+        <mat-icon>copyright</mat-icon>
+      </a>
+    </div>
+    <!-- Copyright -->
+
+  </footer>
+  <!-- Footer -->

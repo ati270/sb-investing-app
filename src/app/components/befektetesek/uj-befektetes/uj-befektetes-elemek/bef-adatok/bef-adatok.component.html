@@ -1,0 +1,48 @@
+<span class="badge badge-pill badge-primary z-depth-2" >A részvényelemzés megkezdéséhez kérem,
+    töltse ki az adatokat!
+</span>
+<br>
+<form [formGroup]="adatokFormGroup" (ngSubmit)="befAdatokSubmit()">
+
+    <!-- Form items-->
+    <mat-form-field>
+        <input #vallalatNeveInput matInput placeholder="Vállalat neve" formControlName="vallalat_neveCtrl" required>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <input matInput placeholder="Részvény ticker"  formControlName="reszveny_tickerCtrl" required>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <input matInput type="date" placeholder="Dátum"  formControlName="datumCtrl" required>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <input matInput placeholder="Ágazat" formControlName="agazatCtrl" required>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <mat-label>Stratégia</mat-label>
+        <mat-select required  formControlName="strategiaCtrl">
+            <mat-option *ngFor="let strategy of strategies" [value]="strategy">
+                {{strategy}}
+            </mat-option>
+        </mat-select>
+        <mat-hint align="end">Válasszon egy stratégiát a listából</mat-hint>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <mat-label>Státusz</mat-label>
+        <mat-select required  formControlName="statusCtrl">
+            <mat-option *ngFor="let st of statusok" [value]="st">
+                {{st}}
+            </mat-option>
+        </mat-select>
+        <mat-hint align="end">Válasszon egy státuszt a listából</mat-hint>
+    </mat-form-field>
+    <br>
+    <div>
+        <button type="submit" mat-raised-button [disabled]="!adatokFormGroup.valid">Tovább</button>
+    </div>
+    <br>
+</form>

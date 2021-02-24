@@ -1,0 +1,31 @@
+<p>Új feladat létrehozása</p>
+<hr>
+<p style="color: #3f729b">Feladat neve: {{title}}</p>
+<form [formGroup]="besorolasFormGroup" (ngSubmit)="submitBesorolasHatarido()">
+  <mat-form-field>
+    <mat-label>Besorolás</mat-label>
+    <mat-select required formControlName="besorolasCtrl">
+      <mat-option *ngFor="let besorolas of besorolasok" [value]="besorolas">
+        {{besorolas}}
+      </mat-option>
+    </mat-select>
+    <mat-hint align="end">Válasszon egy besorolást a listából</mat-hint>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <!--Határidő-->
+    <mat-label>Határidő</mat-label>
+    <mat-select required formControlName="hataridoCtrl">
+      <mat-option *ngFor="let hatarido of hataridok" [value]="hatarido">
+        {{hatarido}}
+      </mat-option>
+    </mat-select>
+    <mat-hint align="end">Válasszon egy hataridőt a listából</mat-hint>
+  </mat-form-field>
+  <br>
+  <div mat-dialog-actions style="float: right;margin-top: 0.5rem;">
+    <button type="submit" style="margin-left: 1rem;" class="btn btn-outline-primary btn-save z-depth-2"
+    [disabled]="!besorolasFormGroup.valid">Létrehozom a
+      feladatot</button>
+  </div>
+</form>

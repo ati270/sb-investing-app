@@ -1,0 +1,31 @@
+<div>
+    <span style="color: #3F729B;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: large;">Új cél kitűzése</span>
+</div>
+<br>
+<form [formGroup]="celFromGroup" (ngSubmit)="addUjCel()">
+    <mat-form-field>
+        <input type="text" matInput placeholder="Mi a célom?" formControlName="celMegnevezesCtrl">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput type="number" class="osszeg" placeholder="Mekkora összegre van szükségem?" formControlName="celOsszegCtrl">
+        <span matSuffix> Ft</span>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Mennyi idő alatt szertném elérni a célom?</mat-label>
+        <mat-select formControlName="futamidoCtrl">
+            <mat-option *ngFor="let ido of lehetsegesFutamidok" [value]="ido">
+              {{ido}} hónap
+            </mat-option>
+          </mat-select>
+    </mat-form-field>
+       <span style="font-weight: bold;color: darkgreen;margin-bottom: 2rem;">Szükséges havi megtakarítás: {{$szuksegesMegtakaritas}} Ft</span>
+    
+       <mat-form-field style="margin-top: 2rem;">
+        <input matInput type="date" placeholder="Megtakarítás kezdete" formControlName="megtakaritasKezdeteCtrl">
+    </mat-form-field>
+    <br>
+    <div mat-dialog-actions style="float: right;margin-top: 0.5rem;">
+        <button class="z-depth-2" mat-raised-button mat-dialog-close>Mégsem</button>
+        <button type="submit" style="margin-left: 1rem;" class="btn btn-outline-primary btn-save z-depth-2" [disabled]="!celFromGroup.valid">Létrehozom a célom</button>
+    </div>
+</form>

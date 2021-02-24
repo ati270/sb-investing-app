@@ -1,0 +1,61 @@
+#header {
+    margin-top: 2%;
+    width: 95%;
+    margin-left: 1rem;
+    margin-right: 2rem;
+    text-align: center;
+    color: #3F729B;
+    font-weight: bold;
+    padding: 1%;
+    text-align: center;
+}
+table {
+    width: 95%;
+    margin-left: 1rem;
+    margin-right: 2rem;
+}
+
+
+.badge-header{
+    padding: 1rem;
+    margin-top:1rem;
+     width:95%;
+     color: #3F729B;
+     font-size: small;
+     margin-left: 1rem;
+     margin-right: 2rem;
+     text-transform: uppercase;
+}
+
+.kitoltott{
+    vertical-align: middle;
+    text-align: center;
+    padding-top: 3rem;
+}
+
+.mat-header-cell{
+    text-align: center;
+}
+
+.mat-cell{
+    text-align: center;
+    padding:0;
+    vertical-align: middle;
+    padding-right: 1rem !important;
+    padding-left: 1rem !important;
+}
+
+
+button {
+    margin-left: 1rem;
+}
+.center{
+    text-align: center;
+    vertical-align: middle;
+}
+
+.kihagyBtn{
+    margin-left: 1rem;
+    border: 1px solid #CC0000;
+    margin-bottom: 1.5rem;
+}

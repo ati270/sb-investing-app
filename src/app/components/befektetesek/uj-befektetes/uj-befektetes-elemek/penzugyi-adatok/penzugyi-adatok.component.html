@@ -1,0 +1,1031 @@
+<span class="badge badge-light z-depth-2 badge-header">Pénzügyi adatok</span>
+<br>
+<br>
+<form [formGroup]="penzugyiAdatokFormGroup" (ngSubmit)="penzugyiAdatokSubmit()">
+    
+    <button type="submit" mat-stroked-button color="warn" class="kihagyBtn">Kihagyom</button>
+
+    <table class="table table-striped table-bordered  table-hover z-depth-2" formArrayName="penzugyiAdatok">
+        <thead>
+            <tr>
+                <th class="mat-header-cell">Megnevezés</th>
+                <th class="mat-header-cell">Tárgyév</th>
+                <th class="mat-header-cell">Előző év</th>
+                <th class="mat-header-cell">Konkurencia</th>
+                <th class="mat-header-cell">Q2</th>
+                <th class="mat-header-cell">Q3</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Nettó árbevétel-->
+            <tr>
+                <td class="mat-cell">
+                    Nettó árbevétel
+                </td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(nettoTargyEv>nettoElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="nettoTargyEv"
+                            formControlName="nettoTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="nettoElozoEv"
+                            formControlName="nettoElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="nettoKonkurenciaCtrl" required matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="nettoQ2Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="nettoQ3Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!-- Eladott áruk költsége-->
+            <tr>
+                <td class="mat-cell">
+                    Az eladott áruk költsége
+                </td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(eladottAruTargyEv>eladottAruElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="eladottAruTargyEv"
+                            formControlName="eladottAruTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="eladottAruElozoEv"
+                            formControlName="eladottAruElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="eladottAruKonkurenciaCtrl" required
+                            matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="eladottAruQ2Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="eladottAruQ3Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!-- Társaságnak tulajdonitható nettó eredmény-->
+            <tr>
+                <td class="mat-cell">
+                    Társaságnak tulajdonítható nettó eredmény
+                </td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(tarsasagTargyEv>tarsasagElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="tarsasagTargyEv"
+                            formControlName="tarsasagTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="tarsasagElozoEv"
+                            formControlName="tarsasagElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="tarsasagKonkurenciaCtrl" required matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="tarsasagQ2Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="tarsasagQ3Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!-- Kamat és jövedelemadó előtti nyereség-->
+            <tr>
+                <td class="mat-cell">
+                    Kamat és jövedelemadó előtti nyereség
+                </td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(kamatTargyEv>kamatElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="kamatTargyEv"
+                            formControlName="kamatTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="kamatElozoEv"
+                            formControlName="kamatElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="kamatKonkurenciaCtrl" required matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="kamatQ2Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="kamatQ3Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!-- Fizetet kamatok-->
+            <tr>
+                <td class="mat-cell">
+                    Fizetett kamatok
+                </td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix
+                                *ngIf="(fizetettKamatokTargyEv>fizetettKamatokElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="fizetettKamatokTargyEv"
+                            formControlName="fizetettKamatokTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="fizetettKamatokElozoEv"
+                            formControlName="fizetettKamatokElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="fizetettKamatokKonkurenciaCtrl" required
+                            matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="fizetettKamatokQ2Ctrl" matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="fizetettKamatokQ3Ctrl" matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!-- Értékesítés és adminisztratív költégek-->
+            <tr>
+                <td class="mat-cell">
+                    Értékesítés és adminisztratív költégek
+                </td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(admTargyEv>admElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="admTargyEv" formControlName="admTargyevCtrl"
+                            required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="admElozoEv" formControlName="admElozoEvCtrl"
+                            required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="admKonkurenciaCtrl" required matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="admQ2Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="admQ3Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!-- Egyéb működési költség-->
+            <tr>
+                <td class="mat-cell">
+                    Egyéb működési költség
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(egyebTargyEv>egyebElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="egyebTargyEv"
+                            formControlName="egyebTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="egyebElozoEv"
+                            formControlName="egyebElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="egyebKonkurenciaCtrl" required matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="egyebQ2Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="egyebQ3Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!-- Részvények darabszáma-->
+            <tr>
+                <td class="mat-cell">
+                    Részvények darabszáma
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(reszvenyTargyEv>reszvenyElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="reszvenyTargyEv"
+                            formControlName="reszvenyTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="reszvenyElozoEv"
+                            formControlName="reszvenyElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="reszvenyKonkurenciaCtrl" required matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="reszvenyQ2Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="reszvenyQ3Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!-- Kifizetett osztalékok-->
+            <tr>
+                <td class="mat-cell">
+                    Kifizetett osztalékok
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(osztalekTargyEv>osztalekElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="osztalekTargyEv"
+                            formControlName="osztalekTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="osztalekElozoEv"
+                            formControlName="osztalekElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="osztalekKonkurenciaCtrl" required matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="osztalekQ2Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="osztalekQ3Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!-- Elszámolt értékcs. és amortizáció-->
+            <tr>
+                <td class="mat-cell">
+                    Elszámolt értékcs. és amortizáció
+                </td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(elszamoltTargyEv>elszamoltElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="elszamoltTargyEv"
+                            formControlName="elszamoltTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="elszamoltElozoEv"
+                            formControlName="elszamoltElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="elszamoltKonkurenciaCtrl" required matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="elszamoltQ2Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="elszamoltQ3Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!-- Készpénz -->
+            <tr>
+                <td class="mat-cell">
+                    Készpénz
+                </td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(keszpenzTargyEv>keszpenzElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="keszpenzTargyEv"
+                            formControlName="keszpenzTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="keszpenzElozoEv"
+                            formControlName="keszpenzElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="keszpenzKonkurenciaCtrl" required matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="keszpenzQ2Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="keszpenzQ3Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!--Követelések áruszállításból és szolgáltatásból (vevők) -->
+            <tr>
+                <td class="mat-cell">
+                    Követelések áruszállításból és szolgáltatásból (vevők)
+                </td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix
+                                *ngIf="(kovetelesVevoTargyEv>kovetelesVevoElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="kovetelesVevoTargyEv"
+                            formControlName="kovetelesVevoTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="kovetelesVevoElozoEv"
+                            formControlName="kovetelesVevoElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="kovetelesVevoKonkurenciaCtrl" required
+                            matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="kovetelesVevoQ2Ctrl" matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="kovetelesVevoQ3Ctrl" matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!--Készletek (leltár)-->
+            <tr>
+                <td class="mat-cell">Készletek (leltár)</td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(keszletTargyEv>keszletElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="keszletTargyEv"
+                            formControlName="keszletTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="keszletElozoEv"
+                            formControlName="keszletElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="keszletKonkurenciaCtrl" required matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="keszletQ2Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="keszletQ3Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!--Jóváírás-->
+            <tr>
+                <td class="mat-cell">Jóváírás</td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(jovairasTargyEv>jovairasElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="jovairasTargyEv"
+                            formControlName="jovairasTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="jovairasElozoEv"
+                            formControlName="jovairasElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="jovairasKonkurenciaCtrl" required matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="jovairasQ2Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="jovairasQ3Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!--Immateriális javak-->
+            <tr>
+                <td class="mat-cell">Immateriális javak</td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(immTargyEv>immElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="immTargyEv" formControlName="immTargyevCtrl"
+                            required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="immElozoEv" formControlName="immElozoEvCtrl"
+                            required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="immKonkurenciaCtrl" required matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="immQ2Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="immQ3Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!-- Összes forgóeszköz-->
+            <tr>
+                <td class="mat-cell">Összes forgóeszköz</td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(forgoTargyEv>forgoElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="forgoTargyEv"
+                            formControlName="forgoTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="forgoElozoEv"
+                            formControlName="forgoElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="forgoKonkurenciaCtrl" required matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="forgoQ2Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="forgoQ3Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!--Eszközök összesen-->
+            <tr>
+                <td class="mat-cell">Eszközök összesen</td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(eszkozTargyEv>eszkozElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="eszkozTargyEv"
+                            formControlName="eszkozTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="eszkozElozoEv"
+                            formControlName="eszkozElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="eszkozKonkurenciaCtrl" required matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="eszkozQ2Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="eszkozQ3Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!--Kötelezettségek áruszállításból és szolgáltatásból (szállítók )-->
+            <tr>
+                <td class="mat-cell">Kötelezettségek áruszállításból és szolgáltatásból (szállítók )</td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(kotSzallitoTargyEv>kotSzallitoElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="kotSzallitoTargyEv"
+                            formControlName="kotSzallitoTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="kotSzallitoElozoEv"
+                            formControlName="kotSzallitoElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="kotSzallitoKonkurenciaCtrl" required
+                            matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="kotSzallitoQ2Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="kotSzallitoQ3Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!--Összes saját tőke-->
+            <tr>
+                <td class="mat-cell">Összes saját tőke</td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(tokeTargyEv>tokeElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="tokeTargyEv" formControlName="tokeTargyevCtrl"
+                            required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="tokeElozoEv" formControlName="tokeElozoEvCtrl"
+                            required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="tokeKonkurenciaCtrl" required matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="tokeQ2Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="tokeQ3Ctrl" matInput placeholder="">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!--Rövid lejáratú kötelezettségek -->
+            <tr>
+                <td class="mat-cell">Rövid lejáratú kötelezettségek</td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix
+                                *ngIf="(rovidLejaratuKotTargyEv>rovidLejaratuKotElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="rovidLejaratuKotTargyEv"
+                            formControlName="rovidLejaratuKotTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="rovidLejaratuKotElozoEv"
+                            formControlName="rovidLejaratuKotElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="rovidLejaratuKotKonkurenciaCtrl"
+                            [(ngModel)]="rovidLejaratuKotKonkurencia" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="rovidLejaratuKotQ2Ctrl" matInput
+                            [(ngModel)]="rovidLejaratuKotQ2">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input matInput type="number" class="center" formControlName="rovidLejaratuKotQ3Ctrl"
+                            [(ngModel)]="rovidLejaratuKotQ3">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!-- Összes kötelezettségek-->
+            <tr>
+                <td class="mat-cell">Összes kötelezettségek</td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(osszKotTargyEv>osszKotElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="osszKotTargyEv"
+                            formControlName="osszKotTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="osszKotElozoEv"
+                            formControlName="osszKotElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="osszKotKonkurenciaCtrl"
+                            [(ngModel)]="osszKotKonkurencia" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="osszKotQ2Ctrl" matInput
+                            [(ngModel)]="osszKotQ2">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="osszKotQ3Ctrl" matInput
+                            [(ngModel)]="osszKotQ3">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!--Összes hosszú lejáratú kötelezettségek  (kalkulált: össz - röv. lej.köt-->
+            <tr>
+                <td class="center" style="font-size: smaller;">Összes hosszú lej. kötelezettség</td>
+                <td class="center" style="color: darkgreen;font-weight: bold;">
+                    {{(osszKotTargyEv - rovidLejaratuKotTargyEv)}}
+                </td>
+                <td class="center" style="color: darkgreen;font-weight: bold;">
+                    {{(osszKotElozoEv - rovidLejaratuKotElozoEv)}}
+                </td>
+                <td class="center" style="color: darkgreen;font-weight: bold;">
+                    {{(osszKotKonkurencia - rovidLejaratuKotKonkurencia)}}
+                </td>
+                <td  class="center" style="color: darkgreen;font-weight: bold;">
+                    {{(osszKotQ2 - rovidLejaratuKotQ2)}}
+                </td>
+                <td class="center" style="color: darkgreen;font-weight: bold;">
+                    {{(osszKotQ3 - rovidLejaratuKotQ3)}}
+                </td>
+            </tr>
+            <!--Alkalmazottak száma-->
+            <tr>
+                <td class="mat-cell">Alkalmazottak száma</td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix
+                                *ngIf="(alkalmazottakSzamaTargyEv>alkalmazottakSzamaElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="alkalmazottakSzamaTargyEv"
+                            formControlName="alkalmazottakSzamaTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="alkalmazottakSzamaElozoEv"
+                            formControlName="alkalmazottakSzamaElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="alkalmazottakSzamaKonkurenciaCtrl" required
+                            matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="alkalmazottakSzamaQ2Ctrl" matInput>
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input matInput type="number" class="center" formControlName="alkalmazottakSzamaQ3Ctrl">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!-- Részvény árfolyam-->
+            <tr>
+                <td class="mat-cell">Részvény árfolyam</td>
+                <td class="mat-cell">
+
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix
+                                *ngIf="(reszvenyArfolyamTargyEv>reszvenyArfolyamElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="reszvenyArfolyamTargyEv"
+                            formControlName="reszvenyArfolyamTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="reszvenyArfolyamElozoEv"
+                            formControlName="reszvenyArfolyamElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="reszvenyArfolyamKonkurenciaCtrl" required
+                            matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="reszvenyArfolyamQ2Ctrl" matInput>
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input matInput type="number" class="center" formControlName="reszvenyArfolyamQ3Ctrl">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!--Naptári napok száma-->
+            <tr>
+                <td class="mat-cell">Naptári napok száma</td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(naptarTargyEv>naptarElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="naptarTargyEv"
+                            formControlName="naptarTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="naptarElozoEv"
+                            formControlName="naptarElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="naptarKonkurenciaCtrl" required matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="naptarQ2Ctrl" matInput>
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input matInput type="number" class="center" formControlName="naptarQ3Ctrl">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <!-- Hosszú lejáratú állampapírok hozama-->
+            <tr>
+                <td class="mat-cell">Hosszú lejáratú állampapírok hozama</td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <div matSuffix mat-icon-button>
+                            <mat-icon matSuffix *ngIf="(hozamTargyEv>hozamElozoEv) else kisebbMintElozoEv"
+                                style="color: green;">
+                                arrow_upward</mat-icon>
+                        </div>
+                        <input type="number" class="center" [(ngModel)]="hozamTargyEv"
+                            formControlName="hozamTargyevCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" [(ngModel)]="hozamElozoEv"
+                            formControlName="hozamElozoEvCtrl" required matInput placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="hozamKonkurenciaCtrl" required matInput
+                            placeholder="">
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input type="number" class="center" formControlName="hozamQ2Ctrl" matInput>
+                    </mat-form-field>
+                </td>
+                <td class="mat-cell">
+                    <mat-form-field style="width: 8rem;">
+                        <input matInput type="number" class="center" formControlName="hozamQ3Ctrl">
+                    </mat-form-field>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <button type="submit" mat-raised-button color="primary">Tovább</button>
+    <!--[disabled]="!penzugyiElemzeFormGroup.valid"-->
+    <br>
+</form>
+<br>
+<ng-template #kisebbMintElozoEv>
+    <mat-icon style="color: red;">arrow_downward</mat-icon>
+</ng-template>

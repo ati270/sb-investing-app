@@ -1,0 +1,190 @@
+<span class="badge badge-light z-depth-2 badge-header">Célár és vásárlási ár meghatározása</span>
+<br>
+<br>
+
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+    <mat-step [stepControl]="celarFormGroup">
+        <form [formGroup]="celarFormGroup">
+            <button mat-stroked-button color="warn" class="kihagyBtn" (click)="sendCelarData()">Kihagyom</button>
+            <ng-template matStepLabel>Célár meghatározása</ng-template>
+
+            <!-- Célár meghatározása-->
+
+            <br>
+            <!-- Konkurencia-->
+            <table class="mat-table z-depth-2" formArrayName="celarKonkurenciaAdatok">
+                <tr class="mat-row">
+                    <td class="mat-cell">Konkurencia P/BV mutató </td>
+                    <td class="mat-cell" style="width: 40%;">
+                        <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                            <input matInput formControlName="konkurenciaCtrl" type="number" class="center" #konkurencia
+                                class="center" required>
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <!-- Elemzett-->
+            <table class="mat-table z-depth-2" formArrayName="celarElemzettAdatok">
+                <tr class="mat-row">
+                    <td class="mat-cell">Elemzett vállalat könyv szerinti érték</td>
+                    <td class="mat-cell" style="width: 40%;">
+                        <mat-form-field style="padding-right: 1rem;padding-left: 1rem;">
+                            <input matInput formControlName="elemzettCtrl" type="number" class="center" #elemzett
+                                class="center" required>
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <div class="input-group mb-3 ">
+                <input type="text" class="form-control" placeholder="CÉLÁR" readonly>
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2"
+                        style="background-color: green;color: white;">{{celarVal | number}}</span>
+                </div>
+            </div>
+            <div>
+                <button type="submit" mat-raised-button color="primary" [disabled]="!celarFormGroup.valid"
+                    matStepperNext>Következő</button>
+            </div>
+        </form>
+        <br>
+
+    </mat-step>
+
+    <mat-step [stepControl]="vasarlasiCelarFormGroup">
+        <form [formGroup]="vasarlasiCelarFormGroup" (ngSubmit)="celarSecondSubmit()">
+            <mat-card style="background-color: white;color: black;" class="z-depth-2">
+                <ng-template matStepLabel>Vásárlási ár meghatározása</ng-template>
+                <div class="input-group mb-3 " style="width: 15rem;">
+                    <input type="text" class="form-control" placeholder="CÉLÁR" readonly>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2"
+                            style="background-color: green;color: white;">{{celarVal | number}}</span>
+                    </div>
+                </div>
+                <br>
+                <mat-form-field>
+                    <mat-label>Elvárt hozam/Év</mat-label>
+                    <input type="number" matInput formControlName="VasElvartHozamEvCtrl" placeholder=""
+                        [ngModel]="$elvartHozam" (input)="onElvartHozam($event.target.value)" required>
+                </mat-form-field>
+                <br>
+                <div class="input-group mb-3 ">
+                    <input type="text" class="form-control" placeholder="Haszonvesztés" readonly>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2"
+                            style="background-color: green;color: white;">{{$haszonvesztes | number}}</span>
+                    </div>
+                </div>
+                <br>
+                <div class="input-group mb-3 ">
+                    <input type="text" class="form-control" placeholder="Diszkontráta" readonly>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2"
+                            style="background-color: green;color: white;">{{$diszkontrata | number}}</span>
+                    </div>
+                </div>
+                <br>
+            </mat-card>
+            <br>
+            <!-- Kötési árfolyamok -->
+            <mat-card style="background-color: white;color: black;" class="z-depth-2">
+                <div class="input-group mb-3 ">
+                    <input type="text" class="form-control" placeholder="Kötési árfolyam 1 év megtérülés esetén"
+                        readonly>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2"
+                            style="background-color: green;color: white;">{{kotes1 | number}}</span>
+                    </div>
+                </div>
+                <br>
+                <div class="input-group mb-3 ">
+                    <input type="text" class="form-control" placeholder="Kötési árfolyam 2 év megtérülés esetén"
+                        readonly>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2"
+                            style="background-color: green;color: white;">{{kotes2 | number}}</span>
+                    </div>
+                </div>
+                <br>
+                <div class="input-group mb-3 ">
+                    <input type="text" class="form-control" placeholder="Kötési árfolyam 3 év megtérülés esetén"
+                        readonly>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2"
+                            style="background-color: green;color: white;">{{kotes3 | number}}</span>
+                    </div>
+                </div>
+                <br>
+                <div class="input-group mb-3 ">
+                    <input type="text" class="form-control" placeholder="Kötési árfolyam 4 év megtérülés esetén"
+                        readonly>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2"
+                            style="background-color: green;color: white;">{{kotes4 | number}}</span>
+                    </div>
+                </div>
+                <br>
+                <div class="input-group mb-3 ">
+                    <input type="text" class="form-control" placeholder="Kötési árfolyam 5 év megtérülés esetén"
+                        readonly>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2"
+                            style="background-color: green;color: white;">{{kotes5 | number}}</span>
+                    </div>
+                </div>
+                <br>
+                <div class="input-group mb-3 ">
+                    <input type="text" class="form-control" placeholder="Kötési árfolyam 6 év megtérülés esetén"
+                        readonly>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2"
+                            style="background-color: green;color: white;">{{kotes6 | number}}</span>
+                    </div>
+                </div>
+                <br>
+                <div class="input-group mb-3 ">
+                    <input type="text" class="form-control" placeholder="Kötési árfolyam 8 év megtérülés esetén"
+                        readonly>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2"
+                            style="background-color: green;color: white;">{{kotes8 | number}}</span>
+                    </div>
+                </div>
+                <br>
+                <div class="input-group mb-3 ">
+                    <input type="text" class="form-control" placeholder="Kötési árfolyam 10 év megtérülés esetén"
+                        readonly>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2"
+                            style="background-color: green;color: white;">{{kotes10 | number}}</span>
+                    </div>
+                </div>
+                <br>
+            </mat-card>
+            <br>
+            <div>
+                <button type="submit" mat-raised-button color="success" style="margin-left: 1rem;"  [disabled]="!vasarlasiCelarFormGroup.valid"
+                    matStepperNext>Befejezés</button>
+            </div>
+        </form>
+        <br>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Kész</ng-template>
+        <mat-divider></mat-divider>
+        <br>
+        <div style="color: darkgreen;" >
+            <span style="font-weight: bold;font-stretch: semi-expanded;">Sikeresen kitöltötte az adatokat!</span>
+            <mat-icon>done_outline</mat-icon>
+        </div>
+        <br>
+        <mat-divider></mat-divider>
+        <br>
+        <div>
+            <button (click)="sendCelarData()" mat-raised-button color="primary">Tovább</button>
+        </div>
+    </mat-step>
+</mat-horizontal-stepper>

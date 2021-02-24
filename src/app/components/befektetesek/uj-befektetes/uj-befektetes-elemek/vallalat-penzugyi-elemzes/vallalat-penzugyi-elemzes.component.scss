@@ -1,0 +1,148 @@
+#mtHeader {
+    margin-top: 2%;
+    width: 95%;
+    margin-left: 1rem;
+    margin-right: 2rem;
+    text-align: center;
+    color: #3F729B;
+    font-weight: bold;
+}
+
+.mat-form-field{
+    width:7rem;
+}
+
+table {
+    width: 100%;
+    margin-right: 2rem;
+}
+
+.mat-header-cell{
+    text-align: center;
+}
+
+.mat-cell{
+    text-align: center;
+    padding: 0;
+    vertical-align: middle;
+}
+
+.badge-eredmenye-jov{
+    background-color: #3F729B;
+    color: white;
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+    width: 30%;
+    text-transform: uppercase;
+}
+
+.badge-eredmenye-hat{
+    background-color: #FF8800;
+    color: white;
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+    width: 30%;
+    text-transform: uppercase;
+}
+
+.badge-eredmenye-hitel{
+    background-color: #007E33;
+    color: white;
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+    width: 30%;
+    text-transform: uppercase;
+}
+
+.badge-eredmenye-piaci{
+    background-color: #CC0000;
+    color: white;
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+    width: 30%;
+    text-transform: uppercase;
+}
+
+.badge-megj-jov{
+    color: #3F729B;
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+    font-size: medium;
+    width: 100%;
+   text-transform: uppercase;
+}
+
+.badge-megj-hat{
+    color: #FF8800;
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+    font-size: medium;
+    width: 100%;
+   text-transform: uppercase;
+}
+
+.badge-megj-hitel{
+    color: #007E33;
+    padding: 0.3rem;
+    margin-bottom: 1rem;
+    font-size: medium;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+.badge-megj-piaci{
+    color: #CC0000;
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+    font-size: medium;
+    width: 100%;
+   text-transform: uppercase;
+}
+
+.badge-header{
+    padding: 1rem;
+    margin-top:1rem;
+     width:95%;
+     color: #3F729B;
+     font-size: small;
+     margin-left: 1rem;
+     margin-right: 2rem;
+     text-transform: uppercase;
+}
+
+.eredmeny_jovedelem{
+    vertical-align: middle;
+    text-align: center;
+}
+
+
+.center{
+    text-align: center;
+}
+
+.result{
+    font-weight: bold;
+    color: darkgreen;
+}
+
+.hatEredmeny{
+    color: orangered;
+}
+
+.jovEredmeny{
+    color: darkblue;
+}
+
+.hitelEredmeny{
+    color: darkgreen;
+}
+
+.piaciEredmeny{
+    color: darkred;
+}
+
+.kihagyBtn{
+    margin-left: 1rem;
+    border: 1px solid #CC0000;
+    margin-bottom: 1.5rem;
+}

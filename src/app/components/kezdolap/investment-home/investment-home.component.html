@@ -1,0 +1,102 @@
+ <div class="main z-depth-3">
+    <div class="center z-depth-3">
+      <mat-card>
+        <div class="d-flex justify-content-end" style="margin-top: 1rem">
+          <img src="../../../../assets/img/logo.png" style="padding-bottom: 3rem;height: 10rem;">
+        </div>
+        <mat-tab-group>
+          <mat-tab label="Bejelentkezés">
+            <form [formGroup]="loginFormGroup" (ngSubmit)="loginSubmit()">
+              <br>
+              <mat-form-field>
+                <input matInput placeholder="Felhasználónév" formControlName="loginNameCtrl" required>
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <input type="password" matInput placeholder="Jelszó" formControlName="loginPasswCtrl" required>
+              </mat-form-field>
+              <br>
+              <br>
+              <button type="submit" mat-raised-button color="primary"
+                class="btn btn-info btn-block">Bejelentkezés</button>
+              <br>
+              <br>
+              <!--<div *ngIf="!loginFormGroup.controls['loginPasswCtrl'].errors.required" class="alert alert-danger">
+              Hibás jelszó!
+            </div>-->
+              <!--<button mat-raised-button color="warn"
+            class="btn btn-info btn-block">Bejelentkezés Google fiókkal</button>-->
+              <!--class="btn btn-outline-info btn-rounded btn-block z-depth-0 my-4 waves-effect"-->
+            </form>
+          </mat-tab>
+          <mat-tab label="Regisztráció">
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card>
+    </div>
+  </div>
+
+<!--<mat-grid-list cols="2" rowHeight="1:1">
+  <mat-grid-tile class="pictureCol"></mat-grid-tile>
+  <mat-grid-tile colspan="1">
+    <mat-card class="main-card">
+      <div class="d-flex justify-content-end" style="margin-top: 2rem">
+        <img src="../../../../assets/img/logo.png" height="60">
+      </div>
+      <mat-tab-group>
+        <mat-tab label="Bejelentkezés">
+          <form [formGroup]="loginFormGroup" (ngSubmit)="loginSubmit()">
+            <br>
+            <mat-form-field>
+              <input matInput placeholder="Felhasználónév" formControlName="loginNameCtrl" required>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <input type="password" matInput placeholder="Jelszó" formControlName="loginPasswCtrl" required>
+            </mat-form-field>
+            <br>
+            <br>
+            <button type="submit" mat-raised-button color="success"
+            style="float: right;">Bejelentkezés</button>
+          </form>
+        </mat-tab>
+        <mat-tab label="Regisztráció">
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>-->
+
+<!--<div class="container">
+  <div class="row">
+    <div class="col-9">
+    </div>
+    <div class="col-3">
+      <mat-card class="main-card">
+        <div class="d-flex justify-content-end" style="margin-top: 2rem">
+          <img src="../../../../assets/img/logo.png" height="60">
+        </div>
+        <mat-tab-group>
+          <mat-tab label="Bejelentkezés">
+            <form [formGroup]="loginFormGroup" (ngSubmit)="loginSubmit()">
+              <br>
+              <mat-form-field>
+                <input matInput placeholder="Felhasználónév" formControlName="loginNameCtrl" required>
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <input type="password" matInput placeholder="Jelszó" formControlName="loginPasswCtrl" required>
+              </mat-form-field>
+              <br>
+              <br>
+              <button type="submit" mat-raised-button color="success">Bejelentkezés</button>
+            </form>
+          </mat-tab>
+          <mat-tab label="Regisztráció">
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card>
+    </div>
+  </div>
+</div>
+-->

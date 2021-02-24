@@ -1,0 +1,77 @@
+<!--    <img class="card-img-top" src="../../../../assets/img/cel.jpg" alt="Card image cap">-->
+<div class="card" style="width: 100%">
+    <div class="card-body">
+      <h5 class="card-title" style="color: #3F729B;text-transform: uppercase;">Céljaim</h5>
+      <p class="card-text">
+          Tűzz ki magad elé célokat, melyeket meghatározott időn belül elérhetsz.
+          Kezdj hozzá még ma!
+      </p>
+      <a (click)="addUjCel()">
+        <span class="badge badge-light badge-cel">
+            Új cél hozzáadása
+        </span>
+    </a>
+    </div>
+  </div>
+
+  <ul *ngFor="let cel of celok">
+    <li>
+        <mat-card class="z-depth-2">
+            <mat-card-header>
+                <mat-card-subtitle>
+                    <div class="d-flex justify-content-center">
+                        <span style="color: darkgreen; margin-top: 1rem;font-weight: bold; text-transform: uppercase;">{{cel.celMegnevezes}}</span>
+                    </div>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <hr>
+            <mat-card-content>
+                <div class="d-flex mb-3">
+                    <div class="p-2 flex-fill">
+                        <span style="color: darkgreen;font-weight: bold;">Szükséges összeg</span>
+                    </div>
+                    <div class="p-2 ">
+                        <button type="button" class="btn btn-success z-depth-2" disabled>
+                            {{cel.celOsszeg}} Ft
+                        </button>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-outline-success z-depth-2">
+                        Indulás: {{cel.megtakaritasKezdete | date:"yyyy.MM.dd."}}
+                    </button>
+                </div>
+                <br>
+                <div class="d-flex mb-3">
+                    <div class="p-2 flex-fill">
+                        <span style="color: darkgreen;font-weight: bold;">Szükséges megtakarítás</span>
+                    </div>
+                    <div class="p-2">
+                        <button type="button" class="btn btn-success z-depth-2" disabled>
+                            {{cel.szuksegesMegtakaritas}} Ft
+                        </button>
+                    </div>
+                </div>
+            </mat-card-content>
+            <hr>
+            <mat-card-footer>
+                <div class="d-flex justify-content-center">
+                    <span style="color: darkgreen;font-weight: bold;">Időtartam: {{cel.celFutamido}} hónap</span>
+                </div>
+                <br>
+            </mat-card-footer>
+        </mat-card>
+    </li>
+</ul>
+
+<!--<div class="menu" style="margin: 0;">
+    <h4 style="color: #3F729B;text-transform: uppercase;">Céljaim</h4>
+    <br>
+    <a (click)="addUjCel()">
+        <span class="badge badge-pill badge-light badge-cel">
+            Új cél hozzáadása
+        </span>
+    </a>
+    <hr>
+
+</div>-->

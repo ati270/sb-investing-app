@@ -1,0 +1,14 @@
+<span style="color: #3F729B;font-size: medium;"><b>Részvényelemzés mentése folyamatban...</b></span>
+<br>
+<br>
+
+<mat-progress-bar mode="determinate" value={{$haladasValue}}></mat-progress-bar>
+<br>
+<hr>
+<span *ngIf="isBetoltve" style="color: darkgreen;"><b>A részvényelemzés elkészítve</b></span>
+<br>
+<br>
+<div mat-dialog-actions style="float: right;margin-top: 0.5rem;">
+    <button mat-raised-button 
+    color="primary" class="z-depth-2" (click)="close()" [disabled]="!isBetoltve">Rendben</button>
+</div>

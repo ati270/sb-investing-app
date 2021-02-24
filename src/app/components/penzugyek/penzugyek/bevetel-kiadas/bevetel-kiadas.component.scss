@@ -1,0 +1,77 @@
+.bevetel {
+    border: 1px solid darkgreen;
+    color: darkgreen;
+    background: whitesmoke;
+    margin-top: 2rem;
+    width: 98%;
+    padding: 0.6rem;
+    margin-left: 1rem;
+    margin-right: 3rem;
+}
+
+.kiadas {
+    border: 1px solid #cc0000;
+    color: #cc0000;
+    background: whitesmoke;
+    margin-top: 2rem;
+    width: 98%;
+    padding: 0.6rem;
+    margin-left:1rem;
+    margin-right: 3rem;
+}
+
+.mat-header-cell {
+    text-align: center;
+    vertical-align: middle;
+}
+
+/*.mat-form-field {
+    width: 100%;
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+    text-align: center;
+}*/
+
+.tableBevetel {
+    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    padding: 0;
+    width: 95%;
+}
+
+.tableKiadas{
+    padding: 0;
+    width: 95%;
+    margin-top:2rem;
+    margin-left: 2rem;
+    margin-right: 1rem;
+
+}
+
+.mat-form-field{
+  width: 5rem;
+  padding: 0;
+  text-align: center;
+}
+
+
+.osszegzes{
+    margin-left: 1rem;
+    color: #3F729B;
+  }
+
+.osszKiad{
+    color: #cc0000;
+    text-align: center;
+    font-weight: bold;
+}
+
+.btn:disabled{
+  color: #cc0000;;
+  border: 1px solid #cc0000;
+  background-color: lightgrey;
+
+}
+
+
