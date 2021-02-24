@@ -134,6 +134,10 @@ ul{
   border-image: linear-gradient(to bottom, gray, rgba(0, 0, 0, 0)) 1 100%;
 }
 
+.container-fluid .row{
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
 
 
 /*.mat-chip{

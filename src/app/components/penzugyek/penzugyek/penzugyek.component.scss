@@ -39,6 +39,8 @@
   padding: 0.3rem;
 }
 
+
+
 .btn{
   outline-color: #3F729B;
   float: right;
@@ -150,10 +152,6 @@
 
 .side-menu{
   width: 30%;
-  padding-top: 0.3rem;
-  padding-left: 0.2rem;
-  padding-right: 0.2rem;
-  
 }
 
 .btn:active{
@@ -164,3 +162,10 @@
   padding-left: 2rem;
   padding-right: 2rem;
 }
+
+mat-drawer-container{
+   margin-left: 2rem;
+   margin-right: 2rem;
+}
+
+
