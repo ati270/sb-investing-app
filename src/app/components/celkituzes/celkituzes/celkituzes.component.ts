@@ -386,7 +386,7 @@ export class CelkituzesComponent implements OnInit {
       initialView: 'resourceTimelineMonth',
       //dateClick: this.handleDateClick.bind(this),
       locale: huLocale,
-
+      resourceOrder: 'resourceId',
       // google sync
       /* googleCalendarApiKey: 'AIzaSyD4oA-ioe4XJuf0o-rqrus1FPfzW8L6WZ0',
        resources: [
