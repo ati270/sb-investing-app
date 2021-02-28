@@ -13,8 +13,6 @@
           <mat-step [stepControl]="celkituzesFormGroup">
             <form [formGroup]="celkituzesFormGroup" (ngSubmit)="submitCelkituzes()">
               <ng-template matStepLabel>Célkitűzés</ng-template>
-              <button type="button" mat-raised-button color="success" (click)="resetFeladatok()">Elértem a
-                célom</button>
               <br>
               <span class="badge badge-primary titleBadge">Igényfelmérés</span>
               <!-- Adatok és képek-->
@@ -563,9 +561,17 @@
           <mat-step [stepControl]="haviTervFormGroup">
             <form [formGroup]="haviTervFormGroup">
               <ng-template matStepLabel>Havi terv</ng-template>
-              <button type="button" class="btn btn-outline-primary" (click)="openResourceEventDialog()">
-                Új feladat
-              </button>
+              <div class="d-flex">
+                <div class="p-2">
+                  <button type="button" class="btn btn-outline-primary" (click)="openResourceEventDialog()">
+                    Új feladat
+                  </button>
+                </div>
+                <div class="ml-auto p-2">
+                  <button type="button" mat-raised-button color="success" (click)="resetFeladatok()">Elértem a
+                    célom</button>
+                </div>
+              </div>
               <br>
               <!--<div class="container">
                   <div class="row">
@@ -592,13 +598,12 @@
               <br>
               <!-- Célkitüzés-->
               <div class="z-depth-2">
-              <ul class="list-group list-group-flush" *ngFor="let feladat of $feladatok">
-                <li class="list-group-item">
-
-                    <div class="d-flex">
+                <ul class="list-group list-group-flush" *ngFor="let feladat of $feladatok">
+                  <li class="list-group-item">
+                    <div class="d-flex" >
                       <div class="mr-auto p-2" style="color: #3f729B;">
-                        {{feladat.$title}}
-                    </div>
+                        <p #feladatTitle>{{feladat.$title}}</p>
+                      </div>
                       <div class="p-2">
                         <span class="badge badge-primary badge-pill">{{feladat.$besorolas}}</span>
                       </div>
@@ -607,31 +612,36 @@
                       </div>
                       <div class="divider-vertical"></div>
                       <div class="p-2">
-                        <span class="badge badge-danger">
+                        <button mat-raised-button color="warn" (click)="openAddTimePickerDialog(feladat)" [disabled]="isLezartBtn">Ütemezés</button>
+
+                        <!--<span class="badge badge-danger">
                           <a (click)="openAddTimePickerDialog(feladat)">
                             Ütemezés
                           </a>
-                        </span>
+                        </span>-->
                       </div>
                       <div class="p-2">
-                        <span class="badge badge-warning">
+                        <button mat-raised-button (click)="feladatModositas(feladat)" class="modositBtn">Módosítás</button>
+
+                        <!--<span class="badge badge-warning">
                           <a (click)="feladatModositas(feladat)">
-                          Módosítás
-                        </a>
-                      </span>
+                            Módosítás
+                          </a>
+                        </span>-->
                       </div>
-                      <div class="p-2">
-                        <span class="badge badge-success">
-                            <a (click)="feladatLezaras(feladat)">
+                      <div class="p-2" #lezarBtn>
+                         <button mat-raised-button (click)="feladatLezaras(feladat)" [disabled]="isLezartBtn" class="lezartBtn">Lezárás</button>
+                        <!--<span class="badge badge-success" >
+                          <a (click)="feladatLezaras(feladat)" >
                             Lezárás
                           </a>
-                        </span>
+                        </span> -->
                       </div>
                     </div>
-                  <hr style="padding:0; margin: 0; color: #3f729B;">
-                </li>
-              </ul>
-            </div>
+                    <hr style="padding:0; margin: 0; color: #3f729B;">
+                  </li>
+                </ul>
+              </div>
               <br>
               <!-- Havi szintű-->
               <h5 style="color: #3f729B;">Havi szintű feladatok</h5>
@@ -640,37 +650,37 @@
                 <ul class="list-group list-group-flush" *ngFor="let feladat of $haviSzintuFeladatok">
                   <li class="list-group-item">
 
-                      <div class="d-flex">
-                        <div class="mr-auto p-2" style="color: #3f729B;">
-                          {{feladat.$title}}
+                    <div class="d-flex">
+                      <div class="mr-auto p-2" style="color: #3f729B;">
+                        {{feladat.$title}}
                       </div>
-                        <div class="p-2">
-                          <span class="badge badge-primary badge-pill">{{feladat.$besorolas}}</span>
-                        </div>
-                        <div class="p-2">
-                          <span class="badge badge-primary badge-pill">{{feladat.$hatarido}}</span>
-                        </div>
-                        <div class="divider-vertical"></div>
-                        <div class="p-2">
-                          <span class="badge badge-warning">
-                            <a (click)="feladatHaviModositas(feladat)">
+                      <div class="p-2">
+                        <span class="badge badge-primary badge-pill">{{feladat.$besorolas}}</span>
+                      </div>
+                      <div class="p-2">
+                        <span class="badge badge-primary badge-pill">{{feladat.$hatarido}}</span>
+                      </div>
+                      <div class="divider-vertical"></div>
+                      <div class="p-2">
+                        <span class="badge badge-warning">
+                          <a (click)="feladatHaviModositas(feladat)">
                             Módosítás
                           </a>
                         </span>
-                        </div>
-                        <div class="p-2">
-                          <span class="badge badge-success">
-                              <a (click)="feladatHaviLezaras(feladat)">
-                              Lezárás
-                            </a>
-                          </span>
-                        </div>
                       </div>
+                      <div class="p-2">
+                        <span class="badge badge-success">
+                          <a (click)="feladatHaviLezaras(feladat)">
+                            Lezárás
+                          </a>
+                        </span>
+                      </div>
+                    </div>
                     <hr style="padding:0; margin: 0; color: #3f729B;">
                   </li>
                 </ul>
               </div>
-                <br>
+              <br>
               <hr>
               <!--Magyarázat-->
               <div>

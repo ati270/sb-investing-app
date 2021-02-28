@@ -4,7 +4,7 @@ import { AddBesHatDialogComponent } from './../../dialogs/add-bes-hat-dialog/add
 import { MatDialog } from '@angular/material/dialog';
 import { AddEventToCalendarComponent } from './../../dialogs/add-event-to-calendar/add-event-to-calendar.component';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChip, MatChipInputEvent, MatChipList } from '@angular/material/chips';
 import { CalendarOptions, EventInput, EventSourceInput, FullCalendarComponent } from '@fullcalendar/angular';
@@ -32,6 +32,8 @@ export class CelkituzesComponent implements OnInit {
   @ViewChild('fullcalendar') fullcalendar: FullCalendarComponent;
   @ViewChild("chipList") chipList: MatChipList;
   @ViewChild('chip') chip: MatChip;
+  @ViewChild('feladatTitle') feladatTitle: ElementRef;
+  @ViewChild('lezarBtn') lezartBtn: ElementRef;
 
   selectedColor;
   // FormGroups
@@ -122,6 +124,7 @@ export class CelkituzesComponent implements OnInit {
   isLinear = false;
 
   calendarOptions: CalendarOptions;
+  isLezartBtn: boolean = false;
 
   constructor(public fb: FormBuilder, public dialog: MatDialog) { }
 
@@ -407,7 +410,7 @@ export class CelkituzesComponent implements OnInit {
       },
       resourceAreaColumns: [
         {
-          headerContent: 'Havi feladatok'
+          headerContent: 'Egyéb feladat'
         },
       ],
     };
@@ -480,9 +483,11 @@ export class CelkituzesComponent implements OnInit {
 
     // Add our fruit
     if ((value || '').trim()) {
-      this.elofeltetelek.push(value.trim());
-      this.osszChips.push(value.trim());
-      this.openAddBesorolasHataridoDialog(value.trim());
+      if (!this.elofeltetelek.includes(value.trim())) {
+        this.elofeltetelek.push(value.trim());
+        this.osszChips.push(value.trim());
+        this.openAddBesorolasHataridoDialog(value.trim());
+      }
     }
 
     // Reset the input value
@@ -514,9 +519,11 @@ export class CelkituzesComponent implements OnInit {
 
     // Add our fruit
     if ((value || '').trim()) {
-      this.segitsegek.push(value.trim());
-      this.osszChips.push(value.trim());
-      this.openAddBesorolasHataridoDialog(value.trim());
+      if (!this.segitsegek.includes(value.trim())) {
+        this.segitsegek.push(value.trim());
+        this.osszChips.push(value.trim());
+        this.openAddBesorolasHataridoDialog(value.trim());
+      }
 
 
     }
@@ -547,7 +554,9 @@ export class CelkituzesComponent implements OnInit {
 
     // Add our fruit
     if ((value || '').trim()) {
-      this.akadalyok.push(value.trim());
+      if (!this.akadalyok.includes(value.trim())) {
+        this.akadalyok.push(value.trim());
+      }
     }
 
     // Reset the input value
@@ -576,10 +585,11 @@ export class CelkituzesComponent implements OnInit {
     const value = event.value;
 
     if ((value || '').trim()) {
-      this.specialisTudas.push(value.trim());
-      this.osszChips.push(value.trim());
-      this.openAddBesorolasHataridoDialog(value.trim());
-
+      if (!this.specialisTudas.includes(value.trim())) {
+        this.specialisTudas.push(value.trim());
+        this.osszChips.push(value.trim());
+        this.openAddBesorolasHataridoDialog(value.trim());
+      }
     }
 
     // Reset the input value
@@ -607,9 +617,11 @@ export class CelkituzesComponent implements OnInit {
     const value = event.value;
 
     if ((value || '').trim()) {
-      this.targyak.push(value.trim());
-      this.osszChips.push(value.trim());
-      this.openAddBesorolasHataridoDialog(value.trim());
+      if (!this.targyak.includes(value.trim())) {
+        this.targyak.push(value.trim());
+        this.osszChips.push(value.trim());
+        this.openAddBesorolasHataridoDialog(value.trim());
+      }
 
     }
 
@@ -638,9 +650,11 @@ export class CelkituzesComponent implements OnInit {
     const value = event.value;
 
     if ((value || '').trim()) {
-      this.akadalyFeladatok.push(value.trim());
-      this.osszChips.push(value.trim());
-      this.openAddBesorolasHataridoDialog(value.trim());
+      if (!this.akadalyFeladatok.includes(value.trim())) {
+        this.akadalyFeladatok.push(value.trim());
+        this.osszChips.push(value.trim());
+        this.openAddBesorolasHataridoDialog(value.trim());
+      }
     }
 
     // Reset the input value
@@ -669,10 +683,11 @@ export class CelkituzesComponent implements OnInit {
     const value = event.value;
 
     if ((value || '').trim()) {
-      this.penzek.push(value.trim());
-      this.osszChips.push(value.trim());
-
-      this.openAddBesorolasHataridoDialog(value.trim());
+      if (!this.penzek.includes(value.trim())) {
+        this.penzek.push(value.trim());
+        this.osszChips.push(value.trim());
+        this.openAddBesorolasHataridoDialog(value.trim());
+      }
     }
 
     // Reset the input value
@@ -705,10 +720,12 @@ export class CelkituzesComponent implements OnInit {
     const value = event.value;
 
     if ((value || '').trim()) {
-      this.lepesek1.push(value.trim());
-      this.osszChips.push(value.trim());
+      if (!this.lepesek1.includes(value.trim())) {
+        this.lepesek1.push(value.trim());
+        this.osszChips.push(value.trim());
 
-      this.openAddBesorolasHataridoDialog(value.trim());
+        this.openAddBesorolasHataridoDialog(value.trim());
+      }
     }
 
     // Reset the input value
@@ -735,10 +752,13 @@ export class CelkituzesComponent implements OnInit {
     const value = event.value;
 
     if ((value || '').trim()) {
-      this.lepesek2.push(value.trim());
-      this.osszChips.push(value.trim());
+      if (!this.lepesek2.includes(value.trim())) {
 
-      this.openAddBesorolasHataridoDialog(value.trim());
+        this.lepesek2.push(value.trim());
+        this.osszChips.push(value.trim());
+
+        this.openAddBesorolasHataridoDialog(value.trim());
+      }
     }
 
     // Reset the input value
@@ -760,259 +780,280 @@ export class CelkituzesComponent implements OnInit {
     }
   }
 
-// 3. lépés
-addLepes3(event: MatChipInputEvent): void {
-  const input = event.input;
-  const value = event.value;
+  // 3. lépés
+  addLepes3(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
 
-  if ((value || '').trim()) {
-    this.lepesek3.push(value.trim());
-    this.osszChips.push(value.trim());
+    if ((value || '').trim()) {
+      if (!this.lepesek3.includes(value.trim())) {
+        this.lepesek3.push(value.trim());
+        this.osszChips.push(value.trim());
 
-    this.openAddBesorolasHataridoDialog(value.trim());
+        this.openAddBesorolasHataridoDialog(value.trim());
+      }
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
   }
 
-  // Reset the input value
-  if (input) {
-    input.value = '';
-  }
-}
+  removeLepes3(lepes: any): void {
+    const index = this.lepesek3.indexOf(lepes);
 
-removeLepes3(lepes: any): void {
-  const index = this.lepesek3.indexOf(lepes);
-
-  if (index >= 0) {
-    this.lepesek3.splice(index, 1);
-    for (let i = 0; i < this.$feladatok.length; i++) {
-      if (this.$feladatok[i].$title === lepes) {
-        this.$feladatok.splice(i, 1);
+    if (index >= 0) {
+      this.lepesek3.splice(index, 1);
+      for (let i = 0; i < this.$feladatok.length; i++) {
+        if (this.$feladatok[i].$title === lepes) {
+          this.$feladatok.splice(i, 1);
+        }
       }
     }
   }
-}
 
 
-// 4. lépés
-addLepes4(event: MatChipInputEvent): void {
-  const input = event.input;
-  const value = event.value;
+  // 4. lépés
+  addLepes4(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
 
-  if ((value || '').trim()) {
-    this.lepesek4.push(value.trim());
-    this.osszChips.push(value.trim());
+    if ((value || '').trim()) {
+      if (!this.lepesek4.includes(value.trim())) {
 
-    this.openAddBesorolasHataridoDialog(value.trim());
+        this.lepesek4.push(value.trim());
+        this.osszChips.push(value.trim());
+
+        this.openAddBesorolasHataridoDialog(value.trim());
+      }
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
   }
 
-  // Reset the input value
-  if (input) {
-    input.value = '';
-  }
-}
+  removeLepes4(lepes: any): void {
+    const index = this.lepesek4.indexOf(lepes);
 
-removeLepes4(lepes: any): void {
-  const index = this.lepesek4.indexOf(lepes);
-
-  if (index >= 0) {
-    this.lepesek4.splice(index, 1);
-    for (let i = 0; i < this.$feladatok.length; i++) {
-      if (this.$feladatok[i].$title === lepes) {
-        this.$feladatok.splice(i, 1);
+    if (index >= 0) {
+      this.lepesek4.splice(index, 1);
+      for (let i = 0; i < this.$feladatok.length; i++) {
+        if (this.$feladatok[i].$title === lepes) {
+          this.$feladatok.splice(i, 1);
+        }
       }
     }
   }
-}
 
 
-// 5. lépés
-addLepes5(event: MatChipInputEvent): void {
-  const input = event.input;
-  const value = event.value;
+  // 5. lépés
+  addLepes5(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
 
-  if ((value || '').trim()) {
-    this.lepesek5.push(value.trim());
-    this.osszChips.push(value.trim());
+    if ((value || '').trim()) {
+      if (!this.lepesek5.includes(value.trim())) {
 
-    this.openAddBesorolasHataridoDialog(value.trim());
+        this.lepesek5.push(value.trim());
+        this.osszChips.push(value.trim());
+
+        this.openAddBesorolasHataridoDialog(value.trim());
+      }
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
   }
 
-  // Reset the input value
-  if (input) {
-    input.value = '';
-  }
-}
+  removeLepes5(lepes: any): void {
+    const index = this.lepesek5.indexOf(lepes);
 
-removeLepes5(lepes: any): void {
-  const index = this.lepesek5.indexOf(lepes);
-
-  if (index >= 0) {
-    this.lepesek5.splice(index, 1);
-    for (let i = 0; i < this.$feladatok.length; i++) {
-      if (this.$feladatok[i].$title === lepes) {
-        this.$feladatok.splice(i, 1);
+    if (index >= 0) {
+      this.lepesek5.splice(index, 1);
+      for (let i = 0; i < this.$feladatok.length; i++) {
+        if (this.$feladatok[i].$title === lepes) {
+          this.$feladatok.splice(i, 1);
+        }
       }
     }
   }
-}
 
 
-// 6. lépés
-addLepes6(event: MatChipInputEvent): void {
-  const input = event.input;
-  const value = event.value;
+  // 6. lépés
+  addLepes6(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
 
-  if ((value || '').trim()) {
-    this.lepesek6.push(value.trim());
-    this.osszChips.push(value.trim());
+    if ((value || '').trim()) {
+      if (!this.lepesek6.includes(value.trim())) {
 
-    this.openAddBesorolasHataridoDialog(value.trim());
+        this.lepesek6.push(value.trim());
+        this.osszChips.push(value.trim());
+
+        this.openAddBesorolasHataridoDialog(value.trim());
+      }
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
   }
 
-  // Reset the input value
-  if (input) {
-    input.value = '';
-  }
-}
+  removeLepes6(lepes: any): void {
+    const index = this.lepesek6.indexOf(lepes);
 
-removeLepes6(lepes: any): void {
-  const index = this.lepesek6.indexOf(lepes);
-
-  if (index >= 0) {
-    this.lepesek6.splice(index, 1);
-    for (let i = 0; i < this.$feladatok.length; i++) {
-      if (this.$feladatok[i].$title === lepes) {
-        this.$feladatok.splice(i, 1);
+    if (index >= 0) {
+      this.lepesek6.splice(index, 1);
+      for (let i = 0; i < this.$feladatok.length; i++) {
+        if (this.$feladatok[i].$title === lepes) {
+          this.$feladatok.splice(i, 1);
+        }
       }
     }
   }
-}
 
-// 7. lépés
-addLepes7(event: MatChipInputEvent): void {
-  const input = event.input;
-  const value = event.value;
+  // 7. lépés
+  addLepes7(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
 
-  if ((value || '').trim()) {
-    this.lepesek7.push(value.trim());
-    this.osszChips.push(value.trim());
+    if ((value || '').trim()) {
+      if (!this.lepesek7.includes(value.trim())) {
 
-    this.openAddBesorolasHataridoDialog(value.trim());
+        this.lepesek7.push(value.trim());
+        this.osszChips.push(value.trim());
+
+        this.openAddBesorolasHataridoDialog(value.trim());
+      }
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
   }
 
-  // Reset the input value
-  if (input) {
-    input.value = '';
-  }
-}
+  removeLepes7(lepes: any): void {
+    const index = this.lepesek7.indexOf(lepes);
 
-removeLepes7(lepes: any): void {
-  const index = this.lepesek7.indexOf(lepes);
-
-  if (index >= 0) {
-    this.lepesek7.splice(index, 1);
-    for (let i = 0; i < this.$feladatok.length; i++) {
-      if (this.$feladatok[i].$title === lepes) {
-        this.$feladatok.splice(i, 1);
+    if (index >= 0) {
+      this.lepesek7.splice(index, 1);
+      for (let i = 0; i < this.$feladatok.length; i++) {
+        if (this.$feladatok[i].$title === lepes) {
+          this.$feladatok.splice(i, 1);
+        }
       }
     }
   }
-}
 
 
-// 8. lépés
-addLepes8(event: MatChipInputEvent): void {
-  const input = event.input;
-  const value = event.value;
+  // 8. lépés
+  addLepes8(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
 
-  if ((value || '').trim()) {
-    this.lepesek8.push(value.trim());
-    this.osszChips.push(value.trim());
+    if ((value || '').trim()) {
+      if (!this.lepesek8.includes(value.trim())) {
 
-    this.openAddBesorolasHataridoDialog(value.trim());
+        this.lepesek8.push(value.trim());
+        this.osszChips.push(value.trim());
+
+        this.openAddBesorolasHataridoDialog(value.trim());
+      }
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
   }
 
-  // Reset the input value
-  if (input) {
-    input.value = '';
-  }
-}
+  removeLepes8(lepes: any): void {
+    const index = this.lepesek8.indexOf(lepes);
 
-removeLepes8(lepes: any): void {
-  const index = this.lepesek8.indexOf(lepes);
-
-  if (index >= 0) {
-    this.lepesek8.splice(index, 1);
-    for (let i = 0; i < this.$feladatok.length; i++) {
-      if (this.$feladatok[i].$title === lepes) {
-        this.$feladatok.splice(i, 1);
+    if (index >= 0) {
+      this.lepesek8.splice(index, 1);
+      for (let i = 0; i < this.$feladatok.length; i++) {
+        if (this.$feladatok[i].$title === lepes) {
+          this.$feladatok.splice(i, 1);
+        }
       }
     }
   }
-}
 
 
-// 9. lépés
-addLepes9(event: MatChipInputEvent): void {
-  const input = event.input;
-  const value = event.value;
+  // 9. lépés
+  addLepes9(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
 
-  if ((value || '').trim()) {
-    this.lepesek9.push(value.trim());
-    this.osszChips.push(value.trim());
+    if ((value || '').trim()) {
+      if (!this.lepesek9.includes(value.trim())) {
+        this.lepesek9.push(value.trim());
+        this.osszChips.push(value.trim());
 
-    this.openAddBesorolasHataridoDialog(value.trim());
+        this.openAddBesorolasHataridoDialog(value.trim());
+      }
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
   }
 
-  // Reset the input value
-  if (input) {
-    input.value = '';
-  }
-}
+  removeLepes9(lepes: any): void {
+    const index = this.lepesek9.indexOf(lepes);
 
-removeLepes9(lepes: any): void {
-  const index = this.lepesek9.indexOf(lepes);
-
-  if (index >= 0) {
-    this.lepesek9.splice(index, 1);
-    for (let i = 0; i < this.$feladatok.length; i++) {
-      if (this.$feladatok[i].$title === lepes) {
-        this.$feladatok.splice(i, 1);
+    if (index >= 0) {
+      this.lepesek9.splice(index, 1);
+      for (let i = 0; i < this.$feladatok.length; i++) {
+        if (this.$feladatok[i].$title === lepes) {
+          this.$feladatok.splice(i, 1);
+        }
       }
     }
   }
-}
 
 
-// 10. lépés
-addLepes10(event: MatChipInputEvent): void {
-  const input = event.input;
-  const value = event.value;
+  // 10. lépés
+  addLepes10(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
 
-  if ((value || '').trim()) {
-    this.lepesek10.push(value.trim());
-    this.osszChips.push(value.trim());
+    if ((value || '').trim()) {
+      if (!this.lepesek10.includes(value.trim())) {
+      this.lepesek10.push(value.trim());
+      this.osszChips.push(value.trim());
 
-    this.openAddBesorolasHataridoDialog(value.trim());
+      this.openAddBesorolasHataridoDialog(value.trim());
+    }
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
   }
 
-  // Reset the input value
-  if (input) {
-    input.value = '';
-  }
-}
+  removeLepes10(lepes: any): void {
+    const index = this.lepesek10.indexOf(lepes);
 
-removeLepes10(lepes: any): void {
-  const index = this.lepesek10.indexOf(lepes);
-
-  if (index >= 0) {
-    this.lepesek10.splice(index, 1);
-    for (let i = 0; i < this.$feladatok.length; i++) {
-      if (this.$feladatok[i].$title === lepes) {
-        this.$feladatok.splice(i, 1);
+    if (index >= 0) {
+      this.lepesek10.splice(index, 1);
+      for (let i = 0; i < this.$feladatok.length; i++) {
+        if (this.$feladatok[i].$title === lepes) {
+          this.$feladatok.splice(i, 1);
+        }
       }
     }
   }
-}
 
 
   // kiüríti a feladato tömböt
@@ -1022,7 +1063,7 @@ removeLepes10(lepes: any): void {
 
   }
 
-  openConfirmResetCelkDialog(){
+  openConfirmResetCelkDialog() {
     const dialogRef = this.dialog.open(ConfirmDeleteCalendarDialogComponent, {
       width: '40%',
       //data: { eredmeny: this.gazdIngadozas, megnevezes: "Túl nagy gazdasági ingadozás" }
@@ -1057,7 +1098,7 @@ removeLepes10(lepes: any): void {
     });
   }
 
-  openConfirmDeleteHaviDialog(feladat: Feladat){
+  openConfirmDeleteHaviDialog(feladat: Feladat) {
     let titleIndex: number = 0;
 
 
@@ -1069,9 +1110,9 @@ removeLepes10(lepes: any): void {
       // ha ok: tehát törölni akarom
       if (result) {
 
-          // Feladat törlése
-        this.$haviSzintuFeladatok.forEach( (item, index) => {
-          if ( item === feladat){
+        // Feladat törlése
+        this.$haviSzintuFeladatok.forEach((item, index) => {
+          if (item === feladat) {
             this.$haviSzintuFeladatok.splice(index, 1);
           }
         });
@@ -1084,12 +1125,12 @@ removeLepes10(lepes: any): void {
 
 
 
-          console.log("FELADATOK " + this.$haviSzintuFeladatok.length);
+        console.log("FELADATOK " + this.$haviSzintuFeladatok.length);
       }
     });
   }
 
-  openConfirmDeleteCalDialog(feladat: Feladat){
+  openConfirmDeleteCalDialog(feladat: Feladat) {
 
     let titleIndex: number = 0;
 
@@ -1102,9 +1143,9 @@ removeLepes10(lepes: any): void {
       // ha ok: tehát törölni akarom
       if (result) {
 
-          // Feladat törlése
-        this.$feladatok.forEach( (item, index) => {
-          if ( item === feladat){
+        // Feladat törlése
+        this.$feladatok.forEach((item, index) => {
+          if (item === feladat) {
             this.$feladatok.splice(index, 1);
           }
         });
@@ -1133,21 +1174,23 @@ removeLepes10(lepes: any): void {
 
 
 
-          console.log("FELADATOK " + this.$feladatok.length);
+        console.log("FELADATOK " + this.$feladatok.length);
       }
     });
   }
-  feladatHaviModositas(feladat: Feladat){}
+  feladatHaviModositas(feladat: Feladat) { }
 
-  feladatModositas(feladat: Feladat){}
+  feladatModositas(feladat: Feladat) { }
 
-  feladatLezaras(feladat: Feladat){
+  feladatLezaras(feladat: Feladat) {
 
-    this.openConfirmDeleteCalDialog(feladat);
-
+    //this.openConfirmDeleteCalDialog(feladat);
+    this.feladatTitle.nativeElement.style.color = 'gray';
+    this.feladatTitle.nativeElement.style.textDecoration = 'line-through';
+    this.isLezartBtn = true;
   }
 
-  feladatHaviLezaras(feladat: Feladat){
+  feladatHaviLezaras(feladat: Feladat) {
     this.openConfirmDeleteHaviDialog(feladat);
   }
 
@@ -1171,20 +1214,20 @@ removeLepes10(lepes: any): void {
   }
 
 
-    /**
-     * Getter $haviSzintuFeladatok
-     * @return {Feladat[] }
-     */
-	public get $haviSzintuFeladatok(): Feladat[]  {
-		return this.haviSzintuFeladatok;
-	}
+  /**
+   * Getter $haviSzintuFeladatok
+   * @return {Feladat[] }
+   */
+  public get $haviSzintuFeladatok(): Feladat[] {
+    return this.haviSzintuFeladatok;
+  }
 
-    /**
-     * Setter $haviSzintuFeladatok
-     * @param {Feladat[] } value
-     */
-	public set $haviSzintuFeladatok(value: Feladat[] ) {
-		this.haviSzintuFeladatok = value;
-	}
+  /**
+   * Setter $haviSzintuFeladatok
+   * @param {Feladat[] } value
+   */
+  public set $haviSzintuFeladatok(value: Feladat[]) {
+    this.haviSzintuFeladatok = value;
+  }
 
 }
