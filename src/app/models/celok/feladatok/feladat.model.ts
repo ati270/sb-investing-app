@@ -3,7 +3,7 @@ export class Feladat{
   private besorolas: string;
   private hatarido: string;
   private color: string;
-
+  private isUtemezett: boolean;
   public start?: string;
   public end?: string;
 
@@ -74,6 +74,23 @@ export class Feladat{
      */
 	public set $hatarido(value: string) {
 		this.hatarido = value;
+	}
+
+
+    /**
+     * Getter $isUtemezett
+     * @return {boolean}
+     */
+	public get $isUtemezett(): boolean {
+		return this.isUtemezett;
+	}
+
+    /**
+     * Setter $isUtemezett
+     * @param {boolean} value
+     */
+	public set $isUtemezett(value: boolean) {
+		this.isUtemezett = value;
 	}
 
 
