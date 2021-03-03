@@ -122,6 +122,7 @@ export class CelkituzesComponent implements OnInit {
   isDisable6: boolean;
 
   isLinear = false;
+  isUtemezett = false;
 
   calendarOptions: CalendarOptions;
   isLezartBtn: boolean = false;
@@ -306,10 +307,11 @@ export class CelkituzesComponent implements OnInit {
         };
         console.log(eventInput);
         this.addCalendarEvent(eventInput);
+        console.log(result);
+        console.log(this.$feladatok);
         this.fullcalendar.getApi().refetchEvents()
       }
     });
-
   }
 
   openAddBesorolasHataridoDialog(chipTitle: string) {
@@ -324,6 +326,7 @@ export class CelkituzesComponent implements OnInit {
       if (result) {
         feladat = result;
         feladat.$title = chipTitle;
+        feladat.$isUtemezett = false;
         console.log(feladat);
         // adjuk hozzá az össz feladathoz
         this.feladatok.push(feladat);
@@ -1029,11 +1032,11 @@ export class CelkituzesComponent implements OnInit {
 
     if ((value || '').trim()) {
       if (!this.lepesek10.includes(value.trim())) {
-      this.lepesek10.push(value.trim());
-      this.osszChips.push(value.trim());
+        this.lepesek10.push(value.trim());
+        this.osszChips.push(value.trim());
 
-      this.openAddBesorolasHataridoDialog(value.trim());
-    }
+        this.openAddBesorolasHataridoDialog(value.trim());
+      }
     }
 
     // Reset the input value
@@ -1094,6 +1097,16 @@ export class CelkituzesComponent implements OnInit {
         this.lepesek8 = [];
         this.lepesek9 = [];
         this.lepesek10 = [];
+
+        // naptart is törölni
+        this.fullcalendar.getApi().removeAllEventSources();
+        /*for (let i = 0; i < this.fullcalendar.getApi().getResources().length; i++) {
+
+          this.fullcalendar.getApi().getResourceById("").remove();
+        }*/
+        this.fullcalendar.getApi().refetchResources();
+        this.files = [];
+        this.haviSzintuFeladatok = [];
       }
     });
   }
@@ -1178,16 +1191,88 @@ export class CelkituzesComponent implements OnInit {
       }
     });
   }
-  feladatHaviModositas(feladat: Feladat) { }
+  feladatHaviModositas(feladat: Feladat) {
+    this.removeOldEvent(feladat);
+    let eventInput: EventInput;
+    let event: Feladat = new Feladat();
 
-  feladatModositas(feladat: Feladat) { }
+    const dialogRef = this.dialog.open(AddDatetimeDialogComponent, {
+      width: '40%',
+      data: feladat
+    });
+
+    this.fullcalendar.getApi().updateSize()
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        event = result;
+        // Módositás miatt törölni előző dátumot naptárbol
+        this.fullcalendar.getApi().addResource({
+          id: event.$title,
+          title: event.$title
+        });
+
+        eventInput = {
+          title: event.$title,
+          resourceId: event.$title,
+          start: event.start,
+          end: event.end,
+          color: event.$color
+        };
+        console.log(eventInput);
+        this.addCalendarEvent(eventInput);
+        console.log(result);
+        console.log(this.$feladatok);
+      }
+    });
+   }
+
+  removeOldEvent(feladat){
+    this.fullcalendar.getApi().getResourceById(feladat.$title).remove();
+    this.fullcalendar.getApi().getEventSourceById(feladat.$title).remove();
+  }
+
+  feladatModositas(feladat: Feladat) {
+    // a listában levő feladatot kell törölni
+    this.removeOldEvent(feladat);
+
+    let eventInput: EventInput;
+    let event: Feladat = new Feladat();
+
+    const dialogRef = this.dialog.open(AddDatetimeDialogComponent, {
+      width: '40%',
+      data: feladat
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        event = result;
+        // Módositás miatt törölni előző dátumot naptárbol
+        this.fullcalendar.getApi().addResource({
+          id: event.$title,
+          title: event.$title
+        });
+
+        eventInput = {
+          title: event.$title,
+          resourceId: event.$title,
+          start: event.start,
+          end: event.end,
+          color: event.$color
+        };
+        console.log(eventInput);
+        this.addCalendarEvent(eventInput);
+        console.log(result);
+
+        console.log(this.$feladatok);
+      }
+    });
+  }
 
   feladatLezaras(feladat: Feladat) {
 
-    //this.openConfirmDeleteCalDialog(feladat);
-    this.feladatTitle.nativeElement.style.color = 'gray';
-    this.feladatTitle.nativeElement.style.textDecoration = 'line-through';
-    this.isLezartBtn = true;
+    this.openConfirmDeleteCalDialog(feladat);
+    // törö
   }
 
   feladatHaviLezaras(feladat: Feladat) {

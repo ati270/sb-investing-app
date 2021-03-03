@@ -13,6 +13,7 @@ export class AddDatetimeDialogComponent implements OnInit {
 
   feladatFormGroup: FormGroup;
   sendFeladat: Feladat;
+  id: number;
   startTime: string;
   endTime: string;
   title;
@@ -72,6 +73,7 @@ export class AddDatetimeDialogComponent implements OnInit {
 
     this.sendFeladat.start = startTime;
     this.sendFeladat.end = endTime;
+    this.sendFeladat.$isUtemezett = true;
 
     this.dialogRef.close(this.sendFeladat);
   }

@@ -593,93 +593,112 @@
               <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
               <br>
 
-              <h5 style="color: #3f729B;">Célkitűzés feladatok</h5>
+              <!-- <h5 style="color: #3f729B;">Célkitűzés feladatok</h5>
 
-              <br>
+              <br> -->
               <!-- Célkitüzés-->
-              <div class="z-depth-2">
-                <ul class="list-group list-group-flush" *ngFor="let feladat of $feladatok">
-                  <li class="list-group-item">
-                    <div class="d-flex" >
-                      <div class="mr-auto p-2" style="color: #3f729B;">
-                        <p #feladatTitle>{{feladat.$title}}</p>
-                      </div>
-                      <div class="p-2">
-                        <span class="badge badge-primary badge-pill">{{feladat.$besorolas}}</span>
-                      </div>
-                      <div class="p-2">
-                        <span class="badge badge-primary badge-pill">{{feladat.$hatarido}}</span>
-                      </div>
-                      <div class="divider-vertical"></div>
-                      <div class="p-2">
-                        <button mat-raised-button color="warn" (click)="openAddTimePickerDialog(feladat)" [disabled]="isLezartBtn">Ütemezés</button>
 
-                        <!--<span class="badge badge-danger">
-                          <a (click)="openAddTimePickerDialog(feladat)">
-                            Ütemezés
-                          </a>
-                        </span>-->
-                      </div>
-                      <div class="p-2">
-                        <button mat-raised-button (click)="feladatModositas(feladat)" class="modositBtn">Módosítás</button>
-
-                        <!--<span class="badge badge-warning">
-                          <a (click)="feladatModositas(feladat)">
-                            Módosítás
-                          </a>
-                        </span>-->
-                      </div>
-                      <div class="p-2" #lezarBtn>
-                         <button mat-raised-button (click)="feladatLezaras(feladat)" [disabled]="isLezartBtn" class="lezartBtn">Lezárás</button>
-                        <!--<span class="badge badge-success" >
-                          <a (click)="feladatLezaras(feladat)" >
-                            Lezárás
-                          </a>
-                        </span> -->
-                      </div>
-                    </div>
-                    <hr style="padding:0; margin: 0; color: #3f729B;">
-                  </li>
-                </ul>
-              </div>
               <br>
               <!-- Havi szintű-->
-              <h5 style="color: #3f729B;">Havi szintű feladatok</h5>
-              <br>
-              <div class="z-depth-2">
-                <ul class="list-group list-group-flush" *ngFor="let feladat of $haviSzintuFeladatok">
-                  <li class="list-group-item">
+              <!--<h5 style="color: #3f729B;">Egyéb feladatok</h5>
+              <br>-->
 
-                    <div class="d-flex">
-                      <div class="mr-auto p-2" style="color: #3f729B;">
-                        {{feladat.$title}}
-                      </div>
-                      <div class="p-2">
-                        <span class="badge badge-primary badge-pill">{{feladat.$besorolas}}</span>
-                      </div>
-                      <div class="p-2">
-                        <span class="badge badge-primary badge-pill">{{feladat.$hatarido}}</span>
-                      </div>
-                      <div class="divider-vertical"></div>
-                      <div class="p-2">
-                        <span class="badge badge-warning">
-                          <a (click)="feladatHaviModositas(feladat)">
-                            Módosítás
-                          </a>
-                        </span>
-                      </div>
-                      <div class="p-2">
-                        <span class="badge badge-success">
-                          <a (click)="feladatHaviLezaras(feladat)">
-                            Lezárás
-                          </a>
-                        </span>
-                      </div>
-                    </div>
-                    <hr style="padding:0; margin: 0; color: #3f729B;">
-                  </li>
-                </ul>
-              </div>
+
+
+              <mat-tab-group  class="z-depth-2" backgroundColor="primary">
+                <mat-tab label="Célkitűzési feladatok">
+                  <div class="z-depth-2">
+                    <div *ngIf="$feladatok.length<1" class="no-item">Még nincs hozzáadott célkitűzési feladat. Adj hozzá egyet!</div>
+                    <ul class="list-group list-group-flush" *ngFor="let feladat of $feladatok">
+                      <li class="list-group-item">
+                        <div class="d-flex">
+                          <div class="mr-auto p-2" style="color: #3f729B;">
+                            <div class="d-flex">
+                              <div class="mr-auto p-2">
+                                <p #feladatTitle>{{feladat.$title}}</p>
+                              </div>
+                              <div class="p-2">
+                                <p *ngIf="feladat.$isUtemezett" class="utemezett">ütemezve</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="p-2">
+                            <span class="badge badge-primary badge-pill badge-besorolas">{{feladat.$besorolas}}</span>
+                          </div>
+                          <div class="p-2">
+                            <span class="badge badge-primary badge-pill badge-hatarido">{{feladat.$hatarido}}</span>
+                          </div>
+                          <div class="divider-vertical"></div>
+                          <div class="p-2">
+                            <button mat-raised-button color="warn" (click)="openAddTimePickerDialog(feladat)"
+                              [disabled]="feladat.$isUtemezett">Ütemezés</button>
+                            <!--<span class="badge badge-danger" [ngStyle]="{'disabled':!feladat.$isUtemezett ? 'enabled' : 'disabled'}">
+                              <a (click)="openAddTimePickerDialog(feladat)">
+                                Ütemezés
+                              </a>
+                            </span>-->
+                          </div>
+                          <div class="p-2">
+                            <button mat-raised-button (click)="feladatModositas(feladat)" class="modositBtn"
+                              [disabled]="!feladat.$isUtemezett">Módosítás</button>
+                            <!-- <span class="badge badge-warning">
+                              <a (click)="feladatModositas(feladat)">
+                                Módosítás
+                              </a>
+                            </span>-->
+                          </div>
+                          <div class="p-2" #lezarBtn>
+                            <span class="badge badge-success">
+                              <a (click)="feladatLezaras(feladat)">
+                                Lezárás
+                              </a>
+                            </span>
+                          </div>
+                        </div>
+                        <hr style="padding:0; margin: 0; color: #3f729B;">
+                      </li>
+                    </ul>
+                  </div>
+                </mat-tab>
+                <mat-tab label="Egyéb feladatok">
+                  <div class="z-depth-2">
+                    <div *ngIf="$haviSzintuFeladatok.length<1" class="no-item">Még nincs hozzáadott egyéb feladat. Adj hozzá egyet!</div>
+                    <ul class="list-group list-group-flush" *ngFor="let feladat of $haviSzintuFeladatok">
+                      <li class="list-group-item">
+
+                        <div class="d-flex">
+                          <div class="mr-auto p-2" style="color: #3f729B;">
+                            {{feladat.$title}}
+                          </div>
+                          <div class="p-2">
+                            <span class="badge badge-primary badge-pill">{{feladat.$besorolas}}</span>
+                          </div>
+                          <div class="p-2">
+                            <span class="badge badge-primary badge-pill">{{feladat.$hatarido}}</span>
+                          </div>
+                          <div class="divider-vertical"></div>
+                          <div class="p-2">
+                            <span class="badge badge-warning">
+                              <a (click)="feladatHaviModositas(feladat)">
+                                Módosítás
+                              </a>
+                            </span>
+                          </div>
+                          <div class="p-2">
+                            <span class="badge badge-success">
+                              <a (click)="feladatHaviLezaras(feladat)">
+                                Lezárás
+                              </a>
+                            </span>
+                          </div>
+                        </div>
+                        <hr style="padding:0; margin: 0; color: #3f729B;">
+                      </li>
+                    </ul>
+                  </div>
+                </mat-tab>
+              </mat-tab-group>
+
               <br>
               <hr>
               <!--Magyarázat-->

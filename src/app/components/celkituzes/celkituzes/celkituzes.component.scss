@@ -87,8 +87,22 @@ input{
   padding-right: 1rem;
 }
 
+.no-item{
+  padding: 1rem;
+  color: #3f729b;
+}
+
+.mat-tab{
+  color: white;
+}
+
 .badge{
   padding: 0.7rem;
+}
+
+.badge-besorolas, .badge-hatarido{
+  background: #3f729b;
+  color: white;
 }
 
 .fc-sun { background-color:gray !important; }
@@ -132,6 +146,12 @@ ul{
   margin-left: 2rem;
   border-left: 1px solid #f2f2f2;
   border-image: linear-gradient(to bottom, gray, rgba(0, 0, 0, 0)) 1 100%;
+}
+
+.utemezett{
+  text-transform: uppercase;
+  color: darkgreen;
+  font-weight: bold;
 }
 
 .container-fluid .row{
