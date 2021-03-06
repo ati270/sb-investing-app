@@ -1,8 +1,10 @@
+import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { NyitottBefektetesService } from 'src/app/services/befektetesek/nyitott-befektetes/nyitott-befektetes.service';
 import { UjReszveny } from 'src/app/models/uj-befektetes-models/uj-befektetes/uj-befektetes.model';
 import { BefektetesAdatok } from 'src/app/models/uj-befektetes-models/befektetes-adatok/bef-adatok.model';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { AppState } from '../../store/reszveny/state';
 
 @Component({
   selector: 'app-nyitott-befektetesek',
@@ -11,28 +13,40 @@ import { Observable } from 'rxjs';
 })
 export class NyitottBefektetesekComponent implements OnInit {
 
-  message: string;
-  reszvenyek: UjReszveny[];
-  ujReszveny: UjReszveny;
+  reszvenyAllItems$: Observable<Array<UjReszveny>>;
+  reszvenyFolyamatbanItems$: Observable<UjReszveny>;
+  ujReszvenyek: UjReszveny[] = [];
   befAdat: BefektetesAdatok;
-  vallalatNeve: string;
-  datum: string;
-  obsList: Observable<UjReszveny>;
-  obsBefData: Observable<BefektetesAdatok[]>;
+  typeOfBefektetes = "Nyitott befektetések";
+  count = 0;
 
-  constructor(private nyitottBefService: NyitottBefektetesService) {
-    this.reszvenyek = new Array<UjReszveny>();
+  constructor(private store: Store<AppState>) {
    }
 
   ngOnInit(): void {
-      this.obsList = this.nyitottBefService.$obsList;
 
-      this.obsList.subscribe(
-        data =>{
-          console.log(data.$ujReszvenyElemekList[0]);
+    this.test();
+
+  }
+
+
+  getVal(): Observable<Array<UjReszveny>>{
+    return of(this.ujReszvenyek);
+  }
+
+  test() {
+
+    this.reszvenyAllItems$ = this.store.select(store => store.reszvenyek);
+
+
+    this.reszvenyAllItems$.subscribe(item => {
+      for (let it of item) {
+        if(it.$befektetesAdatok.status === this.typeOfBefektetes){
+          this.ujReszvenyek.push(it);
         }
-      )
-
+        console.log(it.$befektetesAdatok.status);
+      }
+    });
   }
 
 

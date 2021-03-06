@@ -28,7 +28,10 @@ import { AddDatetimeDialogComponent } from './components/dialogs/add-datetime-di
 import { ConfirmDeleteCalendarDialogComponent } from './components/dialogs/confirm-delete-calendar-dialog/confirm-delete-calendar-dialog.component';
 import { StrategiaComponent } from './components/strategia/strategia/strategia.component';
 import { MatFabMenuModule } from '@angular-material-extensions/fab-menu';
-
+import { StoreModule } from '@ngrx/store';
+import { ReszvenyReducer } from './components/store/reszveny/reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,11 @@ import { MatFabMenuModule } from '@angular-material-extensions/fab-menu';
     MatButtonModule,
     InvestmentHomeModule,
     FlexLayoutModule,
-    MatFabMenuModule
+    MatFabMenuModule,
+    StoreModule.forRoot({reszvenyek: ReszvenyReducer}),
+    StoreDevtoolsModule.instrument({
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

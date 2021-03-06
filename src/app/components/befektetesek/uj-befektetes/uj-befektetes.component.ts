@@ -1,3 +1,4 @@
+import {  AddReszvenyAction } from './../../store/reszveny/actions';
 import { Component, OnInit, ViewChild, Output } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { TargetBinder } from '@angular/compiler';
@@ -12,6 +13,9 @@ import { Manageles } from 'src/app/models/uj-befektetes-models/manageles/managel
 import { UjReszveny } from 'src/app/models/uj-befektetes-models/uj-befektetes/uj-befektetes.model';
 import { EventEmitter } from '@angular/core';
 import { UjBefektetesService } from 'src/app/services/befektetesek/uj-befektetes-services/uj-befektetes/uj-befektetes.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/reszveny/state';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-uj-befektetes',
@@ -22,8 +26,6 @@ export class UjBefektetesComponent implements OnInit {
 
   isBefektetesKesz: boolean;
 
-
-
   // Components
   befektetesAdatok: BefektetesAdatok;
   mentalisElemzes: MentalisElemzes;
@@ -33,9 +35,6 @@ export class UjBefektetesComponent implements OnInit {
   celarMeghatarozas: CelarMeghatarozas;
   nettoJelenertek: NettoJelenErtek;
   manageles: Manageles;
-
-  // Új részvény lista
-  ujReszveny: UjReszveny;
 
   //@ViewChild('tabGroup') tabGroup;
   //selectedTabIndex: number;
@@ -49,18 +48,20 @@ export class UjBefektetesComponent implements OnInit {
   lastTab: boolean;
   private haladasValue: number = 0;
   private tabValue = 12.5;
-
-  constructor(private ujBefektetesService: UjBefektetesService) { }
+  constructor(private ujBefektetesService: UjBefektetesService, private store: Store<AppState>) { }
 
   ngOnInit(): void {
-    this.ujReszveny = new UjReszveny();
     this.isBefektetesKesz = false;
   }
 
-  
 
-  addItemsToUjReszveny(item: any){
+  // Ha az összes adatot egyszerre akarom a részvényhez hozzáadni
+  /*addItemToUjReszveny(item: any){
     this.ujBefektetesService.addItems(item);
+  }*/
+
+  addOneItem(item: any){
+    this.ujBefektetesService.addOneItem(item);
   }
 
 
@@ -69,10 +70,17 @@ export class UjBefektetesComponent implements OnInit {
     this.nextTabIndex = this.nextTabIndex + 1;
     this.haladasValue = this.tabValue;
     this.befektetesAdatok = data.befektetesAdatok;
-    console.log("filled" + this.befektetesAdatok.vallalatNeve);
+
 
      // Adjuk hozzá a listához az itemet
-     this.addItemsToUjReszveny(this.befektetesAdatok);
+     this.addOneItem(this.befektetesAdatok);
+
+     this.store.dispatch(
+      new AddReszvenyAction(this.ujBefektetesService.$ujReszveny)
+    );
+
+    // itt uj reszveny kell
+    this.ujBefektetesService.$ujReszveny = new UjReszveny();
   }
 
   filledSajatMagamElemzeseTab(data?: any){
@@ -82,7 +90,7 @@ export class UjBefektetesComponent implements OnInit {
     this.mentalisElemzes = data.mentalisElemzes;
 
      // Adjuk hozzá a listához az itemet
-     this.addItemsToUjReszveny(this.mentalisElemzes);
+     this.addOneItem(this.mentalisElemzes);
   }
 
   filledVizsgKriteriumokTab(data?: any){
@@ -92,7 +100,7 @@ export class UjBefektetesComponent implements OnInit {
     this.vallalatKockazatElemzes = data.vallalatKockazatElemzes;
 
      // Adjuk hozzá a listához az itemet
-     this.addItemsToUjReszveny(this.vallalatKockazatElemzes);
+     this.addOneItem(this.vallalatKockazatElemzes);
   }
 
   filledPenzugyiAdatokTab(data?: any){
@@ -102,7 +110,7 @@ export class UjBefektetesComponent implements OnInit {
     this.penzugyiAdatok = data.penzugyiAdatok;
 
      // Adjuk hozzá a listához az itemet
-     this.addItemsToUjReszveny(this.penzugyiAdatok);
+     this.addOneItem(this.penzugyiAdatok);
   }
 
   filledVallPenzElemzesTab(data?: any){
@@ -112,7 +120,7 @@ export class UjBefektetesComponent implements OnInit {
     this.vallalatPenzugyiElemzes = data.vallalatPenzugyiElemzes;
 
      // Adjuk hozzá a listához az itemet
-     this.addItemsToUjReszveny(this.vallalatPenzugyiElemzes);
+     this.addOneItem(this.vallalatPenzugyiElemzes);
   }
 
   filledCelarTab(data?: any){
@@ -122,7 +130,7 @@ export class UjBefektetesComponent implements OnInit {
     this.celarMeghatarozas = data.celar;
 
      // Adjuk hozzá a listához az itemet
-     this.addItemsToUjReszveny(this.celarMeghatarozas);
+     this.addOneItem(this.celarMeghatarozas);
   }
 
   filledNettoJelenTab(data?: any){
@@ -132,11 +140,11 @@ export class UjBefektetesComponent implements OnInit {
     this.nettoJelenertek = data.nettoJelenErtek;
 
      // Adjuk hozzá a listához az itemet
-     this.addItemsToUjReszveny(this.nettoJelenertek);
+     this.addOneItem(this.nettoJelenertek);
   }
 
 
-  
+
 
   filledManageles(data? : any){
     this.haladasValue = 100;
@@ -144,16 +152,15 @@ export class UjBefektetesComponent implements OnInit {
     this.manageles = data.manageles;
 
     // Adjuk hozzá a listához az itemet
-    this.addItemsToUjReszveny(this.manageles);
+    this.addOneItem(this.manageles);
 
-    this.ujBefektetesService.getUjReszveny().subscribe(
-      adatok => {
-        this.ujReszveny = adatok;
-      }
-    )
+
+    /*this.store.dispatch(
+      new AddReszvenyAction(this.reszvenyek)
+    );*/
     // a manageles során létrehozok 1 db ujReszvenyt(elemeivel) ami bekerül a service-be
-    this.ujBefektetesService.emitCreateUjReszveny(this.ujReszveny);
-    
+    this.ujBefektetesService.emitCreateUjReszveny(this.ujBefektetesService.$ujReszveny);
+
   }
 
   // GETTERS
@@ -177,5 +184,5 @@ export class UjBefektetesComponent implements OnInit {
 		this.haladasValue = value;
 	}
 
-  
+
 }

@@ -18,7 +18,6 @@ import { MatFabMenu } from '@angular-material-extensions/fab-menu';
 export class BefektetesComponent implements OnInit {
 
   // Befektetés rész komponensei(adatok, saját magam elemzése...stb)
-  ujReszveny: UjReszveny;
   befektetesAdatok: BefektetesAdatok;
 
   @ViewChild('mainPanel') mainPanel: ElementRef;
@@ -57,7 +56,7 @@ export class BefektetesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.saveDataTo();
+    //this.saveDataTo();
   }
 
   routeToPenzugyek() {
@@ -72,46 +71,47 @@ export class BefektetesComponent implements OnInit {
     this.router.navigate(['/befektetes/strategia']);
   }
 
-  saveDataTo() {
-    this.ujBefektetesService.$changeEmitted.subscribe(
-      adat => {
-        this.befektetesAdatok = adat.$ujReszvenyElemekList[0];
-        console.log("Státusz: " + this.befektetesAdatok.vallalatNeve);
+}
 
-        // send data to nyilt, zárt ...
-        switch (this.befektetesAdatok.status) {
-          // Folyamatban levő elemzések
-          case this.befektetesFormak[0]: {
-            this.befService.emitFolyamaban(adat);
-          }
-          // nyitott befektetések
-          case this.befektetesFormak[1]: {
-            this.befService.emitNyitott(adat);
-            console.log(adat)
-              ;
-          }
+  /*saveDataTo() {
+  this.ujBefektetesService.$changeEmitted.subscribe(
+    adat => {
+      this.befektetesAdatok = adat.$ujReszvenyElemekList[0];
+      console.log("Státusz: " + this.befektetesAdatok.vallalatNeve);
 
-          // Lezárt bef.
-          case this.befektetesFormak[2]: {
-            this.befService.emitLezart(adat);
+      // send data to nyilt, zárt ...
+      switch (this.befektetesAdatok.status) {
+        // Folyamatban levő elemzések
+        case this.befektetesFormak[0]: {
+          this.befService.emitFolyamaban(adat);
+        }
+        // nyitott befektetések
+        case this.befektetesFormak[1]: {
+          this.befService.emitNyitott(adat);
+          console.log(adat)
+            ;
+        }
 
-          }
-
-          // figyelő lista
-          case this.befektetesFormak[3]: {
-            this.befService.emitFigyelo(adat);
-
-          }
-
-          // elvetett befektetések
-          case this.befektetesFormak[4]: {
-            this.befService.emitElvetett(adat);
-          }
+        // Lezárt bef.
+        case this.befektetesFormak[2]: {
+          this.befService.emitLezart(adat);
 
         }
+
+        // figyelő lista
+        case this.befektetesFormak[3]: {
+          this.befService.emitFigyelo(adat);
+
+        }
+
+        // elvetett befektetések
+        case this.befektetesFormak[4]: {
+          this.befService.emitElvetett(adat);
+        }
       }
-    )
-  }
+    }
+  )
+}*/
 
 
-}
+
