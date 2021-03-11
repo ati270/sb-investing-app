@@ -16,40 +16,32 @@ import { BefektetesAdatok } from 'src/app/models/uj-befektetes-models/befektetes
 export class UjBefektetesService {
 
   private ujReszveny: UjReszveny; // 1 db részvény aminek van egy elem listája
-  private emitChangeSource = new Subject<UjReszveny>();
-
-  $changeEmitted = this.emitChangeSource.asObservable();
+  private countFolyamatban: number = 0;
 
   constructor() {
-    this.ujReszveny = new UjReszveny();
+    this.$ujReszveny = new UjReszveny();
   }
 
-  emitCreateUjReszveny(change: any) {
-    this.emitChangeSource.next(change);
-  }
-
-  addAllItems(befadatok: BefektetesAdatok, mentalisElemzes: MentalisElemzes, vallKockEl: VallalatKockazatElemzes, penzugyiAdatok: PenzugyiAdatok, vallalatPenzEl: VallalatPenzugyiElemzes,
-    celarMeghat: CelarMeghatarozas, nettoJelenErtek: NettoJelenErtek, manageles: Manageles) {
-    this.ujReszveny.$befektetesAdatok = befadatok;
-    this.ujReszveny.$mentalisElemzes = mentalisElemzes;
-    this.ujReszveny.$vallalatKockazatElemzes = vallKockEl;
-    this.ujReszveny.$penzugyiAdatok = penzugyiAdatok;
-    this.ujReszveny.$vallalatPenzugyiElemzes = vallalatPenzEl;
-    this.ujReszveny.$celarMeghatarozas = celarMeghat;
-    this.ujReszveny.$nettoJelenertek = nettoJelenErtek;
-    this.ujReszveny.$manageles = manageles;
+  addAllItems(befadatok?: BefektetesAdatok, mentalisElemzes?: MentalisElemzes, vallKockEl?: VallalatKockazatElemzes, penzugyiAdatok?: PenzugyiAdatok, vallalatPenzEl?: VallalatPenzugyiElemzes,
+    celarMeghat?: CelarMeghatarozas, nettoJelenErtek?: NettoJelenErtek, manageles?: Manageles) {
+    this.$ujReszveny.$befektetesAdatok = befadatok;
+    this.$ujReszveny.$mentalisElemzes = mentalisElemzes;
+    this.$ujReszveny.$vallalatKockazatElemzes = vallKockEl;
+    this.$ujReszveny.$penzugyiAdatok = penzugyiAdatok;
+    this.$ujReszveny.$vallalatPenzugyiElemzes = vallalatPenzEl;
+    this.$ujReszveny.$celarMeghatarozas = celarMeghat;
+    this.$ujReszveny.$nettoJelenertek = nettoJelenErtek;
+    this.$ujReszveny.$manageles = manageles;
 
   }
 
   addOneItem(item: any) {
-    if (item instanceof BefektetesAdatok) {
-
-    }
     switch (true) {
       case item instanceof BefektetesAdatok:
         this.ujReszveny.$befektetesAdatok = item;
         break;
       case item instanceof MentalisElemzes:
+        console.log("ezzzzz");
         this.ujReszveny.$mentalisElemzes = item;
         break;
       case item instanceof VallalatKockazatElemzes:
@@ -76,17 +68,38 @@ export class UjBefektetesService {
     }
   }
 
+  updateOneItem(item: any){
+    switch (true) {
+      case item instanceof BefektetesAdatok:
+        this.$ujReszveny.$befektetesAdatok = Object.assign(item, this.$ujReszveny.$befektetesAdatok);
+        break;
+      case item instanceof MentalisElemzes:
+        this.ujReszveny.$mentalisElemzes = item;
+        break;
+      case item instanceof VallalatKockazatElemzes:
+        this.ujReszveny.$vallalatKockazatElemzes = item;
+        break;
+      case item instanceof PenzugyiAdatok:
+        this.ujReszveny.$penzugyiAdatok = item;
+        break;
+      case item instanceof VallalatPenzugyiElemzes:
+        this.ujReszveny.$vallalatPenzugyiElemzes = item;
+        break;
+      case item instanceof CelarMeghatarozas:
+        this.ujReszveny.$celarMeghatarozas = item;
+        break;
+      case item instanceof NettoJelenErtek:
+        this.ujReszveny.$nettoJelenertek = item;
+        break;
+      case item instanceof Manageles:
+        this.ujReszveny.$manageles = item;
+        break;
 
+      default:
+        break;
+    }
 
-    /**
-     * Getter $ujReszveny
-     * @return {UjReszveny}
-     */
-	public get $ujReszveny(): UjReszveny {
-		return this.ujReszveny;
-	}
-  
-
+  }
 
     /**
      * Setter $ujReszveny
@@ -96,6 +109,31 @@ export class UjBefektetesService {
 		this.ujReszveny = value;
 	}
 
+
+    /**
+     * Getter $ujReszveny
+     * @return {UjReszveny}
+     */
+	public get $ujReszveny(): UjReszveny {
+		return this.ujReszveny;
+	}
+
+
+    /**
+     * Getter $countFolyamatban
+     * @return {number }
+     */
+	public get $countFolyamatban(): number  {
+		return this.countFolyamatban;
+	}
+
+    /**
+     * Setter $countFolyamatban
+     * @param {number } value
+     */
+	public set $countFolyamatban(value: number ) {
+		this.countFolyamatban = value;
+	}
 
 
 }

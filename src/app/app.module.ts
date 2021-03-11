@@ -50,7 +50,12 @@ import { environment } from '../environments/environment';
     InvestmentHomeModule,
     FlexLayoutModule,
     MatFabMenuModule,
-    StoreModule.forRoot({reszvenyek: ReszvenyReducer}),
+      StoreModule.forRoot({reszvenyek: ReszvenyReducer}, {
+        runtimeChecks: {
+          strictStateImmutability: false,
+          strictActionImmutability: false,
+        },
+      }),
     StoreDevtoolsModule.instrument({
       logOnly: environment.production, // Restrict extension to log-only mode
     }),

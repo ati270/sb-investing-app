@@ -1,6 +1,8 @@
+import { BefektetesAdatok } from './../../../../models/uj-befektetes-models/befektetes-adatok/bef-adatok.model';
+import { FormGroup } from '@angular/forms';
 import { Injectable } from '@angular/core';
-import { BefektetesAdatok } from 'src/app/models/uj-befektetes-models/befektetes-adatok/bef-adatok.model';
 import { Observable, of } from 'rxjs';
+import { UjReszveny } from 'src/app/models/uj-befektetes-models/uj-befektetes/uj-befektetes.model';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +10,7 @@ import { Observable, of } from 'rxjs';
 export class BefAdatokService {
 
   befAdatok: BefektetesAdatok;
+  private updatedAdatok: BefektetesAdatok;
 
   constructor() { }
 
@@ -15,8 +18,36 @@ export class BefAdatokService {
       this.befAdatok = new BefektetesAdatok(vallalatNeve, reszvenyTicker, datum, agazat, strategia, status);
   }
 
+
+  loadBefAdatok(ujReszveny: UjReszveny[]){
+
+    this.updatedAdatok = ujReszveny[0].$befektetesAdatok;
+
+  }
+
+
+
   getBefektetesAdatok(): Observable<BefektetesAdatok>{
     return of(this.befAdatok);
   }
+
+
+    /**
+     * Getter $updatedAdatok
+     * @return {BefektetesAdatok}
+     */
+	public get $updatedAdatok(): BefektetesAdatok {
+		return this.updatedAdatok;
+	}
+
+    /**
+     * Setter $updatedAdatok
+     * @param {BefektetesAdatok} value
+     */
+	public set $updatedAdatok(value: BefektetesAdatok) {
+		this.updatedAdatok = value;
+	}
+
+
 
 }

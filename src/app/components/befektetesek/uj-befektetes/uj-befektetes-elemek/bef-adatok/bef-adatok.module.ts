@@ -12,7 +12,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
-
+import {ToastModule} from 'primeng/toast';
+import {RippleModule} from 'primeng/ripple';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
     imports: [CommonModule,
@@ -25,8 +27,11 @@ import { MatSelectModule } from '@angular/material/select';
         MatDatepickerModule,
         MatNativeDateModule,
         FormsModule,
+        ButtonModule,
+        RippleModule,
         ReactiveFormsModule,
         MatButtonModule,
+        ToastModule,
         MatSelectModule,
     ],
     declarations: [BefAdatokComponent],

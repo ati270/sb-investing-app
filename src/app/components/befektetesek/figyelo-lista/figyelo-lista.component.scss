@@ -1,0 +1,40 @@
+h4{
+  color: black;
+  text-transform: uppercase;
+  margin-top: 1rem;
+  margin-left: 1rem;
+}
+
+
+.mat-card{
+  margin: 3rem;
+  width: 95%;
+  padding: 1rem;
+
+}
+
+.mat-card:hover  {
+  border-left: 6px solid #3f729b;
+}
+
+.z-depth-2{
+  color: #3f729b;
+}
+
+p{
+  font-weight: bold;
+  color: #3f729b;
+  margin: 1rem;
+}
+
+.breadcumb{
+  margin:1px;
+  width: 95%;
+}
+
+$breadcrumb-divider: quote(">");
+
+
+.z-depth-2{
+  color: #3f729b;
+}

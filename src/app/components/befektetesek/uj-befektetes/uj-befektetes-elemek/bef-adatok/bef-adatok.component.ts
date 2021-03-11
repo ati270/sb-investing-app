@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { EventEmitter } from '@angular/core';
 import { BefektetesAdatok } from 'src/app/models/uj-befektetes-models/befektetes-adatok/bef-adatok.model';
 import { BefAdatokService } from 'src/app/services/befektetesek/uj-befektetes-services/befektetes-adatok/bef-adatok.service';
+import { MessageService } from 'primeng/api';
+import { PrimeNGConfig } from 'primeng/api';
+
 
 export interface dataArguments {
   filled: boolean;
@@ -12,13 +15,15 @@ export interface dataArguments {
 @Component({
   selector: 'app-bef-adatok',
   templateUrl: './bef-adatok.component.html',
-  styleUrls: ['./bef-adatok.component.scss']
+  styleUrls: ['./bef-adatok.component.scss'],
+  providers: [MessageService]
 })
 
 export class BefAdatokComponent implements OnInit {
 
 
   @Output() filledEmitter: EventEmitter<dataArguments> = new EventEmitter();
+  @Output() filledSaveEmitter: EventEmitter<BefektetesAdatok> = new EventEmitter();
   allFilled: boolean;
   befAdatok: BefektetesAdatok;
 
@@ -38,9 +43,12 @@ export class BefAdatokComponent implements OnInit {
   private status: string;
 
 
-  constructor(private _formBuilder: FormBuilder, private befAdatokService: BefAdatokService) { }
+  constructor(private _formBuilder: FormBuilder, private befAdatokService: BefAdatokService, private messageService: MessageService,
+    private primengConfig: PrimeNGConfig) { }
 
   ngOnInit(): void {
+    this.primengConfig.ripple = true;
+
     this.createAdatokFormGroup();
     //this.getBefAdatok();
     this.allFilled = false;
@@ -65,29 +73,43 @@ export class BefAdatokComponent implements OnInit {
 
   }
 
-  createBefAdatok(){
-  this.befAdatokService.addBefAdat(
-    this.$vallalatNeve, 
-    this.$reszvenyTicker, 
-    this.$datum, 
-    this.$agazat, 
-    this.$strategia, 
-    this.$status);
+  loadBefAdatok() {
+    let befAdat = this.befAdatokService.$updatedAdatok;
+
+    this.adatokFormGroup.patchValue({
+      vallalat_neveCtrl: befAdat.vallalatNeve,
+      reszveny_tickerCtrl: befAdat.reszvenyTicker,
+      datumCtrl: befAdat.datum,
+      agazatCtrl: befAdat.agazat,
+      strategiaCtrl: befAdat.strategia,
+      statusCtrl: befAdat.status
+      // formControlName2: myValue2 (can be omitted)
+    });
   }
-  getBefAdatok(){
-    
+
+  createBefAdatok() {
+    this.befAdatokService.addBefAdat(
+      this.$vallalatNeve,
+      this.$reszvenyTicker,
+      this.$datum,
+      this.$agazat,
+      this.$strategia,
+      this.$status);
+  }
+
+  getBefAdatok() {
+
 
     this.befAdatokService.getBefektetesAdatok().subscribe(
-      adatok => { 
-       this.befAdatok = adatok;
-        }
+      adatok => {
+        this.befAdatok = adatok;
+      }
     )
   }
-  
+
 
   // TODO: create model, post on http to backend
-  befAdatokSubmit() {
-
+  /*befAdatokSubmit() {
     this.allFilled = true;
 
     // Add bef.adatok to service
@@ -95,17 +117,28 @@ export class BefAdatokComponent implements OnInit {
     this.getBefAdatok();
 
     // Send data to uj-befektetes with emitter
- 
+
     this.filledEmitter.emit(
       {
-        filled: this.allFilled, 
+        filled: this.allFilled,
         befektetesAdatok: this.befAdatok
       }
     );
 
+    this.loadBefAdatok();
+
+  }*/
+
+  saveBefAdatok() {
+    this.createBefAdatok();
+    this.getBefAdatok();
+
+    this.filledSaveEmitter.emit(this.befAdatok)
+
+    // Toast
+    this.messageService.add({ key: 'tc', severity: 'success', summary: 'Befektetési adatok sikeresen hozzáadva!'});
+
   }
-
-
 
   // GETTERS
 
@@ -174,6 +207,8 @@ export class BefAdatokComponent implements OnInit {
 
     return this.status;
   }
+
+
 
 
 }

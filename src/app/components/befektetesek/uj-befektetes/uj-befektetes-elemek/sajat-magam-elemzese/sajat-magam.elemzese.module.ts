@@ -9,6 +9,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToastModule } from 'primeng/toast';
+import { RippleModule } from 'primeng/ripple';
+import { ButtonModule } from 'primeng/button';
 
 
 @NgModule({
@@ -19,10 +22,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatDividerModule,
     MatCardModule,
     MatRadioModule,
-    FormsModule,ReactiveFormsModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatRadioModule,
-    MatIconModule
-
+    MatIconModule,
+    RippleModule,
+    ButtonModule,
+    ToastModule,
   ],
   declarations: [SajatMagamElemzeseComponent],
   exports: [SajatMagamElemzeseComponent],

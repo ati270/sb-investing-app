@@ -8,6 +8,7 @@ export interface dataArguments {
   penzugyiAdatok: PenzugyiAdatok;
 }
 
+
 @Component({
   selector: 'app-penzugyi-adatok',
   templateUrl: './penzugyi-adatok.component.html',
@@ -247,6 +248,17 @@ export class PenzugyiAdatokComponent implements OnInit {
     this.createPenzugyiElemzes();
     this.getPenzugyiAdatok();
     this.filledEmitter.emit({filled: this.allFilled,penzugyiAdatok: this.penzugyiAdatok });
+  }
+
+  generatePDF(){
+     /* const doc = new jsPDF();
+
+      let columns = ["Megnevezés", "Tárgyév", "Előzőév", 'Konkurencia', 'Q2', 'Q3'];
+        let rows = [
+            [1, "Shaw", "Tanzania", 1, "Shaw", "Tanzania"]
+        ];
+      doc.autoTable(columns, rows);
+      doc.save('sb_investing_penz_adatok.pdf');*/
   }
 
 }

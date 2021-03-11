@@ -7,7 +7,19 @@ h4{
 
 
 .mat-card{
-  margin: 2rem;
+  margin: 3rem;
+  width: 95%;
+  padding: 1rem;
+  border-left: 6px solid #3f729b;
+
+}
+
+.mat-card:hover  {
+  border-left: 6px solid #CC0000;
+}
+
+.z-depth-2{
+  color: #3f729b;
 }
 
 p{
@@ -15,3 +27,18 @@ p{
   color: #3f729b;
   margin: 1rem;
 }
+
+.breadcumb{
+  margin:1px;
+  width: 95%;
+}
+
+hr.mainHR{
+  width: 98%;
+  color: #3f729b;
+}
+
+$breadcrumb-divider: quote(">");
+
+
+

@@ -1,3 +1,4 @@
+import { ToastModule } from 'primeng/toast';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA }  from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { MatTabsModule } from '@angular/material/tabs';
@@ -13,6 +14,10 @@ import { CelarMeghatarozasModule } from './uj-befektetes-elemek/celar-meghataroz
 import { ManagelesModule } from './uj-befektetes-elemek/manageles/manageles.module';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { BefMenuModule } from '../../menus/bef-menu/bef-menu.module';
+import {MatButtonModule} from '@angular/material/button';
+import { RippleModule } from 'primeng/ripple';
+import { ButtonModule } from 'primeng/button';
+import {KnobModule} from 'primeng/knob';
 
 
 @NgModule({
@@ -28,7 +33,12 @@ import { BefMenuModule } from '../../menus/bef-menu/bef-menu.module';
     VallalatVizsgalatKriteriumokModule,
     VallalatPenzugyiElemzesModule,
     CelarMeghatarozasModule,
-    ManagelesModule
+    ManagelesModule,
+    MatButtonModule,
+    ButtonModule,
+    KnobModule,
+    RippleModule,
+    ToastModule,
 ],
   declarations: [UjBefektetesComponent],
   exports: [UjBefektetesComponent],

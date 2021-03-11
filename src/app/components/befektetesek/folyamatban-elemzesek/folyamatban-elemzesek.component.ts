@@ -2,62 +2,46 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { BefektetesAdatok } from 'src/app/models/uj-befektetes-models/befektetes-adatok/bef-adatok.model';
 import { UjReszveny } from 'src/app/models/uj-befektetes-models/uj-befektetes/uj-befektetes.model';
 import { AppState } from '../../store/reszveny/state';
+import { Router } from '@angular/router';
+import { BefAdatokService } from 'src/app/services/befektetesek/uj-befektetes-services/befektetes-adatok/bef-adatok.service';
+import { FolyamatbanLevoElemzesService } from 'src/app/services/befektetesek/elemzesek/folyamatban-levo-elemzes/folyamatban-levo-elemzes.service';
 
 @Component({
   selector: 'app-folyamatban-elemzesek',
   templateUrl: './folyamatban-elemzesek.component.html',
   styleUrls: ['./folyamatban-elemzesek.component.scss']
 })
-export class FolyamatbanElemzesekComponent implements OnInit, AfterViewInit {
+export class FolyamatbanElemzesekComponent implements OnInit {
 
-  reszvenyAllItems$: Observable<Array<UjReszveny>>;
-  reszvenyFolyamatbanItems$: Observable<UjReszveny>;
-  ujReszvenyek: UjReszveny[] = [];
-  befAdat: BefektetesAdatok;
-  typeOfBefektetes = "Folyamatban levő elemzések";
-  count = 0;
+  panelOpenState = false;
 
-
-
-  constructor(private store: Store<AppState>) { }
-
-  ngAfterViewInit(): void {
-    // this.reszvenyFolyamatbanItems$ = this.getFolyamatbanReszvenyek();
-  }
+  constructor(private folyamatbanElemzesekService: FolyamatbanLevoElemzesService, private router: Router, private befAdatService: BefAdatokService) { }
 
   ngOnInit(): void {
-
-    this.test();
+    // Lekéri az adatokat és elmenti az ujReszvenyek valtozoba
+    this.folyamatbanElemzesekService.getStoreValues();
   }
 
-  /*getFolyamatbanReszvenyek(): Observable<UjReszveny> {
-
-    let adat: Observable<UjReszveny>;
-
-      adat = this.reszvenyAllItems$;
-      console.log(adat);
-    return adat;
-  }*/
-
-  getVal(): Observable<Array<UjReszveny>>{
-    return of(this.ujReszvenyek);
+  getReszvenyek(): Observable<Array<UjReszveny>>{
+    return of(this.folyamatbanElemzesekService.$ujReszvenyek);
   }
 
-  test() {
+  redirectToMain(){
+    this.router.navigateByUrl('/befektetes');
 
-    this.reszvenyAllItems$ = this.store.select(store => store.reszvenyek);
+    this.befAdatService.loadBefAdatok(this.folyamatbanElemzesekService.$ujReszvenyek);
 
-
-    this.reszvenyAllItems$.subscribe(item => {
-      for (let it of item) {
-        if(it.$befektetesAdatok.status === this.typeOfBefektetes){
-          this.ujReszvenyek.push(it);
-        }
-        console.log(it.$befektetesAdatok.status);
-      }
-    });
   }
+
+  redirectToMainPanel(reszveny: UjReszveny){
+    this.router.navigateByUrl('/befektetes');
+
+    let reszvenyek: UjReszveny[] = new Array(reszveny);
+    this.befAdatService.loadBefAdatok(reszvenyek);
+
+  }
+
+
 }

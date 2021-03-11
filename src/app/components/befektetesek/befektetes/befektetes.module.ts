@@ -17,6 +17,7 @@ import { NavigationBarModule } from '../../nav-bar/nav-bar.module';
 import {MatCardModule} from '@angular/material/card';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { MatFabMenuModule } from '@angular-material-extensions/fab-menu';
+import {ToastModule} from 'primeng/toast';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { MatFabMenuModule } from '@angular-material-extensions/fab-menu';
     NavigationBarModule,
     MatCardModule,
     FlexLayoutModule,
-    MatFabMenuModule
+    MatFabMenuModule,
+    ToastModule
 ],
   declarations: [BefektetesComponent],
   exports: [BefektetesComponent],

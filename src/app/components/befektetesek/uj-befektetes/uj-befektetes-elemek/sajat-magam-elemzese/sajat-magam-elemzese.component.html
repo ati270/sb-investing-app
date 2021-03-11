@@ -1,3 +1,6 @@
+<p-toast position="bottom-center" key="tc"></p-toast>
+
+
 <span class="badge badge-light z-depth-2 badge-header">Ha valamelyik tünetet érezzük magunkon, akkor a feladatokat
   kötelező elvégezni
 </span>
@@ -6,9 +9,8 @@
   javasolt eljárásokat!</span>
 <form [formGroup]="sajatMagamElemzesFormGroup" (ngSubmit)="sajatMagamElemzeseSubmit()">
   <!--Kihagyás-->
-  <br>
-  <button type="submit" mat-stroked-button color="warn" class="kihagyBtn">Kihagyom</button>
-  <br>
+    <br>
+  <button type="submit" mat-raised-button class="nextBtn">Aktuális állapot mentése</button>
   <table class="table table-bordered table-hover z-depth-2">
     <thead>
       <tr class="mat-header-row">
@@ -237,7 +239,7 @@
     </tbody>
   </table>
   <br>
-  <button type="submit" mat-raised-button class="nextBtn">Tovább</button>
+
   <!-- [disabled]="!sajatMagamElemzesFormGroup.valid"-->
 </form>
 <br>

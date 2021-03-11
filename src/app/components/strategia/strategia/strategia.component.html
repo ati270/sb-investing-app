@@ -1504,14 +1504,15 @@
                       </div>
                     </div>
                   </mat-expansion-panel>
-
+                  <br>
+                  <div>
+                    <button mat-raised-button color="primary" matStepperNext>Tovább</button>
+                  </div>
                 </mat-accordion>
               </mat-tab>
             </mat-tab-group>
             <br>
-            <div>
-              <button mat-raised-button color="primary" matStepperNext>Tovább</button>
-            </div>
+
           </form>
         </mat-step>
 
@@ -1598,7 +1599,41 @@
                     </button>-->
                     <br>
                     <hr>
-                    <mat-list *ngFor="let item of osszesitettBasicMaterialArray">
+                    <!-- Table -->
+                    <mat-accordion>
+                      <mat-expansion-panel hideToggle>
+                      </mat-expansion-panel>
+                      <mat-expansion-panel (opened)="panelOpenState = true"
+                                           (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            <b style="color: #3f729b;">Teljesítmények</b>
+                          </mat-panel-title>
+                          <mat-panel-description>
+                          </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <table class="table" >
+                          <thead>
+                            <tr>
+                              <th scope="col">Teljesítmény</th>
+                              <th scope="col">Dátum</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of osszesitettBasicMaterialArray">
+                              <td style="color: #3f729b;font-weight: bold;">{{item.teljesitmeny | number:'1.0':'en-US' |  spaceDecimal}}</td>
+                              <td>{{item.date | date: 'yyyy.MM.dd.'}}</td>
+                              <td>
+                                <mat-icon style="color: red;"
+                                (click)=deleteBasicMaterialItem(item)>delete</mat-icon>
+                              </td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+                      </mat-expansion-panel>
+                    </mat-accordion>
+                   <!-- <mat-list *ngFor="let item of osszesitettBasicMaterialArray">
                       <span class="badge badge-primary z-depth-2"
                         style="padding: 0.8rem; width: 100%; font-size: small;">
                         Teljesítmény: {{item.teljesitmeny}} ( {{item.date}} )
@@ -1611,7 +1646,7 @@
                         style="padding: 0.8rem; width: 100%; font-size: small;">
                         P/B mutató: {{item.PB}}
                       </span>
-                    </mat-list>
+                    </mat-list> -->
                   </div>
                   <div class="col-md-8">
                     <mat-card class="z-depth-2">

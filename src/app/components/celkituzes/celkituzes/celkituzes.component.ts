@@ -292,7 +292,6 @@ export class CelkituzesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         event = result;
-
         this.fullcalendar.getApi().addResource({
           id: event.$title,
           title: event.$title
@@ -426,6 +425,18 @@ export class CelkituzesComponent implements OnInit {
 
   refreshCalendar() {
     this.fullcalendar.getApi().refetchEvents();
+  }
+
+  updateCalendar(start, end){
+    this.fullcalendar.getApi().getEvents().forEach(element => {
+      console.log(element);
+      element._instance.range.start = start;
+      element._instance.range.end = end;
+
+      console.log(element);
+    });
+
+
   }
 
   // DRag and drop images: added and remove methods
@@ -1201,7 +1212,6 @@ export class CelkituzesComponent implements OnInit {
       data: feladat
     });
 
-    this.fullcalendar.getApi().updateSize()
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -1234,8 +1244,6 @@ export class CelkituzesComponent implements OnInit {
 
   feladatModositas(feladat: Feladat) {
     // a listában levő feladatot kell törölni
-    this.removeOldEvent(feladat);
-
     let eventInput: EventInput;
     let event: Feladat = new Feladat();
 
@@ -1263,8 +1271,6 @@ export class CelkituzesComponent implements OnInit {
         console.log(eventInput);
         this.addCalendarEvent(eventInput);
         console.log(result);
-
-        console.log(this.$feladatok);
       }
     });
   }

@@ -1,4 +1,11 @@
+import { LezartBefektetesService } from './../../../services/befektetesek/elemzesek/lezart-befektetes/lazart-befektetes.service';
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/reszveny/state';
+import { Router } from '@angular/router';
+import { BefAdatokService } from 'src/app/services/befektetesek/uj-befektetes-services/befektetes-adatok/bef-adatok.service';
+import { Observable, of } from 'rxjs';
+import { UjReszveny } from 'src/app/models/uj-befektetes-models/uj-befektetes/uj-befektetes.model';
 
 @Component({
   selector: 'app-lezart-befektetesek',
@@ -7,9 +14,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LezartBefektetesekComponent implements OnInit {
 
-  constructor() { }
+  constructor(private store: Store<AppState>,
+    private lezartBefService: LezartBefektetesService,
+    private router: Router, private befAdatService: BefAdatokService) {
+   }
 
   ngOnInit(): void {
+    this.lezartBefService.getStoreValues();
   }
+
+  getReszvenyek(): Observable<Array<UjReszveny>>{
+    return of(this.lezartBefService.$ujReszvenyek);
+  }
+
+  redirectToMain(){
+    this.router.navigateByUrl('/befektetes');
+
+    this.befAdatService.loadBefAdatok(this.lezartBefService.$ujReszvenyek);
+
+  }
+
+  redirectToMainPanel(reszveny: UjReszveny){
+    this.router.navigateByUrl('/befektetes');
+
+    let reszvenyek: UjReszveny[] = new Array(reszveny);
+    this.befAdatService.loadBefAdatok(reszvenyek);
+
+  }
+
 
 }

@@ -5,6 +5,8 @@ import { UjReszveny } from 'src/app/models/uj-befektetes-models/uj-befektetes/uj
 import { BefektetesAdatok } from 'src/app/models/uj-befektetes-models/befektetes-adatok/bef-adatok.model';
 import { Observable, of } from 'rxjs';
 import { AppState } from '../../store/reszveny/state';
+import { Router } from '@angular/router';
+import { BefAdatokService } from 'src/app/services/befektetesek/uj-befektetes-services/befektetes-adatok/bef-adatok.service';
 
 @Component({
   selector: 'app-nyitott-befektetesek',
@@ -20,33 +22,32 @@ export class NyitottBefektetesekComponent implements OnInit {
   typeOfBefektetes = "Nyitott befektetések";
   count = 0;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>,
+    private nyitottBefService: NyitottBefektetesService,
+    private router: Router, private befAdatService: BefAdatokService) {
    }
 
   ngOnInit(): void {
+    this.nyitottBefService.getStoreValues();
+  }
 
-    this.test();
+  getReszvenyek(): Observable<Array<UjReszveny>>{
+    return of(this.nyitottBefService.$ujReszvenyek);
+  }
+
+  redirectToMain(){
+    this.router.navigateByUrl('/befektetes');
+
+    this.befAdatService.loadBefAdatok(this.nyitottBefService.$ujReszvenyek);
 
   }
 
+  redirectToMainPanel(reszveny: UjReszveny){
+    this.router.navigateByUrl('/befektetes');
 
-  getVal(): Observable<Array<UjReszveny>>{
-    return of(this.ujReszvenyek);
-  }
+    let reszvenyek: UjReszveny[] = new Array(reszveny);
+    this.befAdatService.loadBefAdatok(reszvenyek);
 
-  test() {
-
-    this.reszvenyAllItems$ = this.store.select(store => store.reszvenyek);
-
-
-    this.reszvenyAllItems$.subscribe(item => {
-      for (let it of item) {
-        if(it.$befektetesAdatok.status === this.typeOfBefektetes){
-          this.ujReszvenyek.push(it);
-        }
-        console.log(it.$befektetesAdatok.status);
-      }
-    });
   }
 
 

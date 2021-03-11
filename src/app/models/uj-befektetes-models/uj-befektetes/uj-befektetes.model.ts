@@ -8,6 +8,7 @@ import { VallalatPenzugyiElemzes } from "../vallalat-penz-elemzes/vallalat-penz-
 import { VallalatKockazatElemzes } from "../vallalat-vizsg-kriteriumok/vallalat-vizsg-kriteriumok.model";
 
 export class UjReszveny {
+  private id: number;
   private befektetesAdatok: BefektetesAdatok;
   private mentalisElemzes: MentalisElemzes;
   private vallalatKockazatElemzes: VallalatKockazatElemzes;
@@ -19,8 +20,25 @@ export class UjReszveny {
   //private ujReszvenyElemekList: any[];
 
   constructor() {
-   // this.ujReszvenyElemekList = new Array<UjReszveny>();
+    this.$id = Math.floor(Math.random() * 1000) + 1;
   }
+
+
+    /**
+     * Getter $id
+     * @return {number}
+     */
+	public get $id(): number {
+		return this.id;
+	}
+
+    /**
+     * Setter $id
+     * @param {number} value
+     */
+	public set $id(value: number) {
+		this.id = value;
+	}
 
 
 

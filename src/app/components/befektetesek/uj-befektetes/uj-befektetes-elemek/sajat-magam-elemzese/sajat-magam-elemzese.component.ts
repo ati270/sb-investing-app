@@ -5,6 +5,7 @@ import { EventEmitter } from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
 import { MentalisElemzes } from 'src/app/models/uj-befektetes-models/mentalis-elemzes/mentalis-elemzes.model';
 import { MentalisElemzesService } from 'src/app/services/befektetesek/uj-befektetes-services/mentalis-elemzes/mentalis-elemzes.service';
+import { MessageService } from 'primeng/api';
 
 
 export interface dataArguments {
@@ -15,13 +16,14 @@ export interface dataArguments {
 @Component({
   selector: 'app-sajat-magam-elemzese',
   templateUrl: './sajat-magam-elemzese.component.html',
-  styleUrls: ['./sajat-magam-elemzese.component.scss']
+  styleUrls: ['./sajat-magam-elemzese.component.scss'],
+  providers: [MessageService]
 })
 
 
 export class SajatMagamElemzeseComponent implements OnInit {
 
-  @Output() filledEmitter: EventEmitter<dataArguments> = new EventEmitter();
+  @Output() filledSaveSajatEmitter: EventEmitter<MentalisElemzes> = new EventEmitter();
   allFilled: boolean;
 
   mentalisElemzes: MentalisElemzes;
@@ -81,7 +83,7 @@ export class SajatMagamElemzeseComponent implements OnInit {
 
 
   constructor(private _formBuilder: FormBuilder,
-    private mentalisElemzesService: MentalisElemzesService) { }
+    private mentalisElemzesService: MentalisElemzesService, private messageService: MessageService) { }
 
 
   sajatMagamElemzesFormGroup: FormGroup;
@@ -701,13 +703,9 @@ export class SajatMagamElemzeseComponent implements OnInit {
     this.createMentalisElemzes();
     this.getMentalisElemzes();
 
-    this.filledEmitter.emit(
-      {
-        filled: this.allFilled,
-        mentalisElemzes: this.mentalisElemzes
-      }
-     );
+    this.filledSaveSajatEmitter.emit(this.mentalisElemzes);
 
+    this.messageService.add({ key: 'tc', severity: 'success', summary: 'Mentális elemzés sikeresen hozzáadva!'});
 
   }
 

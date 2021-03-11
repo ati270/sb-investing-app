@@ -23,8 +23,7 @@ import {MatIconModule, MatIcon} from '@angular/material/icon';
     FormsModule,
     ReactiveFormsModule,
     MatIconModule
-    
-],
+  ],
   declarations: [PenzugyiAdatokComponent],
   exports: [PenzugyiAdatokComponent],
 })

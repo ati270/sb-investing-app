@@ -372,6 +372,10 @@ export class StrategiaComponent implements OnInit, AfterViewInit {
   osszesitettDefensiveArray: DataAgazat[] = [];
   reszvenySzures: any;
 
+  // Ágazati 
+  eredmenyekBasic: number[] = [];
+  datumokBasic: string[] = [];
+
 
   // Filters values
   startFilterPMI: string;
@@ -477,7 +481,7 @@ export class StrategiaComponent implements OnInit, AfterViewInit {
       dateKamatlabCtrl: new FormControl('', Validators.required),
       startKamatlabDateCtrl: new FormControl(''),
       endKamatlabDateCtrl: new FormControl(''),
- 
+
       eredmenyAllamCtrl: new FormControl('', Validators.required),
       dateAllamCtrl: new FormControl('', Validators.required),
       startAllamDateCtrl: new FormControl(''),
@@ -2693,7 +2697,7 @@ export class StrategiaComponent implements OnInit, AfterViewInit {
 
     this.chartAllam.update();
   }
-  
+
   filterLakossagList() {
     const startFilterDate: Date = new Date(this.gazdElemzesFormGroup.get('startLakossagDateCtrl').value);
     const endFilterDate: Date = new Date(this.gazdElemzesFormGroup.get('endLakossagDateCtrl').value);
@@ -2721,7 +2725,7 @@ export class StrategiaComponent implements OnInit, AfterViewInit {
 
     this.chartLakossag.update();
   }
-  
+
   filterInflacioList() {
     const startFilterDate: Date = new Date(this.gazdElemzesFormGroup.get('startInflacioDateCtrl').value);
     const endFilterDate: Date = new Date(this.gazdElemzesFormGroup.get('endInflacioDateCtrl').value);
@@ -2777,7 +2781,7 @@ export class StrategiaComponent implements OnInit, AfterViewInit {
 
     this.chartMunkanelkuli.update();
   }
-  
+
   filterBernovekedesList() {
     const startFilterDate: Date = new Date(this.gazdElemzesFormGroup.get('startBernovekedesDateCtrl').value);
     const endFilterDate: Date = new Date(this.gazdElemzesFormGroup.get('endBernovekedesDateCtrl').value);
@@ -2805,7 +2809,7 @@ export class StrategiaComponent implements OnInit, AfterViewInit {
 
     this.chartBernovekedes.update();
   }
-  
+
   filterFogyasztoList() {
     const startFilterDate: Date = new Date(this.gazdElemzesFormGroup.get('startFogyasztoDateCtrl').value);
     const endFilterDate: Date = new Date(this.gazdElemzesFormGroup.get('endFogyasztoDateCtrl').value);
@@ -2861,8 +2865,8 @@ export class StrategiaComponent implements OnInit, AfterViewInit {
 
     this.chartNyersolaj.update();
   }
-  
-  
+
+
 
   revertPMIArray() {
     this.osszesitettPMIArray = this.originalPMIArray;
@@ -3158,7 +3162,7 @@ export class StrategiaComponent implements OnInit, AfterViewInit {
   deleteBernovekedesListItem(removedItem) {
     this.openBernovekedesConfirmDeleteListItemDialog(removedItem);
   }
-  
+
   deleteFogyasztoListItem(removedItem) {
     this.openFogyasztoConfirmDeleteListItemDialog(removedItem);
   }
@@ -3600,5 +3604,39 @@ export class StrategiaComponent implements OnInit, AfterViewInit {
 
       }
     });
+  }
+
+  // TODO: listakat bekötni
+  openBasicMaterialConfirmDeleteListItemDialog(removedItem){
+    const dialogRef = this.dialog.open(ConfirmDeleteCalendarDialogComponent, {
+      width: '40%',
+      //data: { eredmeny: this.gazdIngadozas, megnevezes: "Túl nagy gazdasági ingadozás" }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      // ha ok: tehát törölni akarom
+      if (result) {
+        this.osszesitettBasicMaterialArray.splice(this.osszesitettBasicMaterialArray.indexOf(removedItem), 1);
+
+        this.datumokBasic= [];
+        this.eredmenyekBasic = [];
+
+        for (let i = this.osszesitettBasicMaterialArray.length - 1; i >= 0; i--) {
+          this.eredmenyekBasic.push(this.osszesitettBasicMaterialArray[i].teljesitmeny);
+          this.datumokBasic.push(this.osszesitettBasicMaterialArray[i].date);
+        }
+
+        this.setAllamChart(this.datumokBasic, this.eredmenyekBasic);
+
+        this.chartBasicMaterial.update();
+
+        // a probléma: a szürt listat nézi és nem a teljeset
+        //this.originalAllamArray = this.osszesitettBasicMaterialArray;
+
+      }
+    });
+  }
+
+  deleteBasicMaterialItem(removedItem) {
+    //this.openAllamConfirmDeleteListItemDialog(removedItem);
   }
 }
