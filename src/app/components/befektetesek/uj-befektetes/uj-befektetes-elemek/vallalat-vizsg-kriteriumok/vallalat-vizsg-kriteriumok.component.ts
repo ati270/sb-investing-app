@@ -5,6 +5,8 @@ import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@ang
 import { EventEmitter } from '@angular/core';
 import { VallalatKockazatElemzes } from 'src/app/models/uj-befektetes-models/vallalat-vizsg-kriteriumok/vallalat-vizsg-kriteriumok.model';
 import { VallalatVizsgKriteriumokService } from 'src/app/services/befektetesek/uj-befektetes-services/vallalat-vizsg-kriteriumok/vallalat-vizsg-kriteriumok.service';
+import { MessageService } from 'primeng/api';
+
 
 export interface VizsgalatKriterium {
   eredmeny: string;
@@ -20,11 +22,13 @@ export interface dataArguments {
 @Component({
   selector: 'app-vallalat-vizsg-kriteriumok',
   templateUrl: './vallalat-vizsg-kriteriumok.component.html',
-  styleUrls: ['./vallalat-vizsg-kriteriumok.component.scss']
+  styleUrls: ['./vallalat-vizsg-kriteriumok.component.scss'],
+  providers: [MessageService]
+
 })
 export class VallalatVizsgKriteriumokComponent implements OnInit {
 
-  @Output() filledEmitter: EventEmitter<dataArguments> = new EventEmitter();
+  @Output() filledSaveKockEmitter: EventEmitter<VallalatKockazatElemzes> = new EventEmitter();
   allFilled: boolean;
 
   vallalatKockazatelemzes: VallalatKockazatElemzes;
@@ -959,17 +963,17 @@ export class VallalatVizsgKriteriumokComponent implements OnInit {
 	public set $ujReszvenyKiRiziko(value: number) {
 		this.ujReszvenyKiRiziko = value;
 	}
-  
-  
+
+
 
 
   constructor(public dialog: MatDialog, private _fb: FormBuilder,
-    private vallalatVizsgKritService: VallalatVizsgKriteriumokService) { }
+    private vallalatVizsgKritService: VallalatVizsgKriteriumokService,
+    private messageService: MessageService) { }
 
   eredmeny: string;
 
   ngOnInit(): void {
-    this.allFilled = false;
     this.createFormGroup();
     this.onChanges();
   }
@@ -1093,7 +1097,7 @@ export class VallalatVizsgKriteriumokComponent implements OnInit {
       this.kf = val;
     });
 
-    // Imm. 
+    // Imm.
     this.vallVizsgKritGroup.get('kriteriumok').get('immaterialisEredmenyCtrl').valueChanges.subscribe(val => {
       this.imm = val;
     });
@@ -1844,15 +1848,15 @@ export class VallalatVizsgKriteriumokComponent implements OnInit {
 
       this.vallalatVizsgKritService.createVallalatKockazatElemzes(
         this.$reszvenyEredmeny, this.$reszvenyRiziko, this.$konyvEredmeny, this.$konyvRiziko,
-        this.$epsEredmeny, this.$epsRiziko, this.$piaciKapEredmeny, this.$piaciKapRiziko, 
-        this.$hitelBesorolasEredmeny, this.$hitelBesorolasRiziko, 
+        this.$epsEredmeny, this.$epsRiziko, this.$piaciKapEredmeny, this.$piaciKapRiziko,
+        this.$hitelBesorolasEredmeny, this.$hitelBesorolasRiziko,
         this.$tobbsegiTulajEredmeny, this.$tobbsegiTulajRiziko, this.$cegInfoEredmeny,
-        this.$cegInfoRiziko, this.$termekInfoEredmeny, this.$termekInfoRiziko, 
-        this.$kutatasFejlesztesEredmeny, this.$kutatasFejlesztesRiziko, 
+        this.$cegInfoRiziko, this.$termekInfoEredmeny, this.$termekInfoRiziko,
+        this.$kutatasFejlesztesEredmeny, this.$kutatasFejlesztesRiziko,
         this.$immaterialisEredmeny, this.$immaterialisRiziko, this.$egyebEredmeny, this.$egyebRiziko,
-        this.$szuksegesAllomanyEredmeny, this.$szuksegesAllomanyRiziko, 
+        this.$szuksegesAllomanyEredmeny, this.$szuksegesAllomanyRiziko,
         this.$elerhetoInfoEredmeny, this.$elerhetoInfoRiziko, this.$osztalekEredmeny,
-        this.$osztalekRiziko, this.$vallalatTozsdeEredmeny, this.$vallalatTozsdeRiziko, 
+        this.$osztalekRiziko, this.$vallalatTozsdeEredmeny, this.$vallalatTozsdeRiziko,
         this.$fontosTechEredmeny, this.$fontosTechRiziko, this.$voltCsucsonEredmeny, this.$voltCsucsonRiziko,
         this.$fuzioEredmeny, this.$fuzioRiziko, this.$betaEredmeny, this.$betaRiziko,
         this.$vezMeEredmeny, this.$vezMeRiziko, this.$ujReszvenyKiEredmeny, this.$ujReszvenyKiRiziko
@@ -1870,9 +1874,11 @@ export class VallalatVizsgKriteriumokComponent implements OnInit {
 
 
   public vallVizsgKritSubmit() {
-    this.allFilled = true;
     this.createVallKockazatElemzes();
     this.getVallalatKockazatelemzes();
-    this.filledEmitter.emit({filled: this.allFilled, vallalatKockazatElemzes: this.vallalatKockazatelemzes});
+    this.filledSaveKockEmitter.emit(this.vallalatKockazatelemzes);
+
+    this.messageService.add({ key: 'tc', severity: 'success', summary: 'Vállalati kockázat elemzés sikeresen hozzáadva!'});
+
   }
 }

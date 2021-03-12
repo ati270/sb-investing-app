@@ -34,14 +34,14 @@
           </div>
           <div class="ml-auto p-2 bd-highlight">
             <h5>Kitöltöttség</h5>
-            <p-knob [(ngModel)]="countOfFilled" [readonly]="true" [min]="0" [max]="8"></p-knob>
+            <p-knob value=2 [min]="0" [max]="8"></p-knob>
           </div>
           <div class="ml-auto p-2 bd-highlight">
             <button mat-stroked-button color="primary" style="border: 1px solid #3f729b" class="z-depth-1"
               (click)="createUjReszveny()">Új elemzés</button>
 
-            <button mat-raised-button style="margin-left:0.5rem; background-color: darkgreen;color: white"
-              class="z-depth-2" (click)="saveReszveny()">Elemzés mentése</button>
+            <button #saveBtn mat-raised-button  style="margin-left:0.5rem; background-color: darkgreen;color: white"
+              class="z-depth-2" (click)="saveReszveny()" [disabled]="isSavedActualElemzes" disabled>Elemzés mentése</button>
           </div>
         </div>
         <hr>
@@ -65,7 +65,7 @@
           <!--Vállalati kockázat elemzés-->
           <mat-tab label="Vállalati kockázat elemzés" #tabVallalatVizsgKr>
             <!--[disabled]='!changeFrom2To3Tab'-->
-            <app-vallalat-vizsg-kriteriumok (filledEmitter)=filledVizsgKriteriumokTab($event)>
+            <app-vallalat-vizsg-kriteriumok (filledSaveKockEmitter)=saveKockazatElemzes($event)>
             </app-vallalat-vizsg-kriteriumok>
           </mat-tab>
 

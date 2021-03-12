@@ -1,10 +1,13 @@
 
+<p-toast position="bottom-center" key="tc"></p-toast>
+
 <span class="badge badge-light z-depth-2 badge-header">Vállalati kockázat elemzés</span>
 <br>
 <br>
 <form [formGroup]="vallVizsgKritGroup" (ngSubmit)="vallVizsgKritSubmit()">
-  <button type="submit" mat-stroked-button color="warn" class="kihagyBtn">Kihagyom</button>
-  
+  <br>
+  <button type="submit" mat-raised-button class="nextBtn">Aktuális állapot mentése</button>
+  <br>
   <table class="table table-bordered  table-hover z-depth-2" formArrayName="kriteriumok">
     <thead>
       <tr class="mat-header-row">
@@ -498,9 +501,5 @@
       </tr>
     </tbody>
   </table>
-  <br>
-  <button type="submit" mat-raised-button color="primary">Tovább</button>
-  <!--TODO:  [disabled]="!vallVizsgKritGroup.valid" visszarkni-->
-  <br>
 </form>
 <br>

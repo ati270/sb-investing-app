@@ -1,5 +1,6 @@
+import { VallalatVizsgKriteriumokComponent } from './uj-befektetes-elemek/vallalat-vizsg-kriteriumok/vallalat-vizsg-kriteriumok.component';
 import { AddReszvenyAction, UpdateReszvenyAction } from './../../store/reszveny/actions';
-import { Component, OnInit, ViewChild, Output } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, ElementRef } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { TargetBinder } from '@angular/compiler';
 import { BefektetesAdatok } from 'src/app/models/uj-befektetes-models/befektetes-adatok/bef-adatok.model';
@@ -25,9 +26,10 @@ import { MessageService } from 'primeng/api';
   providers: [MessageService]
 })
 export class UjBefektetesComponent implements OnInit {
-
+  @ViewChild('saveReszveny') saveButton: ElementRef;
   countOfFilled: number = 5;
   isBefektetesKesz: boolean;
+  isSavedActualElemzes: boolean;
 
   // Components
   befektetesAdatok: BefektetesAdatok;
@@ -54,6 +56,8 @@ export class UjBefektetesComponent implements OnInit {
   constructor(private ujBefektetesService: UjBefektetesService, private store: Store<AppState>, private messageService: MessageService) { }
 
   ngOnInit(): void {
+
+    this.isSavedActualElemzes = false;
   }
 
 
@@ -62,28 +66,37 @@ export class UjBefektetesComponent implements OnInit {
     this.ujBefektetesService.addItems(item);
   }*/
 
-  createUjReszveny(){
+  createUjReszveny() {
     this.messageService.clear();
-    this.messageService.add({ key: 'c', sticky: true, severity: 'warn', summary: 'Biztosan új elemzést szeretnél készíteni?',
-    detail: 'Ha van már megkezdett elemzésed és nem mentetted el, kattintd a Nem lehetőségre, majd mentés után térj vissza!' });
+    this.messageService.add({
+      key: 'c', sticky: true, severity: 'warn', summary: 'Biztosan új elemzést szeretnél készíteni?',
+      detail: 'Ha van már megkezdett elemzésed és nem mentetted el, kattintd a Nem lehetőségre, majd mentés után térj vissza!'
+    });
   }
 
   onConfirmUjReszveny() {
     this.messageService.clear('c');
     this.ujBefektetesService.$ujReszveny = new UjReszveny();
+    this.isSavedActualElemzes = false;
+
   }
 
   onRejectUjReszveny() {
     this.messageService.clear('c');
   }
 
-  saveReszveny(){
+  saveReszveny() {
     // Mentjük az új részvényt.: ami már fel van töltve az adatokkal
-     this.store.dispatch(
-        new AddReszvenyAction(this.ujBefektetesService.$ujReszveny)
-      );
+    this.store.dispatch(
+      new AddReszvenyAction(this.ujBefektetesService.$ujReszveny)
+    );
 
-      this.messageService.add({ key: 'tcAdd', severity: 'success', summary: 'Elemzés sikeresen mentve!'});
+    this.messageService.add({ key: 'tcAdd', severity: 'success', summary: 'Elemzés sikeresen mentve!' });
+    this.isSavedActualElemzes = true;
+    this.saveButton.nativeElement.style.background= 'gray';
+    this.saveButton.nativeElement.style.color= 'gray';
+
+
 
   }
 
@@ -92,14 +105,7 @@ export class UjBefektetesComponent implements OnInit {
     this.ujBefektetesService.addOneItem(item);
   }
 
-  // TODO: ne kelljen uj reszveny hanem csak azt modositsa: ok redux-ban valamit modositani kell
-  /*updateOneItem(item: any){
-    this.ujBefektetesService.updateOneItem(item);
-
-  }*/
-
   saveBefAdatok(befAdatok: BefektetesAdatok) {
-    // Beérkezik a bef.adatok --> elmentek az ujReszvenybe
 
     // Adjuk hozzá a listához az itemet TEhát ha még nincs hozzáadva a befektetési adat, adjuk hozzá
     if (this.ujBefektetesService.$ujReszveny.$befektetesAdatok === undefined) {
@@ -107,17 +113,9 @@ export class UjBefektetesComponent implements OnInit {
       this.addOneItem(this.befektetesAdatok);
       console.log(this.ujBefektetesService.$ujReszveny.$befektetesAdatok);
     }
-    // a meglévőt irjuk felül
 
     // Egyébként frissitsd a bef. adatot
     else {
-      // Vegyük ki az előző id-t és allitsuk be neki
-      let lastId = this.ujBefektetesService.$ujReszveny.$id;
-
-     // this.ujBefektetesService.$ujReszveny = new UjReszveny();
-            // állitsuk vissza a régi id-t
-   //   this.ujBefektetesService.$ujReszveny.$id = lastId;
-      //this.ujBefektetesService.$ujReszveny.$befektetesAdatok = befAdatok;
 
       this.befektetesAdatok = befAdatok;
       this.addOneItem(this.befektetesAdatok);
@@ -129,22 +127,9 @@ export class UjBefektetesComponent implements OnInit {
 
     console.log("Aktuális állás: " + this.ujBefektetesService.$ujReszveny);
 
-    // itt uj reszveny kell , ha az uj gombot megnyomom, addig a meglevőt kell módositani
   }
 
-  /*filledAdatokTab(data?: any) {
-    this.changeFromFirstTabToSecond = data.filled;
-    this.nextTabIndex = this.nextTabIndex + 1;
-    this.haladasValue = this.tabValue;
-    this.befektetesAdatok = data.befektetesAdatok;
-  }*/
-
   saveMentalisElemzes(mentalisElemzes: MentalisElemzes) {
-    console.log(this.ujBefektetesService.$ujReszveny.$mentalisElemzes);
-    //this.changeFrom2To3Tab = data.filled;
-    //this.nextTabIndex = 2;
-    //this.haladasValue = this.tabValue * 2;
-    //this.mentalisElemzes = data.mentalisElemzes;
 
     if (this.ujBefektetesService.$ujReszveny.$mentalisElemzes === undefined) {
       this.mentalisElemzes = mentalisElemzes;
@@ -154,12 +139,6 @@ export class UjBefektetesComponent implements OnInit {
     }
 
     else {
-      // Vegyük ki az előző id-t és allitsuk be neki
-     // let lastId = this.ujBefektetesService.$ujReszveny.$id;
-
-     // this.ujBefektetesService.$ujReszveny = new UjReszveny();
-            // állitsuk vissza a régi id-t
-     // this.ujBefektetesService.$ujReszveny.$id = lastId;
 
       // Hozzáadni az előző értékeket is
       this.mentalisElemzes = mentalisElemzes;
@@ -170,20 +149,34 @@ export class UjBefektetesComponent implements OnInit {
 
       // frissiteni kellene a menuben a számlálot
     }
-    console.log(this.ujBefektetesService.$ujReszveny.$befektetesAdatok);
 
     console.log(this.ujBefektetesService.$ujReszveny.$mentalisElemzes);
   }
 
-  filledVizsgKriteriumokTab(data?: any) {
-    this.changeFrom3To4Tab = data.filled;
-    this.nextTabIndex = 3;
-    this.haladasValue = this.tabValue * 3;
-    this.vallalatKockazatElemzes = data.vallalatKockazatElemzes;
+  saveKockazatElemzes(kockElemzes: VallalatKockazatElemzes) {
+    if (this.ujBefektetesService.$ujReszveny.$mentalisElemzes === undefined) {
+      this.vallalatKockazatElemzes = kockElemzes;
+      this.addOneItem(kockElemzes);
 
-    // Adjuk hozzá a listához az itemet
-    this.addOneItem(this.vallalatKockazatElemzes);
+      this.countOfFilled++;
+    }
+
+    else {
+
+      // Hozzáadni az előző értékeket is
+      this.vallalatKockazatElemzes = kockElemzes;
+      //this.addOneItem(this.befektetesAdatok);
+      this.addOneItem(this.vallalatKockazatElemzes);
+
+      this.store.dispatch(new UpdateReszvenyAction(this.ujBefektetesService.$ujReszveny))
+
+      // frissiteni kellene a menuben a számlálot
+    }
+
+    console.log(this.ujBefektetesService.$ujReszveny.$vallalatKockazatElemzes);
+
   }
+
 
   filledPenzugyiAdatokTab(data?: any) {
     this.changeFrom4To5Tab = data.filled;
