@@ -22,7 +22,7 @@ export class UjBefektetesService {
     this.$ujReszveny = new UjReszveny();
   }
 
-  addAllItems(befadatok?: BefektetesAdatok, mentalisElemzes?: MentalisElemzes, vallKockEl?: VallalatKockazatElemzes, penzugyiAdatok?: PenzugyiAdatok, vallalatPenzEl?: VallalatPenzugyiElemzes,
+  /*addAllItems(befadatok?: BefektetesAdatok, mentalisElemzes?: MentalisElemzes, vallKockEl?: VallalatKockazatElemzes, penzugyiAdatok?: PenzugyiAdatok, vallalatPenzEl?: VallalatPenzugyiElemzes,
     celarMeghat?: CelarMeghatarozas, nettoJelenErtek?: NettoJelenErtek, manageles?: Manageles) {
     this.$ujReszveny.$befektetesAdatok = befadatok;
     this.$ujReszveny.$mentalisElemzes = mentalisElemzes;
@@ -33,7 +33,7 @@ export class UjBefektetesService {
     this.$ujReszveny.$nettoJelenertek = nettoJelenErtek;
     this.$ujReszveny.$manageles = manageles;
 
-  }
+  }*/
 
   addOneItem(item: any) {
     switch (true) {
@@ -41,7 +41,6 @@ export class UjBefektetesService {
         this.ujReszveny.$befektetesAdatok = item;
         break;
       case item instanceof MentalisElemzes:
-        console.log("ezzzzz");
         this.ujReszveny.$mentalisElemzes = item;
         break;
       case item instanceof VallalatKockazatElemzes:
@@ -66,39 +65,6 @@ export class UjBefektetesService {
       default:
         break;
     }
-  }
-
-  updateOneItem(item: any){
-    switch (true) {
-      case item instanceof BefektetesAdatok:
-        this.$ujReszveny.$befektetesAdatok = Object.assign(item, this.$ujReszveny.$befektetesAdatok);
-        break;
-      case item instanceof MentalisElemzes:
-        this.ujReszveny.$mentalisElemzes = item;
-        break;
-      case item instanceof VallalatKockazatElemzes:
-        this.ujReszveny.$vallalatKockazatElemzes = item;
-        break;
-      case item instanceof PenzugyiAdatok:
-        this.ujReszveny.$penzugyiAdatok = item;
-        break;
-      case item instanceof VallalatPenzugyiElemzes:
-        this.ujReszveny.$vallalatPenzugyiElemzes = item;
-        break;
-      case item instanceof CelarMeghatarozas:
-        this.ujReszveny.$celarMeghatarozas = item;
-        break;
-      case item instanceof NettoJelenErtek:
-        this.ujReszveny.$nettoJelenertek = item;
-        break;
-      case item instanceof Manageles:
-        this.ujReszveny.$manageles = item;
-        break;
-
-      default:
-        break;
-    }
-
   }
 
     /**

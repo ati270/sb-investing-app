@@ -1,11 +1,15 @@
+<p-toast position="bottom-center" key="tc"></p-toast>
+
 <span class="badge badge-light z-depth-2 badge-header">Célár és vásárlási ár meghatározása</span>
 <br>
 <br>
 
-<mat-horizontal-stepper [linear]="isLinear" #stepper>
+<form (ngSubmit)="celarSubmit()">
+  <button mat-stroked-button color="primary" class="nextBtn">Aktuális állapot mentése</button>
+  <br>
+  <mat-horizontal-stepper [linear]="isLinear" #stepper>
     <mat-step [stepControl]="celarFormGroup">
         <form [formGroup]="celarFormGroup">
-            <button mat-stroked-button color="warn" class="kihagyBtn" (click)="sendCelarData()">Kihagyom</button>
             <ng-template matStepLabel>Célár meghatározása</ng-template>
 
             <!-- Célár meghatározása-->
@@ -50,11 +54,10 @@
             </div>
         </form>
         <br>
-
     </mat-step>
 
-    <mat-step [stepControl]="vasarlasiCelarFormGroup">
-        <form [formGroup]="vasarlasiCelarFormGroup" (ngSubmit)="celarSecondSubmit()">
+    <mat-step>
+        <form [formGroup]="vasarlasiCelarFormGroup">
             <mat-card style="background-color: white;color: black;" class="z-depth-2">
                 <ng-template matStepLabel>Vásárlási ár meghatározása</ng-template>
                 <div class="input-group mb-3 " style="width: 15rem;">
@@ -165,26 +168,10 @@
                 <br>
             </mat-card>
             <br>
-            <div>
-                <button type="submit" mat-raised-button color="success" style="margin-left: 1rem;"  [disabled]="!vasarlasiCelarFormGroup.valid"
-                    matStepperNext>Befejezés</button>
-            </div>
         </form>
         <br>
     </mat-step>
-    <mat-step>
-        <ng-template matStepLabel>Kész</ng-template>
-        <mat-divider></mat-divider>
-        <br>
-        <div style="color: darkgreen;" >
-            <span style="font-weight: bold;font-stretch: semi-expanded;">Sikeresen kitöltötte az adatokat!</span>
-            <mat-icon>done_outline</mat-icon>
-        </div>
-        <br>
-        <mat-divider></mat-divider>
-        <br>
-        <div>
-            <button (click)="sendCelarData()" mat-raised-button color="primary">Tovább</button>
-        </div>
-    </mat-step>
+
 </mat-horizontal-stepper>
+</form>
+

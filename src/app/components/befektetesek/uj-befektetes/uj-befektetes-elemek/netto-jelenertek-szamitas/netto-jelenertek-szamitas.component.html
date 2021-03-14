@@ -1,10 +1,14 @@
+<p-toast position="bottom-center" key="tc"></p-toast>
+
 <span class="badge badge-light z-depth-2 badge-header">
   <span matTooltip="Valószínűséggel súlyozott átlagár nettó jelenértéke">Pénzügyi kockázat elemzés</span>
 </span>
 <br>
 <br>
+<br>
 <form [formGroup]="nettoJelenFormGroup" (ngSubmit)="onNettoSubmit()">
-  <button type="submit" mat-stroked-button color="warn" class="kihagyBtn" >Kihagyom</button>
+  <button type="submit" mat-stroked-button color="primary" class="nextBtn" >Aktuális állapot mentése</button>
+  <br>
   <div class="row">
     <div class="col-8">
       <mat-form-field>
@@ -221,11 +225,6 @@
       <span class="input-group-text" id="basic-addon2" style="color: white;"
         [ngStyle]="befNettoJelenErtek>0?{'background-color':'green'} : {'background-color': 'red'}">{{befNettoJelenErtek | number:'.1-3'}}</span>
     </div>
-  </div>
-
-  <div>
-    <button type="submit" mat-raised-button color="primary" >Tovább</button>
-    <!--[disabled]="!nettoJelenFormGroup.valid" -->
   </div>
 </form>
 <br>

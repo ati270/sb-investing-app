@@ -1,26 +1,23 @@
 import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { PenzugyiAdatok } from 'src/app/models/uj-befektetes-models/penzugyi-adatok/penzugyi-adatok.model';
 import { PenzugyiAdatokService } from 'src/app/services/befektetesek/uj-befektetes-services/penzugyi-adatok/penzugyi-adatok.service';
-
-export interface dataArguments {
-  filled: boolean;
-  penzugyiAdatok: PenzugyiAdatok;
-}
-
 
 @Component({
   selector: 'app-penzugyi-adatok',
   templateUrl: './penzugyi-adatok.component.html',
-  styleUrls: ['./penzugyi-adatok.component.scss']
+  styleUrls: ['./penzugyi-adatok.component.scss'],
+  providers: [MessageService]
+
 })
 export class PenzugyiAdatokComponent implements OnInit {
 
-  @Output() filledEmitter: EventEmitter<dataArguments> = new EventEmitter();
+  @Output() filledPenzAdatokEmitter: EventEmitter<PenzugyiAdatok> = new EventEmitter();
   allFilled: boolean;
 
   penzugyiAdatok: PenzugyiAdatok;
-  
+
   penzugyiAdatokFormGroup: FormGroup;
   nettoTargyEv: number;
   nettoElozoEv: number;
@@ -78,8 +75,8 @@ export class PenzugyiAdatokComponent implements OnInit {
   naptarElozoEv: number;
   hozamTargyEv: number;
   hozamElozoEv: number;
-  
-  constructor(private formBuilder: FormBuilder, private penzugyiAdatokService: PenzugyiAdatokService) { }
+
+  constructor(private formBuilder: FormBuilder, private penzugyiAdatokService: PenzugyiAdatokService, private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.allFilled = false;
@@ -222,7 +219,7 @@ export class PenzugyiAdatokComponent implements OnInit {
 
 
   valuechangeNettoTargyEv(value) {
-    
+
     console.log(value);
   }
 
@@ -244,10 +241,14 @@ export class PenzugyiAdatokComponent implements OnInit {
   }
 
   penzugyiAdatokSubmit() {
-    this.allFilled = true;
     this.createPenzugyiElemzes();
     this.getPenzugyiAdatok();
-    this.filledEmitter.emit({filled: this.allFilled,penzugyiAdatok: this.penzugyiAdatok });
+    this.filledPenzAdatokEmitter.emit(this.penzugyiAdatok);
+
+    this.messageService.add({ key: 'tc', severity: 'success', summary: 'Pénzügyi adatok sikeresen hozzáadva!'});
+
+    console.log(this.penzugyiAdatok)
+
   }
 
   generatePDF(){

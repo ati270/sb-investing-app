@@ -1,9 +1,10 @@
 <p-toast position="bottom-center" key="tc"></p-toast>
 
-<span class="badge badge-pill badge-primary z-depth-2">A részvényelemzés megkezdéséhez kérem,
-  töltse ki az adatokat!
-</span>
 <br>
+<p-divider align="center">
+  <span class="p-tag">A részvényelemzés megkezdéséhez kérem,
+    töltse ki az adatokat!</span>
+</p-divider>
 <form [formGroup]="adatokFormGroup" (ngSubmit)="saveBefAdatok()">
   <br>
   <div class="d-flex justify-content-start">

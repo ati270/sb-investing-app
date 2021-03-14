@@ -21,7 +21,7 @@ export interface dataArguments {
 })
 
 
-export class SajatMagamElemzeseComponent implements OnInit {
+export class SajatMagamElemzeseComponent implements OnInit, AfterViewInit {
 
   @Output() filledSaveSajatEmitter: EventEmitter<MentalisElemzes> = new EventEmitter();
   allFilled: boolean;
@@ -86,11 +86,15 @@ export class SajatMagamElemzeseComponent implements OnInit {
     private mentalisElemzesService: MentalisElemzesService, private messageService: MessageService) { }
 
 
+
   sajatMagamElemzesFormGroup: FormGroup;
 
   ngOnInit(): void {
     this.createFormGroup();
-    this.allFilled = false;
+  }
+
+  ngAfterViewInit(): void {
+    this.loadMentalisElemzes();
   }
 
   addElvegezveControls() {
@@ -100,7 +104,42 @@ export class SajatMagamElemzeseComponent implements OnInit {
     return new FormArray(arr);
   }
 
+  loadMentalisElemzes() {
+    let mentalisElemzes = this.mentalisElemzesService.$updatedMentalisElemzes;
 
+    this.sajatMagamElemzesFormGroup.patchValue({
+      fokozottCtrl: mentalisElemzes.$fokozott,
+      fokozottElvegezve: mentalisElemzes.$fokozottElv,
+
+      kavargoCtrl: mentalisElemzes.$kavargo,
+      kavargoElvegezve: mentalisElemzes.$kavargoElv,
+
+      indokolatlanCtrl: mentalisElemzes.$indokolatlan,
+      indokolatlanElvegezve: mentalisElemzes.$indokolatlanElv,
+
+      kellemetlenCtrl: mentalisElemzes.$kellemetlen,
+      kellemetlenElvegezve:mentalisElemzes.$kellemetlenElv,
+
+      ellensegessegCtrl: mentalisElemzes.$ellensegesseg,
+      ellensegessegElvegezve: mentalisElemzes.$ellensegessegElv,
+
+      onbizalomCtrl: mentalisElemzes.$onbizalom,
+      onbizalomElvegezve:mentalisElemzes.$onbizalomElv ,
+
+      felelemCtrl: mentalisElemzes.$felelem,
+      felelemElvegezve: mentalisElemzes.$felelemElv,
+
+      kimerultsegCtrl: mentalisElemzes.$kimerultseg,
+      kimerultsegElvegezve: mentalisElemzes.$kimerultsegElv,
+
+      introvertaltCtrl: mentalisElemzes.$introvertalt,
+      introvertaltElvegezve: mentalisElemzes.$introvertaltElv,
+
+      szomorusagCtrl: mentalisElemzes.$szomorusag,
+      szomorusagElvegezve: mentalisElemzes.$szomorusagElv,
+
+    });
+  }
 
   createFormGroup() {
 
@@ -696,8 +735,6 @@ export class SajatMagamElemzeseComponent implements OnInit {
   // **** Submit form ****
 
   sajatMagamElemzeseSubmit() {
-
-    this.allFilled = true;
 
     // create mentalis-elemzes model and save in service
     this.createMentalisElemzes();

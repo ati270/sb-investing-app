@@ -10,7 +10,9 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import {MatTooltipModule} from '@angular/material/tooltip';
-
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   imports: [CommonModule,
@@ -23,7 +25,10 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
-    MatSelectModule
+    MatSelectModule,
+    ButtonModule,
+    RippleModule,
+    ToastModule
 
   ],
   declarations: [NettoJelenertekSzamitasComponent],

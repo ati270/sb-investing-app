@@ -10,8 +10,11 @@ import { MatInputModule } from '@angular/material/input';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatIconModule} from '@angular/material/icon';
 import { VallalatPenzugyiElemzesComponent } from './vallalat-penzugyi-elemzes.component';
-import {MatStepperModule} from '@angular/material/stepper'; 
+import {MatStepperModule} from '@angular/material/stepper';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   imports: [CommonModule,
@@ -24,9 +27,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatTableModule,
     MatTooltipModule,
+    RippleModule,
+    ButtonModule,
+    ToastModule,
     FormsModule,ReactiveFormsModule,
     MatStepperModule
-    
+
 ],
   declarations: [VallalatPenzugyiElemzesComponent],
   exports: [VallalatPenzugyiElemzesComponent],

@@ -31,19 +31,45 @@
         <div class="d-flex bd-highlight mb-3">
           <div class="p-2 bd-highlight">
             <h4 style="color: black; text-transform: uppercase;">Részvényelemzés</h4>
+            <div *ngIf="!isSavedActualElemzes else saved" class="p-2 bd-highlight">
+              <span class="badge badge-pill badge-primary z-depth-2 notSavedBudge">Ez az elemzés még nincs
+                elmentve</span>
+            </div>
           </div>
+
           <div class="ml-auto p-2 bd-highlight">
-            <h5>Kitöltöttség</h5>
-            <p-knob value=2 [min]="0" [max]="8"></p-knob>
+           <circle-progress
+           [backgroundPadding]=28
+           [radius]= "68"
+           [percent]="count"
+           [maxPercent]="80"
+           [space]= "4"
+           [showUnits]= true
+           [unitsFontSize]="14"
+           [subtitle]="pbarTitle"
+           [outerStrokeWidth]= "5"
+           [innerStrokeWidth]= "1"
+           [showSubtitle]= true
+           [outerStrokeColor]="circlePrColor"
+           [innerStrokeColor] ="circlePrColor"
+           [titleColor]="circlePrColor"
+           [subtitleColor]="circlePrColor"
+           [titleFontSize]="23"
+           [subtitleFontSize]="16"
+           [imageHeight]= "20"
+           [imageWidth]= "20">
+           </circle-progress>
           </div>
           <div class="ml-auto p-2 bd-highlight">
             <button mat-stroked-button color="primary" style="border: 1px solid #3f729b" class="z-depth-1"
               (click)="createUjReszveny()">Új elemzés</button>
 
-            <button #saveBtn mat-raised-button  style="margin-left:0.5rem; background-color: darkgreen;color: white"
-              class="z-depth-2" (click)="saveReszveny()" [disabled]="isSavedActualElemzes" disabled>Elemzés mentése</button>
+            <button #saveBtn mat-raised-button style="margin-left:0.5rem; background-color: darkgreen;color: white"
+              class="z-depth-2" (click)="saveReszveny()" [disabled]="isSavedActualElemzes" disabled>Elemzés
+              mentése</button>
           </div>
         </div>
+
         <hr>
         <!--Kitöltés állapota: {{$haladasValue}} %
       <br>
@@ -72,33 +98,38 @@
           <!--Pénzügyi adatok-->
           <mat-tab label="Pénzügyi adatok" #tabPenzugyi>
             <!--[disabled]="!changeFrom3To4Tab"-->
-            <app-penzugyi-adatok (filledEmitter)=filledPenzugyiAdatokTab($event)></app-penzugyi-adatok>
+            <app-penzugyi-adatok (filledPenzAdatokEmitter)=savePenzAdatok($event)></app-penzugyi-adatok>
           </mat-tab>
 
           <!--Válalalati pénzügyi elemzés-->
           <mat-tab label="Vállalat pénzügyi elemzés" #tabVallPenzElemzes>
             <!--[disabled]='!changeFrom4To5Tab'-->
-            <app-vallalat-penzugyi-elemzes (filledEmitter)="filledVallPenzElemzesTab($event)">
+            <app-vallalat-penzugyi-elemzes (filledVallPenzElemzesEmitter)="saveVallPenzElemzes($event)">
             </app-vallalat-penzugyi-elemzes>
           </mat-tab>
           <!--Célár meghatározás-->
           <mat-tab label="Célár meghatározás" #tabCelar>
             <!--[disabled]='!changeFrom5To6Tab'-->
-            <app-celar-meghatarozas (filledEmitter)="filledCelarTab($event)"></app-celar-meghatarozas>
+            <app-celar-meghatarozas (filledCelarEmitter)="saveCelar($event)"></app-celar-meghatarozas>
           </mat-tab>
 
           <!--Nettó jelenérték számitás-->
           <mat-tab label="Nettó jelenérték számítás" #tabNettoJelenertek>
             <!--[disabled]='!changeFrom6To7Tab'-->
-            <app-netto-jelenertek-szamitas (filledEmitter)="filledNettoJelenTab($event)">
+            <app-netto-jelenertek-szamitas (filledNettoJelenertekEmitter)="saveNettoJelenertek($event)">
             </app-netto-jelenertek-szamitas>
           </mat-tab>
           <!--Managelés-->
           <mat-tab label="Managelés" #tabManageles>
             <!--[disabled]='!lastTab'-->
-            <app-manageles (filledEmitter)="filledManageles($event)"></app-manageles>
+            <app-manageles (filledManagelesEmitter)="saveManageles($event)"></app-manageles>
           </mat-tab>
         </mat-tab-group>
       </div>
     </div>
   </div>
+
+  <ng-template #saved>
+    <span class="badge badge-pill badge-primary z-depth-2 savedBudge">Aktuális elemzés mentve:
+      {{this.$ujReszveny.$befektetesAdatok.status}}</span>
+  </ng-template>

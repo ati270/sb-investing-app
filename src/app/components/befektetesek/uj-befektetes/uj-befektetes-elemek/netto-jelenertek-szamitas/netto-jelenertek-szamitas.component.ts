@@ -1,25 +1,24 @@
 import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { NettoJelenErtek } from 'src/app/models/uj-befektetes-models/netto-jelenertek/netto-jelenertek.model';
 import { NettoJelenertekService } from 'src/app/services/befektetesek/uj-befektetes-services/netto-jelenertek/netto-jelenertek.service';
 
-export interface dataArguments {
-  filled: boolean;
-  nettoJelenErtek: NettoJelenErtek;
-}
+
 @Component({
   selector: 'app-netto-jelenertek-szamitas',
   templateUrl: './netto-jelenertek-szamitas.component.html',
-  styleUrls: ['./netto-jelenertek-szamitas.component.scss']
+  styleUrls: ['./netto-jelenertek-szamitas.component.scss'],
+  providers: [MessageService]
 })
 export class NettoJelenertekSzamitasComponent implements OnInit {
 
-  @Output() filledEmitter: EventEmitter<dataArguments> = new EventEmitter();
+  @Output() filledNettoJelenertekEmitter: EventEmitter<NettoJelenErtek> = new EventEmitter();
   allFilled: boolean;
 
   nettoJelenErtek: NettoJelenErtek;
-  
+
   nettoJelenFormGroup: FormGroup;
   bef_osszeg: number;
   penznem: string;
@@ -48,7 +47,8 @@ export class NettoJelenertekSzamitasComponent implements OnInit {
   private osszVal: number = 0;
 
 
-  constructor(private _formBuilder: FormBuilder, private nettoJelenErtekService: NettoJelenertekService) { }
+  constructor(private _formBuilder: FormBuilder, private nettoJelenErtekService: NettoJelenertekService,
+    private messageService: MessageService) { }
 
 
 
@@ -154,17 +154,15 @@ export class NettoJelenertekSzamitasComponent implements OnInit {
   }
 
   onNettoSubmit() {
-    this.allFilled = true;
     this.createNettoJelenErtek();
     this.getJelenErtek();
 
-    this.filledEmitter.emit(
-      {
-        filled: this.allFilled, 
-        nettoJelenErtek: this.nettoJelenErtek
-      }
-    );
-    
+    this.filledNettoJelenertekEmitter.emit(this.nettoJelenErtek);
+
+    this.messageService.add({ key: 'tc', severity: 'success', summary: 'Nettó jelenérték sikeresen hozzáadva!'});
+
+    console.log(this.nettoJelenErtek);
+
   }
 
   // Getters
@@ -177,7 +175,7 @@ export class NettoJelenertekSzamitasComponent implements OnInit {
     return this.nettoJelenFormGroup.get('arfolyamCtrl').value;
   }
 
-  
+
     /**
      * Getter $vasaroltMennyiseg
      * @return {number }

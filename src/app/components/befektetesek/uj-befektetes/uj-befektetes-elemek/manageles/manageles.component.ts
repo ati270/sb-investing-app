@@ -14,24 +14,21 @@ import { CelarMeghatarozasService } from 'src/app/services/befektetesek/uj-befek
 import { ManagelesService } from 'src/app/services/befektetesek/uj-befektetes-services/manageles/manageles.service';
 import { SaveReszvenyDialogComponent } from 'src/app/components/dialogs/save-reszveny-dialog/save-reszveny-dialog.component';
 import { Router } from '@angular/router';
-import {Location} from '@angular/common';
-
-export interface dataArguments {
-  filled: boolean;
-  manageles: Manageles;
-}
+import { Location } from '@angular/common';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-manageles',
   templateUrl: './manageles.component.html',
-  styleUrls: ['./manageles.component.scss']
+  styleUrls: ['./manageles.component.scss'],
+  providers: [MessageService]
 })
 export class ManagelesComponent implements OnInit, AfterViewInit {
 
   manageles: Manageles;
 
-  @Output() filledEmitter: EventEmitter<dataArguments> = new EventEmitter();
-  allFilled: boolean;
+  @Output() filledManagelesEmitter: EventEmitter<Manageles> = new EventEmitter();
+
 
   @ViewChild('egyebSzektor') egyebSzektorInput: ElementRef;
 
@@ -43,22 +40,22 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
 
   @ViewChild('rosszHatInput') rosszHatInput: ElementRef;
 
-  
+
   @ViewChild('hosszuTavEladInput') hosszuTavEladInput: ElementRef;
 
-  
+
   @ViewChild('rovidTavEladInput') rovidTavEladInput: ElementRef;
 
-  
+
   @ViewChild('piaciMutInput') piaciMutInput: ElementRef;
 
-  
+
   @ViewChild('magasReszvenyInput') magasReszvenyInput: ElementRef;
 
-  
+
   @ViewChild('nettoJelenNegativInput') nettoJelenNegativInput: ElementRef;
 
-  
+
   @ViewChild('egyebInput') egyebInput: ElementRef;
 
   @ViewChild('arfolyamEsesInput') arfolyamEsesEgyebInput: ElementRef;
@@ -171,7 +168,8 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
     private egyebSelectSnackBar: MatSnackBar,
     private befektetesAdatokService: BefAdatokService,
     private celarService: CelarMeghatarozasService, private managelesService: ManagelesService,
-    private router: Router, public location: Location) { }
+    private router: Router, public location: Location,
+    private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.createAdatokFormGroup();
@@ -307,36 +305,36 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
       this.magasRiziko = val;
     })
 
-    this.managelesReszvenyFormGroup.get('reszvenyMenegelesAdatok').get('halasztasAdatok').get('vallalatiRosszPenzMutatoMagyCtrl').valueChanges.subscribe(val=>{
+    this.managelesReszvenyFormGroup.get('reszvenyMenegelesAdatok').get('halasztasAdatok').get('vallalatiRosszPenzMutatoMagyCtrl').valueChanges.subscribe(val => {
       this.rosszPenz = val;
     })
 
-    this.managelesReszvenyFormGroup.get('reszvenyMenegelesAdatok').get('halasztasAdatok').get('vallalatRosszHatMutMagyarazatCtrl').valueChanges.subscribe(val=>{
+    this.managelesReszvenyFormGroup.get('reszvenyMenegelesAdatok').get('halasztasAdatok').get('vallalatRosszHatMutMagyarazatCtrl').valueChanges.subscribe(val => {
       this.rosszHat = val;
     })
 
-    this.managelesReszvenyFormGroup.get('reszvenyMenegelesAdatok').get('halasztasAdatok').get('vallalatHosszuEladosodasMagyarazatCtrl').valueChanges.subscribe(val=>{
+    this.managelesReszvenyFormGroup.get('reszvenyMenegelesAdatok').get('halasztasAdatok').get('vallalatHosszuEladosodasMagyarazatCtrl').valueChanges.subscribe(val => {
       this.hosszuTavElad = val;
     })
 
-    this.managelesReszvenyFormGroup.get('reszvenyMenegelesAdatok').get('halasztasAdatok').get('vallalatRovidEladosodasMagyarazatCtrl').valueChanges.subscribe(val=>{
+    this.managelesReszvenyFormGroup.get('reszvenyMenegelesAdatok').get('halasztasAdatok').get('vallalatRovidEladosodasMagyarazatCtrl').valueChanges.subscribe(val => {
       this.rovidTavElad = val;
     })
 
-    this.managelesReszvenyFormGroup.get('reszvenyMenegelesAdatok').get('halasztasAdatok').get('vallalatPiaciMutMagyarazatCtrl').valueChanges.subscribe(val=>{
+    this.managelesReszvenyFormGroup.get('reszvenyMenegelesAdatok').get('halasztasAdatok').get('vallalatPiaciMutMagyarazatCtrl').valueChanges.subscribe(val => {
       this.piaciMutato = val;
     })
 
-    this.managelesReszvenyFormGroup.get('reszvenyMenegelesAdatok').get('halasztasAdatok').get('vallalatMagasReszvenyMagyarazatCtrl').valueChanges.subscribe(val=>{
+    this.managelesReszvenyFormGroup.get('reszvenyMenegelesAdatok').get('halasztasAdatok').get('vallalatMagasReszvenyMagyarazatCtrl').valueChanges.subscribe(val => {
       this.magasReszveny = val;
     })
 
-    
-    this.managelesReszvenyFormGroup.get('reszvenyMenegelesAdatok').get('halasztasAdatok').get('befNettoJelenMagyarazatCtrl').valueChanges.subscribe(val=>{
+
+    this.managelesReszvenyFormGroup.get('reszvenyMenegelesAdatok').get('halasztasAdatok').get('befNettoJelenMagyarazatCtrl').valueChanges.subscribe(val => {
       this.nettoJelenNegativ = val;
     })
 
-    this.managelesReszvenyFormGroup.get('reszvenyMenegelesAdatok').get('halasztasAdatok').get('egyebMagyarazatCtrl').valueChanges.subscribe(val=>{
+    this.managelesReszvenyFormGroup.get('reszvenyMenegelesAdatok').get('halasztasAdatok').get('egyebMagyarazatCtrl').valueChanges.subscribe(val => {
       this.egyeb = val;
     })
 
@@ -415,7 +413,7 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openHosszuTavEladDialog(): void{
+  openHosszuTavEladDialog(): void {
     const dialogRef = this.dialog.open(AddEredmenyDialogComponent, {
       width: '40%',
       data: { eredmeny: this.hosszuTavElad, megnevezes: "Válallat hosszú távú eladósodottsága" }
@@ -434,7 +432,7 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
 
   }
 
-  openRovidTavEladDialog(): void{
+  openRovidTavEladDialog(): void {
     const dialogRef = this.dialog.open(AddEredmenyDialogComponent, {
       width: '40%',
       data: { eredmeny: this.rovidTavElad, megnevezes: " Válallat rövid távú eladósodottsága" }
@@ -452,7 +450,7 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openPiaciMutatoDialog(): void{
+  openPiaciMutatoDialog(): void {
     const dialogRef = this.dialog.open(AddEredmenyDialogComponent, {
       width: '40%',
       data: { eredmeny: this.piaciMutato, megnevezes: "Vállalat piaci mutatói túlértékeltek" }
@@ -471,7 +469,7 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
 
   }
 
-  openMagasReszvenyDialog(): void{
+  openMagasReszvenyDialog(): void {
     const dialogRef = this.dialog.open(AddEredmenyDialogComponent, {
       width: '40%',
       data: { eredmeny: this.magasReszveny, megnevezes: "Túl magas részvény árfolyam" }
@@ -489,7 +487,7 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openNettoJelenNegativDialog(): void{
+  openNettoJelenNegativDialog(): void {
     const dialogRef = this.dialog.open(AddEredmenyDialogComponent, {
       width: '40%',
       data: { eredmeny: this.nettoJelenNegativ, megnevezes: "Befektetés nettó jelenértéke negatív" }
@@ -508,7 +506,7 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
 
   }
 
-  openEgyebDialog(): void{
+  openEgyebDialog(): void {
 
     const dialogRef = this.dialog.open(AddEredmenyDialogComponent, {
       width: '40%',
@@ -525,7 +523,7 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
         this.egyebInput.nativeElement.value = this.$egyeb;
       }
     });
-    
+
   }
 
 
@@ -667,7 +665,7 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
   }
 
 
-  createManageles(){
+  createManageles() {
     this.managelesService.createManageles(
       this.managelesAdatokFormGroup.value,
       this.managelesReszvenyFormGroup.value,
@@ -676,42 +674,28 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
     )
   }
 
-  getManageles(){
+  getManageles() {
 
     this.managelesService.getManageles().subscribe(
       adatok => {
-          this.manageles = adatok;
+        this.manageles = adatok;
       }
     )
   }
 
-  openSaveReszvenyDialog(){
+  saveManageles() {
+    this.createManageles();
+    this.getManageles();
 
-      const dialogRef = this.dialog.open(SaveReszvenyDialogComponent, {
-        width: '40%'
-      });
-      dialogRef.afterClosed().subscribe(result => {
-          this.allFilled = true;
+    this.filledManagelesEmitter.emit(this.manageles);
 
-          this.createManageles();
-          this.getManageles();
-      
-          this.filledEmitter.emit({
-            filled: this.allFilled, 
-            manageles: this.manageles
-          })
+    console.log(this.manageles);
 
-          // visszalépés kezdő elemzés 1. oldalra üresen
-      });
-    
+    this.messageService.add({ key: 'tc', severity: 'success', summary: 'Managelés sikeresen hozzáadva!' });
   }
 
-  // SUBMIT DATA
-  saveReszvenyElemzes() {
 
-    this.openSaveReszvenyDialog();
 
-  }
 
 
   addSelectNewSzektor(egyebSelect: string) {
@@ -849,70 +833,70 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
   }
 
 
-    /**
-     * Getter $rosszPenz
-     * @return {any}
-     */
-	public get $rosszPenz(): any {
-		return this.rosszPenz;
+  /**
+   * Getter $rosszPenz
+   * @return {any}
+   */
+  public get $rosszPenz(): any {
+    return this.rosszPenz;
   }
-  
 
-    /**
-     * Getter $rosszHat
-     * @return {string }
-     */
-	public get $rosszHat(): string  {
-		return this.rosszHat;
-	}
 
-    /**
-     * Getter $hosszuTavElad
-     * @return {string }
-     */
-	public get $hosszuTavElad(): string  {
-		return this.hosszuTavElad;
-	}
+  /**
+   * Getter $rosszHat
+   * @return {string }
+   */
+  public get $rosszHat(): string {
+    return this.rosszHat;
+  }
 
-    /**
-     * Getter $rovidTavElad
-     * @return {string }
-     */
-	public get $rovidTavElad(): string  {
-		return this.rovidTavElad;
-	}
+  /**
+   * Getter $hosszuTavElad
+   * @return {string }
+   */
+  public get $hosszuTavElad(): string {
+    return this.hosszuTavElad;
+  }
 
-    /**
-     * Getter $piaciMutato
-     * @return {string }
-     */
-	public get $piaciMutato(): string  {
-		return this.piaciMutato;
-	}
+  /**
+   * Getter $rovidTavElad
+   * @return {string }
+   */
+  public get $rovidTavElad(): string {
+    return this.rovidTavElad;
+  }
 
-    /**
-     * Getter $magasReszveny
-     * @return {string }
-     */
-	public get $magasReszveny(): string  {
-		return this.magasReszveny;
-	}
+  /**
+   * Getter $piaciMutato
+   * @return {string }
+   */
+  public get $piaciMutato(): string {
+    return this.piaciMutato;
+  }
 
-    /**
-     * Getter $nettoJelenNegativ
-     * @return {string }
-     */
-	public get $nettoJelenNegativ(): string  {
-		return this.nettoJelenNegativ;
-	}
+  /**
+   * Getter $magasReszveny
+   * @return {string }
+   */
+  public get $magasReszveny(): string {
+    return this.magasReszveny;
+  }
 
-    /**
-     * Getter $egyeb
-     * @return {string }
-     */
-	public get $egyeb(): string  {
-		return this.egyeb;
-	}
+  /**
+   * Getter $nettoJelenNegativ
+   * @return {string }
+   */
+  public get $nettoJelenNegativ(): string {
+    return this.nettoJelenNegativ;
+  }
+
+  /**
+   * Getter $egyeb
+   * @return {string }
+   */
+  public get $egyeb(): string {
+    return this.egyeb;
+  }
 
 
 

@@ -9,6 +9,9 @@ import { PenzugyiAdatokComponent } from './penzugyi-adatok.component';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatIconModule, MatIcon} from '@angular/material/icon';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { ToastModule } from 'primeng/toast';
 
 
 
@@ -21,6 +24,9 @@ import {MatIconModule, MatIcon} from '@angular/material/icon';
     MatCardModule,
     MatInputModule,
     FormsModule,
+    RippleModule,
+    ButtonModule,
+    ToastModule,
     ReactiveFormsModule,
     MatIconModule
   ],

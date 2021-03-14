@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 import { AppState } from '../../store/reszveny/state';
 import { Router } from '@angular/router';
 import { BefAdatokService } from 'src/app/services/befektetesek/uj-befektetes-services/befektetes-adatok/bef-adatok.service';
+import { MentalisElemzesService } from 'src/app/services/befektetesek/uj-befektetes-services/mentalis-elemzes/mentalis-elemzes.service';
 
 @Component({
   selector: 'app-nyitott-befektetesek',
@@ -24,7 +25,7 @@ export class NyitottBefektetesekComponent implements OnInit {
 
   constructor(private store: Store<AppState>,
     private nyitottBefService: NyitottBefektetesService,
-    private router: Router, private befAdatService: BefAdatokService) {
+    private router: Router, private befAdatService: BefAdatokService, private mentalisElemzesService: MentalisElemzesService) {
    }
 
   ngOnInit(): void {
@@ -38,7 +39,9 @@ export class NyitottBefektetesekComponent implements OnInit {
   redirectToMain(){
     this.router.navigateByUrl('/befektetes');
 
-    this.befAdatService.loadBefAdatok(this.nyitottBefService.$ujReszvenyek);
+    //this.befAdatService.loadBefAdatok(this.nyitottBefService[0].$);
+    this.befAdatService.loadBefAdatok(this.nyitottBefService.$ujReszvenyek[0].$befektetesAdatok);
+    this.mentalisElemzesService.loadMentalisElemzes(this.nyitottBefService.$ujReszvenyek[0].$mentalisElemzes);
 
   }
 
@@ -46,7 +49,8 @@ export class NyitottBefektetesekComponent implements OnInit {
     this.router.navigateByUrl('/befektetes');
 
     let reszvenyek: UjReszveny[] = new Array(reszveny);
-    this.befAdatService.loadBefAdatok(reszvenyek);
+    this.befAdatService.loadBefAdatok(reszveny.$befektetesAdatok);
+    this.mentalisElemzesService.loadMentalisElemzes(reszveny.$mentalisElemzes);
 
   }
 

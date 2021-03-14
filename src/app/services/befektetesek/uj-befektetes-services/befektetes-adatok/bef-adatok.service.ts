@@ -19,9 +19,9 @@ export class BefAdatokService {
   }
 
 
-  loadBefAdatok(ujReszveny: UjReszveny[]){
+  loadBefAdatok(befAdatok: BefektetesAdatok){
 
-    this.updatedAdatok = ujReszveny[0].$befektetesAdatok;
+    this.updatedAdatok = befAdatok;
 
   }
 

@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import {ToastModule} from 'primeng/toast';
 import {RippleModule} from 'primeng/ripple';
 import { ButtonModule } from 'primeng/button';
+import { DividerModule } from "primeng/divider";
 
 @NgModule({
     imports: [CommonModule,
@@ -29,6 +30,7 @@ import { ButtonModule } from 'primeng/button';
         FormsModule,
         ButtonModule,
         RippleModule,
+        DividerModule,
         ReactiveFormsModule,
         MatButtonModule,
         ToastModule,

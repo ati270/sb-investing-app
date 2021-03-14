@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { RippleModule } from 'primeng/ripple';
 import { ButtonModule } from 'primeng/button';
+import { DividerModule } from "primeng/divider";
 
 
 @NgModule({
@@ -29,6 +30,8 @@ import { ButtonModule } from 'primeng/button';
     RippleModule,
     ButtonModule,
     ToastModule,
+    DividerModule
+
   ],
   declarations: [SajatMagamElemzeseComponent],
   exports: [SajatMagamElemzeseComponent],

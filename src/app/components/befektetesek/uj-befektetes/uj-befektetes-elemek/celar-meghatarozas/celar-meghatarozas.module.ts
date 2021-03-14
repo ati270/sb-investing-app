@@ -11,7 +11,9 @@ import { CelarMeghatarozasComponent } from './celar-meghatarozas.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatIconModule} from '@angular/material/icon';
-
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { ToastModule } from 'primeng/toast';
 
 
 @NgModule({
@@ -26,8 +28,10 @@ import {MatIconModule} from '@angular/material/icon';
     ReactiveFormsModule,
     MatButtonModule,
     MatSelectModule,
-    MatStepperModule
-
+    MatStepperModule,
+    RippleModule,
+    ButtonModule,
+    ToastModule,
   ],
   declarations: [CelarMeghatarozasComponent],
   exports: [CelarMeghatarozasComponent],

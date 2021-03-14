@@ -15,11 +15,14 @@ import { ManagelesRoutingModule } from './manageles-routing.module';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
-import {MatButtonToggleModule} from '@angular/material/button-toggle'; 
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatIconModule} from '@angular/material/icon';
 import { EredmenyDialogModule } from 'src/app/components/dialogs/add-eredmeny-dialog/add-eredmeny-dialog.module';
 import { SaveReszvenyDialogModule } from 'src/app/components/dialogs/save-reszveny-dialog/save-reszveny.module';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
     imports: [CommonModule,
@@ -42,7 +45,10 @@ import { SaveReszvenyDialogModule } from 'src/app/components/dialogs/save-reszve
         MatButtonModule,
         MatSelectModule,
         EredmenyDialogModule,
-        SaveReszvenyDialogModule
+        SaveReszvenyDialogModule,
+        ButtonModule,
+        RippleModule,
+        ToastModule
     ],
     declarations: [ManagelesComponent],
     bootstrap: [ManagelesComponent],

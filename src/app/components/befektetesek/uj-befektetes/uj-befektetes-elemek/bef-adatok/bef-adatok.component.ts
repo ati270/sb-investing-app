@@ -19,7 +19,7 @@ export interface dataArguments {
   providers: [MessageService]
 })
 
-export class BefAdatokComponent implements OnInit {
+export class BefAdatokComponent implements OnInit, AfterViewInit {
 
 
   @Output() filledEmitter: EventEmitter<dataArguments> = new EventEmitter();
@@ -50,9 +50,13 @@ export class BefAdatokComponent implements OnInit {
     this.primengConfig.ripple = true;
 
     this.createAdatokFormGroup();
-    //this.getBefAdatok();
-    this.allFilled = false;
+
   }
+
+  ngAfterViewInit(): void {
+    this.loadBefAdatok();
+  }
+
 
   createAdatokFormGroup() {
 

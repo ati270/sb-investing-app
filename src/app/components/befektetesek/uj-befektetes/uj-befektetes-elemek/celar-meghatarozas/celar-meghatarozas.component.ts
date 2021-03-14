@@ -4,19 +4,16 @@ import { EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CelarMeghatarozas } from 'src/app/models/uj-befektetes-models/celar-meghatarozas/celar-meghatarozas.model';
 import { CelarMeghatarozasService } from 'src/app/services/befektetesek/uj-befektetes-services/celar-meghatarozas/celar-meghatarozas.service';
-
-export interface dataArguments {
-  filled: boolean;
-  celar: CelarMeghatarozas;
-}
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-celar-meghatarozas',
   templateUrl: './celar-meghatarozas.component.html',
-  styleUrls: ['./celar-meghatarozas.component.scss']
+  styleUrls: ['./celar-meghatarozas.component.scss'],
+  providers: [MessageService]
 })
 export class CelarMeghatarozasComponent implements OnInit {
 
-  @Output() filledEmitter: EventEmitter<dataArguments> = new EventEmitter();
+  @Output() filledCelarEmitter: EventEmitter<CelarMeghatarozas> = new EventEmitter();
   allFilled: boolean;
 
   celarMeghatarozas: CelarMeghatarozas;
@@ -33,7 +30,7 @@ export class CelarMeghatarozasComponent implements OnInit {
 
   isLinear = true;
 
-  constructor(private _formBuilder: FormBuilder, private celarService: CelarMeghatarozasService) { }
+  constructor(private _formBuilder: FormBuilder, private celarService: CelarMeghatarozasService, private messageService: MessageService) { }
 
 
   ngOnInit(): void {
@@ -118,7 +115,7 @@ export class CelarMeghatarozasComponent implements OnInit {
   }
 
   get kotes1(): number{
-    
+
     return  this.celarVal/this.diszkontrata;
   }
 
@@ -126,7 +123,7 @@ export class CelarMeghatarozasComponent implements OnInit {
     let val = this.celarVal / Math.pow(this.diszkontrata, 2);
       return val;
 
-  
+
   }
 
   get kotes3(): number{
@@ -201,21 +198,17 @@ export class CelarMeghatarozasComponent implements OnInit {
     )
   }
 
-  celarSecondSubmit(){}
-
-  sendCelarData(){
-    this.allFilled = true;
-
+  celarSubmit(){
     this.createCelar();
     this.getCelarAdatok();
 
-    this.filledEmitter.emit(
-      {
-        filled: this.allFilled,
-        celar: this.celarMeghatarozas
-      })
-   
+    this.filledCelarEmitter.emit(this.celarMeghatarozas);
+
+    console.log(this.celarMeghatarozas);
+
+    this.messageService.add({ key: 'tc', severity: 'success', summary: 'Célár adatok sikeresen hozzáadva!'});
   }
+
 
 }
 

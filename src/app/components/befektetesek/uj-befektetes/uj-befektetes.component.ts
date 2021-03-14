@@ -27,9 +27,14 @@ import { MessageService } from 'primeng/api';
 })
 export class UjBefektetesComponent implements OnInit {
   @ViewChild('saveReszveny') saveButton: ElementRef;
-  countOfFilled: number = 5;
+  countOfFilled: number = 0;
+  pbarTitle = "Kitöltöttség";
+  maxPercent: number = 8;
   isBefektetesKesz: boolean;
+  count: number = 0.0;
   isSavedActualElemzes: boolean;
+  circlePrColor = "#3f729b";
+
 
   // Components
   befektetesAdatok: BefektetesAdatok;
@@ -40,7 +45,7 @@ export class UjBefektetesComponent implements OnInit {
   celarMeghatarozas: CelarMeghatarozas;
   nettoJelenertek: NettoJelenErtek;
   manageles: Manageles;
-
+  private ujReszveny: UjReszveny;
   //@ViewChild('tabGroup') tabGroup;
   //selectedTabIndex: number;
   public nextTabIndex: number = 0;
@@ -51,6 +56,7 @@ export class UjBefektetesComponent implements OnInit {
   changeFrom5To6Tab: boolean;
   changeFrom6To7Tab: boolean;
   lastTab: boolean;
+
   private haladasValue: number = 0;
   private tabValue = 12.5;
   constructor(private ujBefektetesService: UjBefektetesService, private store: Store<AppState>, private messageService: MessageService) { }
@@ -77,6 +83,8 @@ export class UjBefektetesComponent implements OnInit {
   onConfirmUjReszveny() {
     this.messageService.clear('c');
     this.ujBefektetesService.$ujReszveny = new UjReszveny();
+    this.$ujReszveny = this.ujBefektetesService.$ujReszveny;
+
     this.isSavedActualElemzes = false;
 
   }
@@ -93,11 +101,6 @@ export class UjBefektetesComponent implements OnInit {
 
     this.messageService.add({ key: 'tcAdd', severity: 'success', summary: 'Elemzés sikeresen mentve!' });
     this.isSavedActualElemzes = true;
-    this.saveButton.nativeElement.style.background= 'gray';
-    this.saveButton.nativeElement.style.color= 'gray';
-
-
-
   }
 
   // Ezzzel adunk mindig hozzá egy elemet a listához
@@ -112,6 +115,8 @@ export class UjBefektetesComponent implements OnInit {
       this.befektetesAdatok = befAdatok;
       this.addOneItem(this.befektetesAdatok);
       console.log(this.ujBefektetesService.$ujReszveny.$befektetesAdatok);
+      this.countOfFilled++;
+      this.count = (this.countOfFilled/8)*100;
     }
 
     // Egyébként frissitsd a bef. adatot
@@ -136,6 +141,7 @@ export class UjBefektetesComponent implements OnInit {
       this.addOneItem(mentalisElemzes);
 
       this.countOfFilled++;
+      this.count = (this.countOfFilled/8)*100;
     }
 
     else {
@@ -154,11 +160,13 @@ export class UjBefektetesComponent implements OnInit {
   }
 
   saveKockazatElemzes(kockElemzes: VallalatKockazatElemzes) {
-    if (this.ujBefektetesService.$ujReszveny.$mentalisElemzes === undefined) {
+    if (this.ujBefektetesService.$ujReszveny.$vallalatKockazatElemzes === undefined) {
       this.vallalatKockazatElemzes = kockElemzes;
       this.addOneItem(kockElemzes);
 
       this.countOfFilled++;
+      this.count = (this.countOfFilled/8)*100;
+      console.log(this.ujBefektetesService.$ujReszveny);
     }
 
     else {
@@ -170,70 +178,140 @@ export class UjBefektetesComponent implements OnInit {
 
       this.store.dispatch(new UpdateReszvenyAction(this.ujBefektetesService.$ujReszveny))
 
-      // frissiteni kellene a menuben a számlálot
     }
 
-    console.log(this.ujBefektetesService.$ujReszveny.$vallalatKockazatElemzes);
+  }
+
+  savePenzAdatok(penzAdatok: PenzugyiAdatok){
+    if (this.ujBefektetesService.$ujReszveny.$penzugyiAdatok === undefined) {
+      this.penzugyiAdatok = penzAdatok;
+      this.addOneItem(penzAdatok);
+      console.log("friss pénz adatok");
+      this.countOfFilled++;
+      this.count = (this.countOfFilled/8)*100;
+
+      console.log(this.ujBefektetesService.$ujReszveny);
+
+    }
+
+    else {
+
+      // Hozzáadni az előző értékeket is
+      this.penzugyiAdatok = penzAdatok;
+      //this.addOneItem(this.befektetesAdatok);
+      this.addOneItem(this.penzugyiAdatok);
+
+      this.store.dispatch(new UpdateReszvenyAction(this.ujBefektetesService.$ujReszveny))
+
+    }
+
+    console.log(this.ujBefektetesService.$ujReszveny.$penzugyiAdatok);
+  }
+
+  saveVallPenzElemzes(vallPenzElemzes: VallalatPenzugyiElemzes){
+    if (this.ujBefektetesService.$ujReszveny.$vallalatPenzugyiElemzes === undefined) {
+      this.vallalatPenzugyiElemzes = vallPenzElemzes;
+      this.addOneItem(vallPenzElemzes);
+
+      this.countOfFilled++;
+      this.count = (this.countOfFilled/8)*100;
+
+    }
+
+    else {
+
+      // Hozzáadni az előző értékeket is
+      this.vallalatPenzugyiElemzes = vallPenzElemzes;
+      //this.addOneItem(this.befektetesAdatok);
+      this.addOneItem(this.vallalatPenzugyiElemzes);
+
+      this.store.dispatch(new UpdateReszvenyAction(this.ujBefektetesService.$ujReszveny))
+
+    }
+  }
+
+  saveCelar(celar: CelarMeghatarozas){
+    if (this.ujBefektetesService.$ujReszveny.$celarMeghatarozas === undefined) {
+      this.celarMeghatarozas = celar;
+      this.addOneItem(celar);
+
+      this.countOfFilled++;
+      this.count = (this.countOfFilled/8)*100;
+    }
+
+    else {
+
+      // Hozzáadni az előző értékeket is
+      this.celarMeghatarozas = celar;
+      //this.addOneItem(this.befektetesAdatok);
+      this.addOneItem(this.celarMeghatarozas);
+
+      this.store.dispatch(new UpdateReszvenyAction(this.ujBefektetesService.$ujReszveny))
+
+    }
+
+  }
+
+  saveNettoJelenertek(nettoJelenertek: NettoJelenErtek){
+    if (this.ujBefektetesService.$ujReszveny.$nettoJelenertek === undefined) {
+      this.nettoJelenertek = nettoJelenertek;
+      this.addOneItem(nettoJelenertek);
+
+      this.countOfFilled++;
+      this.count = (this.countOfFilled/8)*100;
+    }
+
+    else {
+
+      // Hozzáadni az előző értékeket is
+      this.nettoJelenertek = nettoJelenertek;
+      //this.addOneItem(this.befektetesAdatok);
+      this.addOneItem(this.nettoJelenertek);
+
+      this.store.dispatch(new UpdateReszvenyAction(this.ujBefektetesService.$ujReszveny))
+
+    }
+
+  }
+
+  saveManageles(manageles: Manageles){
+    if (this.ujBefektetesService.$ujReszveny.$manageles === undefined) {
+      this.manageles = manageles;
+      this.addOneItem(manageles);
+
+      this.countOfFilled++;
+      this.count = (this.countOfFilled/8)*100;
+    }
+
+    else {
+
+      // Hozzáadni az előző értékeket is
+      this.manageles = manageles;
+      //this.addOneItem(this.befektetesAdatok);
+      this.addOneItem(this.manageles);
+
+      this.store.dispatch(new UpdateReszvenyAction(this.ujBefektetesService.$ujReszveny))
+
+    }
 
   }
 
 
-  filledPenzugyiAdatokTab(data?: any) {
-    this.changeFrom4To5Tab = data.filled;
-    this.nextTabIndex = 4;
-    this.haladasValue = this.tabValue * 4;
-    this.penzugyiAdatok = data.penzugyiAdatok;
+    /**
+     * Setter $ujReszveny
+     * @param {UjReszveny} value
+     */
+	public set $ujReszveny(value: UjReszveny) {
+		this.ujReszveny = value;
+	}
 
-    // Adjuk hozzá a listához az itemet
-    this.addOneItem(this.penzugyiAdatok);
-  }
-
-  filledVallPenzElemzesTab(data?: any) {
-    this.changeFrom5To6Tab = data.filled;
-    this.nextTabIndex = 5;
-    this.haladasValue = this.tabValue * 5;
-    this.vallalatPenzugyiElemzes = data.vallalatPenzugyiElemzes;
-
-    // Adjuk hozzá a listához az itemet
-    this.addOneItem(this.vallalatPenzugyiElemzes);
-  }
-
-  filledCelarTab(data?: any) {
-    this.changeFrom6To7Tab = data.filled;
-    this.nextTabIndex = 6;
-    this.haladasValue = this.tabValue * 6;
-    this.celarMeghatarozas = data.celar;
-
-    // Adjuk hozzá a listához az itemet
-    this.addOneItem(this.celarMeghatarozas);
-  }
-
-  filledNettoJelenTab(data?: any) {
-    this.lastTab = data.filled;
-    this.nextTabIndex = 7;
-    this.haladasValue = this.tabValue * 7;
-    this.nettoJelenertek = data.nettoJelenErtek;
-
-    // Adjuk hozzá a listához az itemet
-    this.addOneItem(this.nettoJelenertek);
-  }
-
-
-
-
-  filledManageles(data?: any) {
-    this.haladasValue = 100;
-    this.isBefektetesKesz = data.filled;
-    this.manageles = data.manageles;
-
-    /*this.store.dispatch(
-      new AddReszvenyAction(this.reszvenyek)
-    );*/
-    // a manageles során létrehozok 1 db ujReszvenyt(elemeivel) ami bekerül a service-be
-
-  }
-
-
+    /**
+     * Getter $ujReszveny
+     * @return {UjReszveny}
+     */
+	public get $ujReszveny(): UjReszveny {
+		return this.ujReszveny;
+	}
 
 
   // GETTERS

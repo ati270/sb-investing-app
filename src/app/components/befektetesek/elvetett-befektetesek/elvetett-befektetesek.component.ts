@@ -1,3 +1,4 @@
+import { MentalisElemzesService } from 'src/app/services/befektetesek/uj-befektetes-services/mentalis-elemzes/mentalis-elemzes.service';
 import { ElvetettBefektetesService } from './../../../services/befektetesek/elemzesek/elvetett-befektetes/elvetett-befektetes.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -13,7 +14,8 @@ import { BefAdatokService } from 'src/app/services/befektetesek/uj-befektetes-se
 })
 export class ElvetettBefektetesekComponent implements OnInit {
 
-  constructor(private elvetettBefService: ElvetettBefektetesService, private router: Router, private befAdatService: BefAdatokService) { }
+  constructor(private elvetettBefService: ElvetettBefektetesService, private router: Router, private befAdatService: BefAdatokService,
+    private mentalisElemzesService: MentalisElemzesService) { }
 
   ngOnInit(): void {
     // Lekéri az adatokat és elmenti az ujReszvenyek valtozoba
@@ -27,15 +29,16 @@ export class ElvetettBefektetesekComponent implements OnInit {
   redirectToMain(){
     this.router.navigateByUrl('/befektetes');
 
-    this.befAdatService.loadBefAdatok(this.elvetettBefService.$ujReszvenyek);
-
+    this.befAdatService.loadBefAdatok(this.elvetettBefService.$ujReszvenyek[0].$befektetesAdatok);
+    this.mentalisElemzesService.loadMentalisElemzes(this.elvetettBefService.$ujReszvenyek[0].$mentalisElemzes);
   }
 
   redirectToMainPanel(reszveny: UjReszveny){
     this.router.navigateByUrl('/befektetes');
 
     let reszvenyek: UjReszveny[] = new Array(reszveny);
-    this.befAdatService.loadBefAdatok(reszvenyek);
+    this.befAdatService.loadBefAdatok(reszveny.$befektetesAdatok);
+    this.mentalisElemzesService.loadMentalisElemzes(reszveny.$mentalisElemzes);
 
   }
 

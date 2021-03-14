@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { VallalatPenzugyiElemzes } from 'src/app/models/uj-befektetes-models/vallalat-penz-elemzes/vallalat-penz-elemzes.model';
 import { VallalatPenzElemzesService } from 'src/app/services/befektetesek/uj-befektetes-services/vallalat-penz-elemzes/vallalat-penz-elemzes.service';
 
@@ -10,15 +11,16 @@ export interface dataArguments {
 @Component({
   selector: 'app-vallalat-penzugyi-elemzes',
   templateUrl: './vallalat-penzugyi-elemzes.component.html',
-  styleUrls: ['./vallalat-penzugyi-elemzes.component.scss']
+  styleUrls: ['./vallalat-penzugyi-elemzes.component.scss'],
+  providers: [MessageService]
 })
 export class VallalatPenzugyiElemzesComponent implements OnInit {
 
   vallalatPenzugyiElemzes: VallalatPenzugyiElemzes;
 
-  @Output() filledEmitter: EventEmitter<dataArguments> = new EventEmitter();
+  @Output() filledVallPenzElemzesEmitter: EventEmitter<VallalatPenzugyiElemzes> = new EventEmitter();
   allFilled: boolean;
-  
+
   isLinear = false;
   jovedelmezosegiFormGroup: FormGroup;
   hatekonysagiFormGroup: FormGroup;
@@ -79,7 +81,8 @@ export class VallalatPenzugyiElemzesComponent implements OnInit {
   private piaciKonyvArfolyamErteke: number;
   private piaciKonyvKonyvSzerintiErtek: number;
 
-  constructor(private _formBuilder: FormBuilder, private vallalatPenzugyiElemzesService: VallalatPenzElemzesService) { }
+  constructor(private _formBuilder: FormBuilder, private vallalatPenzugyiElemzesService: VallalatPenzElemzesService,
+    private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.allFilled = false;
@@ -281,8 +284,8 @@ export class VallalatPenzugyiElemzesComponent implements OnInit {
   createVallalatPenzugyiElemzes(){
     this.vallalatPenzugyiElemzesService.createVallalatPenzugyiElemzes(
       this.jovedelmezosegiFormGroup.value,
-      this.hatekonysagiFormGroup.value, 
-      this.hitelFormGroup.value, 
+      this.hatekonysagiFormGroup.value,
+      this.hitelFormGroup.value,
       this.piaciFormGroup.value)
 }
 
@@ -296,16 +299,15 @@ getVallalatPenzugyiElemzes(){
 
   submitPenzugyiElemzes(){
 
-    this.allFilled = true;
-  
     this.createVallalatPenzugyiElemzes();
     this.getVallalatPenzugyiElemzes();
 
-    this.filledEmitter.emit({
-      filled: this.allFilled,
-      vallalatPenzugyiElemzes: this.vallalatPenzugyiElemzes
-    });
-  
+    this.filledVallPenzElemzesEmitter.emit(this.vallalatPenzugyiElemzes);
+
+    console.log(this.vallalatPenzugyiElemzes);
+
+    this.messageService.add({ key: 'tc', severity: 'success', summary: 'Vállalat pénzügyi elemzés sikeresen hozzáadva!'});
+
   }
 
   // Getters

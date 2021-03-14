@@ -1221,7 +1221,6 @@ export class VallalatVizsgKriteriumokComponent implements OnInit {
       this.inputPiaci.nativeElement.value = result;
       }
 
-      console.log(result);
     });
   }
 
@@ -1879,6 +1878,8 @@ export class VallalatVizsgKriteriumokComponent implements OnInit {
     this.filledSaveKockEmitter.emit(this.vallalatKockazatelemzes);
 
     this.messageService.add({ key: 'tc', severity: 'success', summary: 'Vállalati kockázat elemzés sikeresen hozzáadva!'});
+
+    console.log(this.vallalatKockazatelemzes);
 
   }
 }

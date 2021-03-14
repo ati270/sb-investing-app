@@ -1,3 +1,4 @@
+import { MentalisElemzesService } from 'src/app/services/befektetesek/uj-befektetes-services/mentalis-elemzes/mentalis-elemzes.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -17,7 +18,8 @@ export class FolyamatbanElemzesekComponent implements OnInit {
 
   panelOpenState = false;
 
-  constructor(private folyamatbanElemzesekService: FolyamatbanLevoElemzesService, private router: Router, private befAdatService: BefAdatokService) { }
+  constructor(private folyamatbanElemzesekService: FolyamatbanLevoElemzesService, private router: Router, private befAdatService: BefAdatokService,
+    private mentalisElemzesService: MentalisElemzesService) { }
 
   ngOnInit(): void {
     // Lekéri az adatokat és elmenti az ujReszvenyek valtozoba
@@ -31,15 +33,16 @@ export class FolyamatbanElemzesekComponent implements OnInit {
   redirectToMain(){
     this.router.navigateByUrl('/befektetes');
 
-    this.befAdatService.loadBefAdatok(this.folyamatbanElemzesekService.$ujReszvenyek);
-
+    this.befAdatService.loadBefAdatok(this.folyamatbanElemzesekService.$ujReszvenyek[0].$befektetesAdatok);
+    this.mentalisElemzesService.loadMentalisElemzes(this.folyamatbanElemzesekService.$ujReszvenyek[0].$mentalisElemzes);
   }
 
   redirectToMainPanel(reszveny: UjReszveny){
     this.router.navigateByUrl('/befektetes');
 
     let reszvenyek: UjReszveny[] = new Array(reszveny);
-    this.befAdatService.loadBefAdatok(reszvenyek);
+    this.befAdatService.loadBefAdatok(reszveny.$befektetesAdatok);
+    this.mentalisElemzesService.loadMentalisElemzes(reszveny.$mentalisElemzes);
 
   }
 

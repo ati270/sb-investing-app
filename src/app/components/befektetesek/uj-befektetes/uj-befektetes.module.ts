@@ -18,6 +18,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { RippleModule } from 'primeng/ripple';
 import { ButtonModule } from 'primeng/button';
 import {KnobModule} from 'primeng/knob';
+import { NgCircleProgressModule } from 'ng-circle-progress';
 
 
 @NgModule({
@@ -39,6 +40,8 @@ import {KnobModule} from 'primeng/knob';
     KnobModule,
     RippleModule,
     ToastModule,
+    MatProgressBarModule,
+    NgCircleProgressModule.forRoot({})
 ],
   declarations: [UjBefektetesComponent],
   exports: [UjBefektetesComponent],
