@@ -159,7 +159,7 @@
           </mat-form-field>
           <br>
           <!--Megtérülés-->
-          <mat-form-field>
+          <!--<mat-form-field>
             <mat-label>Megtérülés</mat-label>
             <mat-select required formControlName="megterulesCtrl">
               <mat-option *ngFor="let megterules of $megterules" [value]="megterules">
@@ -167,24 +167,27 @@
               </mat-option>
             </mat-select>
             <mat-hint align="end">Válasszon egy megtérülési időt a listából</mat-hint>
-          </mat-form-field>
+          </mat-form-field>-->
           <br>
           <br>
           <!-- Megtérülési árfolyamok-->
           <mat-card class="z-depth-2 card-megterules">
-            <mat-card-header>
-              <mat-card-title>Megtérülési árfolyamok</mat-card-title>
-              <hr>
-            </mat-card-header>
             <mat-card-content>
-              <div *ngFor="let i of $megterules" class="input-group mb-3 ">
-                <input type="text" class="form-control" placeholder="Kötési árfolyam {{i}} megtérülés esetén" readonly>
-                <div class="input-group-append">
-                  <span class="input-group-text" id="basic-addon2"
-                    style="background-color: darkgreen;color: white;">{{i}}</span>
+
+              <!--<div *ngFor="let item of getKotesek() | async " class="input-group mb-3 "> -->
+              <div *ngFor="let list of getKotesek() | async">
+                <div *ngFor="let item of list let indexOfelement=index;" class="input-group mb-3 ">
+                  <input type="text" class="form-control"
+                    placeholder="Kötési árfolyam {{$evek[indexOfelement]}} év megtérülés esetén" readonly>
+                  <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2"
+                      style="background-color: darkgreen;color: white;">{{item | number : '1.0-2'}}
+                    </span>
+                  </div>
+                  <br>
                 </div>
               </div>
-              <!--TODO: lista a megtérülési árfolyamokról másik componentből-->
+              <!-- </div>-->
             </mat-card-content>
           </mat-card>
           <br>

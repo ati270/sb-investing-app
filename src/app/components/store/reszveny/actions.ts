@@ -3,6 +3,7 @@ import { UjReszveny } from 'src/app/models/uj-befektetes-models/uj-befektetes/uj
 
 export enum ReszvenyActionTypes {
   ADD_RESZVENY = '[RESZVENY] Add Reszveny',
+  ADD_KOTES = '[KOTES] Add Kotes',
   UPDATE_RESZVENY = '[RESZVENY] Update Reszveny'
   //REMOVE_RESZVENY = '[RESZVENY] Remove Reszveny'
 }
@@ -13,6 +14,13 @@ export class AddReszvenyAction implements Action {
     readonly type = ReszvenyActionTypes.ADD_RESZVENY;
 
     constructor(public payload: UjReszveny){}
+}
+
+export class AddKotesAction implements Action {
+
+  readonly type = ReszvenyActionTypes.ADD_KOTES;
+
+  constructor(public payload: number[]){}
 }
 
 export class UpdateReszvenyAction implements Action{
@@ -28,4 +36,5 @@ export class UpdateReszvenyAction implements Action{
     constructor(public payload: number) {}
 }*/
 
-export type ReszvenyAction = AddReszvenyAction | UpdateReszvenyAction /*| RemoveReszveny*/;
+export type ReszvenyAction = AddReszvenyAction | UpdateReszvenyAction | AddKotesAction;
+

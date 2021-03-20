@@ -23,6 +23,7 @@ import { SaveReszvenyDialogModule } from 'src/app/components/dialogs/save-reszve
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
+import { PointReplacePipeModule } from 'src/app/components/custom-pipes/decimal-number-with-space.module';
 
 @NgModule({
     imports: [CommonModule,
@@ -48,7 +49,8 @@ import { ToastModule } from 'primeng/toast';
         SaveReszvenyDialogModule,
         ButtonModule,
         RippleModule,
-        ToastModule
+        ToastModule,
+        PointReplacePipeModule
     ],
     declarations: [ManagelesComponent],
     bootstrap: [ManagelesComponent],

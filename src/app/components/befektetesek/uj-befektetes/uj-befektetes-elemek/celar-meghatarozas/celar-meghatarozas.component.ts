@@ -1,3 +1,5 @@
+import { ManagelesService } from 'src/app/services/befektetesek/uj-befektetes-services/manageles/manageles.service';
+import { AppKotesState } from 'src/app/components/store/reszveny/state';
 import { Component, OnInit, Input, ElementRef, AfterViewInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
@@ -5,6 +7,8 @@ import { Observable } from 'rxjs';
 import { CelarMeghatarozas } from 'src/app/models/uj-befektetes-models/celar-meghatarozas/celar-meghatarozas.model';
 import { CelarMeghatarozasService } from 'src/app/services/befektetesek/uj-befektetes-services/celar-meghatarozas/celar-meghatarozas.service';
 import { MessageService } from 'primeng/api';
+import { Store } from '@ngrx/store';
+import { AddKotesAction } from 'src/app/components/store/reszveny/actions';
 @Component({
   selector: 'app-celar-meghatarozas',
   templateUrl: './celar-meghatarozas.component.html',
@@ -30,7 +34,8 @@ export class CelarMeghatarozasComponent implements OnInit {
 
   isLinear = true;
 
-  constructor(private _formBuilder: FormBuilder, private celarService: CelarMeghatarozasService, private messageService: MessageService) { }
+  constructor(private _formBuilder: FormBuilder, private celarService: CelarMeghatarozasService, private messageService: MessageService,
+    private store: Store<AppKotesState>, private managelesService: ManagelesService ) { }
 
 
   ngOnInit(): void {
@@ -117,6 +122,7 @@ export class CelarMeghatarozasComponent implements OnInit {
   get kotes1(): number{
 
     return  this.celarVal/this.diszkontrata;
+
   }
 
   get kotes2(): number{
@@ -204,7 +210,21 @@ export class CelarMeghatarozasComponent implements OnInit {
 
     this.filledCelarEmitter.emit(this.celarMeghatarozas);
 
-    console.log(this.celarMeghatarozas);
+    // added kotesek
+    let kotesek: number[] = [];
+    kotesek.push(this.kotes1);
+    kotesek.push(this.kotes2);
+    kotesek.push(this.kotes3);
+    kotesek.push(this.kotes4);
+    kotesek.push(this.kotes5);
+    kotesek.push(this.kotes6);
+    kotesek.push(this.kotes8);
+    kotesek.push(this.kotes10);
+
+    this.managelesService.$kotesek = [];
+    this.managelesService.getStoreValues();
+    this.store.dispatch(new AddKotesAction(kotesek));
+
 
     this.messageService.add({ key: 'tc', severity: 'success', summary: 'Célár adatok sikeresen hozzáadva!'});
   }

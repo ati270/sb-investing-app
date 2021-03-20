@@ -4,3 +4,7 @@ export interface AppState{
   readonly reszvenyek: UjReszveny[];
 
 }
+
+export interface AppKotesState{
+  readonly kotesek: number[];
+}

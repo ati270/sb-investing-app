@@ -1,3 +1,4 @@
+import { PointReplacePipeModule } from './../../../../custom-pipes/decimal-number-with-space.module';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { MatCardModule } from '@angular/material/card';
@@ -32,6 +33,7 @@ import { ToastModule } from 'primeng/toast';
     RippleModule,
     ButtonModule,
     ToastModule,
+    PointReplacePipeModule
   ],
   declarations: [CelarMeghatarozasComponent],
   exports: [CelarMeghatarozasComponent],

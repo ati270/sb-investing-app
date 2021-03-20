@@ -11,7 +11,7 @@ export class CelarMeghatarozasService {
   private haszonVesztes: number;
   private diszkontRata: number;
   private celar: number;
-  private kotesiArfolyamok: number[];
+  private kotesiArfolyamok: number[] = [];
 
   constructor() { }
 
@@ -28,9 +28,13 @@ export class CelarMeghatarozasService {
 
 		return of(this.celarMeghatarozasModel);
   }
-  
-  // Kalkuláció
 
+  // Kalkuláció
+  public addKotes(kotes_item: number){
+    this.kotesiArfolyamok.push(kotes_item);
+  }
+
+  
 
     /**
      * Getter $celar
@@ -47,9 +51,9 @@ export class CelarMeghatarozasService {
      * @return {number}
      */
 	public get $haszonVesztes(): number {
-    
+
     this.haszonVesztes = this.celarMeghatarozasModel.$elvartHozam / 100;
-    
+
     return this.haszonVesztes;
 	}
 

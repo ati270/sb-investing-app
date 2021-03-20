@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddEredmenyDialogComponent } from 'src/app/components/dialogs/add-eredmeny-dialog/add-eredmeny-dialog.component';
 import { CelarMeghatarozasModule } from '../celar-meghatarozas/celar-meghatarozas.module';
 import { CelarMeghatarozas } from 'src/app/models/uj-befektetes-models/celar-meghatarozas/celar-meghatarozas.model';
-import { Observable } from 'rxjs';
+import { Observable , of} from 'rxjs';
 import { Manageles } from 'src/app/models/uj-befektetes-models/manageles/manageles.model';
 import { BefAdatokService } from 'src/app/services/befektetesek/uj-befektetes-services/befektetes-adatok/bef-adatok.service';
 import { CelarMeghatarozasService } from 'src/app/services/befektetesek/uj-befektetes-services/celar-meghatarozas/celar-meghatarozas.service';
@@ -90,8 +90,8 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
     'Egyösszegű vásárlás', 'Kis összegű tőkeáttételes vásárlás'];
 
   private eszkozok: string[] = ['Törzsrészvény', 'Tőkeáttételes CFD'];
-
-  private megterules: string[] = ['1 év', '2 év', '3 év', '4 év', '5 év', '6 év', '8 év', '10 év'];
+  $allItems: Observable<number[]>;
+  private megterules: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   private stopSzintek: string[] = ['Van', 'Nincs'];
 
@@ -159,7 +159,7 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
   private magasReszveny: string = "";
   private nettoJelenNegativ: string = "";
   private egyeb: string = "";
-
+  private evek: number[] = [1,2, 3, 4, 5, 6, 8, 10];
 
 
   constructor(
@@ -177,12 +177,17 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
     this.createManagelesKulonbozoFormGroup();
     this.createBefManagelesFormGroup();
     this.onChanges();
+    this.managelesService.getStoreValues();
   }
 
   ngAfterViewInit(): void {
 
-
   }
+
+  getKotesek(): Observable<Array<number>>{
+    return of(this.managelesService.$kotesek);
+  }
+
 
   createAdatokFormGroup() {
     this.managelesAdatokFormGroup = this.formBuilder.group({
@@ -206,7 +211,7 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
       reszvenyMenegelesAdatok: this.formBuilder.group({
         vasarlasCtrl: new FormControl('', Validators.required),
         eszkozCtrl: new FormControl('', Validators.required),
-        megterulesCtrl: new FormControl('', Validators.required),
+        //megterulesCtrl: new FormControl('', Validators.required),
         stopSzintCtrl: new FormControl('', Validators.required),
         rizikoFaktorCtrl: new FormControl('', Validators.required),
         befTokeCtrl: new FormControl('', Validators.required),
@@ -900,6 +905,38 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
 
 
 
+    /**
+     * Getter $megterules
+     * @return {number[] }
+     */
+	public get $megterules(): number[]  {
+		return this.megterules;
+	}
+
+    /**
+     * Setter $megterules
+     * @param {number[] } value
+     */
+	public set $megterules(value: number[] ) {
+		this.megterules = value;
+	}
+
+
+    /**
+     * Getter $evek
+     * @return {number[] }
+     */
+	public get $evek(): number[]  {
+		return this.evek;
+	}
+
+    /**
+     * Setter $evek
+     * @param {number[] } value
+     */
+	public set $evek(value: number[] ) {
+		this.evek = value;
+	}
 
 
   //***************************** */
@@ -1057,13 +1094,6 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
   }
 
 
-  /**
-   * Getter $megterules
-   * @return {string[] }
-   */
-  public get $megterules(): string[] {
-    return this.megterules;
-  }
 
 
   /**

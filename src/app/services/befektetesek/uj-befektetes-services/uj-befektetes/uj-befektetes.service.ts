@@ -17,9 +17,14 @@ export class UjBefektetesService {
 
   private ujReszveny: UjReszveny; // 1 db részvény aminek van egy elem listája
   private countFolyamatban: number = 0;
+  private isSavedActualElemzes: boolean;
 
   constructor() {
     this.$ujReszveny = new UjReszveny();
+  }
+
+  loadMentettElemzes(isSavedActualElemzes: boolean){
+    this.isSavedActualElemzes = isSavedActualElemzes;
   }
 
   /*addAllItems(befadatok?: BefektetesAdatok, mentalisElemzes?: MentalisElemzes, vallKockEl?: VallalatKockazatElemzes, penzugyiAdatok?: PenzugyiAdatok, vallalatPenzEl?: VallalatPenzugyiElemzes,
@@ -99,6 +104,23 @@ export class UjBefektetesService {
      */
 	public set $countFolyamatban(value: number ) {
 		this.countFolyamatban = value;
+	}
+
+
+    /**
+     * Getter $isSavedActualElemzes
+     * @return {boolean}
+     */
+	public get $isSavedActualElemzes(): boolean {
+		return this.isSavedActualElemzes;
+	}
+
+    /**
+     * Setter $isSavedActualElemzes
+     * @param {boolean} value
+     */
+	public set $isSavedActualElemzes(value: boolean) {
+		this.isSavedActualElemzes = value;
 	}
 
 

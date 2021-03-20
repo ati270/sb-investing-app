@@ -3,6 +3,8 @@ import { UjReszveny } from "src/app/models/uj-befektetes-models/uj-befektetes/uj
 
 const initialState: Array<UjReszveny> = [];
 
+const initialKotesState: Array<number[]> = [];
+
 export function ReszvenyReducer(state: Array<UjReszveny> = initialState, action: ReszvenyAction) {
   switch (action.type) {
     case ReszvenyActionTypes.ADD_RESZVENY:
@@ -11,9 +13,19 @@ export function ReszvenyReducer(state: Array<UjReszveny> = initialState, action:
       return handleUpdateReszveny(state, action.payload)
     default:
       return state;
-  }
-
+  };
 }
+
+export function KotesReducer(stateKotes: Array<number[]> = initialKotesState, action: ReszvenyAction) {
+  switch (action.type) {
+    case ReszvenyActionTypes.ADD_KOTES:
+      stateKotes = [];
+      return [...stateKotes, action.payload];
+    default:
+      return stateKotes;
+  }
+}
+
 function handleUpdateReszveny(state: Array<UjReszveny>, payload: UjReszveny): Array<UjReszveny> {
 
   // index of searched element
@@ -28,7 +40,5 @@ function handleUpdateReszveny(state: Array<UjReszveny>, payload: UjReszveny): Ar
 
   state = copyState;
 
-    return state;
-
-
+  return state;
 }

@@ -45,7 +45,7 @@
                 <input type="text" class="form-control" placeholder="CÉLÁR" readonly>
                 <div class="input-group-append">
                     <span class="input-group-text" id="basic-addon2"
-                        style="background-color: green;color: white;">{{celarVal | number}}</span>
+                        style="background-color: green;color: white;">{{celarVal |  number:'1.0':'en-US' | spaceDecimal}}</span>
                 </div>
             </div>
             <div>
@@ -64,7 +64,7 @@
                     <input type="text" class="form-control" placeholder="CÉLÁR" readonly>
                     <div class="input-group-append">
                         <span class="input-group-text" id="basic-addon2"
-                            style="background-color: green;color: white;">{{celarVal | number}}</span>
+                            style="background-color: green;color: white;">{{celarVal | number:'1.0':'en-US' | spaceDecimal}}</span>
                     </div>
                 </div>
                 <br>
@@ -78,7 +78,7 @@
                     <input type="text" class="form-control" placeholder="Haszonvesztés" readonly>
                     <div class="input-group-append">
                         <span class="input-group-text" id="basic-addon2"
-                            style="background-color: green;color: white;">{{$haszonvesztes | number}}</span>
+                            style="background-color: green;color: white;">{{$haszonvesztes | number:'1.0':'en-US'}}</span>
                     </div>
                 </div>
                 <br>
@@ -86,7 +86,7 @@
                     <input type="text" class="form-control" placeholder="Diszkontráta" readonly>
                     <div class="input-group-append">
                         <span class="input-group-text" id="basic-addon2"
-                            style="background-color: green;color: white;">{{$diszkontrata | number}}</span>
+                            style="background-color: green;color: white;">{{$diszkontrata | number:'1.0':'en-US' }}</span>
                     </div>
                 </div>
                 <br>
@@ -99,7 +99,7 @@
                         readonly>
                     <div class="input-group-append">
                         <span class="input-group-text" id="basic-addon2"
-                            style="background-color: green;color: white;">{{kotes1 | number}}</span>
+                            style="background-color: green;color: white;">{{kotes1 | number : '1.0-2' }}</span>
                     </div>
                 </div>
                 <br>
@@ -108,7 +108,7 @@
                         readonly>
                     <div class="input-group-append">
                         <span class="input-group-text" id="basic-addon2"
-                            style="background-color: green;color: white;">{{kotes2 | number}}</span>
+                            style="background-color: green;color: white;">{{kotes2 | number : '1.0-2'}}</span>
                     </div>
                 </div>
                 <br>
@@ -117,7 +117,7 @@
                         readonly>
                     <div class="input-group-append">
                         <span class="input-group-text" id="basic-addon2"
-                            style="background-color: green;color: white;">{{kotes3 | number}}</span>
+                            style="background-color: green;color: white;">{{kotes3 | number : '1.0-2' }}</span>
                     </div>
                 </div>
                 <br>
@@ -126,7 +126,7 @@
                         readonly>
                     <div class="input-group-append">
                         <span class="input-group-text" id="basic-addon2"
-                            style="background-color: green;color: white;">{{kotes4 | number}}</span>
+                            style="background-color: green;color: white;">{{kotes4 | number : '1.0-2' }}</span>
                     </div>
                 </div>
                 <br>
@@ -135,7 +135,7 @@
                         readonly>
                     <div class="input-group-append">
                         <span class="input-group-text" id="basic-addon2"
-                            style="background-color: green;color: white;">{{kotes5 | number}}</span>
+                            style="background-color: green;color: white;">{{kotes5 | number : '1.0-2' }}</span>
                     </div>
                 </div>
                 <br>
@@ -144,7 +144,7 @@
                         readonly>
                     <div class="input-group-append">
                         <span class="input-group-text" id="basic-addon2"
-                            style="background-color: green;color: white;">{{kotes6 | number}}</span>
+                            style="background-color: green;color: white;">{{kotes6 | number : '1.0-2' }}</span>
                     </div>
                 </div>
                 <br>
@@ -153,7 +153,7 @@
                         readonly>
                     <div class="input-group-append">
                         <span class="input-group-text" id="basic-addon2"
-                            style="background-color: green;color: white;">{{kotes8 | number}}</span>
+                            style="background-color: green;color: white;">{{kotes8 | number : '1.0-2' }}</span>
                     </div>
                 </div>
                 <br>
@@ -162,7 +162,7 @@
                         readonly>
                     <div class="input-group-append">
                         <span class="input-group-text" id="basic-addon2"
-                            style="background-color: green;color: white;">{{kotes10 | number}}</span>
+                            style="background-color: green;color: white;">{{kotes10 | number : '1.0-2' }}</span>
                     </div>
                 </div>
                 <br>

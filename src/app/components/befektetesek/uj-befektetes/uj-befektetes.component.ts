@@ -101,6 +101,7 @@ export class UjBefektetesComponent implements OnInit {
 
     this.messageService.add({ key: 'tcAdd', severity: 'success', summary: 'Elemzés sikeresen mentve!' });
     this.isSavedActualElemzes = true;
+    //this.ujBefektetesService.loadMentettElemzes(this.isSavedActualElemzes);
   }
 
   // Ezzzel adunk mindig hozzá egy elemet a listához
@@ -121,7 +122,7 @@ export class UjBefektetesComponent implements OnInit {
 
     // Egyébként frissitsd a bef. adatot
     else {
-
+      console.log(this.$ujReszveny.$befektetesAdatok);
       this.befektetesAdatok = befAdatok;
       this.addOneItem(this.befektetesAdatok);
 

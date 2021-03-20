@@ -1,3 +1,4 @@
+import { UjBefektetesService } from 'src/app/services/befektetesek/uj-befektetes-services/uj-befektetes/uj-befektetes.service';
 import { MentalisElemzesService } from 'src/app/services/befektetesek/uj-befektetes-services/mentalis-elemzes/mentalis-elemzes.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -19,7 +20,7 @@ export class FolyamatbanElemzesekComponent implements OnInit {
   panelOpenState = false;
 
   constructor(private folyamatbanElemzesekService: FolyamatbanLevoElemzesService, private router: Router, private befAdatService: BefAdatokService,
-    private mentalisElemzesService: MentalisElemzesService) { }
+    private mentalisElemzesService: MentalisElemzesService, private ujBefService: UjBefektetesService) { }
 
   ngOnInit(): void {
     // Lekéri az adatokat és elmenti az ujReszvenyek valtozoba
@@ -38,7 +39,9 @@ export class FolyamatbanElemzesekComponent implements OnInit {
   }
 
   redirectToMainPanel(reszveny: UjReszveny){
-    this.router.navigateByUrl('/befektetes');
+
+    // Itt kellene visszaadni a mentést route on keresztül
+    this.router.navigateByUrl('/befektetes', { state: { isSavedActualElemzes: true } });
 
     let reszvenyek: UjReszveny[] = new Array(reszveny);
     this.befAdatService.loadBefAdatok(reszveny.$befektetesAdatok);

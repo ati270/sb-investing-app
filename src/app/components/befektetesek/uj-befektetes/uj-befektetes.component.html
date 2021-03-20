@@ -108,13 +108,13 @@
             </app-vallalat-penzugyi-elemzes>
           </mat-tab>
           <!--Célár meghatározás-->
-          <mat-tab label="Célár meghatározás" #tabCelar>
+          <mat-tab label="Árak meghatározása" #tabCelar>
             <!--[disabled]='!changeFrom5To6Tab'-->
             <app-celar-meghatarozas (filledCelarEmitter)="saveCelar($event)"></app-celar-meghatarozas>
           </mat-tab>
 
           <!--Nettó jelenérték számitás-->
-          <mat-tab label="Nettó jelenérték számítás" #tabNettoJelenertek>
+          <mat-tab label="Befektetés kockázatelemzése" #tabNettoJelenertek>
             <!--[disabled]='!changeFrom6To7Tab'-->
             <app-netto-jelenertek-szamitas (filledNettoJelenertekEmitter)="saveNettoJelenertek($event)">
             </app-netto-jelenertek-szamitas>
