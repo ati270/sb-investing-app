@@ -175,18 +175,21 @@
             <mat-card-content>
 
               <!--<div *ngFor="let item of getKotesek() | async " class="input-group mb-3 "> -->
-              <div *ngFor="let list of getKotesek() | async">
-                <div *ngFor="let item of list let indexOfelement=index;" class="input-group mb-3 ">
-                  <input type="text" class="form-control"
-                    placeholder="Kötési árfolyam {{$evek[indexOfelement]}} év megtérülés esetén" readonly>
-                  <div class="input-group-append">
-                    <span class="input-group-text" id="basic-addon2"
-                      style="background-color: darkgreen;color: white;">{{item | number : '1.0-2'}}
-                    </span>
+                <div *ngIf="(getKotesek()| async).length > 0; else hasItem">
+                  <div *ngFor="let list of getKotesek() | async">
+                    <div *ngFor="let item of list let indexOfelement=index;" class="input-group mb-3 ">
+                      <input type="text" class="form-control"
+                        placeholder="Kötési árfolyam {{$evek[indexOfelement]}} év megtérülés esetén" readonly>
+                      <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2"
+                          style="background-color: darkgreen;color: white;">{{item | number : '1.0-2'}}
+                        </span>
+                      </div>
+                      <br>
+                    </div>
                   </div>
-                  <br>
                 </div>
-              </div>
+
               <!-- </div>-->
             </mat-card-content>
           </mat-card>
@@ -249,7 +252,7 @@
                 <input type="text" class="form-control" placeholder="Befektethető összeg" readonly>
                 <div class="input-group-append">
                   <span class="input-group-text" id="basic-addon2"
-                    style="background-color: darkgreen;color: white;">{{$befektethetoOsszeg | number}}</span>
+                    style="background-color: darkgreen;color: white;">{{$befektethetoOsszeg | number : '1.0-0'| spaceDecimal}}</span>
                 </div>
               </div>
             </mat-card-footer>
@@ -704,3 +707,7 @@
     </mat-step>
   </mat-horizontal-stepper>
 </form>
+
+<ng-template #hasItem>
+  <p style="font-weight: bold;color: #3f729b;">Nincs megjeleníthető adat.</p>
+</ng-template>

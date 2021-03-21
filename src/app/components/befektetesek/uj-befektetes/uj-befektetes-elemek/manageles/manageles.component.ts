@@ -718,7 +718,7 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
 
   onValChange(value) {
     if (value !== 'nem') {
-      this.befektethetoOsszeg = (this.$evesMegtakaritas / Number(value) * 100);
+      this.befektethetoOsszeg = (( this.$evesMegtakaritas / 100) *Number(value));
     }
     else {
       this.$befektethetoOsszeg = 0;
