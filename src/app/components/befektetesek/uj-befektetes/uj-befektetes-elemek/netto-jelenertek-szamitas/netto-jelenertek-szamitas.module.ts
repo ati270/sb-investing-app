@@ -1,3 +1,4 @@
+import { MatIconModule } from '@angular/material/icon';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { NettoJelenertekSzamitasComponent } from './netto-jelenertek-szamitas.component';
@@ -28,8 +29,8 @@ import { ToastModule } from 'primeng/toast';
     MatSelectModule,
     ButtonModule,
     RippleModule,
-    ToastModule
-
+    ToastModule,
+    MatIconModule
   ],
   declarations: [NettoJelenertekSzamitasComponent],
   exports: [NettoJelenertekSzamitasComponent],

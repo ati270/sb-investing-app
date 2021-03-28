@@ -32,6 +32,26 @@ export class NavBarComponent implements OnInit {
     //console.log(this.logined_user);
   }
 
+  redirectToBlogChallenge(){
+    let url = "https://blog.sb-investing.com/befektetesi-challange-2/";
+    window.open(url, "_blank");
+  }
+
+  redirectToBlogAlapok(){
+    let url = "https://blog.sb-investing.com/alapok/";
+    window.open(url, "_blank");
+  }
+
+  redirectToBlogStrategia(){
+    let url = "https://blog.sb-investing.com/segedanyag-a-weboldalhoz/";
+    window.open(url, "_blank");
+  }
+
+  redirectToBlogRolunk(){
+    let url = "https://blog.sb-investing.com/rolam/";
+    window.open(url, "_blank");
+  }
+
   sub() {
     console.log(this.mainPanel);
     this.mainPanel.nativeElement.scrollIntoView();

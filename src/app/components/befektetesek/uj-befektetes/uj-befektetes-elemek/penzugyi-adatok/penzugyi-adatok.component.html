@@ -1,11 +1,15 @@
 <p-toast position="bottom-center" key="tc"></p-toast>
 
 <span class="badge badge-light z-depth-2 badge-header">Pénzügyi adatok</span>
-
+<br><br>
+<a (click)="redirectToBlog()">
+  <mat-icon>read_more</mat-icon>
+</a>
 <form [formGroup]="penzugyiAdatokFormGroup" (ngSubmit)="penzugyiAdatokSubmit()">
   <br>
   <button type="submit" mat-raised-button class="nextBtn">Aktuális állapot mentése</button>
   <button mat-raised-button (click)="generatePDF()">PDF generálása</button>
+
   <br>
   <br>
   <table class="table table-striped table-bordered  table-hover z-depth-2" formArrayName="penzugyiAdatok"

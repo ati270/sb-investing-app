@@ -251,6 +251,11 @@ export class PenzugyiAdatokComponent implements OnInit {
 
   }
 
+  redirectToBlog(){
+    let url = "https://blog.sb-investing.com/penzugyi-adatok/";
+    window.open(url, "_blank");
+  }
+
   generatePDF(){
      /* const doc = new jsPDF();
 

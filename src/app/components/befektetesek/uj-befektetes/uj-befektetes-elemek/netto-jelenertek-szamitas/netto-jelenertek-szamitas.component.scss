@@ -17,7 +17,6 @@
 }
 
 .nextBtn {
-  margin-left: 1rem;
   background-color: #3F729B;
   color: white;
 }
@@ -32,6 +31,7 @@ table .riziko_tenyezo {
     font-weight: bold;
 }
 
+
 .badge-header{
     padding: 1rem;
     margin-top:1rem;
@@ -41,6 +41,12 @@ table .riziko_tenyezo {
      margin-left: 1rem;
      margin-right: 2rem;
      text-transform: uppercase;
+}
+
+.mat-icon{
+  font-size: xx-large;
+  margin-left: 1rem;
+  color: #3F729B;
 }
 
 form {

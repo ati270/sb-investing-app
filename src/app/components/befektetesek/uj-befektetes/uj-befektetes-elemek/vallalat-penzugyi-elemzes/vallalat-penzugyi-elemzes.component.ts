@@ -297,6 +297,11 @@ getVallalatPenzugyiElemzes(){
   )
 }
 
+redirectToBlog(){
+  let url = "https://blog.sb-investing.com/penzugyi-mutatok-vizsgalata/";
+  window.open(url, "_blank");
+}
+
   submitPenzugyiElemzes(){
 
     this.createVallalatPenzugyiElemzes();

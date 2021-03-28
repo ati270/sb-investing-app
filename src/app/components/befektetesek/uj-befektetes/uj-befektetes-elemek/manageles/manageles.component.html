@@ -4,8 +4,12 @@
 </span>
 <br>
 <br>
+<a (click)="redirectToBlog()">
+  <mat-icon>read_more</mat-icon>
+</a>
 <form (ngSubmit)="saveManageles()">
   <button type="submit" mat-raised-button color="primary" class="nextBtn">Aktuális adatok mentése</button>
+
   <br>
   <mat-horizontal-stepper [linear]="isLinear" #stepper>
     <mat-step [stepControl]="managelesAdatokFormGroup">

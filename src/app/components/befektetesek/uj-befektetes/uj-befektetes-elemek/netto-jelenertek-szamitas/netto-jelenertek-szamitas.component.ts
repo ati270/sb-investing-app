@@ -165,6 +165,11 @@ export class NettoJelenertekSzamitasComponent implements OnInit {
 
   }
 
+  redirectToBlog(){
+    let url = "https://blog.sb-investing.com/befektetesi-kockazat-elemzese/";
+    window.open(url, "_blank");
+  }
+
   // Getters
 
   get befOsszeg() {

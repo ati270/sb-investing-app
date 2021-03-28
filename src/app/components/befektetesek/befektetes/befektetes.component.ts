@@ -71,6 +71,11 @@ export class BefektetesComponent implements OnInit {
     this.router.navigate(['/befektetes/strategia']);
   }
 
+  redirectToInfo(){
+    let url = "https://blog.sb-investing.com/utmutato-a-weboldal-hasznalatahoz/";
+    window.open(url, "_blank");
+  }
+
 }
 
   /*saveDataTo() {

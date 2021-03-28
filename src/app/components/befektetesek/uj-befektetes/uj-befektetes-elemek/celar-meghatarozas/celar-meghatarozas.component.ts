@@ -204,6 +204,11 @@ export class CelarMeghatarozasComponent implements OnInit {
     )
   }
 
+  redirectToBlog(){
+    let url = "https://blog.sb-investing.com/arak-meghatarozasa/";
+    window.open(url, "_blank");
+  }
+
   celarSubmit(){
     this.createCelar();
     this.getCelarAdatok();

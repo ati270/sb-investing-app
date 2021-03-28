@@ -5,9 +5,14 @@
 </span>
 <br>
 <br>
+<a (click)="redirectToBlog()">
+  <mat-icon>read_more</mat-icon>
+</a>
+<br>
 <br>
 <form [formGroup]="nettoJelenFormGroup" (ngSubmit)="onNettoSubmit()">
   <button type="submit" mat-stroked-button color="primary" class="nextBtn" >Aktuális állapot mentése</button>
+
   <br>
   <div class="row">
     <div class="col-8">

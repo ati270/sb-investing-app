@@ -474,6 +474,11 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
 
   }
 
+  redirectToBlog(){
+    let url = "https://blog.sb-investing.com/menedzseles/";
+    window.open(url, "_blank");
+  }
+
   openMagasReszvenyDialog(): void {
     const dialogRef = this.dialog.open(AddEredmenyDialogComponent, {
       width: '40%',
