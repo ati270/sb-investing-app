@@ -11,8 +11,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { AddUjCelDialogComponent } from './add-uj-cel-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
-
-
+import { PointReplacePipeModule } from '../../custom-pipes/decimal-number-with-space.module';
 @NgModule({
   imports: [CommonModule,
     MatTableModule,
@@ -26,6 +25,7 @@ import {MatSelectModule} from '@angular/material/select';
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
+    PointReplacePipeModule
 ],
   declarations: [AddUjCelDialogComponent],
   exports: [AddUjCelDialogComponent],

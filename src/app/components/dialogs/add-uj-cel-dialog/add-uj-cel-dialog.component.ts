@@ -92,7 +92,7 @@ export class AddUjCelDialogComponent implements OnInit {
      */
 	public get $szuksegesMegtakaritas(): number {
 
-    this.szuksegesMegtakaritas = this.$szuksegesOsszeg/this.$idotartam;
+    this.szuksegesMegtakaritas = (this.$szuksegesOsszeg/this.$idotartam);
 
 		return this.szuksegesMegtakaritas;
 	}
@@ -127,7 +127,7 @@ export class AddUjCelDialogComponent implements OnInit {
 
 		return this.idotartam;
   }
-  
+
 
     /**
      * Setter $szuksegesOsszeg

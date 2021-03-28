@@ -18,8 +18,8 @@
             </mat-option>
           </mat-select>
     </mat-form-field>
-       <span style="font-weight: bold;color: darkgreen;margin-bottom: 2rem;">Szükséges havi megtakarítás: {{$szuksegesMegtakaritas}} Ft</span>
-    
+       <span style="font-weight: bold;color: darkgreen;margin-bottom: 2rem;">Szükséges havi megtakarítás: {{$szuksegesMegtakaritas  + "" | number: '1.0-0' | spaceDecimal}} Ft</span>
+
        <mat-form-field style="margin-top: 2rem;">
         <input matInput type="date" placeholder="Megtakarítás kezdete" formControlName="megtakaritasKezdeteCtrl">
     </mat-form-field>
