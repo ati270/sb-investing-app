@@ -11,6 +11,9 @@
         <!--Stepper: 1. Célitűzés; 2 . Havi terv; 3. Havi tervezet-->
         <mat-horizontal-stepper [linear]="isLinear" #stepper>
           <mat-step [stepControl]="celkituzesFormGroup">
+            <div>
+              <button type="button" mat-raised-button color="success" (click)="resetFeladatok()">Elértem a célom</button>
+            </div>
             <form [formGroup]="celkituzesFormGroup" (ngSubmit)="submitCelkituzes()">
               <ng-template matStepLabel>Célkitűzés</ng-template>
               <br>
@@ -114,7 +117,7 @@
                           <tr class="mat-row">
                             <!--Kérdés-->
                             <td style="margin-right: 2rem;">
-                              Van valami elengedhetetlen előfeltétele annak , hogy elérjem ezt a célt ?
+                              Van valami elengedhetetlen előfeltétele annak, hogy elérjem ezt a célt?
                             </td>
                             <!--Válasz-->
                             <td class="igenNemStyle">
@@ -146,7 +149,7 @@
 
                           <tr class="mat-row">
                             <td style="margin-right: 2rem;">
-                              Kell valakinek a segítsége , hogy elérjem ezt a célt ?
+                              Kell valakinek a segítsége, hogy elérjem ezt a célt?
                             </td>
                             <!--Válasz-->
                             <td class="igenNemStyle">
@@ -178,7 +181,7 @@
 
                           <tr class="mat-row">
                             <td style="margin-right: 2rem;">
-                              Kell valami speciális tudás , hogy elérjem ezt a célt ?
+                              Kell valami speciális tudás, hogy elérjem ezt a célt?
                             </td>
                             <!--Válasz-->
                             <td class="igenNemStyle">
@@ -210,7 +213,7 @@
 
                           <tr class="mat-row">
                             <td style="margin-right: 2rem;">
-                              Kell valami tárgy , vagy felszerelés , hogy elérjem ezt a célt ?
+                              Kell valami tárgy, vagy felszerelés, hogy elérjem ezt a célt?
                             </td>
                             <!--Válasz-->
                             <td class="igenNemStyle">
@@ -241,7 +244,7 @@
 
                           <tr class="mat-row">
                             <td style="margin-right: 2rem;">
-                              Milyen akadályokkal találkozhatok a célomhoz vezető úton ?
+                              Milyen akadályokkal találkozhatok a célomhoz vezető úton?
                             </td>
                             <!--Válasz-->
                             <td class="igenNemStyle" style="padding: 0.3rem;">
@@ -279,7 +282,7 @@
 
                           <tr class="mat-row">
                             <td style="margin-right: 2rem;">
-                              Mennyi pénz kell hozzá , hogy elérjem ezt a célt ?
+                              Mennyi pénz kell hozzá, hogy elérjem ezt a célt?
                             </td>
                             <!--Válasz-->
                             <td class="igenNemStyle">
@@ -567,10 +570,6 @@
                     Új feladat
                   </button>
                 </div>
-                <div class="ml-auto p-2">
-                  <button type="button" mat-raised-button color="success" (click)="resetFeladatok()">Elértem a
-                    célom</button>
-                </div>
               </div>
               <br>
               <!--<div class="container">
@@ -660,6 +659,9 @@
                     </ul>
                   </div>
                 </mat-tab>
+              </mat-tab-group>
+              <br>
+              <mat-tab-group class="z-depth-2" backgroundColor="primary">
                 <mat-tab label="Egyéb feladatok">
                   <div class="z-depth-2">
                     <div *ngIf="$haviSzintuFeladatok.length<1" class="no-item">Még nincs hozzáadott egyéb feladat. Adj hozzá egyet!</div>

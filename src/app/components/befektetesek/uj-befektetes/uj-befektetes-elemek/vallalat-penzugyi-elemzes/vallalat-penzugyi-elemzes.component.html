@@ -75,7 +75,7 @@
                 <tr class="mat-row">
                   <td class="mat-cell">{{nettoEszkoz.value}}</td>
                   <td class="mat-cell">{{eszkozokEszkoz.value}}</td>
-                  <td class="mat-cell">{{(nettoEszkoz.value/eszkozokEszkoz.value) *100 }}</td>
+                  <td class="mat-cell">{{(nettoEszkoz.value/eszkozokEszkoz.value) *100 | number : '1.2-2' }}</td>
                   <td class="mat-cell">Konkurencia eredménye</td>
                   <td class="mat-cell">
                     <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
@@ -147,7 +147,7 @@
                 <tr class="mat-row">
                   <td class="mat-cell">{{nettoSajat.value}}</td>
                   <td class="mat-cell">{{osszSajatToke.value}}</td>
-                  <td class="mat-cell">{{(nettoSajat.value/osszSajatToke.value)*100 | percent }}</td>
+                  <td class="mat-cell">{{(nettoSajat.value/osszSajatToke.value)*100 | number : '1.2-2'}}</td>
                   <td class="mat-cell">Konkurencia eredménye</td>
                   <td class="mat-cell">
                     <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
@@ -219,7 +219,7 @@
                 <tr class="mat-row">
                   <td class="mat-cell">{{nettoReszveny.value}}</td>
                   <td class="mat-cell">{{reszvenyDb.value}}</td>
-                  <td class="mat-cell">{{(nettoReszveny.value/reszvenyDb.value) | number }}</td>
+                  <td class="mat-cell">{{(nettoReszveny.value/reszvenyDb.value) | number : '1.2-2' }}</td>
                   <td class="mat-cell">Konkurencia eredménye</td>
                   <td class="mat-cell">
                     <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
@@ -290,7 +290,7 @@
                 <tr class="mat-row">
                   <td class="mat-cell">{{nettoArbevetel.value}}</td>
                   <td class="mat-cell">{{arbevetel.value}}</td>
-                  <td class="mat-cell ">{{(nettoArbevetel.value/arbevetel.value)*100 | percent }}</td>
+                  <td class="mat-cell ">{{(nettoArbevetel.value/arbevetel.value)*100 | number : '1.2-2' }}</td>
                   <td class="mat-cell">Konkurencia eredménye</td>
                   <td class="mat-cell">
                     <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
@@ -370,7 +370,7 @@
                   <td class="mat-cell" colspan="2">{{bruttoFedezet.value - eladottArukKtg.value }}</td>
                   <td class="mat-cell">{{nettoFedezet.value}}</td>
                   <td class="mat-cell">
-                    {{((bruttoFedezet.value - eladottArukKtg.value)/nettoFedezet.value)*100 | percent }}</td>
+                    {{((bruttoFedezet.value - eladottArukKtg.value)/nettoFedezet.value)*100 | number : '1.2-2' }} %</td>
                   <td class="mat-cell">Konkurencia eredménye</td>
                   <td class="mat-cell">
                     <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
@@ -529,7 +529,7 @@
                 <tr class="mat-row">
                   <td class="mat-cell">{{nettoKeszlet.value}}</td>
                   <td class="mat-cell">{{keszlet.value}}</td>
-                  <td class="mat-cell">{{(nettoKeszlet.value/keszlet.value) }}</td>
+                  <td class="mat-cell">{{(nettoKeszlet.value/keszlet.value) | number : '1.2-2'}}</td>
                   <td class="mat-cell">Konkurencia eredménye</td>
                   <td class="mat-cell">
                     <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
@@ -610,7 +610,7 @@
                   <td class="mat-cell" colspan="2">{{$osszErtekesites}}</td>
                   <td class="mat-cell">{{nettoKtgArbevetel.value}}</td>
                   <td class="mat-cell">
-                    {{ $koltsegHatekonySzazelek | percent}}</td>
+                    {{ $koltsegHatekonySzazelek | percent }}</td>
                   <td class="mat-cell">Konkurencia eredménye</td>
                   <td class="mat-cell">
                     <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
@@ -690,7 +690,7 @@
                   <td class="mat-cell">{{naptarHat.value}}</td>
                   <td class="mat-cell" colspan="2">{{nettoAtlagosArbevetel.value / kovetelesAtlagos.value }}</td>
                   <td class="mat-cell">
-                    {{(naptarHat.value/ (nettoAtlagosArbevetel.value / kovetelesAtlagos.value)) }}</td>
+                    {{(naptarHat.value/ (nettoAtlagosArbevetel.value / kovetelesAtlagos.value)) | number : '1.2-2' }}</td>
                   <td class="mat-cell">Konkurencia eredménye</td>
                   <td class="mat-cell">
                     <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
@@ -769,7 +769,7 @@
                 <!-- 3. sor-->
                 <tr class="mat-row">
                   <td class="mat-cell">{{naptarSzallitoHat.value}}</td>
-                  <td class="mat-cell" colspan="2">{{$szallitoForgasiSebessege }}</td>
+                  <td class="mat-cell" colspan="2">{{$szallitoForgasiSebessege | number : '1.2-2' }}</td>
                   <td class="mat-cell">
                     {{ $szallitoKifizetesiNapokSzama }}</td>
                   <td class="mat-cell">Konkurencia eredménye</td>
@@ -844,7 +844,7 @@
                 <tr class="mat-row">
                   <td class="mat-cell">{{nettoForeJuto.value}}</td>
                   <td class="mat-cell">{{letszam.value}}</td>
-                  <td class="mat-cell">{{ $beosztottAltalTermeltNetto }}</td>
+                  <td class="mat-cell">{{ $beosztottAltalTermeltNetto | number : '1.2-2' }}</td>
                   <td class="mat-cell">Konkurencia eredménye</td>
                   <td class="mat-cell">
                     <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
@@ -926,7 +926,7 @@
                   <td class="mat-cell">{{forgoTokeHatNettoArbevetel.value}}</td>
                   <td class="mat-cell" colspan="2">{{$forgoTokeAllomanya }}</td>
                   <td class="mat-cell">
-                    {{ $forgoTokeMegterules }}</td>
+                    {{ $forgoTokeMegterules | number : '1.2-2'}}</td>
                   <td class="mat-cell">Konkurencia eredménye</td>
                   <td class="mat-cell">
                     <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
@@ -1104,7 +1104,7 @@
                 <tr class="mat-row">
                   <td class="mat-cell" colspan="3">{{$hitelSzigoritottSajatToke}}</td>
                   <td class="mat-cell">{{$hitelOsszHosszuLejKot}}</td>
-                  <td class="mat-cell">{{$hitelSajatTokeAranyIdegenToke}}</td>
+                  <td class="mat-cell">{{$hitelSajatTokeAranyIdegenToke | number : '1.2-2'}}</td>
                   <td class="mat-cell">Konkurencia eredménye</td>
                   <td class="mat-cell">
                     <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
@@ -1192,7 +1192,7 @@
                   <td class="mat-cell" colspan="2">{{$hitelEBIDTA}}</td>
                   <td class="mat-cell">{{$hitelKamat}}</td>
                   <td class="mat-cell">{{$hitelKifOsztalek}}</td>
-                  <td class="mat-cell">{{$hitelNyeresegFedezet}}</td>
+                  <td class="mat-cell">{{$hitelNyeresegFedezet | number : '1.2-2'}}</td>
                   <td class="mat-cell">Konkurencia eredménye</td>
                   <td class="mat-cell">
                     <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
@@ -1266,7 +1266,7 @@
                 <tr class="mat-row">
                   <td class="mat-cell">{{$hitelOsszForgo}}</td>
                   <td class="mat-cell">{{$hitelRovidKot}}</td>
-                  <td class="mat-cell">{{$hitelForgoEszkozErteke}}</td>
+                  <td class="mat-cell">{{$hitelForgoEszkozErteke | number : '1.2-2'}}</td>
                   <td class="mat-cell">Konkurencia eredménye</td>
                   <td class="mat-cell">
                     <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
@@ -1345,7 +1345,7 @@
                 <tr class="mat-row">
                   <td class="mat-cell" colspan="2">{{$hitelGyorsKeszNelkuliForgo}}</td>
                   <td class="mat-cell">{{$hitelGyorsRovidLejKot}}</td>
-                  <td class="mat-cell">{{$hitelGyorsPenzeszkozokErteke}}</td>
+                  <td class="mat-cell">{{$hitelGyorsPenzeszkozokErteke | number : '1.2-2'}}</td>
                   <td class="mat-cell">Konkurencia eredménye</td>
                   <td class="mat-cell">
                     <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
@@ -1513,7 +1513,7 @@
                 <tr class="mat-row">
                   <td class="mat-cell">{{$piaciReszvenyArfolyam}}</td>
                   <td class="mat-cell" colspan="2">{{$piaciReszvenyreJutoEredmeny}}</td>
-                  <td class="mat-cell">{{$piaciArfolyamEgyReszvenyre}}</td>
+                  <td class="mat-cell">{{$piaciArfolyamEgyReszvenyre | number : '1.2-2'}}</td>
                   <td class="mat-cell">Konkurencia eredménye</td>
                   <td class="mat-cell">
                     <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
@@ -1593,7 +1593,7 @@
                 <tr class="mat-row">
                   <td class="mat-cell">{{$piaciBefNettoEredmeny}}</td>
                   <td class="mat-cell" colspan="2">{{$piaciBefCegPiaciErteke}}</td>
-                  <td class="mat-cell">{{$piaciBefBelsoKamatlaba | percent}}</td>
+                  <td class="mat-cell">{{$piaciBefBelsoKamatlaba | percent }}</td>
                   <td class="mat-cell">Konkurencia eredménye</td>
                   <td class="mat-cell">
                     <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">
@@ -1684,7 +1684,7 @@
                 <tr class="mat-row">
                   <td class="mat-cell">{{$piaciKonyvReszvenyArfolyam}}</td>
                   <td class="mat-cell" colspan="4">{{$piaciKonyvKonyvSzerintiErtek}}</td>
-                  <td class="mat-cell">{{$piaciKonyvArfolyamErteke}}</td>
+                  <td class="mat-cell">{{$piaciKonyvArfolyamErteke | number : '1.2-2'}}</td>
                   <td class="mat-cell">Konkurencia eredménye</td>
                   <td class="mat-cell">
                     <mat-form-field style="padding-left: 1rem;padding-right: 1rem;">

@@ -152,11 +152,11 @@ export class CelkituzesComponent implements OnInit {
   createCelkituzesFormGroup() {
     this.celkituzesFormGroup = this.fb.group({
       celMegnevezesCtrl: new FormControl('', Validators.required),
-      mikorraDatumCtrl: new FormControl('', Validators.required),
-      celEleresiSzintCtrl: new FormControl('', Validators.required),
-      celElerhetoECtrl: new FormControl('', Validators.required),
-      celIgenyCtrl: new FormControl('', Validators.required),
-      celOkCtrl: new FormControl('', Validators.required),
+      mikorraDatumCtrl: new FormControl(''),
+      celEleresiSzintCtrl: new FormControl(''),
+      celElerhetoECtrl: new FormControl(''),
+      celIgenyCtrl: new FormControl(''),
+      celOkCtrl: new FormControl(''),
     });
   }
 
@@ -1086,12 +1086,13 @@ export class CelkituzesComponent implements OnInit {
       // ha ok: tehát törölni akarom
       if (result) {
 
-        this.feladatok = [];
+        //this.feladatok = [];
         this.celkituzesFormGroup.reset();
-        this.vizsgalatFromGroup.reset();
+        this.files = [];
+        //this.vizsgalatFromGroup.reset();
 
         // delete chips;
-        this.elofeltetelek = [];
+      /*  this.elofeltetelek = [];
         this.segitsegek = [];
         this.specialisTudas = [];
         this.targyak = [];
@@ -1107,17 +1108,17 @@ export class CelkituzesComponent implements OnInit {
         this.lepesek7 = [];
         this.lepesek8 = [];
         this.lepesek9 = [];
-        this.lepesek10 = [];
+        this.lepesek10 = [];*/
 
         // naptart is törölni
-        this.fullcalendar.getApi().removeAllEventSources();
+        //this.fullcalendar.getApi().removeAllEventSources();
         /*for (let i = 0; i < this.fullcalendar.getApi().getResources().length; i++) {
 
           this.fullcalendar.getApi().getResourceById("").remove();
         }*/
-        this.fullcalendar.getApi().refetchResources();
-        this.files = [];
-        this.haviSzintuFeladatok = [];
+       // this.fullcalendar.getApi().refetchResources();
+
+       // this.haviSzintuFeladatok = [];
       }
     });
   }
@@ -1141,7 +1142,7 @@ export class CelkituzesComponent implements OnInit {
           }
         });
 
-
+        this.removeOldEvent(feladat);
 
 
         // chip törlése
@@ -1196,14 +1197,13 @@ export class CelkituzesComponent implements OnInit {
         // chip törlése
         // megkeresni, melyik feladatnak a neve egyezik meg és törölni
 
-
+        this.removeOldEvent(feladat);
 
         console.log("FELADATOK " + this.$feladatok.length);
       }
     });
   }
   feladatHaviModositas(feladat: Feladat) {
-    this.removeOldEvent(feladat);
     let eventInput: EventInput;
     let event: Feladat = new Feladat();
 
@@ -1243,7 +1243,6 @@ export class CelkituzesComponent implements OnInit {
   }
 
   feladatModositas(feladat: Feladat) {
-    // a listában levő feladatot kell törölni
     let eventInput: EventInput;
     let event: Feladat = new Feladat();
 
@@ -1278,10 +1277,10 @@ export class CelkituzesComponent implements OnInit {
   feladatLezaras(feladat: Feladat) {
 
     this.openConfirmDeleteCalDialog(feladat);
-    // törö
   }
 
   feladatHaviLezaras(feladat: Feladat) {
+
     this.openConfirmDeleteHaviDialog(feladat);
   }
 

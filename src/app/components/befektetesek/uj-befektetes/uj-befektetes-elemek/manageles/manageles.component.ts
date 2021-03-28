@@ -101,13 +101,13 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
     'Rávásárolok alacsonyabb árfolyamon', 'Eladom a részvények 70 % -át és alacsonnyabb árfolyamon visszavásárolom ',
     'Eladom a részvényeket az előre megadott stop szinten'];
 
-  private arfolyamEmelkedesek: string[] = ['Nem csinálok semmit', 'Eladom a részvények egy részét',
+  private arfolyamEmelkedesek: string[] = ['Nem csinálok semmit','Eladom a részvények egy részét',
     'Stop szinttel védem a befektetésem'];
 
-  private arfolyamCelarak: string[] = ['Eladom a részvényeket', 'Eladom a részvények egy részét',
+  private arfolyamCelarak: string[] = ['Eladom a részvényeket','Eladom a részvények egy részét',
     'Stop szinttel védem a befektetésemet'];
 
-  private rizikoFaktorok: string[] = ['Nem csinálok semmit', 'Eladom a részvények részét',
+  private rizikoFaktorok: string[] = ['Nem csinálok semmit','Eladom a részvények egy részét',
     'Eladom a részvényeket', 'Stop szinttel védem a befektetésemet'];
 
   private jovRomottak: string[] = ['Nem csinálok semmit', 'Stop szinttel védem a befektetésemet',

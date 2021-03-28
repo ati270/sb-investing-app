@@ -562,7 +562,7 @@
           <br>
           <!--Mit csinálok , ha a vállalatnak a rizikó faktora nőtt-->
           <mat-form-field>
-            <mat-label>Mit csinálok , ha a vállalatnak a rizikó faktora nőtt</mat-label>
+            <mat-label>Mit csinálok, ha a vállalatnak a rizikófaktora nőtt</mat-label>
             <mat-select required formControlName="rizikoFaktorNottCtrl">
               <mat-option *ngFor="let rizikoFaktorNott of $rizikoFaktorok" [value]="rizikoFaktorNott">
                 {{rizikoFaktorNott}}
@@ -581,7 +581,7 @@
           <br>
           <!--Mit csinálok , ha a vállalat jövedelmezősége romlott-->
           <mat-form-field>
-            <mat-label>Mit csinálok , ha a vállalat jövedelmezősége romlott</mat-label>
+            <mat-label>Mit csinálok, ha a vállalat jövedelmezősége romlott</mat-label>
             <mat-select required formControlName="jovRomlottCtrl">
               <mat-option *ngFor="let jovRomlott of $jovRomottak" [value]="jovRomlott">
                 {{jovRomlott}}
@@ -600,7 +600,7 @@
           <br>
           <!--Mit csinálok , ha a vállalat hitelmutatói romlottak-->
           <mat-form-field>
-            <mat-label>Mit csinálok , ha a vállalat hitelmutatói romlottak</mat-label>
+            <mat-label>Mit csinálok, ha a vállalat hitelmutatói romlottak</mat-label>
             <mat-select required formControlName="hitelRomlottCtrl">
               <mat-option *ngFor="let hitelRomlott of $hitelRomlottak" [value]="hitelRomlott">
                 {{hitelRomlott}}
@@ -620,7 +620,7 @@
 
           <!--Mit csinálok , ha a gazdasági mutatók romlottak-->
           <mat-form-field>
-            <mat-label>Mit csinálok , ha a gazdasági mutatók romlottak</mat-label>
+            <mat-label>Mit csinálok, ha a gazdasági mutatók romlottak</mat-label>
             <mat-select required formControlName="gazdRomlottCtrl">
               <mat-option *ngFor="let gazdRomlott of $gazdRomlottak" [value]="gazdRomlott">
                 {{gazdRomlott}}
@@ -639,12 +639,6 @@
           <br>
 
         </div>
-        <br>
-        <div>
-          <button mat-raised-button color="primary" matStepperNext>Tovább</button>
-          <!--[disabled]="!managelesFormGroup.valid"-->
-        </div>
-
         <br>
       </form>
 
