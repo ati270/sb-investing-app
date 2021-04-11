@@ -1024,8 +1024,8 @@
           <h6 style="color: orangered;text-transform: uppercase;">Megjegyzés</h6>
         </label>-->
           <span class="badge badge-light badge-megj-hat">Megjegyzés
-            <a matSuffix mat-icon-button aria-label="megjegyzes">
-              <mat-icon>rate_review</mat-icon>
+            <a matSuffix mat-icon-button aria-label="megjegyzes" >
+              <mat-icon style="color: #FF8800">rate_review</mat-icon>
             </a>
           </span>
           <textarea class="form-control z-depth-2" formControlName="hatMegjegyzesCtrl" rows="5"></textarea>
@@ -1423,25 +1423,16 @@
         </table>
         <br>
         <!-- Megjegyzés-->
-        <div class="form-group">
-          <!--<label for="hitelMutatoMegjegyzes">
-          <h6 style="color: darkgreen;text-transform: uppercase;">Megjegyzés</h6>
+        <div class="form-group ">
+          <!--<label for="hatekonysagiMutatoMegjegyzes">
+          <h6 style="color: orangered;text-transform: uppercase;">Megjegyzés</h6>
         </label>-->
-          <mat-card class="z-depth-2">
-            <mat-card-header>
-              <mat-card-subtitle>
-                <span class="badge-megj-hitel">
-                  Megjegyzés
-                  <a matSuffix mat-icon-button aria-label="megjegyzes">
-                    <mat-icon>rate_review</mat-icon>
-                  </a>
-                </span>
-              </mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-              <textarea class="form-control z-depth-2" formControlName="hitelMegjegyzesCtrl" rows="5"></textarea>
-            </mat-card-content>
-          </mat-card>
+          <span class="badge badge-light badge-megj-hitel">Megjegyzés
+            <a matSuffix mat-icon-button aria-label="megjegyzes" >
+              <mat-icon style="color: #007E33">rate_review</mat-icon>
+            </a>
+          </span>
+          <textarea class="form-control z-depth-2" formControlName="hitelMegjegyzesCtrl" rows="5"></textarea>
         </div>
 
         <div>
@@ -1756,7 +1747,7 @@
         </label>-->
           <span class="badge  badge-light badge-megj-piaci">Megjegyzés
             <a matSuffix mat-icon-button aria-label="megjegyzes">
-              <mat-icon>rate_review</mat-icon>
+              <mat-icon style="color:darkred">rate_review</mat-icon>
             </a>
           </span>
           <textarea class="form-control z-depth-2" formControlName="piaciMegjegyzesCtrl" rows="5"></textarea>
