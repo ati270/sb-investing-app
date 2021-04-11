@@ -746,6 +746,11 @@ export class SajatMagamElemzeseComponent implements OnInit, AfterViewInit {
 
   }
 
+  redirectToBlog(){
+    let url = "https://blog.sb-investing.com/mentalis-elemzes/";
+    window.open(url, "_blank");
+  }
+
   // redirect to blog pages
   redirectToBlogFokozott(){
     let url = "https://blog.sb-investing.com/fokozott-erzelmi-hangulat-kezelese/";

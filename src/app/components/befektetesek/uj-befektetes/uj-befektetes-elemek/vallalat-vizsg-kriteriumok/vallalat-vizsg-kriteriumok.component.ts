@@ -1870,7 +1870,10 @@ export class VallalatVizsgKriteriumokComponent implements OnInit {
     )
   }
 
-
+  redirectToBlog(){
+    let url = "https://blog.sb-investing.com/vallalatok-elemzese/";
+    window.open(url, "_blank");
+  }
 
   public vallVizsgKritSubmit() {
     this.createVallKockazatElemzes();
