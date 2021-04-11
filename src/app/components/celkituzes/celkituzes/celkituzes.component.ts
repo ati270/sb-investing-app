@@ -53,7 +53,7 @@ export class CelkituzesComponent implements OnInit {
   celHataridok: string[] = ['sürgős', 'kevésbé sürgős'];
   private haviSzintuFeladatok: Feladat[] = [];
 
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  readonly separatorKeysCodes: number[] = [ENTER];
   osszChips: string[] = [];
   elofeltetelek: string[] = [];
   segitsegek: string[] = [];
