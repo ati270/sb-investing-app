@@ -5,7 +5,7 @@
 <br>
 <br>
 <a (click)="redirectToBlog()">
-  <mat-icon>read_more</mat-icon>
+  <mat-icon class="redirect">read_more</mat-icon>
 </a>
 <form (ngSubmit)="saveManageles()">
   <button type="submit" mat-raised-button color="primary" class="nextBtn">Aktuális adatok mentése</button>
@@ -179,20 +179,20 @@
             <mat-card-content>
 
               <!--<div *ngFor="let item of getKotesek() | async " class="input-group mb-3 "> -->
-                <div *ngIf="(getKotesek()| async).length > 0; else hasItem">
-                  <div *ngFor="let list of getKotesek() | async">
-                    <div *ngFor="let item of list let indexOfelement=index;" class="input-group mb-3 ">
-                      <input type="text" class="form-control"
-                        placeholder="Kötési árfolyam {{$evek[indexOfelement]}} év megtérülés esetén" readonly>
-                      <div class="input-group-append">
-                        <span class="input-group-text" id="basic-addon2"
-                          style="background-color: darkgreen;color: white;">{{item | number : '1.0-2'}}
-                        </span>
-                      </div>
-                      <br>
+              <div *ngIf="(getKotesek()| async).length > 0; else hasItem">
+                <div *ngFor="let list of getKotesek() | async">
+                  <div *ngFor="let item of list let indexOfelement=index;" class="input-group mb-3 ">
+                    <input type="text" class="form-control"
+                      placeholder="Kötési árfolyam {{$evek[indexOfelement]}} év megtérülés esetén" readonly>
+                    <div class="input-group-append">
+                      <span class="input-group-text" id="basic-addon2"
+                        style="background-color: darkgreen;color: white;">{{item | number : '1.0-2'}}
+                      </span>
                     </div>
+                    <br>
                   </div>
                 </div>
+              </div>
 
               <!-- </div>-->
             </mat-card-content>
@@ -651,7 +651,7 @@
     <mat-step [stepControl]="befManagelesFormGroup">
       <form [formGroup]="befManagelesFormGroup">
         <ng-template matStepLabel>Befektetés menedzselése</ng-template>
-        <button style="float: right;margin-bottom: 1rem;" mat-raised-button color="primary" matSuffix
+        <button style="float: right;margin-bottom: 1rem;background:#3f729b;color: white" mat-raised-button color="primary" matSuffix
           (click)="addNewRow()">
           Új adat
         </button>
@@ -676,17 +676,24 @@
                 <mat-form-field>
                   <input type="number" matInput formControlName="arfolyam" placeholder="">
                 </mat-form-field>
-
               </td>
               <td>
                 <mat-form-field>
-                  <input matInput formControlName="bekValtozasok" placeholder="">
+                  <input matInput #bekValtozasInput formControlName="bekValtozasok" placeholder="">
+                  <a matSuffix mat-icon-button aria-label="Edit" (click)="openValtozasokDialog(i)">
+                    <mat-icon>edit</mat-icon>
+                  </a>
+                  <mat-hint align="end">Bekövetkezett változások megadása</mat-hint>
                 </mat-form-field>
 
               </td>
               <td>
                 <mat-form-field>
-                  <input matInput formControlName="intezkedeseim" placeholder="">
+                  <input matInput #intezkedeseimInput formControlName="intezkedeseim" placeholder="">
+                  <a matSuffix mat-icon-button aria-label="Edit" (click)="openIntezkedeseimDialog(i)">
+                    <mat-icon>edit</mat-icon>
+                  </a>
+                  <mat-hint align="end">Intézkedéseim megadása</mat-hint>
                 </mat-form-field>
               </td>
               <!--Delete row-->

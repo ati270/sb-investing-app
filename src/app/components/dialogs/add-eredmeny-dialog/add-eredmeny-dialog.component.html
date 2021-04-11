@@ -2,7 +2,7 @@
 <div >
 <h3 mat-dialog-title class="bg-primary text-white">{{data.megnevezes}}</h3>
 <div mat-dialog-content style="height: 100%;">
-  <mat-card style="height: 100%;border: 1px solid lightgray;box-sizing: border-box; margin: 0.1em;" class="z-depth-2"> 
+  <mat-card style="height: 100%;border: 1px solid lightgray;box-sizing: border-box; margin: 0.1em;" class="z-depth-2">
     <mat-form-field style="width: 100%;height: 100%;">
         <textarea matInput #input rows="10" >{{data.eredmeny}}</textarea>
         <mat-hint align="end">Bevitt karakterek száma: {{input.value?.length || 0}}</mat-hint>
@@ -12,6 +12,6 @@
 </div>
 <div mat-dialog-actions style="float: right;margin-top: 0.5rem;">
   <button class="z-depth-2" mat-raised-button mat-dialog-close>Mégsem</button>
-  <button mat-raised-button color="primary" (click)="onMentes()" class="z-depth-2">Mentés</button>
+  <button mat-raised-button (click)="onMentes()" class="z-depth-2 saveBtn">Mentés</button>
 </div>
 </div>

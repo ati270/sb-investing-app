@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BefektetesAdatok } from 'src/app/models/uj-befektetes-models/befektetes-adatok/bef-adatok.model';
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddEredmenyDialogComponent } from 'src/app/components/dialogs/add-eredmeny-dialog/add-eredmeny-dialog.component';
 import { CelarMeghatarozasModule } from '../celar-meghatarozas/celar-meghatarozas.module';
 import { CelarMeghatarozas } from 'src/app/models/uj-befektetes-models/celar-meghatarozas/celar-meghatarozas.model';
-import { Observable , of} from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Manageles } from 'src/app/models/uj-befektetes-models/manageles/manageles.model';
 import { BefAdatokService } from 'src/app/services/befektetesek/uj-befektetes-services/befektetes-adatok/bef-adatok.service';
 import { CelarMeghatarozasService } from 'src/app/services/befektetesek/uj-befektetes-services/celar-meghatarozas/celar-meghatarozas.service';
@@ -76,6 +76,11 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
 
   @ViewChild('gazdasagiIcon') gazdasagIngEdit: ElementRef;
 
+  @ViewChild('bekValtozasInput') bekValtozasInput: ElementRef;
+
+  @ViewChild('intezkedeseimInput') intezkedeseimInput: ElementRef;
+
+
 
   private piaciKapitalizacio: string[] = ['Mega', 'Nagy', 'Közepes', 'Kicsi', 'Mikro', 'Nano'];
   private strategiak: string[] = ['Válság', 'Normál', 'Bőség'];
@@ -101,13 +106,13 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
     'Rávásárolok alacsonyabb árfolyamon', 'Eladom a részvények 70 % -át és alacsonnyabb árfolyamon visszavásárolom ',
     'Eladom a részvényeket az előre megadott stop szinten'];
 
-  private arfolyamEmelkedesek: string[] = ['Nem csinálok semmit','Eladom a részvények egy részét',
+  private arfolyamEmelkedesek: string[] = ['Nem csinálok semmit', 'Eladom a részvények egy részét',
     'Stop szinttel védem a befektetésem'];
 
-  private arfolyamCelarak: string[] = ['Eladom a részvényeket','Eladom a részvények egy részét',
+  private arfolyamCelarak: string[] = ['Eladom a részvényeket', 'Eladom a részvények egy részét',
     'Stop szinttel védem a befektetésemet'];
 
-  private rizikoFaktorok: string[] = ['Nem csinálok semmit','Eladom a részvények egy részét',
+  private rizikoFaktorok: string[] = ['Nem csinálok semmit', 'Eladom a részvények egy részét',
     'Eladom a részvényeket', 'Stop szinttel védem a befektetésemet'];
 
   private jovRomottak: string[] = ['Nem csinálok semmit', 'Stop szinttel védem a befektetésemet',
@@ -158,8 +163,10 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
   private piaciMutato: string = "";
   private magasReszveny: string = "";
   private nettoJelenNegativ: string = "";
+  private bekValtozasok: string = "";
+  private intezkedeseim: string = "";
   private egyeb: string = "";
-  private evek: number[] = [1,2, 3, 4, 5, 6, 8, 10];
+  private evek: number[] = [1, 2, 3, 4, 5, 6, 8, 10];
 
 
   constructor(
@@ -181,10 +188,9 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-
   }
 
-  getKotesek(): Observable<Array<number>>{
+  getKotesek(): Observable<Array<number>> {
     return of(this.managelesService.$kotesek);
   }
 
@@ -283,6 +289,7 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
   addNewRow() {
     const control = <FormArray>this.befManagelesFormGroup.controls['tableRows'];
     control.push(this.initRows());
+    console.log(this.getTableControls());
   }
 
   deleteRow(index: number) {
@@ -342,7 +349,6 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
     this.managelesReszvenyFormGroup.get('reszvenyMenegelesAdatok').get('halasztasAdatok').get('egyebMagyarazatCtrl').valueChanges.subscribe(val => {
       this.egyeb = val;
     })
-
   }
 
   // DIALOGS
@@ -474,7 +480,50 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
 
   }
 
-  redirectToBlog(){
+  openValtozasokDialog(index) {
+
+    // Elmenteni az
+    let control: AbstractControl = this.getTableControls()[index];
+    this.bekValtozasok = control.get('bekValtozasok').value;
+
+    const dialogRef = this.dialog.open(AddEredmenyDialogComponent, {
+      width: '40%',
+      data: { eredmeny: this.bekValtozasok, megnevezes: "Bekövetkezett változások" }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.bekValtozasok = result;
+            control.get('bekValtozasok').setValue(this.bekValtozasok);
+            // Melyikhez
+        //this.bekValtozasInput.nativeElement.value = this.$bekValtozasok;
+        control.patchValue(this.$bekValtozasok);
+      }
+    });
+  }
+
+  openIntezkedeseimDialog(index) {
+
+    let control: AbstractControl = this.getTableControls()[index];
+    this.intezkedeseim = control.get('intezkedeseim').value;
+
+    const dialogRef = this.dialog.open(AddEredmenyDialogComponent, {
+      width: '40%',
+      data: { eredmeny: this.intezkedeseim, megnevezes: "Intézkedéseim" }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result) {
+        this.intezkedeseim = result;
+        control.get('intezkedeseim').setValue(this.intezkedeseim);
+        control.patchValue(this.$intezkedeseim);
+      }
+    });
+  }
+
+
+
+
+  redirectToBlog() {
     let url = "https://blog.sb-investing.com/menedzseles/";
     window.open(url, "_blank");
   }
@@ -723,7 +772,7 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
 
   onValChange(value) {
     if (value !== 'nem') {
-      this.befektethetoOsszeg = (( this.$evesMegtakaritas / 100) *Number(value));
+      this.befektethetoOsszeg = ((this.$evesMegtakaritas / 100) * Number(value));
     }
     else {
       this.$befektethetoOsszeg = 0;
@@ -823,6 +872,22 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
 
   // ******** FORM Getters *******
 
+  /**
+   * Getter $bekValtozasok
+   * @return {string }
+   */
+  public get $bekValtozasok(): string {
+    return this.bekValtozasok;
+  }
+
+  /**
+   * Getter $intezkedeseim
+   * @return {string }
+   */
+  public get $intezkedeseim(): string {
+    return this.intezkedeseim;
+  }
+
 
   // ********* magyarazat dialogs ***********
   /**
@@ -910,38 +975,58 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
 
 
 
-    /**
-     * Getter $megterules
-     * @return {number[] }
-     */
-	public get $megterules(): number[]  {
-		return this.megterules;
-	}
+  /**
+   * Getter $megterules
+   * @return {number[] }
+   */
+  public get $megterules(): number[] {
+    return this.megterules;
+  }
 
-    /**
-     * Setter $megterules
-     * @param {number[] } value
-     */
-	public set $megterules(value: number[] ) {
-		this.megterules = value;
-	}
+  /**
+   * Setter $megterules
+   * @param {number[] } value
+   */
+  public set $megterules(value: number[]) {
+    this.megterules = value;
+  }
 
 
-    /**
-     * Getter $evek
-     * @return {number[] }
-     */
-	public get $evek(): number[]  {
-		return this.evek;
-	}
+  /**
+   * Setter $intezkedeseim
+   * @param {string } value
+   */
+  public set $intezkedeseim(value: string) {
+    this.intezkedeseim = value;
+  }
 
-    /**
-     * Setter $evek
-     * @param {number[] } value
-     */
-	public set $evek(value: number[] ) {
-		this.evek = value;
-	}
+
+  /**
+   * Setter $bekValtozasok
+   * @param {string } value
+   */
+  public set $bekValtozasok(value: string) {
+    this.bekValtozasok = value;
+  }
+
+
+
+
+  /**
+   * Getter $evek
+   * @return {number[] }
+   */
+  public get $evek(): number[] {
+    return this.evek;
+  }
+
+  /**
+   * Setter $evek
+   * @param {number[] } value
+   */
+  public set $evek(value: number[]) {
+    this.evek = value;
+  }
 
 
   //***************************** */
