@@ -140,6 +140,7 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
   private egyebMagyarazat: string;
   penznemElemzes: string;
   penznemCelar: string;
+  private deletedRowIndex: number = 0;
 
   isLinear = false;
   isHasAdat: boolean = false;
@@ -292,7 +293,7 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
     console.log(this.getTableControls());
   }
 
-  deleteRow(index: number) {
+  deleteRowConfirm(index: number) {
     let totalRow = 0;
 
     const control = <FormArray>this.befManagelesFormGroup.controls['tableRows'];
@@ -422,6 +423,24 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
         this.rosszHatInput.nativeElement.value = this.$rosszHat;
       }
     });
+  }
+
+  deleteRow(index) {
+    this.deletedRowIndex = index;
+    this.messageService.clear();
+    this.messageService.add({
+      key: 'c', sticky: true, severity: 'error', summary: 'Biztosan törölni szeretnéd?',
+    });
+  }
+
+  onConfirmUjReszveny() {
+    this.messageService.clear('c');
+   this.deleteRowConfirm(this.deletedRowIndex);
+
+  }
+
+  onRejectUjReszveny() {
+    this.messageService.clear('c');
   }
 
   openHosszuTavEladDialog(): void {
