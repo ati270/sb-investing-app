@@ -1,3 +1,4 @@
+import { PenzugyekService } from './../../../services/penzugyek/penzugyek.service';
 import { UjCel } from './../../../models/celok/uj-cel.model';
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray, AbstractControl } from '@angular/forms';
@@ -18,7 +19,7 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
 
   constructor(
     private dialog: MatDialog, private elementRef: ElementRef,
-    public datepipe: DatePipe) {
+    public datepipe: DatePipe, private penzugyekService: PenzugyekService) {
   }
 
   /**
@@ -52,6 +53,8 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
   rezsiDateStr: string;
   rezsi: Date;
   rezsik: Date[];
+  tempOneYearRezsik: Date[];
+
 
   // Charts
   chartMain: Chart;
@@ -67,6 +70,9 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
   chartJelenlegiCel: Chart;
 
   chart = [];
+
+  // tempLabels
+  tempChartBetetelLabels: any[];
 
   // Évek
   yearList: Array<string>[];
@@ -106,12 +112,23 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
   chartCelData: any[] = new Array();
   chartCelLabels: any[] = new Array();
 
+  osszBevetelMap: Map<string, number>;
+  osszMegtakaritasMap: Map<string, number>;
+  osszKiadasMap: Map<string, number>;
+  osszRezsiMap: Map<string, number>;
+  osszElvCikkekMap: Map<string, number>;
+  osszUtKoltsMap: Map<string, number>;
+  osszFogyCikkekMap: Map<string, number>;
+  osszRuhazkodasMap: Map<string, number>;
+  osszEgyebMap: Map<string, number>;
+
   selectedHonap: string;
 
   rezsiColors: string[];
   isHonapZarva: boolean;
   osszesMegtakaritas: number;
   jelenlegiCelKezdoDatum: Date;
+  years: number[] = [];
 
   // TODO: ezekből is lista kell ----ami tartalmazza a különböző évek kiválasztott honapjait már
 
@@ -155,6 +172,28 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
     this.generateHonapokSzammal();
     this.rezsik = new Array();
     this.osszesMegtakaritas = 0;
+
+    // Diagramhoz
+    this.osszBevetelMap = new Map<string, number>();
+    this.osszMegtakaritasMap = new Map<string, number>();
+    this.osszKiadasMap = new Map<string, number>();
+    this.osszRezsiMap = new Map<string, number>();
+    this.osszElvCikkekMap = new Map<string, number>();
+    this.osszUtKoltsMap = new Map<string, number>();
+    this.osszFogyCikkekMap = new Map<string, number>();
+    this.osszRuhazkodasMap = new Map<string, number>();
+    this.osszEgyebMap = new Map<string, number>();
+
+
+    this.penzugyekService.$osszBevetelMap = this.osszBevetelMap;
+    this.penzugyekService.$osszMegtakaritasMap = this.osszMegtakaritasMap;
+    this.penzugyekService.$osszKiadasMap = this.osszKiadasMap;
+    this.penzugyekService.$osszRezsiMap = this.osszRezsiMap;
+    this.penzugyekService.$osszElvCikkekMap = this.osszElvCikkekMap;
+    this.penzugyekService.$osszUtKoltsMap = this.osszUtKoltsMap;
+    this.penzugyekService.$osszFogyCikkekMap = this.osszFogyCikkekMap;
+    this.penzugyekService.$osszRuhazkodasMap = this.osszRuhazkodasMap;
+    this.penzugyekService.$osszEgyebMap = this.osszEgyebMap;
   }
 
   generateHonapokSzammal() {
@@ -207,14 +246,15 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
       // Külön kell szedni: év + hónap
       // rezsi --> rendes dátum formátum kell
       this.rezsi = new Date(this.rezsiDateStr);
+      //this.rezsi = this.datepipe.transform(this.rezsi, 'yyyy-MM-dd');
       console.log("REZSIIII: " + this.rezsi);
       this.rezsik.push(this.rezsi);
       console.log("REZSIIIIKKKKK: " + this.rezsik);
-      if (this.rezsik.length > 1) {
+      if (this.rezsik.length > 0) {
         this.compareDates(this.rezsik);
         console.log("Dátumok:" + this.rezsik);
         // itt mindig kinullázzuk és a friss dátum sorrendet rakjuk bele
-        this.chartOsszBevetelLabels = [];
+        /*this.chartOsszBevetelLabels = [];
         this.chartOsszMegtLabels = [];
         this.chartOsszKiadasLabels = [];
         this.chartRezsiLabels = [];
@@ -222,23 +262,25 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
         this.chartUtazasiKtgLabels = [];
         this.chartFogyCikkekLabels = [];
         this.chartRuhazkodasLabels = [];
-        this.chartEgyebLabels = [];
+        this.chartEgyebLabels = [];*/
 
-        for (let i = 0; i < this.rezsik.length; i++) {
-          this.chartOsszBevetelLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() + 1));
-          this.chartOsszMegtLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() + 1));
-          this.chartOsszKiadasLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() + 1));
-          this.chartRezsiLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() + 1));
-          this.chartElvCikkekLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() + 1));
-          this.chartUtazasiKtgLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() + 1));
-          this.chartFogyCikkekLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() + 1));
-          this.chartRuhazkodasLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() + 1));
-          this.chartEgyebLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() + 1));
+        /*  for (let i = 0; i < this.rezsik.length; i++) {
+            // Dátumozás megadása
+            this.chartOsszBevetelLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() + 1));
+            console.log("labels...: "  + this.chartOsszBevetelLabels);
+            this.chartOsszMegtLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() + 1));
+            this.chartOsszKiadasLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() + 1));
+            this.chartRezsiLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() + 1));
+            this.chartElvCikkekLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() + 1));
+            this.chartUtazasiKtgLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() + 1));
+            this.chartFogyCikkekLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() + 1));
+            this.chartRuhazkodasLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() + 1));
+            this.chartEgyebLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() + 1));
 
-          /*if((this.rezsik[i].getMonth()+ 1) > (this.jelenlegiCelKezdoDatum.getMonth() +1)){
-              this.chartCelLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() +1));
-            }*/
-        }
+            /*if((this.rezsik[i].getMonth()+ 1) > (this.jelenlegiCelKezdoDatum.getMonth() +1)){
+                this.chartCelLabels.push(this.rezsik[i].getFullYear() + "-" + (this.rezsik[i].getMonth() +1));
+              }*
+          }*/
       }
     }
   }
@@ -295,6 +337,7 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
       if (result) {
 
         this.addedYearsList.push(result);
+        this.years.push(result);
         // Létrehozunk 1 uj év listát és hozzáadtuk az évet
         yearMap.set(result, this.yearList);
         this.mapList.push(yearMap);
@@ -325,9 +368,6 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
 
     }
     else {
-
-
-
       const dialogRef = this.dialog.open(PenzugyekNewMonthAddDialogComponent, {
         width: '40%',
         data: this.addedMonthsList
@@ -390,6 +430,427 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
 
     this.getMainChart('Jelenlegi cél', this.chartCelLabels, this.chartCelData);
   }
+
+  createMegtakaritasFilter(year: any) {
+    let dates: string[] = [...this.osszMegtakaritasMap.keys()];
+    console.log("-------" + dates);
+    let datas: number[] = [...this.osszMegtakaritasMap.values()];
+    this.chartOsszMegtLabels = [];
+    this.chartOsszMegtData = [];
+
+    // IDe kellenek a dátum formátumok
+    let osszDate: Date[] = [];
+    for (let i = 0; i < dates.length; i++) {
+      osszDate.push(new Date(dates[i]));
+    }
+
+    for (let j = 0; j < dates.length; j++) {
+      if (osszDate[j].getFullYear() == year.value) {
+        console.log("bejött" + year.value);
+        const dateStr = osszDate[j].getFullYear() + "-" + (osszDate[j].getMonth() + 1);
+        this.chartOsszMegtLabels.push(dateStr);
+        this.chartOsszMegtData.push(datas[j]);
+      }
+    }
+  }
+
+  createOsszBevetelFilter(year: any) {
+    let dates: string[] = [...this.osszBevetelMap.keys()];
+    console.log("-------" + dates);
+    let datas: number[] = [...this.osszBevetelMap.values()];
+    this.chartOsszBevetelLabels = [];
+    this.chartOsszBevetelData = [];
+
+    // IDe kellenek a dátum formátumok
+    let osszDate: Date[] = [];
+    for (let i = 0; i < dates.length; i++) {
+      osszDate.push(new Date(dates[i]));
+    }
+
+    for (let j = 0; j < dates.length; j++) {
+      if (osszDate[j].getFullYear() == year.value) {
+        console.log("bejött" + year.value);
+        const dateStr = osszDate[j].getFullYear() + "-" + (osszDate[j].getMonth() + 1);
+        this.chartOsszBevetelLabels.push(dateStr);
+        this.chartOsszBevetelData.push(datas[j]);
+      }
+    }
+  }
+
+  createOsszKiadasFilter(year: any) {
+    let dates: string[] = [...this.osszKiadasMap.keys()];
+    console.log("-------" + dates);
+    let datas: number[] = [...this.osszKiadasMap.values()];
+    this.chartOsszKiadasLabels = [];
+    this.chartOsszKiadasData = [];
+
+    // IDe kellenek a dátum formátumok
+    let osszDate: Date[] = [];
+    for (let i = 0; i < dates.length; i++) {
+      osszDate.push(new Date(dates[i]));
+    }
+
+    for (let j = 0; j < dates.length; j++) {
+      if (osszDate[j].getFullYear() == year.value) {
+        console.log("bejött" + year.value);
+        const dateStr = osszDate[j].getFullYear() + "-" + (osszDate[j].getMonth() + 1);
+        this.chartOsszKiadasLabels.push(dateStr);
+        this.chartOsszKiadasData.push(datas[j]);
+      }
+    }
+  }
+
+  createOsszRezsiFilter(year: any) {
+    let dates: string[] = [...this.osszRezsiMap.keys()];
+    console.log("-------" + dates);
+    let datas: number[] = [...this.osszRezsiMap.values()];
+    this.chartRezsiLabels = [];
+    this.chartRezsiData = [];
+
+    // IDe kellenek a dátum formátumok
+    let osszDate: Date[] = [];
+    for (let i = 0; i < dates.length; i++) {
+      osszDate.push(new Date(dates[i]));
+    }
+
+    for (let j = 0; j < dates.length; j++) {
+      if (osszDate[j].getFullYear() == year.value) {
+        console.log("bejött" + year.value);
+        const dateStr = osszDate[j].getFullYear() + "-" + (osszDate[j].getMonth() + 1);
+        this.chartRezsiLabels.push(dateStr);
+        this.chartRezsiData.push(datas[j]);
+      }
+    }
+  }
+
+  createosszElvCikkekFilter(year: any) {
+    let dates: string[] = [...this.osszElvCikkekMap.keys()];
+    console.log("-------" + dates);
+    let datas: number[] = [...this.osszElvCikkekMap.values()];
+    this.chartElvCikkekLabels = [];
+    this.chartElvCikkekData = [];
+
+    // IDe kellenek a dátum formátumok
+    let osszDate: Date[] = [];
+    for (let i = 0; i < dates.length; i++) {
+      osszDate.push(new Date(dates[i]));
+    }
+
+    for (let j = 0; j < dates.length; j++) {
+      if (osszDate[j].getFullYear() == year.value) {
+        console.log("bejött" + year.value);
+        const dateStr = osszDate[j].getFullYear() + "-" + (osszDate[j].getMonth() + 1);
+        this.chartElvCikkekLabels.push(dateStr);
+        this.chartElvCikkekData.push(datas[j]);
+      }
+    }
+  }
+
+  createosszUtKoltsFilter(year: any) {
+    let dates: string[] = [...this.osszUtKoltsMap.keys()];
+    console.log("-------" + dates);
+    let datas: number[] = [...this.osszUtKoltsMap.values()];
+    this.chartUtazasiKtgLabels = [];
+    this.chartUtazasiKtgData = [];
+
+    // IDe kellenek a dátum formátumok
+    let osszDate: Date[] = [];
+    for (let i = 0; i < dates.length; i++) {
+      osszDate.push(new Date(dates[i]));
+    }
+
+    for (let j = 0; j < dates.length; j++) {
+      if (osszDate[j].getFullYear() == year.value) {
+        console.log("bejött" + year.value);
+        const dateStr = osszDate[j].getFullYear() + "-" + (osszDate[j].getMonth() + 1);
+        this.chartUtazasiKtgLabels.push(dateStr);
+        this.chartUtazasiKtgData.push(datas[j]);
+      }
+    }
+  }
+
+  createosszFogyCikkekFilter(year: any) {
+    let dates: string[] = [...this.osszFogyCikkekMap.keys()];
+    console.log("-------" + dates);
+    let datas: number[] = [...this.osszFogyCikkekMap.values()];
+    this.chartFogyCikkekLabels = [];
+    this.chartFogyCikkekData = [];
+
+    // IDe kellenek a dátum formátumok
+    let osszDate: Date[] = [];
+    for (let i = 0; i < dates.length; i++) {
+      osszDate.push(new Date(dates[i]));
+    }
+
+    for (let j = 0; j < dates.length; j++) {
+      if (osszDate[j].getFullYear() == year.value) {
+        console.log("bejött" + year.value);
+        const dateStr = osszDate[j].getFullYear() + "-" + (osszDate[j].getMonth() + 1);
+        this.chartFogyCikkekLabels.push(dateStr);
+        this.chartFogyCikkekData.push(datas[j]);
+      }
+    }
+  }
+
+  createosszRuhazkodasFilter(year: any) {
+    let dates: string[] = [...this.osszRuhazkodasMap.keys()];
+    console.log("-------" + dates);
+    let datas: number[] = [...this.osszRuhazkodasMap.values()];
+    this.chartRuhazkodasLabels = [];
+    this.chartRuhazkodasData = [];
+
+    // IDe kellenek a dátum formátumok
+    let osszDate: Date[] = [];
+    for (let i = 0; i < dates.length; i++) {
+      osszDate.push(new Date(dates[i]));
+    }
+
+    for (let j = 0; j < dates.length; j++) {
+      if (osszDate[j].getFullYear() == year.value) {
+        console.log("bejött" + year.value);
+        const dateStr = osszDate[j].getFullYear() + "-" + (osszDate[j].getMonth() + 1);
+        this.chartRuhazkodasLabels.push(dateStr);
+        this.chartRuhazkodasData.push(datas[j]);
+      }
+    }
+  }
+
+  createosszEgyebFilter(year: any) {
+    let dates: string[] = [...this.osszEgyebMap.keys()];
+    console.log("-------" + dates);
+    let datas: number[] = [...this.osszEgyebMap.values()];
+    this.chartEgyebLabels = [];
+    this.chartEgyebData = [];
+
+    // IDe kellenek a dátum formátumok
+    let osszDate: Date[] = [];
+    for (let i = 0; i < dates.length; i++) {
+      osszDate.push(new Date(dates[i]));
+    }
+
+    for (let j = 0; j < dates.length; j++) {
+      if (osszDate[j].getFullYear() == year.value) {
+        console.log("bejött" + year.value);
+        const dateStr = osszDate[j].getFullYear() + "-" + (osszDate[j].getMonth() + 1);
+        this.chartEgyebLabels.push(dateStr);
+        this.chartEgyebData.push(datas[j]);
+      }
+    }
+  }
+
+
+  // Full diagrams after filter
+  createMegtakaritas() {
+    let dates: string[] = [...this.osszMegtakaritasMap.keys()];
+    console.log("-------" + dates);
+    let datas: number[] = [...this.osszMegtakaritasMap.values()];
+    this.chartOsszMegtLabels = [];
+    this.chartOsszMegtData = [];
+
+    // IDe kellenek a dátum formátumok
+    let osszDate: Date[] = [];
+    for (let i = 0; i < dates.length; i++) {
+      osszDate.push(new Date(dates[i]));
+    }
+
+    for (let j = 0; j < dates.length; j++) {
+        const dateStr = osszDate[j].getFullYear() + "-" + (osszDate[j].getMonth() + 1);
+        this.chartOsszMegtLabels.push(dateStr);
+        this.chartOsszMegtData.push(datas[j]);
+    }
+  }
+
+  createOsszBevetel() {
+    let dates: string[] = [...this.osszBevetelMap.keys()];
+    console.log("-------" + dates);
+    let datas: number[] = [...this.osszBevetelMap.values()];
+    this.chartOsszBevetelLabels = [];
+    this.chartOsszBevetelData = [];
+
+    // IDe kellenek a dátum formátumok
+    let osszDate: Date[] = [];
+    for (let i = 0; i < dates.length; i++) {
+      osszDate.push(new Date(dates[i]));
+    }
+
+    for (let j = 0; j < dates.length; j++) {
+        const dateStr = osszDate[j].getFullYear() + "-" + (osszDate[j].getMonth() + 1);
+        this.chartOsszBevetelLabels.push(dateStr);
+        this.chartOsszBevetelData.push(datas[j]);
+
+    }
+  }
+
+  createOsszKiadas() {
+    let dates: string[] = [...this.osszKiadasMap.keys()];
+    console.log("-------" + dates);
+    let datas: number[] = [...this.osszKiadasMap.values()];
+    this.chartOsszKiadasLabels = [];
+    this.chartOsszKiadasData = [];
+
+    // IDe kellenek a dátum formátumok
+    let osszDate: Date[] = [];
+    for (let i = 0; i < dates.length; i++) {
+      osszDate.push(new Date(dates[i]));
+    }
+
+    for (let j = 0; j < dates.length; j++) {
+        const dateStr = osszDate[j].getFullYear() + "-" + (osszDate[j].getMonth() + 1);
+        this.chartOsszKiadasLabels.push(dateStr);
+        this.chartOsszKiadasData.push(datas[j]);
+
+    }
+  }
+
+  createOsszRezsi() {
+    let dates: string[] = [...this.osszRezsiMap.keys()];
+    console.log("-------" + dates);
+    let datas: number[] = [...this.osszRezsiMap.values()];
+    this.chartRezsiLabels = [];
+    this.chartRezsiData = [];
+
+    // IDe kellenek a dátum formátumok
+    let osszDate: Date[] = [];
+    for (let i = 0; i < dates.length; i++) {
+      osszDate.push(new Date(dates[i]));
+    }
+
+    for (let j = 0; j < dates.length; j++) {
+        const dateStr = osszDate[j].getFullYear() + "-" + (osszDate[j].getMonth() + 1);
+        this.chartRezsiLabels.push(dateStr);
+        this.chartRezsiData.push(datas[j]);
+    }
+  }
+
+  createosszElvCikkek() {
+    let dates: string[] = [...this.osszElvCikkekMap.keys()];
+    console.log("-------" + dates);
+    let datas: number[] = [...this.osszElvCikkekMap.values()];
+    this.chartElvCikkekLabels = [];
+    this.chartElvCikkekData = [];
+
+    // IDe kellenek a dátum formátumok
+    let osszDate: Date[] = [];
+    for (let i = 0; i < dates.length; i++) {
+      osszDate.push(new Date(dates[i]));
+    }
+
+    for (let j = 0; j < dates.length; j++) {
+        const dateStr = osszDate[j].getFullYear() + "-" + (osszDate[j].getMonth() + 1);
+        this.chartElvCikkekLabels.push(dateStr);
+        this.chartElvCikkekData.push(datas[j]);
+
+    }
+  }
+
+  createosszUtKolts() {
+    let dates: string[] = [...this.osszUtKoltsMap.keys()];
+    console.log("-------" + dates);
+    let datas: number[] = [...this.osszUtKoltsMap.values()];
+    this.chartUtazasiKtgLabels = [];
+    this.chartUtazasiKtgData = [];
+
+    // IDe kellenek a dátum formátumok
+    let osszDate: Date[] = [];
+    for (let i = 0; i < dates.length; i++) {
+      osszDate.push(new Date(dates[i]));
+    }
+
+    for (let j = 0; j < dates.length; j++) {
+        const dateStr = osszDate[j].getFullYear() + "-" + (osszDate[j].getMonth() + 1);
+        this.chartUtazasiKtgLabels.push(dateStr);
+        this.chartUtazasiKtgData.push(datas[j]);
+    }
+  }
+
+  createosszFogyCikkek() {
+    let dates: string[] = [...this.osszFogyCikkekMap.keys()];
+    console.log("-------" + dates);
+    let datas: number[] = [...this.osszFogyCikkekMap.values()];
+    this.chartFogyCikkekLabels = [];
+    this.chartFogyCikkekData = [];
+
+    // IDe kellenek a dátum formátumok
+    let osszDate: Date[] = [];
+    for (let i = 0; i < dates.length; i++) {
+      osszDate.push(new Date(dates[i]));
+    }
+
+    for (let j = 0; j < dates.length; j++) {
+        const dateStr = osszDate[j].getFullYear() + "-" + (osszDate[j].getMonth() + 1);
+        this.chartFogyCikkekLabels.push(dateStr);
+        this.chartFogyCikkekData.push(datas[j]);
+
+    }
+  }
+
+  createosszRuhazkodas() {
+    let dates: string[] = [...this.osszRuhazkodasMap.keys()];
+    console.log("-------" + dates);
+    let datas: number[] = [...this.osszRuhazkodasMap.values()];
+    this.chartRuhazkodasLabels = [];
+    this.chartRuhazkodasData = [];
+
+    // IDe kellenek a dátum formátumok
+    let osszDate: Date[] = [];
+    for (let i = 0; i < dates.length; i++) {
+      osszDate.push(new Date(dates[i]));
+    }
+
+    for (let j = 0; j < dates.length; j++) {
+        const dateStr = osszDate[j].getFullYear() + "-" + (osszDate[j].getMonth() + 1);
+        this.chartRuhazkodasLabels.push(dateStr);
+        this.chartRuhazkodasData.push(datas[j]);
+    }
+  }
+
+  createosszEgyeb() {
+    let dates: string[] = [...this.osszEgyebMap.keys()];
+    console.log("-------" + dates);
+    let datas: number[] = [...this.osszEgyebMap.values()];
+    this.chartEgyebLabels = [];
+    this.chartEgyebData = [];
+
+    // IDe kellenek a dátum formátumok
+    let osszDate: Date[] = [];
+    for (let i = 0; i < dates.length; i++) {
+      osszDate.push(new Date(dates[i]));
+    }
+
+    for (let j = 0; j < dates.length; j++) {
+        const dateStr = osszDate[j].getFullYear() + "-" + (osszDate[j].getMonth() + 1);
+        this.chartEgyebLabels.push(dateStr);
+        this.chartEgyebData.push(datas[j]);
+
+    }
+  }
+
+  // szürt diagram
+  getYearForFilteredDiagram(year: any) {
+    this.createMegtakaritasFilter(year);
+    this.createOsszBevetelFilter(year);
+    this.createOsszKiadasFilter(year);
+    this.createOsszRezsiFilter(year);
+    this.createosszElvCikkekFilter(year);
+    this.createosszUtKoltsFilter(year);
+    this.createosszFogyCikkekFilter(year);
+    this.createosszRuhazkodasFilter(year);
+    this.createosszEgyebFilter(year);
+  }
+
+  // Teljes diagram visszatöltése
+  getFullDiagram(){
+    this.createMegtakaritas();
+    this.createOsszBevetel();
+    this.createOsszKiadas();
+    this.createOsszRezsi();
+    this.createosszElvCikkek();
+    this.createosszUtKolts();
+    this.createosszFogyCikkek();
+    this.createosszRuhazkodas();
+    this.createosszEgyeb();
+  }
+
 
   // ************** CHART.JS TEST ********
   updateChartType(chart: Chart, selectedChartType) {
@@ -535,23 +996,31 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
 
   }
 
+  createMap(date: string, osszeg: number, map: Map<string, number>, labels: any[], datas: any[]) {
+    const bevDate = this.datepipe.transform(date, 'yyyy-MM');
+    map.set(bevDate, osszeg);
+
+    console.log("bevdate: " + bevDate);
+    labels.push(bevDate);
+    datas.push(osszeg);
+  }
+
   // get values from bevetel-kiadas
 
+  // OK
   getOsszMegtakaritas(date: string, osszeg: number) {
-    this.osszesMegtakaritas += osszeg;
-    this.chartOsszMegtData.push(this.osszesMegtakaritas);
+    this.createMap(date, osszeg, this.osszMegtakaritasMap, this.chartOsszMegtLabels, this.chartOsszMegtData);
 
     this.chartMain.update();
     this.chartMiniOsszMegtakaritas.update();
     this.panelOpenState = false;
     this.xpandStatus = this.panelOpenState;
-    console.log(this.panelOpenState);
-    console.log('MEGTAKARITAS: ' + this.chartOsszMegtData);
   }
 
-
+  // OK
   getOsszRezsi(date: string, osszeg: number) {
-    this.chartRezsiData.push(osszeg);
+    this.createMap(date, osszeg, this.osszRezsiMap, this.chartRezsiLabels, this.chartRezsiData);
+
     // Rendezés
     this.chartMain.update();
     this.chartMiniRezsi.update();
@@ -560,12 +1029,9 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
     console.log(this.panelOpenState);
   }
 
+  // OK
   getOsszBevetel(date: string, osszeg: number) {
-    /// TODO: ezt oda kell rakni, amikor
-    //this.chartOsszBevetelLabels.push(date); KÉSZ
-
-    // Data-t hozzá kell igazitani a labelekhez
-    this.chartOsszBevetelData.push(osszeg);
+    this.createMap(date, osszeg, this.osszBevetelMap, this.chartOsszBevetelLabels, this.chartOsszBevetelData);
     // Rendezés
     this.chartMain.update();
     this.chartMiniOsszBevetel.update();
@@ -574,8 +1040,10 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
     console.log(this.panelOpenState);
   }
 
+  // OK
   getOsszKiadas(date: string, osszeg: number) {
-    this.chartOsszKiadasData.push(osszeg);
+    this.createMap(date, osszeg, this.osszKiadasMap, this.chartOsszKiadasLabels, this.chartOsszKiadasData);
+
     // Rendezés
     this.chartMain.update();
     this.chartMiniOsszKiadas.update();
@@ -585,8 +1053,10 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
 
   }
 
+  // OK
   getElvezetiCikkek(date: string, osszeg: number) {
-    this.chartElvCikkekData.push(osszeg);
+    this.createMap(date, osszeg, this.osszElvCikkekMap, this.chartElvCikkekLabels, this.chartElvCikkekData);
+
     // Rendezés
     this.chartMain.update();
     this.chartMiniElvCikkek.update();
@@ -595,8 +1065,10 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
     console.log(this.panelOpenState);
   }
 
+  // OK
   getUtazasiKtg(date: string, osszeg: number) {
-    this.chartUtazasiKtgData.push(osszeg);
+    this.createMap(date, osszeg, this.osszUtKoltsMap, this.chartUtazasiKtgLabels, this.chartUtazasiKtgData);
+
     // Rendezés
     this.chartMain.update();
     this.chartMiniUtazasiKtg.update();
@@ -605,8 +1077,10 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
     console.log(this.panelOpenState);
   }
 
+  // OK
   getFogyCikkek(date: string, osszeg: number) {
-    this.chartFogyCikkekData.push(osszeg);
+    this.createMap(date, osszeg, this.osszFogyCikkekMap, this.chartFogyCikkekLabels, this.chartFogyCikkekData);
+
     // Rendezés
     this.chartMain.update();
     this.chartMiniFogyCikkek.update();
@@ -615,8 +1089,10 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
     console.log(this.panelOpenState);
   }
 
+  // OK
   getRuhazkodas(date: string, osszeg: number) {
-    this.chartRuhazkodasData.push(osszeg);
+    this.createMap(date, osszeg, this.osszRuhazkodasMap, this.chartRuhazkodasLabels, this.chartRuhazkodasData);
+
     // Rendezés
     this.chartMain.update();
     this.chartMiniRuhazkodas.update();
@@ -625,8 +1101,10 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
     console.log(this.panelOpenState);
   }
 
+  // OK
   getEgyeb(date: string, osszeg: number) {
-    this.chartEgyebData.push(osszeg);
+    this.createMap(date, osszeg, this.osszEgyebMap, this.chartEgyebLabels, this.chartEgyebData);
+
     // Rendezés
     this.chartMain.update();
     this.chartMiniEgyeb.update();
@@ -634,9 +1112,6 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
     this.xpandStatus = this.panelOpenState;
     console.log(this.panelOpenState);
   }
-
-
-
 
   // Kiválasztások
   selectMegtakaritas() {
@@ -649,6 +1124,7 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
     this.getMainChart('Rezsi', this.chartRezsiLabels, this.chartRezsiData);
   }
 
+  //Össszbevétel
   selectOsszBevetel() {
     this.getMainChart('Össz. bevétel', this.chartOsszBevetelLabels, this.chartOsszBevetelData);
   }
