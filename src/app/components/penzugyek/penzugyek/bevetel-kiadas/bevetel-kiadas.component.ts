@@ -40,14 +40,16 @@ export class BevetelKiadasComponent implements OnInit {
 
   private osszegek: number[];
 
-  bevetelekArr: number[];
-  rezsiKiadasArr: number[];
-  megtakaritasKiadasArr: number[];
-  elvCikkekKiadasArr: number[];
-  utazasiKtgKiadasArr: number[];
-  fogyCikkekKiadasArr: number[];
-  ruhazkodasKiadasArr: number[];
-  egyebKiadasArr: number[];
+  bevetelekArr: number[] = [];
+  rezsiKiadasArr: number[] = [];
+  megtakaritasKiadasArr: number[] = [];
+  elvCikkekKiadasArr: number[] = [];
+  utazasiKtgKiadasArr: number[] = [];
+  fogyCikkekKiadasArr: number[] = [];
+  ruhazkodasKiadasArr: number[] = [];
+  egyebKiadasArr: number[] = [];
+
+  actualRezsiValue: number;
 
   penzugyekBevetelFormGroup: FormGroup;
   penzugyKiadasFormGroup: FormGroup;
@@ -57,14 +59,16 @@ export class BevetelKiadasComponent implements OnInit {
   ngOnInit(): void {
     this.createBevetelFormGroup();
     this.createKiadasFormGroup();
-    this.bevetelekArr = new Array();
-    this.rezsiKiadasArr = new Array();
+    /*this.bevetelekArr = new Array();
+    //this.rezsiKiadasArr = new Array();
     this.megtakaritasKiadasArr = new Array();
     this.elvCikkekKiadasArr = new Array();
     this.utazasiKtgKiadasArr = new Array();
     this.fogyCikkekKiadasArr = new Array();
     this.ruhazkodasKiadasArr = new Array();
-    this.egyebKiadasArr = new Array();
+    this.egyebKiadasArr = new Array();*/
+
+    this.actualRezsiValue = 0;
 
     this.osszegek = new Array();
 
@@ -74,6 +78,9 @@ export class BevetelKiadasComponent implements OnInit {
   onChanges() {
     this.osszBevetel = 0;
     for (let item of this.bevetelekArr) {
+      if (typeof item != "number") {
+        item = 0;
+    }
       this.osszBevetel += item;
     }
 
@@ -83,9 +90,14 @@ export class BevetelKiadasComponent implements OnInit {
   // Changes
   rezsiKiadChanges() {
     this.osszRezsi = 0;
+    console.log("KIADAS::::: "+ this.rezsiKiadasArr);
     for (let item of this.rezsiKiadasArr) {
+      if (typeof item != "number") {
+        item = 0;
+    }
       this.osszRezsi += item;
     }
+
 
   }
 
@@ -93,6 +105,9 @@ export class BevetelKiadasComponent implements OnInit {
     this.osszMegtakaritas = 0;
 
     for (let item of this.megtakaritasKiadasArr) {
+      if (typeof item != "number") {
+        item = 0;
+    }
       this.osszMegtakaritas += item;
     }
   }
@@ -101,6 +116,9 @@ export class BevetelKiadasComponent implements OnInit {
     this.osszElvCikkek = 0;
 
     for (let item of this.elvCikkekKiadasArr) {
+      if (typeof item != "number") {
+        item = 0;
+    }
       this.osszElvCikkek += item;
     }
   }
@@ -109,6 +127,9 @@ export class BevetelKiadasComponent implements OnInit {
     this.osszUtazasiKtg = 0;
 
     for (let item of this.utazasiKtgKiadasArr) {
+      if (typeof item != "number") {
+        item = 0;
+    }
       this.osszUtazasiKtg += item;
     }
   }
@@ -117,6 +138,9 @@ export class BevetelKiadasComponent implements OnInit {
     this.osszFogyCikkek = 0;
 
     for (let item of this.fogyCikkekKiadasArr) {
+      if (typeof item != "number") {
+        item = 0;
+    }
       this.osszFogyCikkek += item;
     }
   }
@@ -125,6 +149,9 @@ export class BevetelKiadasComponent implements OnInit {
     this.osszRuhazkodas = 0;
 
     for (let item of this.ruhazkodasKiadasArr) {
+      if (typeof item != "number") {
+        item = 0;
+    }
       this.osszRuhazkodas += item;
     }
   }
@@ -133,6 +160,9 @@ export class BevetelKiadasComponent implements OnInit {
     this.osszEgyeb = 0;
 
     for (let item of this.egyebKiadasArr) {
+      if (typeof item != "number") {
+        item = 0;
+    }
       this.osszEgyeb += item;
     }
   }
