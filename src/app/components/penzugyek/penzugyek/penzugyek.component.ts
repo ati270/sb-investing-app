@@ -43,6 +43,7 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
   @ViewChild('canvasminiEgyeb') canvasminiEgyeb: ElementRef;
   @ViewChild('yearPanel') yearPanel: ElementRef;
   @ViewChild('canvasminiCel') canvasminiCel: ElementRef;
+  @ViewChild('filterSelect') filterSelect: ElementRef;
 
 
   honapok: string[] = ['január', 'február', 'március', 'április',
@@ -123,6 +124,7 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
   osszEgyebMap: Map<string, number>;
 
   selectedHonap: string;
+  isNoClosedMonth: boolean;
 
   rezsiColors: string[];
   isHonapZarva: boolean;
@@ -172,6 +174,7 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
     this.generateHonapokSzammal();
     this.rezsik = new Array();
     this.osszesMegtakaritas = 0;
+    this.isNoClosedMonth = false;
 
     // Diagramhoz
     this.osszBevetelMap = new Map<string, number>();
@@ -374,6 +377,7 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
       });
       dialogRef.afterClosed().subscribe(result => {
         // if (result) {
+          this.isNoClosedMonth = true;
         console.log(result);
         console.log("************RESULT********");
         this.saveAddedMonth(result);
@@ -849,6 +853,8 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
     this.createosszFogyCikkek();
     this.createosszRuhazkodas();
     this.createosszEgyeb();
+
+    // remove last data from select -> option
   }
 
 
@@ -938,7 +944,7 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
   // HOnap zárás: dátum fix, osszegek tombben
   getBevetelekKiadasok(value) {
     // Itt kapod meg az adatokat a gyerektől (bev-kiadás)
-
+    this.isNoClosedMonth = value.isNoClosedMonth;
     this.getOsszRezsi(value.datum, value.osszeg[0]);
     this.getOsszMegtakaritas(value.datum, value.osszeg[1]);
     this.getOsszBevetel(value.datum, value.osszeg[2]);

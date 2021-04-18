@@ -115,7 +115,7 @@
                 </div>
                 <!--Új hónap-->
                 <mat-action-row style="background-color: white;">
-                  <button mat-button color="primary" (click)="openNewMonthDialog(year.key)">Új hónap
+                  <button mat-button color="primary" (click)="openNewMonthDialog(year.key)" [disabled]="isNoClosedMonth">Új hónap
                     hozzáadása</button>
                 </mat-action-row>
               </mat-expansion-panel>
@@ -202,7 +202,7 @@
                 <div class="col-8">
                   <mat-form-field >
                     <mat-label>Év kiválasztása</mat-label>
-                    <mat-select (selectionChange)="getYearForFilteredDiagram($event)">
+                    <mat-select #filterSelect (selectionChange)="getYearForFilteredDiagram($event)">
                       <mat-option *ngFor="let year of years" [value]="year">
                         {{year}}
                       </mat-option>

@@ -5,6 +5,7 @@ export interface dataArguments {
   datum: string;
   osszeg: number[];
   zarva?: boolean;
+  isNoClosedMonth: boolean;
 }
 @Component({
   selector: 'app-bevetel-kiadas',
@@ -207,7 +208,8 @@ export class BevetelKiadasComponent implements OnInit {
         // dátum az adott év + honap
         datum: this.rezsiDate,
         osszeg: this.$osszegek,
-        zarva: this.isDisable
+        zarva: this.isDisable,
+        isNoClosedMonth:false
       }
     );
 
