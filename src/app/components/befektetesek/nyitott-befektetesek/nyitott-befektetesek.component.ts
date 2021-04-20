@@ -1,3 +1,4 @@
+import { ElemzesService } from './../../../services/befektetesek/elemzesek/elemzes.service';
 import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { NyitottBefektetesService } from 'src/app/services/befektetesek/nyitott-befektetes/nyitott-befektetes.service';
@@ -25,7 +26,7 @@ export class NyitottBefektetesekComponent implements OnInit {
 
   constructor(private store: Store<AppState>,
     private nyitottBefService: NyitottBefektetesService,
-    private router: Router, private befAdatService: BefAdatokService, private mentalisElemzesService: MentalisElemzesService) {
+    private router: Router, private befAdatService: BefAdatokService, private mentalisElemzesService: MentalisElemzesService, private elemzesService: ElemzesService) {
    }
 
   ngOnInit(): void {
@@ -47,8 +48,7 @@ export class NyitottBefektetesekComponent implements OnInit {
 
   redirectToMainPanel(reszveny: UjReszveny){
     this.router.navigateByUrl('/befektetes');
-
-    let reszvenyek: UjReszveny[] = new Array(reszveny);
+    this.elemzesService.sendSubjectUjReszveny(reszveny);
     this.befAdatService.loadBefAdatok(reszveny.$befektetesAdatok);
     this.mentalisElemzesService.loadMentalisElemzes(reszveny.$mentalisElemzes);
 

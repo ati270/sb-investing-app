@@ -1,3 +1,5 @@
+import { UpdateReszvenyStatusAction } from './../../../../store/reszveny/actions';
+import { Store } from '@ngrx/store';
 import { Component, OnInit, Input, Output, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
@@ -5,6 +7,9 @@ import { BefektetesAdatok } from 'src/app/models/uj-befektetes-models/befektetes
 import { BefAdatokService } from 'src/app/services/befektetesek/uj-befektetes-services/befektetes-adatok/bef-adatok.service';
 import { MessageService } from 'primeng/api';
 import { PrimeNGConfig } from 'primeng/api';
+import { UpdateReszvenyAction } from 'src/app/components/store/reszveny/actions';
+import { UjBefektetesService } from 'src/app/services/befektetesek/uj-befektetes-services/uj-befektetes/uj-befektetes.service';
+import { AppState } from 'src/app/components/store/reszveny/state';
 
 
 export interface dataArguments {
@@ -44,7 +49,7 @@ export class BefAdatokComponent implements OnInit, AfterViewInit {
 
 
   constructor(private _formBuilder: FormBuilder, private befAdatokService: BefAdatokService, private messageService: MessageService,
-    private primengConfig: PrimeNGConfig) { }
+    private primengConfig: PrimeNGConfig, private store: Store<AppState>, private ujBefektetesService: UjBefektetesService) { }
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
@@ -86,7 +91,7 @@ export class BefAdatokComponent implements OnInit, AfterViewInit {
       datumCtrl: befAdat.datum,
       agazatCtrl: befAdat.agazat,
       strategiaCtrl: befAdat.strategia,
-      statusCtrl: befAdat.status
+      statusCtrl: befAdat.$status
       // formControlName2: myValue2 (can be omitted)
     });
   }
@@ -138,6 +143,21 @@ export class BefAdatokComponent implements OnInit, AfterViewInit {
     this.getBefAdatok();
 
     this.filledSaveEmitter.emit(this.befAdatok)
+    console.log(this.befAdatok);
+    /*let updatedStat = {
+      reszveny: this.ujBefektetesService.$ujReszveny,
+      status: this.befAdatok.$status
+    }
+    // Bef adatokat kell módosítani a store-ban
+    this.store.dispatch(new UpdateReszvenyStatusAction(updatedStat));
+
+    // Ha valtozik a statud akkor update store
+    let allItems = this.store.select(store => store.reszvenyek);
+    allItems.subscribe(item => {
+      for (let it of item) {
+        console.log("STATUS MOIST: " + it.$befektetesAdatok);
+      }
+    });*/
 
     // Toast
     this.messageService.add({ key: 'tc', severity: 'success', summary: 'Befektetési adatok sikeresen hozzáadva!'});

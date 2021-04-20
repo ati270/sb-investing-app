@@ -34,16 +34,16 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(nettoTargyEv>nettoElozoEv) else kisebbMintElozoEv" style="color: green;">
+              <mat-icon matSuffix *ngIf="($nettoTargyEv>$nettoElozoEv) else kisebbMintElozoEv" style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="nettoTargyEv" formControlName="nettoTargyevCtrl" required
+            <input type="number" class="center" [(ngModel)]="$nettoTargyEv" formControlName="nettoTargyevCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="nettoElozoEv" formControlName="nettoElozoEvCtrl" required
+            <input type="number" class="center" [(ngModel)]="$nettoElozoEv" formControlName="nettoElozoEvCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
@@ -72,17 +72,17 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(eladottAruTargyEv>eladottAruElozoEv) else kisebbMintElozoEv"
+              <mat-icon matSuffix *ngIf="($eladottAruTargyev>$eladottAruElozoEv) else kisebbMintElozoEv"
                 style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="eladottAruTargyEv" formControlName="eladottAruTargyevCtrl"
+            <input type="number" class="center" [(ngModel)]="$eladottAruTargyev" formControlName="eladottAruTargyevCtrl"
               required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="eladottAruElozoEv" formControlName="eladottAruElozoEvCtrl"
+            <input type="number" class="center" [(ngModel)]="$eladottAruElozoEv" formControlName="eladottAruElozoEvCtrl"
               required matInput placeholder="">
           </mat-form-field>
         </td>
@@ -112,16 +112,16 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(admTargyEv>admElozoEv) else kisebbMintElozoEv" style="color: green;">
+              <mat-icon matSuffix *ngIf="($admTargyev>$admElozoEv) else kisebbMintElozoEv" style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="admTargyEv" formControlName="admTargyevCtrl" required
+            <input type="number" class="center" [(ngModel)]="$admTargyev" formControlName="admTargyevCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="admElozoEv" formControlName="admElozoEvCtrl" required
+            <input type="number" class="center" [(ngModel)]="$admElozoEv" formControlName="admElozoEvCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
@@ -150,17 +150,17 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(elszamoltTargyEv>elszamoltElozoEv) else kisebbMintElozoEv"
+              <mat-icon matSuffix *ngIf="($elszamoltTargyev>$elszamoltElozoEv) else kisebbMintElozoEv"
                 style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="elszamoltTargyEv" formControlName="elszamoltTargyevCtrl"
+            <input type="number" class="center" [(ngModel)]="$elszamoltTargyev" formControlName="elszamoltTargyevCtrl"
               required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="elszamoltElozoEv" formControlName="elszamoltElozoEvCtrl"
+            <input type="number" class="center" [(ngModel)]="$elszamoltElozoEv" formControlName="elszamoltElozoEvCtrl"
               required matInput placeholder="">
           </mat-form-field>
         </td>
@@ -189,16 +189,16 @@
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(egyebTargyEv>egyebElozoEv) else kisebbMintElozoEv" style="color: green;">
+              <mat-icon matSuffix *ngIf="($egyebTargyev>$egyebElozoEv) else kisebbMintElozoEv" style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="egyebTargyEv" formControlName="egyebTargyevCtrl" required
+            <input type="number" class="center" [(ngModel)]="$egyebTargyev" formControlName="egyebTargyevCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="egyebElozoEv" formControlName="egyebElozoEvCtrl" required
+            <input type="number" class="center" [(ngModel)]="$egyebElozoEv" formControlName="egyebElozoEvCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
@@ -227,16 +227,16 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(kamatTargyEv>kamatElozoEv) else kisebbMintElozoEv" style="color: green;">
+              <mat-icon matSuffix *ngIf="($kamatTargyev>$kamatElozoEv) else kisebbMintElozoEv" style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="kamatTargyEv" formControlName="kamatTargyevCtrl" required
+            <input type="number" class="center" [(ngModel)]="$kamatTargyev" formControlName="kamatTargyevCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="kamatElozoEv" formControlName="kamatElozoEvCtrl" required
+            <input type="number" class="center" [(ngModel)]="$kamatElozoEv" formControlName="kamatElozoEvCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
@@ -265,17 +265,17 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(fizetettKamatokTargyEv>fizetettKamatokElozoEv) else kisebbMintElozoEv"
+              <mat-icon matSuffix *ngIf="($fizetettKamatokTargyev>$fizetettKamatokElozoEv) else kisebbMintElozoEv"
                 style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="fizetettKamatokTargyEv"
+            <input type="number" class="center" [(ngModel)]="$fizetettKamatokTargyev"
               formControlName="fizetettKamatokTargyevCtrl" required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="fizetettKamatokElozoEv"
+            <input type="number" class="center" [(ngModel)]="$fizetettKamatokElozoEv"
               formControlName="fizetettKamatokElozoEvCtrl" required matInput placeholder="">
           </mat-form-field>
         </td>
@@ -305,17 +305,17 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(tarsasagTargyEv>tarsasagElozoEv) else kisebbMintElozoEv"
+              <mat-icon matSuffix *ngIf="($tarsasagTargyev>$tarsasagElozoEv) else kisebbMintElozoEv"
                 style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="tarsasagTargyEv" formControlName="tarsasagTargyevCtrl"
+            <input type="number" class="center" [(ngModel)]="$tarsasagTargyev" formControlName="tarsasagTargyevCtrl"
               required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="tarsasagElozoEv" formControlName="tarsasagElozoEvCtrl"
+            <input type="number" class="center" [(ngModel)]="$tarsasagElozoEv" formControlName="tarsasagElozoEvCtrl"
               required matInput placeholder="">
           </mat-form-field>
         </td>
@@ -344,17 +344,17 @@
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(osztalekTargyEv>osztalekElozoEv) else kisebbMintElozoEv"
+              <mat-icon matSuffix *ngIf="($osztalekTargyev>$osztalekElozoEv) else kisebbMintElozoEv"
                 style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="osztalekTargyEv" formControlName="osztalekTargyevCtrl"
+            <input type="number" class="center" [(ngModel)]="$osztalekTargyev" formControlName="osztalekTargyevCtrl"
               required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="osztalekElozoEv" formControlName="osztalekElozoEvCtrl"
+            <input type="number" class="center" [(ngModel)]="$osztalekElozoEv" formControlName="osztalekElozoEvCtrl"
               required matInput placeholder="">
           </mat-form-field>
         </td>
@@ -384,17 +384,17 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(keszpenzTargyEv>keszpenzElozoEv) else kisebbMintElozoEv"
+              <mat-icon matSuffix *ngIf="($keszpenzTargyev>$keszpenzElozoEv) else kisebbMintElozoEv"
                 style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="keszpenzTargyEv" formControlName="keszpenzTargyevCtrl"
+            <input type="number" class="center" [(ngModel)]="$keszpenzTargyev" formControlName="keszpenzTargyevCtrl"
               required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="keszpenzElozoEv" formControlName="keszpenzElozoEvCtrl"
+            <input type="number" class="center" [(ngModel)]="$keszpenzElozoEv" formControlName="keszpenzElozoEvCtrl"
               required matInput placeholder="">
           </mat-form-field>
         </td>
@@ -424,17 +424,17 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(kovetelesVevoTargyEv>kovetelesVevoElozoEv) else kisebbMintElozoEv"
+              <mat-icon matSuffix *ngIf="($kovetelesVevoTargyev>$kovetelesVevoElozoEv) else kisebbMintElozoEv"
                 style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="kovetelesVevoTargyEv"
+            <input type="number" class="center" [(ngModel)]="$kovetelesVevoTargyev"
               formControlName="kovetelesVevoTargyevCtrl" required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="kovetelesVevoElozoEv"
+            <input type="number" class="center" [(ngModel)]="$kovetelesVevoElozoEv"
               formControlName="kovetelesVevoElozoEvCtrl" required matInput placeholder="">
           </mat-form-field>
         </td>
@@ -462,16 +462,16 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(keszletTargyEv>keszletElozoEv) else kisebbMintElozoEv" style="color: green;">
+              <mat-icon matSuffix *ngIf="($keszletTargyev>$keszletElozoEv) else kisebbMintElozoEv" style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="keszletTargyEv" formControlName="keszletTargyevCtrl"
+            <input type="number" class="center" [(ngModel)]="$keszletTargyev" formControlName="keszletTargyevCtrl"
               required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="keszletElozoEv" formControlName="keszletElozoEvCtrl"
+            <input type="number" class="center" [(ngModel)]="$keszletElozoEv" formControlName="keszletElozoEvCtrl"
               required matInput placeholder="">
           </mat-form-field>
         </td>
@@ -499,16 +499,16 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(forgoTargyEv>forgoElozoEv) else kisebbMintElozoEv" style="color: green;">
+              <mat-icon matSuffix *ngIf="($forgoTargyev>$forgoElozoEv) else kisebbMintElozoEv" style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="forgoTargyEv" formControlName="forgoTargyevCtrl" required
+            <input type="number" class="center" [(ngModel)]="$forgoTargyev" formControlName="forgoTargyevCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="forgoElozoEv" formControlName="forgoElozoEvCtrl" required
+            <input type="number" class="center" [(ngModel)]="$forgoElozoEv" formControlName="forgoElozoEvCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
@@ -535,17 +535,17 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(jovairasTargyEv>jovairasElozoEv) else kisebbMintElozoEv"
+              <mat-icon matSuffix *ngIf="($jovairasTargyev>$jovairasElozoEv) else kisebbMintElozoEv"
                 style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="jovairasTargyEv" formControlName="jovairasTargyevCtrl"
+            <input type="number" class="center" [(ngModel)]="$jovairasTargyev" formControlName="jovairasTargyevCtrl"
               required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="jovairasElozoEv" formControlName="jovairasElozoEvCtrl"
+            <input type="number" class="center" [(ngModel)]="$jovairasElozoEv" formControlName="jovairasElozoEvCtrl"
               required matInput placeholder="">
           </mat-form-field>
         </td>
@@ -573,16 +573,16 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(immTargyEv>immElozoEv) else kisebbMintElozoEv" style="color: green;">
+              <mat-icon matSuffix *ngIf="($immTargyev>$immElozoEv) else kisebbMintElozoEv" style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="immTargyEv" formControlName="immTargyevCtrl" required
+            <input type="number" class="center" [(ngModel)]="$immTargyev" formControlName="immTargyevCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="immElozoEv" formControlName="immElozoEvCtrl" required
+            <input type="number" class="center" [(ngModel)]="$immElozoEv" formControlName="immElozoEvCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
@@ -610,16 +610,16 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(eszkozTargyEv>eszkozElozoEv) else kisebbMintElozoEv" style="color: green;">
+              <mat-icon matSuffix *ngIf="($eszkozTargyev>$eszkozElozoEv) else kisebbMintElozoEv" style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="eszkozTargyEv" formControlName="eszkozTargyevCtrl" required
+            <input type="number" class="center" [(ngModel)]="$eszkozTargyev" formControlName="eszkozTargyevCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="eszkozElozoEv" formControlName="eszkozElozoEvCtrl" required
+            <input type="number" class="center" [(ngModel)]="$eszkozElozoEv" formControlName="eszkozElozoEvCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
@@ -647,17 +647,17 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(kotSzallitoTargyEv>kotSzallitoElozoEv) else kisebbMintElozoEv"
+              <mat-icon matSuffix *ngIf="($kotSzallitoTargyev>$kotSzallitoElozoEv) else kisebbMintElozoEv"
                 style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="kotSzallitoTargyEv"
+            <input type="number" class="center" [(ngModel)]="$kotSzallitoTargyev"
               formControlName="kotSzallitoTargyevCtrl" required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="kotSzallitoElozoEv"
+            <input type="number" class="center" [(ngModel)]="$kotSzallitoElozoEv"
               formControlName="kotSzallitoElozoEvCtrl" required matInput placeholder="">
           </mat-form-field>
         </td>
@@ -685,36 +685,36 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(rovidLejaratuKotTargyEv>rovidLejaratuKotElozoEv) else kisebbMintElozoEv"
+              <mat-icon matSuffix *ngIf="($rovidLejaratuKotTargyev>$rovidLejaratuKotElozoEv) else kisebbMintElozoEv"
                 style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="rovidLejaratuKotTargyEv"
+            <input type="number" class="center" [(ngModel)]="$rovidLejaratuKotTargyev"
               formControlName="rovidLejaratuKotTargyevCtrl" required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="rovidLejaratuKotElozoEv"
+            <input type="number" class="center" [(ngModel)]="$rovidLejaratuKotElozoEv"
               formControlName="rovidLejaratuKotElozoEvCtrl" required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
             <input type="number" class="center" formControlName="rovidLejaratuKotKonkurenciaCtrl"
-              [(ngModel)]="rovidLejaratuKotKonkurencia" required matInput placeholder="">
+              [(ngModel)]="$rovidLejaratuKotKonkurencia" required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
             <input type="number" class="center" formControlName="rovidLejaratuKotQ2Ctrl" matInput
-              [(ngModel)]="rovidLejaratuKotQ2">
+              [(ngModel)]="$rovidLejaratuKotQ2">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
             <input matInput type="number" class="center" formControlName="rovidLejaratuKotQ3Ctrl"
-              [(ngModel)]="rovidLejaratuKotQ3">
+              [(ngModel)]="$rovidLejaratuKotQ3">
           </mat-form-field>
         </td>
       </tr>
@@ -725,33 +725,33 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(osszKotTargyEv>osszKotElozoEv) else kisebbMintElozoEv" style="color: green;">
+              <mat-icon matSuffix *ngIf="($osszKotTargyev>$osszKotElozoEv) else kisebbMintElozoEv" style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="osszKotTargyEv" formControlName="osszKotTargyevCtrl"
+            <input type="number" class="center" [(ngModel)]="$osszKotTargyev" formControlName="osszKotTargyevCtrl"
               required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="osszKotElozoEv" formControlName="osszKotElozoEvCtrl"
+            <input type="number" class="center" [(ngModel)]="$osszKotElozoEv" formControlName="osszKotElozoEvCtrl"
               required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
             <input type="number" class="center" formControlName="osszKotKonkurenciaCtrl"
-              [(ngModel)]="osszKotKonkurencia" required matInput placeholder="">
+              [(ngModel)]="$osszKotKonkurencia" required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" formControlName="osszKotQ2Ctrl" matInput [(ngModel)]="osszKotQ2">
+            <input type="number" class="center" formControlName="osszKotQ2Ctrl" matInput [(ngModel)]="$osszKotQ2">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" formControlName="osszKotQ3Ctrl" matInput [(ngModel)]="osszKotQ3">
+            <input type="number" class="center" formControlName="osszKotQ3Ctrl" matInput [(ngModel)]="$osszKotQ3">
           </mat-form-field>
         </td>
       </tr>
@@ -759,19 +759,19 @@
        <tr>
         <td class="center" style="font-size: smaller;">Hosszú lej. kötelezettségek</td>
         <td class="center" style="color: darkgreen;font-weight: bold;">
-          {{(osszKotTargyEv - rovidLejaratuKotTargyEv)}}
+          {{($osszKotTargyev - $rovidLejaratuKotTargyev)}}
         </td>
         <td class="center" style="color: darkgreen;font-weight: bold;">
-          {{(osszKotElozoEv - rovidLejaratuKotElozoEv)}}
+          {{($osszKotElozoEv - $rovidLejaratuKotElozoEv)}}
         </td>
         <td class="center" style="color: darkgreen;font-weight: bold;">
-          {{(osszKotKonkurencia - rovidLejaratuKotKonkurencia)}}
+          {{($osszKotKonkurencia - $rovidLejaratuKotKonkurencia)}}
         </td>
         <td class="center" style="color: darkgreen;font-weight: bold;">
-          {{(osszKotQ2 - rovidLejaratuKotQ2)}}
+          {{($osszKotQ2 - $rovidLejaratuKotQ2)}}
         </td>
         <td class="center" style="color: darkgreen;font-weight: bold;">
-          {{(osszKotQ3 - rovidLejaratuKotQ3)}}
+          {{($osszKotQ3 - $rovidLejaratuKotQ3)}}
         </td>
       </tr>
       <!-- Részvények darabszáma-->
@@ -782,17 +782,17 @@
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(reszvenyTargyEv>reszvenyElozoEv) else kisebbMintElozoEv"
+              <mat-icon matSuffix *ngIf="($reszvenyTargyev>$reszvenyElozoEv) else kisebbMintElozoEv"
                 style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="reszvenyTargyEv" formControlName="reszvenyTargyevCtrl"
+            <input type="number" class="center" [(ngModel)]="$reszvenyTargyev" formControlName="reszvenyTargyevCtrl"
               required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="reszvenyElozoEv" formControlName="reszvenyElozoEvCtrl"
+            <input type="number" class="center" [(ngModel)]="$reszvenyElozoEv" formControlName="reszvenyElozoEvCtrl"
               required matInput placeholder="">
           </mat-form-field>
         </td>
@@ -820,16 +820,16 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(tokeTargyEv>tokeElozoEv) else kisebbMintElozoEv" style="color: green;">
+              <mat-icon matSuffix *ngIf="($tokeTargyev>$tokeElozoEv) else kisebbMintElozoEv" style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="tokeTargyEv" formControlName="tokeTargyevCtrl" required
+            <input type="number" class="center" [(ngModel)]="$tokeTargyev" formControlName="tokeTargyevCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="tokeElozoEv" formControlName="tokeElozoEvCtrl" required
+            <input type="number" class="center" [(ngModel)]="$tokeElozoEv" formControlName="tokeElozoEvCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
@@ -857,17 +857,17 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(alkalmazottakSzamaTargyEv>alkalmazottakSzamaElozoEv) else kisebbMintElozoEv"
+              <mat-icon matSuffix *ngIf="($alkalmazottakSzamaTargyev>$alkalmazottakSzamaElozoEv) else kisebbMintElozoEv"
                 style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="alkalmazottakSzamaTargyEv"
+            <input type="number" class="center" [(ngModel)]="$alkalmazottakSzamaTargyev"
               formControlName="alkalmazottakSzamaTargyevCtrl" required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="alkalmazottakSzamaElozoEv"
+            <input type="number" class="center" [(ngModel)]="$alkalmazottakSzamaElozoEv"
               formControlName="alkalmazottakSzamaElozoEvCtrl" required matInput placeholder="">
           </mat-form-field>
         </td>
@@ -895,17 +895,17 @@
 
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(reszvenyArfolyamTargyEv>reszvenyArfolyamElozoEv) else kisebbMintElozoEv"
+              <mat-icon matSuffix *ngIf="($reszvenyArfolyamTargyev>$reszvenyArfolyamElozoEv) else kisebbMintElozoEv"
                 style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="reszvenyArfolyamTargyEv"
+            <input type="number" class="center" [(ngModel)]="$reszvenyArfolyamTargyev"
               formControlName="reszvenyArfolyamTargyevCtrl" required matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="reszvenyArfolyamElozoEv"
+            <input type="number" class="center" [(ngModel)]="$reszvenyArfolyamElozoEv"
               formControlName="reszvenyArfolyamElozoEvCtrl" required matInput placeholder="">
           </mat-form-field>
         </td>
@@ -932,16 +932,16 @@
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(naptarTargyEv>naptarElozoEv) else kisebbMintElozoEv" style="color: green;">
+              <mat-icon matSuffix *ngIf="($naptarTargyev>$naptarElozoEv) else kisebbMintElozoEv" style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="naptarTargyEv" formControlName="naptarTargyevCtrl" required
+            <input type="number" class="center" [(ngModel)]="$naptarTargyev" formControlName="naptarTargyevCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="naptarElozoEv" formControlName="naptarElozoEvCtrl" required
+            <input type="number" class="center" [(ngModel)]="$naptarElozoEv" formControlName="naptarElozoEvCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
@@ -968,16 +968,16 @@
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
             <div matSuffix mat-icon-button>
-              <mat-icon matSuffix *ngIf="(hozamTargyEv>hozamElozoEv) else kisebbMintElozoEv" style="color: green;">
+              <mat-icon matSuffix *ngIf="($hozamTargyev>$hozamElozoEv) else kisebbMintElozoEv" style="color: green;">
                 arrow_upward</mat-icon>
             </div>
-            <input type="number" class="center" [(ngModel)]="hozamTargyEv" formControlName="hozamTargyevCtrl" required
+            <input type="number" class="center" [(ngModel)]="$hozamTargyev" formControlName="hozamTargyevCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>
         <td class="mat-cell">
           <mat-form-field style="width: 8rem;">
-            <input type="number" class="center" [(ngModel)]="hozamElozoEv" formControlName="hozamElozoEvCtrl" required
+            <input type="number" class="center" [(ngModel)]="$hozamElozoEv" formControlName="hozamElozoEvCtrl" required
               matInput placeholder="">
           </mat-form-field>
         </td>

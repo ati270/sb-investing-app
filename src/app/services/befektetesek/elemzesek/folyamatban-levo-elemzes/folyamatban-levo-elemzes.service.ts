@@ -21,10 +21,10 @@ export class FolyamatbanLevoElemzesService {
     this.$countOfFolyamatban = 0;
     allItems.subscribe(item => {
       for (let it of item) {
-        if(it.$befektetesAdatok.status === ElemzesTipusok.FOLYAMATBAN_LEVO_ELEMZESEK){
+        if(it.$befektetesAdatok.$status === ElemzesTipusok.FOLYAMATBAN_LEVO_ELEMZESEK){
           this.ujReszvenyek.push(it);
         }
-        console.log(it.$befektetesAdatok.status);
+        console.log(it.$befektetesAdatok.$status);
       }
     });
 

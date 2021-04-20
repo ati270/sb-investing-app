@@ -12,12 +12,17 @@ export class CelarMeghatarozasService {
   private diszkontRata: number;
   private celar: number;
   private kotesiArfolyamok: number[] = [];
+  private updatedAdatok: CelarMeghatarozas;
 
   constructor() { }
 
 
     createCelar(konkurenciaMutato: number, konyvSzerintiErtek: number, elvartHozam: number){
       this.celarMeghatarozasModel = new CelarMeghatarozas(konkurenciaMutato, konyvSzerintiErtek, elvartHozam);
+    }
+
+    loadCelarMeghat(celar: CelarMeghatarozas){
+      this.updatedAdatok = celar;
     }
 
     /**
@@ -34,7 +39,24 @@ export class CelarMeghatarozasService {
     this.kotesiArfolyamok.push(kotes_item);
   }
 
-  
+
+
+    /**
+     * Setter $updatedAdatok
+     * @param {CelarMeghatarozas} value
+     */
+	public set $updatedAdatok(value: CelarMeghatarozas) {
+		this.updatedAdatok = value;
+	}
+
+    /**
+     * Getter $updatedAdatok
+     * @return {CelarMeghatarozas}
+     */
+	public get $updatedAdatok(): CelarMeghatarozas {
+		return this.updatedAdatok;
+	}
+
 
     /**
      * Getter $celar

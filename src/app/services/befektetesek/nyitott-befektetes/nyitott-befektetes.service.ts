@@ -25,10 +25,10 @@ export class NyitottBefektetesService {
     this.countNyitott = 0;
     allItems.subscribe(item => {
       for (let it of item) {
-        if(it.$befektetesAdatok.status === ElemzesTipusok.NYITOTT_BEFEKTETESEK){
+        if(it.$befektetesAdatok.$status === ElemzesTipusok.NYITOTT_BEFEKTETESEK){
           this.ujReszvenyek.push(it);
         }
-        console.log(it.$befektetesAdatok.status);
+        console.log(it.$befektetesAdatok.$status);
       }
     });
 

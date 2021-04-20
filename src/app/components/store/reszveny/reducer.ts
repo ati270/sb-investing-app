@@ -10,7 +10,9 @@ export function ReszvenyReducer(state: Array<UjReszveny> = initialState, action:
     case ReszvenyActionTypes.ADD_RESZVENY:
       return [...state, action.payload];
     case ReszvenyActionTypes.UPDATE_RESZVENY:
-      return handleUpdateReszveny(state, action.payload)
+      return handleUpdateReszveny(state, action.payload);
+    case ReszvenyActionTypes.UPDATE_RESZVENY_STATUS:
+      return handleUpdateReszvenyStatus(state, action.payload);
     default:
       return state;
   };
@@ -35,6 +37,23 @@ function handleUpdateReszveny(state: Array<UjReszveny>, payload: UjReszveny): Ar
   let copyState = [...state];
 
   copyState[elementsIndex] = payload;
+
+  // pass to original state array
+
+  state = copyState;
+
+  return state;
+}
+
+function handleUpdateReszvenyStatus(state: Array<UjReszveny>, payload: any): Array<UjReszveny> {
+
+  // index of searched element
+  const elementsIndex = state.findIndex(element => element.$id == payload.reszveny.$id);
+
+  // Hozzunk létre egy másdolatot
+  let copyState = [...state];
+  payload.reszveny.$befektetesAdatok.$status = payload.status;
+  copyState[elementsIndex] = payload.reszveny;
 
   // pass to original state array
 

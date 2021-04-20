@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 export class VallalatPenzElemzesService {
 
   vallalatPenzugyiElemzes: VallalatPenzugyiElemzes;
+  private updatedAdatok: VallalatPenzugyiElemzes;
 
   constructor() { }
 
@@ -28,4 +29,26 @@ export class VallalatPenzElemzesService {
   getVallPenzugyiElemzes(): Observable<VallalatPenzugyiElemzes> {
       return of(this.vallalatPenzugyiElemzes);
   }
+
+  loadVallalatPenzElemzes(vallPenzelemzes: VallalatPenzugyiElemzes){
+    this.updatedAdatok = vallPenzelemzes;
+  }
+
+
+    /**
+     * Getter $updatedAdatok
+     * @return {VallalatPenzugyiElemzes}
+     */
+	public get $updatedAdatok(): VallalatPenzugyiElemzes {
+		return this.updatedAdatok;
+	}
+
+    /**
+     * Setter $updatedAdatok
+     * @param {VallalatPenzugyiElemzes} value
+     */
+	public set $updatedAdatok(value: VallalatPenzugyiElemzes) {
+		this.updatedAdatok = value;
+	}
+
 }

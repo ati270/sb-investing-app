@@ -48,6 +48,7 @@
   <br>
   <!--Kiadások táblázat-->
   <form [formGroup]="penzugyKiadasFormGroup">
+    <div class="table-responsive">
     <table class="table table-bordered z-depth-2 tableKiadas" formArrayName="tableKiadasRows">
       <thead>
         <tr class="mat-header-row"  [ngClass]="{'disabled': isDisable}">
@@ -155,6 +156,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
     <br>
   </form>
 

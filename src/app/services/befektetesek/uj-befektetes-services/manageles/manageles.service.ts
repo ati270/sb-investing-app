@@ -12,7 +12,7 @@ export class ManagelesService {
 
   manageles: Manageles;
   private kotesek: number[] = [];
-
+  private updatedAdatok: Manageles;
 
   constructor(private store: Store<AppKotesState>) { }
 
@@ -34,6 +34,10 @@ export class ManagelesService {
       return of(this.manageles);
   }
 
+  loadManageles(manageles: Manageles){
+    this.updatedAdatok = manageles;
+  }
+
 
  getStoreValues() {
   this.kotesek = [];
@@ -46,6 +50,23 @@ export class ManagelesService {
     console.log(this.kotesek);
   }
 
+
+
+    /**
+     * Setter $updatedAdatok
+     * @param {Manageles} value
+     */
+	public set $updatedAdatok(value: Manageles) {
+		this.updatedAdatok = value;
+	}
+
+    /**
+     * Getter $updatedAdatok
+     * @return {Manageles}
+     */
+	public get $updatedAdatok(): Manageles {
+		return this.updatedAdatok;
+	}
 
 
     /**

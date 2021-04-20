@@ -1,3 +1,4 @@
+import { ElemzesService } from './../../elemzesek/elemzes.service';
 import { Injectable } from '@angular/core';
 import { MentalisElemzes } from 'src/app/models/uj-befektetes-models/mentalis-elemzes/mentalis-elemzes.model';
 import { Observable, of } from 'rxjs';
@@ -12,7 +13,7 @@ export class MentalisElemzesService {
   private updatedMentalisElemzes: MentalisElemzes;
 
 
-  constructor() { }
+  constructor(private elemzesService: ElemzesService) { }
 
   createMentalisElemzes(fokozott: string, fokozottElv: boolean[], kavargo: string, kavargoElv: boolean[], indokolatlan: string, indokolatlanElv: boolean[], kellemetlen: string, kellemetlenElv: boolean[], ellensegesseg: string, ellensegessegElv: boolean[], onbizalom: string, onbizalomElv: boolean[], felelem: string, felelemElv: boolean[], kimerultseg: string , kimerultsegElv: boolean[], introvertalt: string, introvertaltElv: boolean[], szomorusag: string, szomorusagElv: boolean[]){
     this.mentalisElemzes = new MentalisElemzes(
@@ -31,9 +32,7 @@ export class MentalisElemzesService {
   }
 
   loadMentalisElemzes(mentalisElemzes: MentalisElemzes){
-
     this.updatedMentalisElemzes = mentalisElemzes;
-
   }
 
 

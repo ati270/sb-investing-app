@@ -1,3 +1,4 @@
+// Span
 .bevetel {
     border: 1px solid darkgreen;
     color: darkgreen;
@@ -9,6 +10,7 @@
     margin-right: 3rem;
 }
 
+// SPan
 .kiadas {
     border: 1px solid #cc0000;
     color: #cc0000;
@@ -20,10 +22,14 @@
     margin-right: 3rem;
 }
 
-.mat-header-cell {
+.btn-outline-primary{
+  color: #3F729B;
+}
+
+/*.mat-header-cell {
     text-align: center;
     vertical-align: middle;
-}
+}*/
 
 /*.mat-form-field {
     width: 100%;
@@ -32,28 +38,27 @@
     text-align: center;
 }*/
 
-.tableBevetel {
+/*.tableBevetel {
     margin-top: 2rem;
     margin-left: 2rem;
     margin-right: 2rem;
     padding: 0;
     width: 95%;
-}
+}*/
 
-.tableKiadas{
+/*.tableKiadas{
     padding: 0;
     width: 95%;
     margin-top:2rem;
     margin-left: 2rem;
     margin-right: 1rem;
+}*/
 
-}
-
-.mat-form-field{
+/*.mat-form-field{
   width: 5rem;
   padding: 0;
   text-align: center;
-}
+}*/
 
 
 .osszegzes{
@@ -74,4 +79,61 @@
 
 }
 
+/*
+@media screen and (max-width: 960px) {
+  .table {
+    border: 0;
+    margin-top: 1rem;
+    vertical-align: middle
+  }
+
+  .table caption {
+    font-size: 1em;
+  }
+
+  /*  Enable this to hide header
+  .mat-table .mat-header-cell {
+
+    border: 10px solid;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    padding:
+    position: absolute;
+    width: 1px;
+  }
+
+  .table .mat-row {
+    border-bottom: 5px solid #ddd;
+    display: block;
+  }
+  /*
+  .mat-table .mat-row:nth-child(even) {background: #CCC}
+  .mat-table .mat-row:nth-child(odd) {background: #FFF}
+
+  .table .mat-cell {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: 1em;
+    text-align: right;
+    font-weight: bold;
+    height:30px;
+    margin-bottom: 4%;
+  }
+  .mat-table .mat-cell:before {
+
+    content: attr(data-label);
+    float: left;
+    text-transform: uppercase;
+    font-weight: normal;
+
+    font-size: .85em;
+  }
+  .mat-table .mat-cell:last-child {
+    border-bottom: 0;
+  }
+    .mat-table .mat-cell:first-child {
+    margin-top: 4%;
+  }
+}*/
 

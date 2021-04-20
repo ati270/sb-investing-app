@@ -1,3 +1,4 @@
+import { ElemzesService } from './../../elemzesek/elemzes.service';
 import { BefektetesAdatok } from './../../../../models/uj-befektetes-models/befektetes-adatok/bef-adatok.model';
 import { FormGroup } from '@angular/forms';
 import { Injectable } from '@angular/core';
@@ -12,7 +13,7 @@ export class BefAdatokService {
   befAdatok: BefektetesAdatok;
   private updatedAdatok: BefektetesAdatok;
 
-  constructor() { }
+  constructor(private elemzesService: ElemzesService) { }
 
   addBefAdat(vallalatNeve: string,reszvenyTicker: string,datum: string,agazat: string,strategia: string,status: string){
       this.befAdatok = new BefektetesAdatok(vallalatNeve, reszvenyTicker, datum, agazat, strategia, status);
@@ -20,11 +21,8 @@ export class BefAdatokService {
 
 
   loadBefAdatok(befAdatok: BefektetesAdatok){
-
     this.updatedAdatok = befAdatok;
-
   }
-
 
 
   getBefektetesAdatok(): Observable<BefektetesAdatok>{

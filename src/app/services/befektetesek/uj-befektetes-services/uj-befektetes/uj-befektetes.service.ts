@@ -17,8 +17,9 @@ export class UjBefektetesService {
 
   private ujReszveny: UjReszveny; // 1 db részvény aminek van egy elem listája
   private countFolyamatban: number = 0;
+  private visszatoltottReszveny: UjReszveny;
+  private count: number = 0;
   private isSavedActualElemzes: boolean;
-
   constructor() {
     this.$ujReszveny = new UjReszveny();
   }
@@ -72,6 +73,12 @@ export class UjBefektetesService {
     }
   }
 
+  loadReszveny(ujReszveny: UjReszveny){
+      this.visszatoltottReszveny = ujReszveny;
+      this.count = this.visszatoltottReszveny.$haladas;
+      this.$isSavedActualElemzes = true;
+  }
+
     /**
      * Setter $ujReszveny
      * @param {UjReszveny} value
@@ -121,6 +128,23 @@ export class UjBefektetesService {
      */
 	public set $isSavedActualElemzes(value: boolean) {
 		this.isSavedActualElemzes = value;
+	}
+
+
+    /**
+     * Getter $count
+     * @return {number }
+     */
+	public get $count(): number  {
+		return this.count;
+	}
+
+    /**
+     * Setter $count
+     * @param {number } value
+     */
+	public set $count(value: number ) {
+		this.count = value;
 	}
 
 

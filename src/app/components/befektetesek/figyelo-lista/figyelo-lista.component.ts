@@ -1,3 +1,4 @@
+import { ElemzesService } from './../../../services/befektetesek/elemzesek/elemzes.service';
 import { MentalisElemzesService } from 'src/app/services/befektetesek/uj-befektetes-services/mentalis-elemzes/mentalis-elemzes.service';
 import { FigyeloListaService } from './../../../services/befektetesek/elemzesek/figyelo-lista/figyelo-lista.service';
 import { Component, OnInit } from '@angular/core';
@@ -14,7 +15,7 @@ import { BefAdatokService } from 'src/app/services/befektetesek/uj-befektetes-se
 export class FigyeloListaComponent implements OnInit {
 
   constructor(private figyeloListaService: FigyeloListaService, private router: Router, private befAdatService: BefAdatokService,
-    private mentalisElemzesService: MentalisElemzesService) { }
+    private mentalisElemzesService: MentalisElemzesService, private elemzesService: ElemzesService) { }
 
   ngOnInit(): void {
     // Lekéri az adatokat és elmenti az ujReszvenyek valtozoba
@@ -35,7 +36,7 @@ export class FigyeloListaComponent implements OnInit {
   redirectToMainPanel(reszveny: UjReszveny){
     this.router.navigateByUrl('/befektetes');
 
-    let reszvenyek: UjReszveny[] = new Array(reszveny);
+    this.elemzesService.sendSubjectUjReszveny(reszveny);
     this.befAdatService.loadBefAdatok(reszveny.$befektetesAdatok);
     this.mentalisElemzesService.loadMentalisElemzes(reszveny.$mentalisElemzes);
   }

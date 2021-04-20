@@ -20,10 +20,10 @@ export class ElvetettBefektetesService {
     this.countElvetett = 0;
     allItems.subscribe(item => {
       for (let it of item) {
-        if(it.$befektetesAdatok.status === ElemzesTipusok.ELVETETT_BEFEKTETESEK){
+        if(it.$befektetesAdatok.$status === ElemzesTipusok.ELVETETT_BEFEKTETESEK){
           this.ujReszvenyek.push(it);
         }
-        console.log(it.$befektetesAdatok.status);
+        console.log(it.$befektetesAdatok.$status);
       }
     });
 

@@ -122,6 +122,7 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
   osszFogyCikkekMap: Map<string, number>;
   osszRuhazkodasMap: Map<string, number>;
   osszEgyebMap: Map<string, number>;
+  totalOsszMegtakaritas: number = 0;
 
   selectedHonap: string;
   isNoClosedMonth: boolean;
@@ -1011,11 +1012,21 @@ export class PenzugyekComponent implements OnInit, AfterViewInit {
     datas.push(osszeg);
   }
 
+  createOsszMegtakaritasMap(date: string, osszeg: number, map: Map<string, number>, labels: any[], datas: any[]) {
+    const bevDate = this.datepipe.transform(date, 'yyyy-MM');
+    map.set(bevDate, osszeg);
+
+    console.log("bevdate: " + bevDate);
+    labels.push(bevDate);
+    this.totalOsszMegtakaritas+= osszeg;
+    datas.push(this.totalOsszMegtakaritas);
+  }
+
   // get values from bevetel-kiadas
 
   // OK
   getOsszMegtakaritas(date: string, osszeg: number) {
-    this.createMap(date, osszeg, this.osszMegtakaritasMap, this.chartOsszMegtLabels, this.chartOsszMegtData);
+    this.createOsszMegtakaritasMap(date, osszeg, this.osszMegtakaritasMap, this.chartOsszMegtLabels, this.chartOsszMegtData);
 
     this.chartMain.update();
     this.chartMiniOsszMegtakaritas.update();

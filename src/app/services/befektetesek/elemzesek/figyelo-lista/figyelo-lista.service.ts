@@ -20,10 +20,10 @@ export class FigyeloListaService {
     this.countFigyelo = 0;
     allItems.subscribe(item => {
       for (let it of item) {
-        if(it.$befektetesAdatok.status === ElemzesTipusok.FIGYELO_LISTA){
+        if(it.$befektetesAdatok.$status === ElemzesTipusok.FIGYELO_LISTA){
           this.ujReszvenyek.push(it);
         }
-        console.log(it.$befektetesAdatok.status);
+        console.log(it.$befektetesAdatok.$status);
       }
     });
 

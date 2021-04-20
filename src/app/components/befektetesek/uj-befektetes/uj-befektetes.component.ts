@@ -1,3 +1,4 @@
+import { ElemzesService } from './../../../services/befektetesek/elemzesek/elemzes.service';
 import { VallalatVizsgKriteriumokComponent } from './uj-befektetes-elemek/vallalat-vizsg-kriteriumok/vallalat-vizsg-kriteriumok.component';
 import { AddReszvenyAction, UpdateReszvenyAction } from './../../store/reszveny/actions';
 import { Component, OnInit, ViewChild, Output, ElementRef } from '@angular/core';
@@ -59,11 +60,13 @@ export class UjBefektetesComponent implements OnInit {
 
   private haladasValue: number = 0;
   private tabValue = 12.5;
-  constructor(private ujBefektetesService: UjBefektetesService, private store: Store<AppState>, private messageService: MessageService) { }
+  constructor(private ujBefektetesService: UjBefektetesService, private store: Store<AppState>, private messageService: MessageService,
+    private elemzesService: ElemzesService) { }
 
   ngOnInit(): void {
-
     this.isSavedActualElemzes = false;
+    //this.count = this.ujBefektetesService.$count;
+    //this.isSavedActualElemzes = this.ujBefektetesService.$isSavedActualElemzes;
   }
 
 
@@ -93,7 +96,10 @@ export class UjBefektetesComponent implements OnInit {
     this.messageService.clear('c');
   }
 
+
   saveReszveny() {
+    // Menteni kell az állapotot is, labelek
+    this.ujBefektetesService.$ujReszveny.$haladas = this.count;
     // Mentjük az új részvényt.: ami már fel van töltve az adatokkal
     this.store.dispatch(
       new AddReszvenyAction(this.ujBefektetesService.$ujReszveny)
@@ -110,23 +116,26 @@ export class UjBefektetesComponent implements OnInit {
   }
 
   saveBefAdatok(befAdatok: BefektetesAdatok) {
+      console.log("SAVE ADATOK-----");
+      console.log(this.ujBefektetesService.$ujReszveny.$befektetesAdatok);
 
     // Adjuk hozzá a listához az itemet TEhát ha még nincs hozzáadva a befektetési adat, adjuk hozzá
     if (this.ujBefektetesService.$ujReszveny.$befektetesAdatok === undefined) {
       this.befektetesAdatok = befAdatok;
       this.addOneItem(this.befektetesAdatok);
-      console.log(this.ujBefektetesService.$ujReszveny.$befektetesAdatok);
+      console.log("*********" + this.ujBefektetesService.$ujReszveny.$befektetesAdatok);
       this.countOfFilled++;
       this.count = (this.countOfFilled/8)*100;
+      this.store.dispatch(new UpdateReszvenyAction(this.ujBefektetesService.$ujReszveny));
     }
 
     // Egyébként frissitsd a bef. adatot
     else {
-      console.log(this.$ujReszveny.$befektetesAdatok);
       this.befektetesAdatok = befAdatok;
       this.addOneItem(this.befektetesAdatok);
 
       this.store.dispatch(new UpdateReszvenyAction(this.ujBefektetesService.$ujReszveny));
+      console.log("INNNE");
 
       // frissiteni kellene a menuben a számlálot
     }

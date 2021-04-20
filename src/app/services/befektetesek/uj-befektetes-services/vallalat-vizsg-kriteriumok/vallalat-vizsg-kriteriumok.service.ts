@@ -9,11 +9,9 @@ import { VallalatKockazatElemzes } from 'src/app/models/uj-befektetes-models/val
 export class VallalatVizsgKriteriumokService {
 
   vallalatKockazatelemzes: VallalatKockazatElemzes;
+  private updatedAdatok: VallalatKockazatElemzes;
 
-
-  constructor(
-
-  ) { }
+  constructor() { }
 
   createVallalatKockazatElemzes(
     reszvenyEredmeny: string,
@@ -107,4 +105,26 @@ export class VallalatVizsgKriteriumokService {
   getVallalatiKockazatElemzes(): Observable<VallalatKockazatElemzes>{
       return of(this.vallalatKockazatelemzes);
   }
+
+  loadVallKrit(vallKrit: VallalatKockazatElemzes){
+    this.updatedAdatok = vallKrit;
+  }
+
+
+    /**
+     * Setter $updatedAdatok
+     * @param {VallalatKockazatElemzes} value
+     */
+	public set $updatedAdatok(value: VallalatKockazatElemzes) {
+		this.updatedAdatok = value;
+	}
+
+    /**
+     * Getter $updatedAdatok
+     * @return {VallalatKockazatElemzes}
+     */
+	public get $updatedAdatok(): VallalatKockazatElemzes {
+		return this.updatedAdatok;
+	}
+
 }

@@ -76,6 +76,16 @@ export class BefektetesComponent implements OnInit {
     window.open(url, "_blank");
   }
 
+  routeToBlog(){
+    let url = "https://blog.sb-investing.com";
+    window.open(url, "_blank");
+  }
+
+  routeToFacebook(){
+    let url = "https://www.facebook.com/torokpeter8";
+    window.open(url, "_blank");
+  }
+
 }
 
   /*saveDataTo() {

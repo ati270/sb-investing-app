@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 export class NettoJelenertekService {
 
   nettoJelenErtek: NettoJelenErtek;
+  private updatedAdatok: NettoJelenErtek;
 
   constructor() { }
 
@@ -18,4 +19,26 @@ export class NettoJelenertekService {
   getNettoJelenErtek(): Observable<NettoJelenErtek> {
       return of(this.nettoJelenErtek);
   }
+
+  loadNettoJelenertek(nettoJelenertek: NettoJelenErtek){
+    this.updatedAdatok = nettoJelenertek;
+  }
+
+
+    /**
+     * Getter $updatedAdatok
+     * @return {NettoJelenErtek}
+     */
+	public get $updatedAdatok(): NettoJelenErtek {
+		return this.updatedAdatok;
+	}
+
+    /**
+     * Setter $updatedAdatok
+     * @param {NettoJelenErtek} value
+     */
+	public set $updatedAdatok(value: NettoJelenErtek) {
+		this.updatedAdatok = value;
+	}
+
 }

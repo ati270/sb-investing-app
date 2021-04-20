@@ -17,6 +17,7 @@ export class UjReszveny {
   private celarMeghatarozas: CelarMeghatarozas;
   private nettoJelenertek: NettoJelenErtek;
   private manageles: Manageles;
+  private haladas: number;
   //private ujReszvenyElemekList: any[];
 
   constructor() {
@@ -39,6 +40,25 @@ export class UjReszveny {
 	public set $id(value: number) {
 		this.id = value;
 	}
+
+
+    /**
+     * Getter $haladas
+     * @return {number}
+     */
+	public get $haladas(): number {
+		return this.haladas;
+	}
+
+
+    /**
+     * Setter $haladas
+     * @param {number} value
+     */
+	public set $haladas(value: number) {
+		this.haladas = value;
+	}
+
 
 
 
