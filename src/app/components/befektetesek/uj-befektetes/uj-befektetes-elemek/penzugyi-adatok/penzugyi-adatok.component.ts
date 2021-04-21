@@ -1,9 +1,10 @@
-import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { PenzugyiAdatok } from 'src/app/models/uj-befektetes-models/penzugyi-adatok/penzugyi-adatok.model';
 import { PenzugyiAdatokService } from 'src/app/services/befektetesek/uj-befektetes-services/penzugyi-adatok/penzugyi-adatok.service';
-
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 @Component({
   selector: 'app-penzugyi-adatok',
   templateUrl: './penzugyi-adatok.component.html',
@@ -12,6 +13,8 @@ import { PenzugyiAdatokService } from 'src/app/services/befektetesek/uj-befektet
 
 })
 export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('table', { static: false }) tableElement: ElementRef;
 
   @Output() filledPenzAdatokEmitter: EventEmitter<PenzugyiAdatok> = new EventEmitter();
   allFilled: boolean;
@@ -311,131 +314,131 @@ export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
     this.penzugyiAdatokFormGroup.patchValue(
       {
         penzugyiAdatok: {
-        nettoTargyevCtrl: penzAdatok.$nettoTargyev,
-        nettoElozoEvCtrl: penzAdatok.$nettoElozoEv,
-        nettoKonkurenciaCtrl: penzAdatok.$nettoKonkurencia,
-        nettoQ2Ctrl: penzAdatok.$nettoQ2,
-        nettoQ3Ctrl: penzAdatok.$nettoQ3,
-        eladottAruTargyevCtrl: penzAdatok.$eladottAruTargyev,
-        eladottAruElozoEvCtrl: penzAdatok.$eladottAruElozoEv,
-        eladottAruKonkurenciaCtrl: penzAdatok.$eladottAruKonkurencia,
-        eladottAruQ2Ctrl: penzAdatok.$eladottAruQ2,
-        eladottAruQ3Ctrl: penzAdatok.$eladottAruQ3,
-        tarsasagTargyevCtrl: penzAdatok.$tarsasagTargyev,
-        tarsasagElozoEvCtrl: penzAdatok.$tarsasagElozoEv,
-        tarsasagKonkurenciaCtrl: penzAdatok.$tarsasagKonkurencia,
-        tarsasagQ2Ctrl:penzAdatok.$tarsasagQ2,
-        tarsasagQ3Ctrl: penzAdatok.$tarsasagQ3,
-        kamatTargyevCtrl: penzAdatok.$kamatTargyev,
-        kamatElozoEvCtrl: penzAdatok.$kamatElozoEv,
-        kamatKonkurenciaCtrl: penzAdatok.$kamatKonkurencia,
-        kamatQ2Ctrl: penzAdatok.$kamatQ2,
-        kamatQ3Ctrl: penzAdatok.$kamatQ3,
-        fizetettKamatokTargyevCtrl: penzAdatok.$fizetettKamatokTargyev,
-        fizetettKamatokElozoEvCtrl:penzAdatok.$fizetettKamatokElozoEv,
-        fizetettKamatokKonkurenciaCtrl: penzAdatok.$fizetettKamatokKonkurencia,
-        fizetettKamatokQ2Ctrl: penzAdatok.$fizetettKamatokQ2,
-        fizetettKamatokQ3Ctrl: penzAdatok.$fizetettKamatokQ3,
-        admTargyevCtrl: penzAdatok.$admTargyev,
-        admElozoEvCtrl: penzAdatok.$admElozoEv,
-        admKonkurenciaCtrl:penzAdatok.$admKonkurencia,
-        admQ2Ctrl: penzAdatok.$admQ2,
-        admQ3Ctrl: penzAdatok.$admQ3,
-        egyebTargyevCtrl: penzAdatok.$egyebTargyev,
-        egyebElozoEvCtrl: penzAdatok.$egyebElozoEv,
-        egyebKonkurenciaCtrl:penzAdatok.$egyebKonkurencia,
-        egyebQ2Ctrl:penzAdatok.$egyebQ2,
-        egyebQ3Ctrl: penzAdatok.$egyebQ3,
-        reszvenyTargyevCtrl: penzAdatok.$reszvenyTargyev,
-        reszvenyElozoEvCtrl: penzAdatok.$reszvenyElozoEv,
-        reszvenyKonkurenciaCtrl: penzAdatok.$reszvenyKonkurencia,
-        reszvenyQ2Ctrl:penzAdatok.$reszvenyQ2,
-        reszvenyQ3Ctrl: penzAdatok.$reszvenyQ3,
-        osztalekTargyevCtrl: penzAdatok.$osztalekTargyev,
-        osztalekElozoEvCtrl: penzAdatok.$osztalekElozoEv,
-        osztalekKonkurenciaCtrl:penzAdatok.$osztalekKonkurencia,
-        osztalekQ2Ctrl: penzAdatok.$osztalekQ2,
-        osztalekQ3Ctrl: penzAdatok.$osztalekQ3,
-        elszamoltTargyevCtrl: penzAdatok.$elszamoltTargyev,
-        elszamoltElozoEvCtrl: penzAdatok.$elszamoltElozoEv,
-        elszamoltKonkurenciaCtrl: penzAdatok.$elszamoltKonkurencia,
-        elszamoltQ2Ctrl: penzAdatok.$elszamoltQ2,
-        elszamoltQ3Ctrl: penzAdatok.$elszamoltQ3,
-        keszpenzTargyevCtrl: penzAdatok.$keszpenzTargyev,
-        keszpenzElozoEvCtrl: penzAdatok.$keszletElozoEv,
-        keszpenzKonkurenciaCtrl:penzAdatok.$keszletKonkurencia,
-        keszpenzQ2Ctrl: penzAdatok.$keszletQ2,
-        keszpenzQ3Ctrl: penzAdatok.$keszpenzQ3,
-        kovetelesVevoTargyevCtrl: penzAdatok.$kovetelesVevoTargyev,
-        kovetelesVevoElozoEvCtrl: penzAdatok.$kovetelesVevoElozoEv,
-        kovetelesVevoKonkurenciaCtrl: penzAdatok.$kovetelesVevoKonkurencia,
-        kovetelesVevoQ2Ctrl: penzAdatok.$kovetelesVevoQ2,
-        kovetelesVevoQ3Ctrl: penzAdatok.$kovetelesVevoQ3,
-        keszletTargyevCtrl: penzAdatok.$keszletTargyev,
-        keszletElozoEvCtrl: penzAdatok.$keszletElozoEv,
-        keszletKonkurenciaCtrl: penzAdatok.$keszletKonkurencia,
-        keszletQ2Ctrl: penzAdatok.$keszletQ2,
-        keszletQ3Ctrl: penzAdatok.$keszletQ3,
-        jovairasTargyevCtrl: penzAdatok.$jovairasTargyev,
-        jovairasElozoEvCtrl: penzAdatok.$jovairasElozoEv,
-        jovairasKonkurenciaCtrl: penzAdatok.$jovairasKonkurencia,
-        jovairasQ2Ctrl: penzAdatok.$jovairasQ2,
-        jovairasQ3Ctrl: penzAdatok.$jovairasQ3,
-        immTargyevCtrl: penzAdatok.$immTargyev,
-        immElozoEvCtrl: penzAdatok.$immElozoEv,
-        immKonkurenciaCtrl: penzAdatok.$immKonkurencia,
-        immQ2Ctrl: penzAdatok.$immQ2,
-        immQ3Ctrl: penzAdatok.$immQ3,
-        forgoTargyevCtrl: penzAdatok.$forgoTargyev,
-        forgoElozoEvCtrl: penzAdatok.$forgoElozoEv,
-        forgoKonkurenciaCtrl: penzAdatok.$forgoKonkurencia,
-        forgoQ2Ctrl: penzAdatok.$forgoQ2,
-        forgoQ3Ctrl: penzAdatok.$forgoQ3,
-        eszkozTargyevCtrl: penzAdatok.$eszkozTargyev,
-        eszkozElozoEvCtrl: penzAdatok.$eszkozElozoEv,
-        eszkozKonkurenciaCtrl: penzAdatok.$eszkozKonkurencia,
-        eszkozQ2Ctrl: penzAdatok.$eszkozQ2,
-        eszkozQ3Ctrl: penzAdatok.$eszkozQ3,
-        kotSzallitoTargyevCtrl: penzAdatok.$kotSzallitoTargyev,
-        kotSzallitoElozoEvCtrl: penzAdatok.$kotSzallitoElozoEv,
-        kotSzallitoKonkurenciaCtrl: penzAdatok.$kotSzallitoKonkurencia,
-        kotSzallitoQ2Ctrl: penzAdatok.$kotSzallitoQ2,
-        kotSzallitoQ3Ctrl:penzAdatok.$kotSzallitoQ3,
-        tokeTargyevCtrl: penzAdatok.$tokeTargyev,
-        tokeElozoEvCtrl: penzAdatok.$tokeElozoEv,
-        tokeKonkurenciaCtrl: penzAdatok.$tokeKonkurencia,
-        tokeQ2Ctrl: penzAdatok.$tokeQ2,
-        tokeQ3Ctrl: penzAdatok.$tokeQ3,
-        rovidLejaratuKotTargyevCtrl: penzAdatok.$rovidLejaratuKotTargyev,
-        rovidLejaratuKotElozoEvCtrl: penzAdatok.$rovidLejaratuKotElozoEv,
-        rovidLejaratuKotKonkurenciaCtrl: penzAdatok.$rovidLejaratuKotKonkurencia,
-        rovidLejaratuKotQ2Ctrl:penzAdatok.$rovidLejaratuKotQ2,
-        rovidLejaratuKotQ3Ctrl: penzAdatok.$rovidLejaratuKotQ3,
-        osszKotTargyevCtrl: penzAdatok.$osszKotTargyev,
-        osszKotElozoEvCtrl: penzAdatok.$osszKotElozoEv,
-        osszKotKonkurenciaCtrl: penzAdatok.$osszKotKonkurencia,
-        osszKotQ2Ctrl: penzAdatok.$osszKotQ2,
-        osszKotQ3Ctrl: penzAdatok.$osszKotQ3,
-        alkalmazottakSzamaTargyevCtrl: penzAdatok.$alkalmazottakSzamaTargyev,
-        alkalmazottakSzamaElozoEvCtrl: penzAdatok.$alkalmazottakSzamaElozoEv,
-        alkalmazottakSzamaKonkurenciaCtrl: penzAdatok.$alkalmazottakSzamaKonkurencia,
-        alkalmazottakSzamaQ2Ctrl: penzAdatok.$alkalmazottakSzamaQ2,
-        alkalmazottakSzamaQ3Ctrl: penzAdatok.$alkalmazottakSzamaQ3,
-        reszvenyArfolyamTargyevCtrl: penzAdatok.$reszvenyArfolyamTargyev,
-        reszvenyArfolyamElozoEvCtrl:penzAdatok.$reszvenyArfolyamElozoEv,
-        reszvenyArfolyamKonkurenciaCtrl: penzAdatok.$reszvenyArfolyamKonkurencia,
-        reszvenyArfolyamQ2Ctrl: penzAdatok.$reszvenyArfolyamQ2,
-        reszvenyArfolyamQ3Ctrl: penzAdatok.$reszvenyArfolyamQ3,
-        naptarTargyevCtrl: penzAdatok.$naptarTargyev,
-        naptarElozoEvCtrl: penzAdatok.$naptarElozoEv,
-        naptarKonkurenciaCtrl: penzAdatok.$naptarKonkurencia,
-        naptarQ2Ctrl: penzAdatok.$naptarQ2,
-        naptarQ3Ctrl: penzAdatok.$naptarQ3,
-        hozamTargyevCtrl: penzAdatok.$hozamTargyev,
-        hozamElozoEvCtrl: penzAdatok.$hozamElozoEv,
-        hozamKonkurenciaCtrl: penzAdatok.$hozamKonkurencia,
-        hozamQ2Ctrl: penzAdatok.$hozamQ2,
-        hozamQ3Ctrl: penzAdatok.$hozamQ3,
+          nettoTargyevCtrl: penzAdatok.$nettoTargyev,
+          nettoElozoEvCtrl: penzAdatok.$nettoElozoEv,
+          nettoKonkurenciaCtrl: penzAdatok.$nettoKonkurencia,
+          nettoQ2Ctrl: penzAdatok.$nettoQ2,
+          nettoQ3Ctrl: penzAdatok.$nettoQ3,
+          eladottAruTargyevCtrl: penzAdatok.$eladottAruTargyev,
+          eladottAruElozoEvCtrl: penzAdatok.$eladottAruElozoEv,
+          eladottAruKonkurenciaCtrl: penzAdatok.$eladottAruKonkurencia,
+          eladottAruQ2Ctrl: penzAdatok.$eladottAruQ2,
+          eladottAruQ3Ctrl: penzAdatok.$eladottAruQ3,
+          tarsasagTargyevCtrl: penzAdatok.$tarsasagTargyev,
+          tarsasagElozoEvCtrl: penzAdatok.$tarsasagElozoEv,
+          tarsasagKonkurenciaCtrl: penzAdatok.$tarsasagKonkurencia,
+          tarsasagQ2Ctrl: penzAdatok.$tarsasagQ2,
+          tarsasagQ3Ctrl: penzAdatok.$tarsasagQ3,
+          kamatTargyevCtrl: penzAdatok.$kamatTargyev,
+          kamatElozoEvCtrl: penzAdatok.$kamatElozoEv,
+          kamatKonkurenciaCtrl: penzAdatok.$kamatKonkurencia,
+          kamatQ2Ctrl: penzAdatok.$kamatQ2,
+          kamatQ3Ctrl: penzAdatok.$kamatQ3,
+          fizetettKamatokTargyevCtrl: penzAdatok.$fizetettKamatokTargyev,
+          fizetettKamatokElozoEvCtrl: penzAdatok.$fizetettKamatokElozoEv,
+          fizetettKamatokKonkurenciaCtrl: penzAdatok.$fizetettKamatokKonkurencia,
+          fizetettKamatokQ2Ctrl: penzAdatok.$fizetettKamatokQ2,
+          fizetettKamatokQ3Ctrl: penzAdatok.$fizetettKamatokQ3,
+          admTargyevCtrl: penzAdatok.$admTargyev,
+          admElozoEvCtrl: penzAdatok.$admElozoEv,
+          admKonkurenciaCtrl: penzAdatok.$admKonkurencia,
+          admQ2Ctrl: penzAdatok.$admQ2,
+          admQ3Ctrl: penzAdatok.$admQ3,
+          egyebTargyevCtrl: penzAdatok.$egyebTargyev,
+          egyebElozoEvCtrl: penzAdatok.$egyebElozoEv,
+          egyebKonkurenciaCtrl: penzAdatok.$egyebKonkurencia,
+          egyebQ2Ctrl: penzAdatok.$egyebQ2,
+          egyebQ3Ctrl: penzAdatok.$egyebQ3,
+          reszvenyTargyevCtrl: penzAdatok.$reszvenyTargyev,
+          reszvenyElozoEvCtrl: penzAdatok.$reszvenyElozoEv,
+          reszvenyKonkurenciaCtrl: penzAdatok.$reszvenyKonkurencia,
+          reszvenyQ2Ctrl: penzAdatok.$reszvenyQ2,
+          reszvenyQ3Ctrl: penzAdatok.$reszvenyQ3,
+          osztalekTargyevCtrl: penzAdatok.$osztalekTargyev,
+          osztalekElozoEvCtrl: penzAdatok.$osztalekElozoEv,
+          osztalekKonkurenciaCtrl: penzAdatok.$osztalekKonkurencia,
+          osztalekQ2Ctrl: penzAdatok.$osztalekQ2,
+          osztalekQ3Ctrl: penzAdatok.$osztalekQ3,
+          elszamoltTargyevCtrl: penzAdatok.$elszamoltTargyev,
+          elszamoltElozoEvCtrl: penzAdatok.$elszamoltElozoEv,
+          elszamoltKonkurenciaCtrl: penzAdatok.$elszamoltKonkurencia,
+          elszamoltQ2Ctrl: penzAdatok.$elszamoltQ2,
+          elszamoltQ3Ctrl: penzAdatok.$elszamoltQ3,
+          keszpenzTargyevCtrl: penzAdatok.$keszpenzTargyev,
+          keszpenzElozoEvCtrl: penzAdatok.$keszletElozoEv,
+          keszpenzKonkurenciaCtrl: penzAdatok.$keszletKonkurencia,
+          keszpenzQ2Ctrl: penzAdatok.$keszletQ2,
+          keszpenzQ3Ctrl: penzAdatok.$keszpenzQ3,
+          kovetelesVevoTargyevCtrl: penzAdatok.$kovetelesVevoTargyev,
+          kovetelesVevoElozoEvCtrl: penzAdatok.$kovetelesVevoElozoEv,
+          kovetelesVevoKonkurenciaCtrl: penzAdatok.$kovetelesVevoKonkurencia,
+          kovetelesVevoQ2Ctrl: penzAdatok.$kovetelesVevoQ2,
+          kovetelesVevoQ3Ctrl: penzAdatok.$kovetelesVevoQ3,
+          keszletTargyevCtrl: penzAdatok.$keszletTargyev,
+          keszletElozoEvCtrl: penzAdatok.$keszletElozoEv,
+          keszletKonkurenciaCtrl: penzAdatok.$keszletKonkurencia,
+          keszletQ2Ctrl: penzAdatok.$keszletQ2,
+          keszletQ3Ctrl: penzAdatok.$keszletQ3,
+          jovairasTargyevCtrl: penzAdatok.$jovairasTargyev,
+          jovairasElozoEvCtrl: penzAdatok.$jovairasElozoEv,
+          jovairasKonkurenciaCtrl: penzAdatok.$jovairasKonkurencia,
+          jovairasQ2Ctrl: penzAdatok.$jovairasQ2,
+          jovairasQ3Ctrl: penzAdatok.$jovairasQ3,
+          immTargyevCtrl: penzAdatok.$immTargyev,
+          immElozoEvCtrl: penzAdatok.$immElozoEv,
+          immKonkurenciaCtrl: penzAdatok.$immKonkurencia,
+          immQ2Ctrl: penzAdatok.$immQ2,
+          immQ3Ctrl: penzAdatok.$immQ3,
+          forgoTargyevCtrl: penzAdatok.$forgoTargyev,
+          forgoElozoEvCtrl: penzAdatok.$forgoElozoEv,
+          forgoKonkurenciaCtrl: penzAdatok.$forgoKonkurencia,
+          forgoQ2Ctrl: penzAdatok.$forgoQ2,
+          forgoQ3Ctrl: penzAdatok.$forgoQ3,
+          eszkozTargyevCtrl: penzAdatok.$eszkozTargyev,
+          eszkozElozoEvCtrl: penzAdatok.$eszkozElozoEv,
+          eszkozKonkurenciaCtrl: penzAdatok.$eszkozKonkurencia,
+          eszkozQ2Ctrl: penzAdatok.$eszkozQ2,
+          eszkozQ3Ctrl: penzAdatok.$eszkozQ3,
+          kotSzallitoTargyevCtrl: penzAdatok.$kotSzallitoTargyev,
+          kotSzallitoElozoEvCtrl: penzAdatok.$kotSzallitoElozoEv,
+          kotSzallitoKonkurenciaCtrl: penzAdatok.$kotSzallitoKonkurencia,
+          kotSzallitoQ2Ctrl: penzAdatok.$kotSzallitoQ2,
+          kotSzallitoQ3Ctrl: penzAdatok.$kotSzallitoQ3,
+          tokeTargyevCtrl: penzAdatok.$tokeTargyev,
+          tokeElozoEvCtrl: penzAdatok.$tokeElozoEv,
+          tokeKonkurenciaCtrl: penzAdatok.$tokeKonkurencia,
+          tokeQ2Ctrl: penzAdatok.$tokeQ2,
+          tokeQ3Ctrl: penzAdatok.$tokeQ3,
+          rovidLejaratuKotTargyevCtrl: penzAdatok.$rovidLejaratuKotTargyev,
+          rovidLejaratuKotElozoEvCtrl: penzAdatok.$rovidLejaratuKotElozoEv,
+          rovidLejaratuKotKonkurenciaCtrl: penzAdatok.$rovidLejaratuKotKonkurencia,
+          rovidLejaratuKotQ2Ctrl: penzAdatok.$rovidLejaratuKotQ2,
+          rovidLejaratuKotQ3Ctrl: penzAdatok.$rovidLejaratuKotQ3,
+          osszKotTargyevCtrl: penzAdatok.$osszKotTargyev,
+          osszKotElozoEvCtrl: penzAdatok.$osszKotElozoEv,
+          osszKotKonkurenciaCtrl: penzAdatok.$osszKotKonkurencia,
+          osszKotQ2Ctrl: penzAdatok.$osszKotQ2,
+          osszKotQ3Ctrl: penzAdatok.$osszKotQ3,
+          alkalmazottakSzamaTargyevCtrl: penzAdatok.$alkalmazottakSzamaTargyev,
+          alkalmazottakSzamaElozoEvCtrl: penzAdatok.$alkalmazottakSzamaElozoEv,
+          alkalmazottakSzamaKonkurenciaCtrl: penzAdatok.$alkalmazottakSzamaKonkurencia,
+          alkalmazottakSzamaQ2Ctrl: penzAdatok.$alkalmazottakSzamaQ2,
+          alkalmazottakSzamaQ3Ctrl: penzAdatok.$alkalmazottakSzamaQ3,
+          reszvenyArfolyamTargyevCtrl: penzAdatok.$reszvenyArfolyamTargyev,
+          reszvenyArfolyamElozoEvCtrl: penzAdatok.$reszvenyArfolyamElozoEv,
+          reszvenyArfolyamKonkurenciaCtrl: penzAdatok.$reszvenyArfolyamKonkurencia,
+          reszvenyArfolyamQ2Ctrl: penzAdatok.$reszvenyArfolyamQ2,
+          reszvenyArfolyamQ3Ctrl: penzAdatok.$reszvenyArfolyamQ3,
+          naptarTargyevCtrl: penzAdatok.$naptarTargyev,
+          naptarElozoEvCtrl: penzAdatok.$naptarElozoEv,
+          naptarKonkurenciaCtrl: penzAdatok.$naptarKonkurencia,
+          naptarQ2Ctrl: penzAdatok.$naptarQ2,
+          naptarQ3Ctrl: penzAdatok.$naptarQ3,
+          hozamTargyevCtrl: penzAdatok.$hozamTargyev,
+          hozamElozoEvCtrl: penzAdatok.$hozamElozoEv,
+          hozamKonkurenciaCtrl: penzAdatok.$hozamKonkurencia,
+          hozamQ2Ctrl: penzAdatok.$hozamQ2,
+          hozamQ3Ctrl: penzAdatok.$hozamQ3,
         }
       }
     )
@@ -619,14 +622,104 @@ export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
 
 
   generatePDF() {
-    /* const doc = new jsPDF();
 
-     let columns = ["Megnevezés", "Tárgyév", "Előzőév", 'Konkurencia', 'Q2', 'Q3'];
-       let rows = [
-           [1, "Shaw", "Tanzania", 1, "Shaw", "Tanzania"]
-       ];
-     doc.autoTable(columns, rows);
-     doc.save('sb_investing_penz_adatok.pdf');*/
+    let header = [['Megnevezés', 'Tárgyév', 'Elozo év', 'Konkurencia']];
+
+    let tableData = [
+      ['Nettó árbevétel', this.$nettoTargyEv, this.$nettoElozoEv, this.$nettoKonkurencia],
+      ['Az eladott áruk költsége', this.$eladottAruTargyev, this.$eladottAruElozoEv, this.$eladottAruKonkurencia],
+      ['Értékesítés és adminisztratív költségek', this.$admTargyev, this.$admElozoEv, this.$admKonkurencia,],
+      ['Elszámolt értékcs. és amortizáció', this.$elszamoltTargyev, this.$elszamoltElozoEv, this.$elszamoltKonkurencia],
+      ['Egyéb muködési költség', this.$egyebTargyev, this.$egyebElozoEv, this.$egyebKonkurencia],
+      ['Kamat és jövedelem elotti nyereség', this.$kamatTargyev, this.$kamatElozoEv, this.$kamatKonkurencia],
+      ['Fizetett kamatok', this.$fizetettKamatokTargyev, this.$fizetettKamatokElozoEv, this.$fizetettKamatokKonkurencia],
+      ['Társaságnak tulajdonítható nettó eredmény', this.$tarsasagTargyev, this.$tarsasagElozoEv, this.$tarsasagKonkurencia],
+      ['Kifizetett osztalékok', this.$osztalekTargyev, this.$osztalekElozoEv, this.$osztalekKonkurencia],
+      ['Készpénz', this.$keszpenzTargyev, this.$keszpenzElozoEv, this.$keszpenzKonkurencia],
+      ['Köv. aruszállitásbol és szolgáltatásbol(vevok)', this.$kovetelesVevoTargyev, this.$kovetelesVevoElozoEv, this.$kovetelesVevoKonkurencia],
+      ['Készletek(leltár)', this.$keszletTargyev, this.$keszletElozoEv, this.$keszletKonkurencia],
+      ['Összes forgóeszköz', this.$forgoTargyev, this.$forgoElozoEv, this.$forgoKonkurencia],
+      ['Jóváírás', this.$jovairasTargyev, this.$jovairasElozoEv, this.$jovairasKonkurencia],
+      ['Immateriális javak', this.$immTargyev, this.$immElozoEv, this.$immKonkurencia],
+      ['Eszközök összesen', this.$eszkozTargyev, this.$eszkozElozoEv, this.$eszkozKonkurencia],
+      ['Köt. áruszállításból és szogláltatásból(szállítók)', this.$kotSzallitoTargyev, this.$kotSzallitoElozoEv, this.$kotSzallitoKonkurencia],
+      ['Rövid lejáratú kötelezettségek összesen', this.$rovidLejaratuKotTargyev, this.$rovidLejaratuKotElozoEv, this.$rovidLejaratuKotKonkurencia],
+      ['Összes kötelezettségek', this.$osszKotTargyev, this.$osszKotElozoEv, this.$osszKotKonkurencia],
+      ['Hosszú lej.kötelezettségek', this.$osszKotTargyev - this.$rovidLejaratuKotTargyev, this.$osszKotElozoEv - this.rovidLejaratuKotElozoEv, this.$osszKotKonkurencia - this.$rovidLejaratuKotKonkurencia],
+      ['Részvények darabszáma', this.$reszvenyTargyev, this.$reszvenyElozoEv, this.$reszvenyKonkurencia, this.$reszvenyQ2, this.$reszvenyQ3],
+      ['Összes saját toke', this.tokeTargyev, this.$tokeElozoEv, this.$tokeKonkurencia],
+      ['Alkalmazottak száma', this.$alkalmazottakSzamaTargyev, this.$alkalmazottakSzamaElozoEv, this.$alkalmazottakSzamaKonkurencia],
+      ['Részvény árfolyam', this.$reszvenyArfolyamTargyev, this.$reszvenyArfolyamElozoEv, this.$reszvenyArfolyamKonkurencia],
+      ['Naptári napok száma', this.$naptarTargyev, this.$naptarElozoEv, this.$naptarKonkurencia],
+      ['Hosszú lejáratú állampapírok hozama', this.$hozamTargyev, this.$hozamElozoEv, this.$hozamKonkurencia],
+
+
+
+
+    ]
+
+    var pdf = new jsPDF('p', 'pt', 'a4');
+    let date = new Date();
+
+    pdf.setProperties({
+      title: 'SB Investing - Pénzügyi adatok',
+      subject: 'This is the subject',
+      //author: 'James Hall',
+      //keywords: 'generated, javascript, web 2.0, ajax',
+      //creator: 'MEEE'
+    });
+
+    pdf.text('Kimutatás - Pénzügyi adatok', 45, 40);
+    pdf.setFontSize(12);
+    pdf.setCreationDate(new Date());
+    pdf.setTextColor(99);
+
+
+    let pdfName = 'sb_kimutatas' + (date.getMonth() + 1) + date.getDate() + '.pdf';
+
+    (pdf as any).autoTable({
+      head: header,
+      body: tableData,
+      styles: {
+        halign: 'center'
+      },
+      margin: {
+        top: 100
+      },
+      theme: 'grid',
+      didDrawCell: data => {
+      }
+
+    })
+
+    //pdf.text('Készült: ' + date.getFullYear() + "." + (date.getMonth() +1) +  "."  + date.getDay(), 500, 500);
+
+
+    // Open PDF document in browser's new tab
+    pdf.output('dataurlnewwindow')
+
+    // Download PDF doc  
+    pdf.save(pdfName);
+
+    /*const doc = new jsPDF('p', 'px', 'a4');
+   
+    const specialElementHandlers = {
+      '#editor': function (element, renderer) {
+        return true;
+      }
+    };
+
+    const pdfTable = this.tableElement.nativeElement;
+    doc.add
+    doc.html(pdfTable, {
+      callback(rst){
+        rst.save('one.pdf');
+      },
+      x: 10,
+      y: 10
+    })*/
+
+
   }
 
 
@@ -846,7 +939,7 @@ export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
    * @return {number}
    */
   public get $fizetettKamatokElozoEv(): number {
-        this.fizetettKamatokElozoEv = this.penzugyiAdatokFormGroup.get('penzugyiAdatok').get('fizetettKamatokElozoEvCtrl').value;
+    this.fizetettKamatokElozoEv = this.penzugyiAdatokFormGroup.get('penzugyiAdatok').get('fizetettKamatokElozoEvCtrl').value;
 
     return this.fizetettKamatokElozoEv;
   }
@@ -1187,7 +1280,7 @@ export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
    * @return {number}
    */
   public get $kovetelesVevoTargyev(): number {
-        this.kovetelesVevoTargyev = this.penzugyiAdatokFormGroup.get('penzugyiAdatok').get('kovetelesVevoTargyevCtrl').value;
+    this.kovetelesVevoTargyev = this.penzugyiAdatokFormGroup.get('penzugyiAdatok').get('kovetelesVevoTargyevCtrl').value;
 
     return this.kovetelesVevoTargyev;
   }
@@ -1497,7 +1590,7 @@ export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
    * @return {number}
    */
   public get $kotSzallitoElozoEv(): number {
-        this.kotSzallitoElozoEv = this.penzugyiAdatokFormGroup.get('penzugyiAdatok').get('kotSzallitoElozoEvCtrl').value;
+    this.kotSzallitoElozoEv = this.penzugyiAdatokFormGroup.get('penzugyiAdatok').get('kotSzallitoElozoEvCtrl').value;
 
     return this.kotSzallitoElozoEv;
   }
@@ -1507,7 +1600,7 @@ export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
    * @return {number}
    */
   public get $kotSzallitoKonkurencia(): number {
-        this.kotSzallitoKonkurencia = this.penzugyiAdatokFormGroup.get('penzugyiAdatok').get('kotSzallitoKonkurenciaCtrl').value;
+    this.kotSzallitoKonkurencia = this.penzugyiAdatokFormGroup.get('penzugyiAdatok').get('kotSzallitoKonkurenciaCtrl').value;
 
     return this.kotSzallitoKonkurencia;
   }
@@ -1537,7 +1630,7 @@ export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
    * @return {number}
    */
   public get $tokeTargyev(): number {
-        this.tokeTargyev = this.penzugyiAdatokFormGroup.get('penzugyiAdatok').get('tokeTargyevCtrl').value;
+    this.tokeTargyev = this.penzugyiAdatokFormGroup.get('penzugyiAdatok').get('tokeTargyevCtrl').value;
 
     return this.tokeTargyev;
   }
@@ -1567,7 +1660,7 @@ export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
    * @return {number}
    */
   public get $tokeQ2(): number {
-        this.tokeQ2 = this.penzugyiAdatokFormGroup.get('penzugyiAdatok').get('tokeQ2Ctrl').value;
+    this.tokeQ2 = this.penzugyiAdatokFormGroup.get('penzugyiAdatok').get('tokeQ2Ctrl').value;
 
     return this.tokeQ2;
   }
@@ -1607,7 +1700,7 @@ export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
    * @return {number}
    */
   public get $rovidLejaratuKotKonkurencia(): number {
-        this.rovidLejaratuKotKonkurencia = this.penzugyiAdatokFormGroup.get('penzugyiAdatok').get('rovidLejaratuKotKonkurenciaCtrl').value;
+    this.rovidLejaratuKotKonkurencia = this.penzugyiAdatokFormGroup.get('penzugyiAdatok').get('rovidLejaratuKotKonkurenciaCtrl').value;
 
     return this.rovidLejaratuKotKonkurencia;
   }
@@ -1737,7 +1830,7 @@ export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
    * @return {number}
    */
   public get $reszvenyArfolyamTargyev(): number {
-        this.reszvenyArfolyamTargyev = this.penzugyiAdatokFormGroup.get('penzugyiAdatok').get('reszvenyArfolyamTargyevCtrl').value;
+    this.reszvenyArfolyamTargyev = this.penzugyiAdatokFormGroup.get('penzugyiAdatok').get('reszvenyArfolyamTargyevCtrl').value;
 
     return this.reszvenyArfolyamTargyev;
   }
@@ -1777,7 +1870,7 @@ export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
    * @return {number}
    */
   public get $reszvenyArfolyamQ3(): number {
-        this.reszvenyArfolyamQ3 = this.penzugyiAdatokFormGroup.get('penzugyiAdatok').get('reszvenyArfolyamQ3Ctrl').value;
+    this.reszvenyArfolyamQ3 = this.penzugyiAdatokFormGroup.get('penzugyiAdatok').get('reszvenyArfolyamQ3Ctrl').value;
 
     return this.reszvenyArfolyamQ3;
   }

@@ -115,6 +115,27 @@ export class UjBefektetesComponent implements OnInit {
     this.ujBefektetesService.addOneItem(item);
   }
 
+  onTabClick($event, index){
+    console.log($event.tab.textLabel);
+    console.log(index);
+    // Felugró ablak
+    this.messageService.add({
+      key: 'tab', sticky: true, severity: 'info', summary: 'Kérlek, ellenőrizd, hogy mindent elmentettél-e a továbblépés előtt!',
+      detail: 'Jelenleg itt tartózkodsz: (' + $event.tab.textLabel +  ') Esetleg lehetnek mentetlen adataid!'
+    });
+  
+ 
+  }
+
+  onConfirmTab(){
+    //this.nextTabIndex = 4;
+    // Itt engedje továb a következő tab-ra
+  }
+
+  onRejectTab(){
+   this.messageService.clear('tab');
+  }
+
   saveBefAdatok(befAdatok: BefektetesAdatok) {
       console.log("SAVE ADATOK-----");
       console.log(this.ujBefektetesService.$ujReszveny.$befektetesAdatok);

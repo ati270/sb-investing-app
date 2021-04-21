@@ -53,7 +53,9 @@
               "node_modules/hammerjs/hammer.min.js",
               "node_modules/@fullcalendar/common/main.js",
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/jspdf/dist/jspdf.min.js",
+              "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.min.js"
             ]
           },
           "configurations": {

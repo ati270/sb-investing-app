@@ -8,12 +8,12 @@
 <form [formGroup]="penzugyiAdatokFormGroup" (ngSubmit)="penzugyiAdatokSubmit()">
   <br>
   <button type="submit" mat-raised-button class="nextBtn">Aktuális állapot mentése</button>
-  <button mat-raised-button (click)="generatePDF()">PDF generálása</button>
+  <button type="button" mat-raised-button (click)="generatePDF()">Kimutatás készítése (.pdf)</button>
 
   <br>
   <br>
-  <table class="table table-striped table-bordered  table-hover z-depth-2" formArrayName="penzugyiAdatok"
-    id="penz-adatok-print">
+  <table #table class="table table-striped table-bordered  table-hover z-depth-2" formArrayName="penzugyiAdatok"
+    id="penz-adatok-print-table">
     <thead>
       <tr>
         <th class="mat-header-cell">Megnevezés</th>
