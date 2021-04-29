@@ -7,8 +7,15 @@
 </a>
 <form [formGroup]="penzugyiAdatokFormGroup" (ngSubmit)="penzugyiAdatokSubmit()">
   <br>
-  <button type="submit" mat-raised-button class="nextBtn">Aktuális állapot mentése</button>
-  <button type="button" mat-raised-button (click)="generatePDF()">Kimutatás készítése (.pdf)</button>
+  <div class="d-flex">
+    <div class="mr-auto p-2">
+      <button type="submit" mat-raised-button class="nextBtn">Aktuális állapot mentése</button>
+    </div>
+    <div class="p-2 kim">
+      <button  mat-stroked-button color="warn" (click)="generatePDF()" class="kimBtn">Kimutatás készítése (.pdf)</button>
+    </div>
+
+  </div>
 
   <br>
   <br>
@@ -602,7 +609,7 @@
           </mat-form-field>
         </td>
       </tr>
-     
+
       <!--Eszközök összesen-->
       <tr>
         <td class="mat-cell">Eszközök összesen</td>
@@ -849,7 +856,7 @@
           </mat-form-field>
         </td>
       </tr>
-      
+
       <!--Alkalmazottak száma-->
       <tr>
         <td class="mat-cell">Alkalmazottak száma</td>
@@ -997,7 +1004,7 @@
           </mat-form-field>
         </td>
       </tr>
-      
+
     </tbody>
   </table>
   <!--[disabled]="!penzugyiElemzeFormGroup.valid"-->

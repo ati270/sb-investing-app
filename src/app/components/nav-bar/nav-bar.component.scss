@@ -26,9 +26,10 @@
 }
 
 .navbar .divider-vertical {
-  height: 4rem;
+  height: 5rem;
   margin-right: 2rem;
   margin-left: 2rem;
+  margin-top: 0.2rem;
   border-left: 1px solid #f2f2f2;
   border-image: linear-gradient(to bottom, gray, rgba(0, 0, 0, 0)) 1 100%;
 }

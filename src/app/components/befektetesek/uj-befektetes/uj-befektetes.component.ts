@@ -119,12 +119,12 @@ export class UjBefektetesComponent implements OnInit {
     console.log($event.tab.textLabel);
     console.log(index);
     // Felugró ablak
-    this.messageService.add({
+   /* this.messageService.add({
       key: 'tab', sticky: true, severity: 'info', summary: 'Kérlek, ellenőrizd, hogy mindent elmentettél-e a továbblépés előtt!',
       detail: 'Jelenleg itt tartózkodsz: (' + $event.tab.textLabel +  ') Esetleg lehetnek mentetlen adataid!'
-    });
-  
- 
+    });*/
+
+
   }
 
   onConfirmTab(){

@@ -5,6 +5,7 @@ import { PenzugyiAdatok } from 'src/app/models/uj-befektetes-models/penzugyi-ada
 import { PenzugyiAdatokService } from 'src/app/services/befektetesek/uj-befektetes-services/penzugyi-adatok/penzugyi-adatok.service';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+
 @Component({
   selector: 'app-penzugyi-adatok',
   templateUrl: './penzugyi-adatok.component.html',
@@ -636,13 +637,13 @@ export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
       ['Társaságnak tulajdonítható nettó eredmény', this.$tarsasagTargyev, this.$tarsasagElozoEv, this.$tarsasagKonkurencia],
       ['Kifizetett osztalékok', this.$osztalekTargyev, this.$osztalekElozoEv, this.$osztalekKonkurencia],
       ['Készpénz', this.$keszpenzTargyev, this.$keszpenzElozoEv, this.$keszpenzKonkurencia],
-      ['Köv. aruszállitásbol és szolgáltatásbol(vevok)', this.$kovetelesVevoTargyev, this.$kovetelesVevoElozoEv, this.$kovetelesVevoKonkurencia],
-      ['Készletek(leltár)', this.$keszletTargyev, this.$keszletElozoEv, this.$keszletKonkurencia],
+      ['Követelések (vevok)', this.$kovetelesVevoTargyev, this.$kovetelesVevoElozoEv, this.$kovetelesVevoKonkurencia],
+      ['Készletek (leltár)', this.$keszletTargyev, this.$keszletElozoEv, this.$keszletKonkurencia],
       ['Összes forgóeszköz', this.$forgoTargyev, this.$forgoElozoEv, this.$forgoKonkurencia],
       ['Jóváírás', this.$jovairasTargyev, this.$jovairasElozoEv, this.$jovairasKonkurencia],
       ['Immateriális javak', this.$immTargyev, this.$immElozoEv, this.$immKonkurencia],
       ['Eszközök összesen', this.$eszkozTargyev, this.$eszkozElozoEv, this.$eszkozKonkurencia],
-      ['Köt. áruszállításból és szogláltatásból(szállítók)', this.$kotSzallitoTargyev, this.$kotSzallitoElozoEv, this.$kotSzallitoKonkurencia],
+      ['Kötelezettségek (szállítók)', this.$kotSzallitoTargyev, this.$kotSzallitoElozoEv, this.$kotSzallitoKonkurencia],
       ['Rövid lejáratú kötelezettségek összesen', this.$rovidLejaratuKotTargyev, this.$rovidLejaratuKotElozoEv, this.$rovidLejaratuKotKonkurencia],
       ['Összes kötelezettségek', this.$osszKotTargyev, this.$osszKotElozoEv, this.$osszKotKonkurencia],
       ['Hosszú lej.kötelezettségek', this.$osszKotTargyev - this.$rovidLejaratuKotTargyev, this.$osszKotElozoEv - this.rovidLejaratuKotElozoEv, this.$osszKotKonkurencia - this.$rovidLejaratuKotKonkurencia],
@@ -663,13 +664,18 @@ export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
 
     pdf.setProperties({
       title: 'SB Investing - Pénzügyi adatok',
-      subject: 'This is the subject',
+      subject: '',
       //author: 'James Hall',
       //keywords: 'generated, javascript, web 2.0, ajax',
       //creator: 'MEEE'
     });
 
-    pdf.text('Kimutatás - Pénzügyi adatok', 45, 40);
+   // pdf.addFont('PTSans-normal.ttf', 'PTSans', 'normal');
+
+    pdf.setFont('PTSans');
+    console.log(pdf.getFontList());
+
+    pdf.text('Kimutatás - Pénzügyi adatok', 45, 40 );
     pdf.setFontSize(12);
     pdf.setCreationDate(new Date());
     pdf.setTextColor(99);
@@ -680,8 +686,9 @@ export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
     (pdf as any).autoTable({
       head: header,
       body: tableData,
+
       styles: {
-        halign: 'center'
+        halign: 'center',
       },
       margin: {
         top: 100
@@ -698,11 +705,11 @@ export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
     // Open PDF document in browser's new tab
     pdf.output('dataurlnewwindow')
 
-    // Download PDF doc  
+    // Download PDF doc
     pdf.save(pdfName);
 
     /*const doc = new jsPDF('p', 'px', 'a4');
-   
+
     const specialElementHandlers = {
       '#editor': function (element, renderer) {
         return true;
