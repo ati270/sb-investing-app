@@ -1,7 +1,7 @@
 import { ElemzesService } from './../../../services/befektetesek/elemzesek/elemzes.service';
 import { VallalatVizsgKriteriumokComponent } from './uj-befektetes-elemek/vallalat-vizsg-kriteriumok/vallalat-vizsg-kriteriumok.component';
 import { AddReszvenyAction, UpdateReszvenyAction } from './../../store/reszveny/actions';
-import { Component, OnInit, ViewChild, Output, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, ElementRef, AfterViewInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { TargetBinder } from '@angular/compiler';
 import { BefektetesAdatok } from 'src/app/models/uj-befektetes-models/befektetes-adatok/bef-adatok.model';
@@ -26,7 +26,7 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./uj-befektetes.component.scss'],
   providers: [MessageService]
 })
-export class UjBefektetesComponent implements OnInit {
+export class UjBefektetesComponent implements OnInit, AfterViewInit {
   @ViewChild('saveReszveny') saveButton: ElementRef;
   countOfFilled: number = 0;
   pbarTitle = "Kitöltöttség";
@@ -68,6 +68,22 @@ export class UjBefektetesComponent implements OnInit {
     this.isCreatedNew = true;
     //this.count = this.ujBefektetesService.$count;
     //this.isSavedActualElemzes = this.ujBefektetesService.$isSavedActualElemzes;
+  }
+
+  ngAfterViewInit(){
+    if(this.ujBefektetesService.$count > 0){
+    this.loadHaladas();
+    }
+  }
+
+  loadHaladas(){
+    let halad = this.ujBefektetesService.$count;
+    this.count = halad;
+    this.countOfFilled = (this.count * 8)/100;
+    console.log(this.countOfFilled);
+    this.isSavedActualElemzes = true;
+    console.log(this.count);
+    this.ujReszveny = this.ujBefektetesService.$visszatoltottReszveny;
   }
 
 
@@ -191,6 +207,8 @@ export class UjBefektetesComponent implements OnInit {
     }
 
     console.log(this.ujBefektetesService.$ujReszveny.$mentalisElemzes);
+    this.ujBefektetesService.$ujReszveny.$haladas = this.count;
+
   }
 
   saveKockazatElemzes(kockElemzes: VallalatKockazatElemzes) {
@@ -213,6 +231,8 @@ export class UjBefektetesComponent implements OnInit {
       this.store.dispatch(new UpdateReszvenyAction(this.ujBefektetesService.$ujReszveny))
 
     }
+    this.ujBefektetesService.$ujReszveny.$haladas = this.count;
+
 
   }
 
@@ -240,6 +260,8 @@ export class UjBefektetesComponent implements OnInit {
     }
 
     console.log(this.ujBefektetesService.$ujReszveny.$penzugyiAdatok);
+    this.ujBefektetesService.$ujReszveny.$haladas = this.count;
+
   }
 
   saveVallPenzElemzes(vallPenzElemzes: VallalatPenzugyiElemzes){
@@ -262,6 +284,8 @@ export class UjBefektetesComponent implements OnInit {
       this.store.dispatch(new UpdateReszvenyAction(this.ujBefektetesService.$ujReszveny))
 
     }
+    this.ujBefektetesService.$ujReszveny.$haladas = this.count;
+
   }
 
   saveCelar(celar: CelarMeghatarozas){
@@ -283,6 +307,7 @@ export class UjBefektetesComponent implements OnInit {
       this.store.dispatch(new UpdateReszvenyAction(this.ujBefektetesService.$ujReszveny))
 
     }
+    this.ujBefektetesService.$ujReszveny.$haladas = this.count;
 
   }
 
@@ -305,6 +330,7 @@ export class UjBefektetesComponent implements OnInit {
       this.store.dispatch(new UpdateReszvenyAction(this.ujBefektetesService.$ujReszveny))
 
     }
+    this.ujBefektetesService.$ujReszveny.$haladas = this.count;
 
   }
 
@@ -327,6 +353,8 @@ export class UjBefektetesComponent implements OnInit {
       this.store.dispatch(new UpdateReszvenyAction(this.ujBefektetesService.$ujReszveny))
 
     }
+    this.ujBefektetesService.$ujReszveny.$haladas = this.count;
+
 
   }
 

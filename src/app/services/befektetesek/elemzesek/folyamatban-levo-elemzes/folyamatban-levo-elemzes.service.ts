@@ -1,6 +1,7 @@
+import { UjBefektetesService } from 'src/app/services/befektetesek/uj-befektetes-services/uj-befektetes/uj-befektetes.service';
 import { UjReszveny } from 'src/app/models/uj-befektetes-models/uj-befektetes/uj-befektetes.model';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/components/store/reszveny/state';
 import { ElemzesTipusok } from 'src/app/components/utilities/reszveny-utilities.model';
@@ -13,7 +14,8 @@ export class FolyamatbanLevoElemzesService {
   private ujReszvenyek: UjReszveny[] = [];
   private countOfFolyamatban: number = 0;
 
-  constructor(private store: Store<AppState>) { }
+
+  constructor(private store: Store<AppState>, private ujBefektetesService: UjBefektetesService) { }
 
   getStoreValues() {
     let allItems = this.store.select(store => store.reszvenyek);
@@ -31,7 +33,6 @@ export class FolyamatbanLevoElemzesService {
     this.countOfFolyamatban = this.ujReszvenyek.length;
 
   }
-
 
     /**
      * Getter $ujReszvenyek

@@ -74,7 +74,6 @@ export class LezartBefektetesekComponent implements OnInit {
     this.managelesService.loadManageles(reszveny.$manageles);
 
 
-
     this.ujBefService.loadReszveny(reszveny);
     // Visszatölteni a labeleket meg a százalékot
 

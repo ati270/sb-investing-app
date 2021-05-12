@@ -20,6 +20,7 @@ export class UjBefektetesService {
   private visszatoltottReszveny: UjReszveny;
   private count: number = 0;
   private isSavedActualElemzes: boolean;
+
   constructor() {
     this.$ujReszveny = new UjReszveny();
   }
@@ -76,7 +77,6 @@ export class UjBefektetesService {
   loadReszveny(ujReszveny: UjReszveny){
       this.visszatoltottReszveny = ujReszveny;
       this.count = this.visszatoltottReszveny.$haladas;
-      this.$isSavedActualElemzes = true;
   }
 
     /**
@@ -85,6 +85,23 @@ export class UjBefektetesService {
      */
 	public set $ujReszveny(value: UjReszveny) {
 		this.ujReszveny = value;
+	}
+
+
+    /**
+     * Getter $visszatoltottReszveny
+     * @return {UjReszveny}
+     */
+	public get $visszatoltottReszveny(): UjReszveny {
+		return this.visszatoltottReszveny;
+	}
+
+    /**
+     * Setter $visszatoltottReszveny
+     * @param {UjReszveny} value
+     */
+	public set $visszatoltottReszveny(value: UjReszveny) {
+		this.visszatoltottReszveny = value;
 	}
 
 

@@ -26,6 +26,7 @@ export class FolyamatbanElemzesekComponent implements OnInit {
 
   panelOpenState = false;
 
+
   constructor(private folyamatbanElemzesekService: FolyamatbanLevoElemzesService, private router: Router, private befAdatService: BefAdatokService,
     private mentalisElemzesService: MentalisElemzesService, private ujBefService: UjBefektetesService, private elemzesService: ElemzesService,
     private valallatKockelemzesService: VallalatVizsgKriteriumokService, private penzugyiAdatokService: PenzugyiAdatokService,
@@ -62,7 +63,7 @@ export class FolyamatbanElemzesekComponent implements OnInit {
     let reszvenyek: UjReszveny[] = new Array(reszveny);
     // subject-el visszatölteni
     console.log(reszveny);
-    this.elemzesService.sendSubjectUjReszveny(reszveny);
+    //this.elemzesService.sendSubjectUjReszveny(reszveny);
 
     // Visszatölteni összes tabot
     this.befAdatService.loadBefAdatok(reszveny.$befektetesAdatok);
@@ -73,7 +74,6 @@ export class FolyamatbanElemzesekComponent implements OnInit {
     this.celarService.loadCelarMeghat(reszveny.$celarMeghatarozas);
     this.nettoJelenErtekService.loadNettoJelenertek(reszveny.$nettoJelenertek);
     this.managelesService.loadManageles(reszveny.$manageles);
-    console.log(reszveny.$manageles.managelesBefMen);
 
     this.ujBefService.loadReszveny(reszveny);
     // Visszatölteni a labeleket meg a százalékot

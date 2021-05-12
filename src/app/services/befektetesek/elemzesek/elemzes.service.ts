@@ -18,7 +18,7 @@ export class ElemzesService {
     this.elemzesSubject.next(ujReszveny);
   }
 
-  receiveSbjectUjReszveny(): Observable<UjReszveny>{
+  receiveSubjectUjReszveny(): Observable<UjReszveny>{
     return this.elemzesSubject.asObservable();
   }
 
