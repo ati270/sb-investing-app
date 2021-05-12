@@ -12,8 +12,27 @@ export class NettoJelenertekService {
 
   constructor() { }
 
-  createNettoJelenErtek(nettoJelenErtek: any[]){
-      this.nettoJelenErtek = new NettoJelenErtek(nettoJelenErtek);
+  createNettoJelenErtek(
+    befOsszeg: number,
+    penznem: string,
+    arfolyam: number,
+    csucsKimenet: number,
+    csucsVal: number,
+    celarKimenet: number,
+    celarVal: number,
+    celarFelKimenet: number,
+    celarFelVal: number,
+    aljKimenet: number,
+    aljVal: number,
+    melyKimenet: number,
+    melyVal: number,
+    csodKimenet: number,
+    csodVal: number
+  ){
+      this.nettoJelenErtek = new NettoJelenErtek(
+        befOsszeg,penznem,arfolyam,csucsKimenet,csucsVal,celarKimenet,celarVal,celarFelKimenet,celarFelVal,aljKimenet,aljVal,melyKimenet,
+        melyVal,csodKimenet,csodVal
+      );
   }
 
   getNettoJelenErtek(): Observable<NettoJelenErtek> {

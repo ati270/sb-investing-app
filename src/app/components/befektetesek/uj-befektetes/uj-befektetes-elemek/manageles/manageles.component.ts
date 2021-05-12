@@ -189,6 +189,31 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    if(this.managelesService.$updatedAdatok !== undefined){
+    this.loadManageles();
+    }
+  }
+
+  loadManageles(){
+      let manageles = this.managelesService.$updatedAdatok;
+
+      this.patchFormGroup(manageles);
+  }
+
+  patchFormGroup(manageles: Manageles){
+      this.managelesAdatokFormGroup.patchValue(manageles.managelesBef);
+      this.managelesReszvenyFormGroup.patchValue(manageles.managelesReszveny);
+      this.managelesKulonbozoFormGroup.patchValue(manageles.managelesStrat);
+      console.log(manageles);
+      let arr = manageles.managelesBefMen;
+      console.log("ADATTTTTTTT");
+      console.log(arr[1]);
+      this.befManagelesFormGroup.patchValue(manageles.managelesBefMen);
+      /*for (let data = 0; data < manageles.managelesBefMen.length; data++){
+        const tableFormArray = this.befManagelesFormGroup.get("tableRows") as FormArray;
+        tableFormArray.push()
+      }
+      this.befManagelesFormGroup.patchValue(manageles.managelesBefMen);*/
   }
 
   getKotesek(): Observable<Array<number>> {
@@ -750,6 +775,8 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
       this.managelesKulonbozoFormGroup.value,
       this.befManagelesFormGroup.value
     )
+    console.log("ÉRTTÉÉÉK");
+    console.log(this.befManagelesFormGroup.value);
   }
 
   getManageles() {

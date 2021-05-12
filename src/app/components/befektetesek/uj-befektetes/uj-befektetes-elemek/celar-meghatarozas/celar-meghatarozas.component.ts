@@ -15,7 +15,7 @@ import { AddKotesAction } from 'src/app/components/store/reszveny/actions';
   styleUrls: ['./celar-meghatarozas.component.scss'],
   providers: [MessageService]
 })
-export class CelarMeghatarozasComponent implements OnInit {
+export class CelarMeghatarozasComponent implements OnInit, AfterViewInit {
 
   @Output() filledCelarEmitter: EventEmitter<CelarMeghatarozas> = new EventEmitter();
   allFilled: boolean;
@@ -37,7 +37,6 @@ export class CelarMeghatarozasComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder, private celarService: CelarMeghatarozasService, private messageService: MessageService,
     private store: Store<AppKotesState>, private managelesService: ManagelesService ) { }
 
-
   ngOnInit(): void {
     this.allFilled = false;
     this.celarFormGroup = this._formBuilder.group({
@@ -52,6 +51,36 @@ export class CelarMeghatarozasComponent implements OnInit {
     this.vasarlasiCelarFormGroup = this._formBuilder.group({
 
       VasElvartHozamEvCtrl: new FormControl(this.elvartHozam, [Validators.required])
+    });
+  }
+
+  ngAfterViewInit(): void {
+    if(this.celarService.$updatedAdatok !== undefined){
+      this.loadCelarFrom();
+    }
+  }
+
+  loadCelarFrom(){
+    let celar = this.celarService.$updatedAdatok;
+
+    this.patchFormGroup(celar);
+
+  }
+
+  patchFormGroup(celar: CelarMeghatarozas){
+
+    this.celarFormGroup.patchValue({
+      celarKonkurenciaAdatok: {
+        konkurenciaCtrl: celar.$konkurenciaMutato
+      },
+      celarElemzettAdatok: {
+        elemzettCtrl: celar.$konyvSzerintiErtek
+      }
+    }
+    );
+
+    this.vasarlasiCelarFormGroup.patchValue({
+      VasElvartHozamEvCtrl: celar.$elvartHozam
     });
   }
 

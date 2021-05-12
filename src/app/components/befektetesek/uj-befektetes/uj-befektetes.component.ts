@@ -34,6 +34,7 @@ export class UjBefektetesComponent implements OnInit {
   isBefektetesKesz: boolean;
   count: number = 0.0;
   isSavedActualElemzes: boolean;
+  isCreatedNew: boolean;
   circlePrColor = "#3f729b";
 
 
@@ -64,7 +65,7 @@ export class UjBefektetesComponent implements OnInit {
     private elemzesService: ElemzesService) { }
 
   ngOnInit(): void {
-    this.isSavedActualElemzes = false;
+    this.isCreatedNew = true;
     //this.count = this.ujBefektetesService.$count;
     //this.isSavedActualElemzes = this.ujBefektetesService.$isSavedActualElemzes;
   }
@@ -88,12 +89,13 @@ export class UjBefektetesComponent implements OnInit {
     this.ujBefektetesService.$ujReszveny = new UjReszveny();
     this.$ujReszveny = this.ujBefektetesService.$ujReszveny;
 
-    this.isSavedActualElemzes = false;
+    //this.isCreatedNew = true;
 
   }
 
   onRejectUjReszveny() {
     this.messageService.clear('c');
+    //this.isCreatedNew = false;
   }
 
 
@@ -108,6 +110,7 @@ export class UjBefektetesComponent implements OnInit {
     this.messageService.add({ key: 'tcAdd', severity: 'success', summary: 'Elemzés sikeresen mentve!' });
     this.isSavedActualElemzes = true;
     //this.ujBefektetesService.loadMentettElemzes(this.isSavedActualElemzes);
+    this.isCreatedNew = false;
   }
 
   // Ezzzel adunk mindig hozzá egy elemet a listához

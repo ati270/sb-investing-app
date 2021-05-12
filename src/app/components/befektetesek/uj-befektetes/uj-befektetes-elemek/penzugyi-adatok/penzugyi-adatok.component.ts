@@ -163,7 +163,9 @@ export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.loadVallKock()
+    if(this.penzugyiAdatokService.$updatedAdatok !== undefined){
+    this.loadVallKock();
+    }
   }
 
   loadVallKock() {

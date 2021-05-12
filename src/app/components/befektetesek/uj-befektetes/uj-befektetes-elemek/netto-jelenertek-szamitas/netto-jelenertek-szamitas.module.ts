@@ -1,3 +1,4 @@
+import { PointReplaceForFloatPipeModule } from './../../../../custom-pipes/decimal-num-for-float.module';
 import { MatIconModule } from '@angular/material/icon';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from "@angular/common";
@@ -22,6 +23,7 @@ import { ToastModule } from 'primeng/toast';
     MatInputModule,
     MatDividerModule,
     MatFormFieldModule,
+    PointReplaceForFloatPipeModule,
     MatTableModule,
     FormsModule,
     ReactiveFormsModule,

@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { Component, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { VallalatPenzugyiElemzes } from 'src/app/models/uj-befektetes-models/vallalat-penz-elemzes/vallalat-penz-elemzes.model';
 import { VallalatPenzElemzesService } from 'src/app/services/befektetesek/uj-befektetes-services/vallalat-penz-elemzes/vallalat-penz-elemzes.service';
@@ -14,7 +14,7 @@ export interface dataArguments {
   styleUrls: ['./vallalat-penzugyi-elemzes.component.scss'],
   providers: [MessageService]
 })
-export class VallalatPenzugyiElemzesComponent implements OnInit {
+export class VallalatPenzugyiElemzesComponent implements OnInit, AfterViewInit {
 
   vallalatPenzugyiElemzes: VallalatPenzugyiElemzes;
 
@@ -84,6 +84,7 @@ export class VallalatPenzugyiElemzesComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder, private vallalatPenzugyiElemzesService: VallalatPenzElemzesService,
     private messageService: MessageService) { }
 
+
   ngOnInit(): void {
     this.allFilled = false;
     this.createJovFormGroup();
@@ -94,6 +95,27 @@ export class VallalatPenzugyiElemzesComponent implements OnInit {
 
     this.createPiaciFormGroup();
 
+  }
+
+  ngAfterViewInit(): void {
+    if(this.vallalatPenzugyiElemzesService.$updatedAdatok !== undefined){
+    this.loadVallPenz();
+    }
+  }
+
+  loadVallPenz() {
+    let vallPenz = this.vallalatPenzugyiElemzesService.$updatedAdatok;
+
+    this.patchFormGroup(vallPenz);
+
+  }
+
+  patchFormGroup(vallPenzElemzes: VallalatPenzugyiElemzes){
+      // bekötni a formgroupba
+    this.jovedelmezosegiFormGroup.patchValue(vallPenzElemzes.vallalatPenzugyiElemzesJovedelmezoseg);
+    this.hatekonysagiFormGroup.patchValue(vallPenzElemzes.vallalatPenzugyiElemzesHatekonysag);
+    this.hitelFormGroup.patchValue(vallPenzElemzes.vallalatPenzugyiElemzesHitel);
+    this.piaciFormGroup.patchValue(vallPenzElemzes.vallalatPenzugyiElemzesPiaci);
   }
 
   createJovFormGroup() {

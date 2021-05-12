@@ -59,7 +59,9 @@ export class BefAdatokComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    if(this.befAdatokService.$updatedAdatok !== undefined){
     this.loadBefAdatok();
+    }
   }
 
 

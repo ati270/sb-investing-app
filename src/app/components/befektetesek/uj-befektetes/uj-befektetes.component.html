@@ -64,11 +64,11 @@
               </circle-progress>
             </div>
             <div class="ml-auto p-2 bd-highlight">
-              <button mat-stroked-button color="primary" style="border: 1.5px solid #3f729b; font-weight: bold;" class="z-depth-2"
+              <button mat-raised-button color="primary" class="z-depth-2"
                 (click)="createUjReszveny()">Új elemzés</button>
-
-              <button #saveBtn mat-raised-button style="margin-left:0.5rem; background-color: darkgreen;color: white"
-                class="z-depth-2" (click)="saveReszveny()" [disabled]="isSavedActualElemzes" disabled>Elemzés
+              <!--style="margin-left:0.5rem; background-color: darkgreen;color: white"-->
+              <button #saveBtn mat-stroked-button color="primary" style="margin-left: 0.5rem;"
+                class="z-depth-2" (click)="saveReszveny()">Elemzés
                 mentése</button>
             </div>
           </div>

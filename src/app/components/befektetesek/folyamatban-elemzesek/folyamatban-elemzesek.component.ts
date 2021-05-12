@@ -73,8 +73,7 @@ export class FolyamatbanElemzesekComponent implements OnInit {
     this.celarService.loadCelarMeghat(reszveny.$celarMeghatarozas);
     this.nettoJelenErtekService.loadNettoJelenertek(reszveny.$nettoJelenertek);
     this.managelesService.loadManageles(reszveny.$manageles);
-
-
+    console.log(reszveny.$manageles.managelesBefMen);
 
     this.ujBefService.loadReszveny(reszveny);
     // Visszatölteni a labeleket meg a százalékot

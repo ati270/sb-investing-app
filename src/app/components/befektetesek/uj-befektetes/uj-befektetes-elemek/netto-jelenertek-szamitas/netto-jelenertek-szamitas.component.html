@@ -208,27 +208,27 @@
   </table>
   <br>
   <div class="input-group mb-3 ">
-    <input type="text" class="form-control" placeholder="Befektetés átlagára" aria-label="Recipient's username"
+    <input type="text" class="form-control" placeholder="Befektetés átlagára" aria-label="Bef átlagára"
       aria-describedby="basic-addon2" readonly>
     <div class="input-group-append">
       <span class="input-group-text" id="basic-addon2"
-        style="background-color: #3F729B;color: white;">{{befAtlagAra}}</span>
+        style="background-color: #3F729B;color: white;">{{befAtlagAra| number : '1.0-2' }}</span>
     </div>
   </div>
   <div class="input-group mb-3 ">
-    <input type="text" class="form-control" placeholder="Befektetés jelenértéke" aria-label="Recipient's username"
+    <input type="text" class="form-control" placeholder="Befektetés jelenértéke" aria-label="Bef jelenérték"
       aria-describedby="basic-addon2" readonly>
     <div class="input-group-append">
       <span class="input-group-text" id="basic-addon2"
-        style="background-color: #3F729B;color: white;">{{befJelenErtek}}</span>
+        style="background-color: #3F729B;color: white;">{{befJelenErtek |number : '1.0-2' }}</span>
     </div>
   </div>
   <div class="input-group mb-3 ">
-    <input type="text" class="form-control" placeholder="Befektetés nettó jelenértéke" aria-label="Recipient's username"
+    <input type="text" class="form-control" placeholder="Befektetés nettó jelenértéke" aria-label="Bef netto jelenérték"
       aria-describedby="basic-addon2" readonly>
     <div class="input-group-append">
       <span class="input-group-text" id="basic-addon2" style="color: white;"
-        [ngStyle]="befNettoJelenErtek>0?{'background-color':'green'} : {'background-color': 'red'}">{{befNettoJelenErtek | number:'.1-3'}}</span>
+        [ngStyle]="befNettoJelenErtek>0?{'background-color':'green'} : {'background-color': 'red'}">{{befNettoJelenErtek |  number : '1.0-2' }}</span>
     </div>
   </div>
 </form>

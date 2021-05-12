@@ -94,7 +94,9 @@ export class SajatMagamElemzeseComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    if(this.mentalisElemzesService.$updatedMentalisElemzes !== undefined){
     this.loadMentalisElemzes();
+    }
   }
 
   addElvegezveControls() {

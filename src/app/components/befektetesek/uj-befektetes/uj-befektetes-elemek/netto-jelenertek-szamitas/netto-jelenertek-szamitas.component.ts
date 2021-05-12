@@ -12,7 +12,7 @@ import { NettoJelenertekService } from 'src/app/services/befektetesek/uj-befekte
   styleUrls: ['./netto-jelenertek-szamitas.component.scss'],
   providers: [MessageService]
 })
-export class NettoJelenertekSzamitasComponent implements OnInit {
+export class NettoJelenertekSzamitasComponent implements OnInit, AfterViewInit {
 
   @Output() filledNettoJelenertekEmitter: EventEmitter<NettoJelenErtek> = new EventEmitter();
   allFilled: boolean;
@@ -58,6 +58,44 @@ export class NettoJelenertekSzamitasComponent implements OnInit {
     this.onChanges();
   }
 
+  ngAfterViewInit(): void {
+    if (this.nettoJelenErtekService.$updatedAdatok !== undefined) {
+      this.loadJelenertek();
+    }
+  }
+
+
+  loadJelenertek() {
+    let nettoJelenertek = this.nettoJelenErtekService.$updatedAdatok;
+    console.log(nettoJelenertek.$befOsszeg);
+
+    this.nettoJelenFormGroup.patchValue({
+      befOsszegCtrl: nettoJelenertek.$befOsszeg,
+      penznemCtrl: nettoJelenertek.$penznem,
+
+      arfolyamCtrl: nettoJelenertek.$arfolyam,
+      adatok: {
+        csucsKimenetCtrl: nettoJelenertek.$csucsKimenet,
+        csucsValCtrl: nettoJelenertek.$csucsVal,
+
+        celarKimenetCtrl: nettoJelenertek.$celarKimenet,
+        celarValCtrl: nettoJelenertek.$celarVal,
+
+        celarFelKimenetCtrl: nettoJelenertek.$celarFelKimenet,
+        celarFelValCtrl: nettoJelenertek.$celarFelVal,
+
+        aljKimenetCtrl: nettoJelenertek.$aljKimenet,
+        aljValCtrl: nettoJelenertek.$aljVal,
+
+        melyKimenetCtrl: nettoJelenertek.$melyKimenet,
+        melyValCtrl: nettoJelenertek.$melyVal,
+
+        csodKimenetCtrl: nettoJelenertek.$csodKimenet,
+        csodValCtrl: nettoJelenertek.$csodVal,
+      }
+    });
+  }
+
 
   createNettoJelenErtekFormGroup() {
     this.nettoJelenFormGroup = this._formBuilder.group({
@@ -100,50 +138,55 @@ export class NettoJelenertekSzamitasComponent implements OnInit {
     return color;
   }
 
-  public getNettoJelenErtekStyle(val: number){
-      let color = 'gray';
+  public getNettoJelenErtekStyle(val: number) {
+    let color = 'gray';
 
-      if(val > 0){
-        color = 'green';
-      }
-      else{
-        color = 'red';
-      }
+    if (val > 0) {
+      color = 'green';
+    }
+    else {
+      color = 'red';
+    }
   }
 
-  onChanges(){
+  onChanges() {
 
     this.nettoJelenFormGroup.get('adatok').get('csucsValCtrl').valueChanges.subscribe(
-      val=> { this.csucsVal = val; }
+      val => { this.csucsVal = val; }
     )
 
     this.nettoJelenFormGroup.get('adatok').get('celarValCtrl').valueChanges.subscribe(
-      val=> { this.celarVal = val; }
+      val => { this.celarVal = val; }
     )
 
     this.nettoJelenFormGroup.get('adatok').get('celarFelValCtrl').valueChanges.subscribe(
-      val=> { this.celarFelVal = val; }
+      val => { this.celarFelVal = val; }
     )
 
     this.nettoJelenFormGroup.get('adatok').get('aljValCtrl').valueChanges.subscribe(
-      val=> { this.aljVal = val; }
+      val => { this.aljVal = val; }
     )
 
     this.nettoJelenFormGroup.get('adatok').get('melyValCtrl').valueChanges.subscribe(
-      val=> { this.melyVal = val; }
+      val => { this.melyVal = val; }
     )
 
     this.nettoJelenFormGroup.get('adatok').get('csodValCtrl').valueChanges.subscribe(
-      val=> { this.csodVal = val; }
+      val => { this.csodVal = val; }
     )
 
   }
 
-  createNettoJelenErtek(){
-      this.nettoJelenErtekService.createNettoJelenErtek(this.nettoJelenFormGroup.value);
+  createNettoJelenErtek() {
+    this.nettoJelenErtekService.createNettoJelenErtek(
+      this.$befOsszeg, this.$penznem, this.$arfolyam, this.csucsKimenet, this.$csucsVal, this.celarKimenet, this.$celarVal,
+      this.celarFelKimenet, this.$celarFelVal, this.aljKimenet, this.$aljVal, this.melyKimenet, this.$melyVal, this.csodKimenet, this.$csodVal
+    );
+
+    console.log("BEF ÖSSZEGF:: " + this.$befOsszeg);
   }
 
-  getJelenErtek(){
+  getJelenErtek() {
 
     this.nettoJelenErtekService.getNettoJelenErtek().subscribe(
       adatok => {
@@ -159,37 +202,41 @@ export class NettoJelenertekSzamitasComponent implements OnInit {
 
     this.filledNettoJelenertekEmitter.emit(this.nettoJelenErtek);
 
-    this.messageService.add({ key: 'tc', severity: 'success', summary: 'Nettó jelenérték sikeresen hozzáadva!'});
+    this.messageService.add({ key: 'tc', severity: 'success', summary: 'Nettó jelenérték sikeresen hozzáadva!' });
 
     console.log(this.nettoJelenErtek);
 
   }
 
-  redirectToBlog(){
+  redirectToBlog() {
     let url = "https://blog.sb-investing.com/befektetesi-kockazat-elemzese/";
     window.open(url, "_blank");
   }
 
   // Getters
 
-  get befOsszeg() {
+  get $befOsszeg() {
     return this.nettoJelenFormGroup.get('befOsszegCtrl').value;
   }
 
-  get arfolyam() {
+  get $arfolyam() {
     return this.nettoJelenFormGroup.get('arfolyamCtrl').value;
   }
 
+  get $penznem() {
+    return this.nettoJelenFormGroup.get('penznemCtrl').value;
+  }
 
-    /**
-     * Getter $vasaroltMennyiseg
-     * @return {number }
-     */
-	public get $vasaroltMennyiseg(): number  {
 
-    this.vasaroltMennyiseg = this.befOsszeg / this.arfolyam;
-		return Math.floor(this.vasaroltMennyiseg);
-	}
+  /**
+   * Getter $vasaroltMennyiseg
+   * @return {number }
+   */
+  public get $vasaroltMennyiseg(): number {
+
+    this.vasaroltMennyiseg = this.$befOsszeg / this.$arfolyam;
+    return Math.floor(this.vasaroltMennyiseg);
+  }
 
 
 
@@ -255,7 +302,7 @@ export class NettoJelenertekSzamitasComponent implements OnInit {
 
 
 
-  get csucsAtlag() { return (this.csucsKimenet * this.csucsVal)/100; }
+  get csucsAtlag() { return (this.csucsKimenet * this.csucsVal) / 100; }
 
 
   get celarKimenet() {
@@ -263,7 +310,7 @@ export class NettoJelenertekSzamitasComponent implements OnInit {
 
   }
 
-  get celarAtlag() { return (this.celarKimenet * this.celarVal)/100; }
+  get celarAtlag() { return (this.celarKimenet * this.celarVal) / 100; }
 
 
 
@@ -272,7 +319,7 @@ export class NettoJelenertekSzamitasComponent implements OnInit {
 
   }
 
-  get celarFelAtlag() { return (this.celarFelKimenet * this.celarFelVal)/100; }
+  get celarFelAtlag() { return (this.celarFelKimenet * this.celarFelVal) / 100; }
 
 
   get aljKimenet() {
@@ -280,7 +327,7 @@ export class NettoJelenertekSzamitasComponent implements OnInit {
 
   }
 
-  get aljAtlag() { return (this.aljKimenet * this.aljVal)/100; }
+  get aljAtlag() { return (this.aljKimenet * this.aljVal) / 100; }
 
 
 
@@ -289,14 +336,14 @@ export class NettoJelenertekSzamitasComponent implements OnInit {
 
   }
 
-  get melyAtlag() { return (this.melyKimenet * this.melyVal)/100 };
+  get melyAtlag() { return (this.melyKimenet * this.melyVal) / 100 };
 
   get csodKimenet() {
     return this.nettoJelenFormGroup.get('adatok').get('csodKimenetCtrl').value;
 
   }
 
-  get csodAtlag() { return (this.csodKimenet * this.csodVal)/100; }
+  get csodAtlag() { return (this.csodKimenet * this.csodVal) / 100; }
 
 
   /**
@@ -317,14 +364,16 @@ export class NettoJelenertekSzamitasComponent implements OnInit {
       + this.melyAtlag + this.csodAtlag
   }
 
-  get befAtlagAra() { return this.vasaroltMennyiseg * this.osszAtlag; }
+  get befAtlagAra() {
+    return this.vasaroltMennyiseg * this.osszAtlag;
+  }
 
   get befJelenErtek() {
     return this.befAtlagAra / 1.2;
   }
 
   get befNettoJelenErtek() {
-    return this.befJelenErtek - this.befOsszeg;
+    return this.befJelenErtek - this.$befOsszeg;
   }
 
 

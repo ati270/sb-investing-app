@@ -979,7 +979,9 @@ export class VallalatVizsgKriteriumokComponent implements OnInit, AfterViewInit 
   }
 
   ngAfterViewInit(): void {
+    if(this.vallalatVizsgKritService.$updatedAdatok !== undefined){
     this.loadVallKock();
+    }
   }
 
   loadVallKock() {
