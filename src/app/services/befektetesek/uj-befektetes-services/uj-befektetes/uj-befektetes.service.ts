@@ -77,6 +77,7 @@ export class UjBefektetesService {
   loadReszveny(ujReszveny: UjReszveny){
       this.visszatoltottReszveny = ujReszveny;
       this.count = this.visszatoltottReszveny.$haladas;
+      this.ujReszveny = ujReszveny;
   }
 
     /**

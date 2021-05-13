@@ -4,7 +4,7 @@ import { BefAdatokComponent } from './uj-befektetes-elemek/bef-adatok/bef-adatok
 import { ElemzesService } from './../../../services/befektetesek/elemzesek/elemzes.service';
 import { VallalatVizsgKriteriumokComponent } from './uj-befektetes-elemek/vallalat-vizsg-kriteriumok/vallalat-vizsg-kriteriumok.component';
 import { AddReszvenyAction, UpdateReszvenyAction } from './../../store/reszveny/actions';
-import { Component, OnInit, ViewChild, Output, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { TargetBinder } from '@angular/compiler';
 import { BefektetesAdatok } from 'src/app/models/uj-befektetes-models/befektetes-adatok/bef-adatok.model';
@@ -68,7 +68,7 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
   private haladasValue: number = 0;
   private tabValue = 12.5;
   constructor(private ujBefektetesService: UjBefektetesService, private store: Store<AppState>, private messageService: MessageService,
-    private elemzesService: ElemzesService, private befadatokService: BefAdatokService) { }
+    private elemzesService: ElemzesService, private befadatokService: BefAdatokService,private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.isCreatedNew = true;
@@ -79,6 +79,7 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(){
     if(this.ujBefektetesService.$count > 0){
     this.loadHaladas();
+    this.cdr.detectChanges();
     }
   }
 
@@ -87,9 +88,11 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
     this.count = halad;
     this.countOfFilled = (this.count * 8)/100;
     console.log(this.countOfFilled);
-    this.isSavedActualElemzes = true;
+      this.isSavedActualElemzes = true;
+
     console.log(this.count);
     this.ujReszveny = this.ujBefektetesService.$visszatoltottReszveny;
+    console.log("VISSZATÖLTÖTT:" + this.ujReszveny.$befektetesAdatok.vallalatNeve);
   }
 
 
