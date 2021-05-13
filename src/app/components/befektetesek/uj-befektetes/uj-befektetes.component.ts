@@ -1,3 +1,6 @@
+import { BefAdatokService } from 'src/app/services/befektetesek/uj-befektetes-services/befektetes-adatok/bef-adatok.service';
+import { SajatMagamElemzeseComponent } from './uj-befektetes-elemek/sajat-magam-elemzese/sajat-magam-elemzese.component';
+import { BefAdatokComponent } from './uj-befektetes-elemek/bef-adatok/bef-adatok.component';
 import { ElemzesService } from './../../../services/befektetesek/elemzesek/elemzes.service';
 import { VallalatVizsgKriteriumokComponent } from './uj-befektetes-elemek/vallalat-vizsg-kriteriumok/vallalat-vizsg-kriteriumok.component';
 import { AddReszvenyAction, UpdateReszvenyAction } from './../../store/reszveny/actions';
@@ -59,10 +62,13 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
   changeFrom6To7Tab: boolean;
   lastTab: boolean;
 
+  befAdatComponent: BefAdatokComponent;
+  mentalisComponent: SajatMagamElemzeseComponent;
+
   private haladasValue: number = 0;
   private tabValue = 12.5;
   constructor(private ujBefektetesService: UjBefektetesService, private store: Store<AppState>, private messageService: MessageService,
-    private elemzesService: ElemzesService) { }
+    private elemzesService: ElemzesService, private befadatokService: BefAdatokService) { }
 
   ngOnInit(): void {
     this.isCreatedNew = true;
@@ -102,6 +108,16 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
 
   onConfirmUjReszveny() {
     this.messageService.clear('c');
+    this.isSavedActualElemzes = false;
+    this.count = 0;
+    this.countOfFilled = 0;
+    // Reset formGroups
+    // TODO
+    //this.befAdatComponent.adatokFormGroup.reset();
+    //this.mentalisComponent.sajatMagamElemzesFormGroup.reset();
+    /*this.befadatokService.onFormReset.subscribe(formgroup =>{
+      formgroup.reset();
+    })*/
     this.ujBefektetesService.$ujReszveny = new UjReszveny();
     this.$ujReszveny = this.ujBefektetesService.$ujReszveny;
 

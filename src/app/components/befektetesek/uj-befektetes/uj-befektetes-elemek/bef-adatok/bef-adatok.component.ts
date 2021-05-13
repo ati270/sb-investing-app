@@ -140,6 +140,7 @@ export class BefAdatokComponent implements OnInit, AfterViewInit {
 
   }*/
 
+
   saveBefAdatok() {
     this.createBefAdatok();
     this.getBefAdatok();

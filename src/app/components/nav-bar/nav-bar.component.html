@@ -1,60 +1,60 @@
 <!--Navbar -->
 <div>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <!-- TODO: App logo-->
-        <div class="collapse navbar-collapse d-flex justify-content-left" style="width: 5%">
-            <a class="navbar-brand" href="#" style="margin-bottom: 2rem;">
-                <img src="../assets/img/logo.png" height="60" alt="sb-logo">
-            </a>
-        </div>
-        <div class="collapse navbar-collapse d-flex justify-content-center">
-            <div class="d-flex justify-content-center" style="width: 85%;">
-                <ul class="navbar-nav mr-auto navbar-center">
-                    <li class="divider-vertical"></li>
-                    <!--Blog-->
-                    <li class="nav-item active">
-                        <a class="nav-link" (click)="redirectToBlogChallenge()">
-                            <div class="nav-div">
-                                <mat-icon style="font-size: 2.5rem;height: 2.5rem;">landscape icon</mat-icon>
-                                <!--chat_bubble_outline
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <!-- TODO: App logo-->
+    <div class="collapse navbar-collapse d-flex justify-content-left" style="width: 5%">
+      <a id="logo" class="navbar-brand" href="#" style="margin-bottom: 2rem;">
+        <img src="../assets/img/logo.png" height="60" alt="sb-logo">
+      </a>
+    </div>
+    <div class="collapse navbar-collapse d-flex justify-content-center">
+      <div class="d-flex justify-content-center" style="width: 75%;">
+        <ul class="navbar-nav mr-auto navbar-center">
+          <li class="divider-vertical"></li>
+          <!--Blog-->
+          <li class="nav-item active">
+            <a class="nav-link" (click)="redirectToBlogChallenge()">
+              <div class="nav-div">
+                <mat-icon style="font-size: 2rem;height: 2rem;">landscape icon</mat-icon>
+                <!--chat_bubble_outline
                             matBadge="1" matBadgeColor="warn"-->
-                                <span >Befektetési challenge</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider-vertical"></li>
-                    <!--Topic-->
-                    <li class="nav-item active">
-                        <a class="nav-link" (click)="redirectToBlogAlapok()">
-                            <div class="nav-div">
-                                <mat-icon style="font-size: 2.5rem;height: 2.5rem;">auto_stories</mat-icon>
-                                <span >Alapok</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider-vertical"></li>
-                    <!--Befektetői klub-->
-                    <li class="nav-item active">
-                        <a class="nav-link" (click)="redirectToBlogStrategia()">
-                            <div class="nav-div">
-                                <mat-icon style="font-size: 2.5rem;height: 2.5rem;">trending_up</mat-icon>
-                                <span >Stratégia</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider-vertical"></li>
-                    <!--Rólunk-->
-                    <li class="nav-item active">
-                        <a class="nav-link" (click)="redirectToBlogRolunk()">
-                            <div class="nav-div">
-                                <mat-icon style="font-size: 2.5rem;height: 2.5rem;">info</mat-icon>
-                                <span >Rólunk</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider-vertical"></li>
-                    <!--Csomagok: később-->
-                    <!--<li class="nav-item active">
+                <span>Befektetési challenge</span>
+              </div>
+            </a>
+          </li>
+          <li class="divider-vertical"></li>
+          <!--Topic-->
+          <li class="nav-item active">
+            <a class="nav-link" (click)="redirectToBlogAlapok()">
+              <div class="nav-div">
+                <mat-icon style="font-size: 2rem;height: 2rem;">auto_stories</mat-icon>
+                <span>Alapok</span>
+              </div>
+            </a>
+          </li>
+          <li class="divider-vertical"></li>
+          <!--Befektetői klub-->
+          <li class="nav-item active">
+            <a class="nav-link" (click)="redirectToBlogStrategia()">
+              <div class="nav-div">
+                <mat-icon style="font-size: 2rem;height: 2rem;">trending_up</mat-icon>
+                <span>Stratégia</span>
+              </div>
+            </a>
+          </li>
+          <li class="divider-vertical"></li>
+          <!--Rólunk-->
+          <li class="nav-item active">
+            <a class="nav-link" (click)="redirectToBlogRolunk()">
+              <div class="nav-div">
+                <mat-icon style="font-size: 2rem;height: 2rem;">info</mat-icon>
+                <span>Rólunk</span>
+              </div>
+            </a>
+          </li>
+          <li class="divider-vertical"></li>
+          <!--Csomagok: később-->
+          <!--<li class="nav-item active">
                         <a class="nav-link" style="color: goldenrod !important;">
                             <div class="nav-div">
                                 <mat-icon style="font-size: 2rem;height: 2rem;">local_mall</mat-icon>
@@ -63,49 +63,63 @@
                         </a>
                     </li> -->
 
-                </ul>
-            </div>
-            <div class="d-flex justify-content-center" style="width: 10%;padding: 0;margin: 0;">
-                <ul class="navbar-nav ml-auto nav-flex-icons">
-                    <!--<li class="divider-vertical"></li>-->
-                    <!--<li class="nav-item">
+        </ul>
+      </div>
+      <div class="d-flex justify-content-center" style="width: 25%;padding: 0;margin: 0;">
+        <ul class="navbar-nav ml-auto nav-flex-icons">
+          <!--<li class="divider-vertical"></li>-->
+          <!--<li class="nav-item">
                     <button type="button" class="btn btn-outline-primary btn-rounded waves-effect">Regisztráció</button>
-                </li>
-                <li class="nav-item" style="margin-right: 2rem;">
-                    <a class="nav-link" href="#">
-                        Bejelentkezés
-                    </a>
                 </li>-->
-                    <li class="nav-item avatar" style="margin-left:1rem">
-                       <a class="nav-link p-0" [matMenuTriggerFor]="menu">
-                            <img src="../assets/img/avatar.png" class="rounded-circle z-depth-0" alt="avatar image"
-                                height="60">
-                        </a>
-                        <mat-menu #menu="matMenu">
-                            <button mat-menu-item routerLink="/investment-home">
-                                <span>Kijelentkezés</span>
-                                <mat-icon>logout</mat-icon>
-                            </button>
-                        </mat-menu>
-                    </li>
-                </ul>
-            </div>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Üdvözöllek, ...
+            </a>
+          </li>
+          <li class="nav-item avatar" style="margin-left:1rem">
+            <a class="nav-link p-0" [matMenuTriggerFor]="menu">
+              <img src="../assets/img/avatar.jpg" class="rounded-circle z-depth-0" alt="avatar image" height="60">
+            </a>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>
+                <span>Profil</span>
+                <mat-icon>account</mat-icon>
+              </button>
+              <button mat-menu-item routerLink="/investment-home">
+                <span>Kijelentkezés</span>
+                <mat-icon>logout</mat-icon>
+              </button>
+            </mat-menu>
+          </li>
+        </ul>
+      </div>
 
-        </div>
-    </nav>
+    </div>
+  </nav>
 </div>
 <!--Jumbotron -->
 
 <div class="jumbotron  bg-dark">
-    <!-- <h1 class="display-4">"Csóróból" befektető</h1>
+  <!-- <h1 class="display-4">"Csóróból" befektető</h1>
     <p class="lead" style="float: right"><b><i>"Örökké nem eshet..."</i></b></p>
     <br>
     <hr class="my-4">
     -->
-    <div class="container text-white">
-        <h2>Céloktól a befektetésig</h2>
-        <a class="btn  btn-md z-depth-3" (click)="openKezddIttPage()" role="button"
-            style="float: left;background-color: #CC0000; font-size: large;">Kezdd itt</a>
-    </div>
-
+  <div class="container text-white">
+    <h2>Céloktól a befektetésig</h2>
+    <a class="btn  btn-md z-depth-3" (click)="openKezddIttPage()" role="button">Kezdj itt</a>
+    <div class="example-button-container">
+      <button mat-fab class="smoothBtn" (click)="goToReszvenyek()">
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </button>
+  </div>
+</div>
+</div>
+<div>
+  <!--<div class="example-button-container">
+    <button id="smooth" mat-fab color="primary" (click)="goToJumbotron()">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+</div>-->
+    <h5 id="smooth"> </h5>
 </div>

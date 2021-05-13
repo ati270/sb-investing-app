@@ -32,6 +32,15 @@ export class NavBarComponent implements OnInit {
     //console.log(this.logined_user);
   }
 
+  goToReszvenyek(){
+    document.getElementById('smooth').scrollIntoView({behavior:"smooth"});
+  }
+
+  /*goToJumbotron(){
+    document.getElementById('logo').scrollIntoView({behavior:"smooth"});
+
+  }*/
+
   redirectToBlogChallenge(){
     let url = "https://blog.sb-investing.com/befektetesi-challange-2/";
     window.open(url, "_blank");

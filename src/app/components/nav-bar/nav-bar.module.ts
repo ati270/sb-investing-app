@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   imports: [CommonModule,
@@ -14,6 +15,7 @@ import {MatChipsModule} from '@angular/material/chips';
     MoreInfoDialogModule,
     MatIconModule,
     MatChipsModule,
+    MatButtonModule,
     MatBadgeModule,
     MatMenuModule
 ],
