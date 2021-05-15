@@ -30,7 +30,7 @@ import { MessageService } from 'primeng/api';
   providers: [MessageService]
 })
 export class UjBefektetesComponent implements OnInit, AfterViewInit {
-  @ViewChild('saveReszveny') saveButton: ElementRef;
+  @ViewChild('saveBtn') saveButton: ElementRef;
   countOfFilled: number = 0;
   pbarTitle = "Kitöltöttség";
   maxPercent: number = 8;
@@ -61,6 +61,7 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
   changeFrom5To6Tab: boolean;
   changeFrom6To7Tab: boolean;
   lastTab: boolean;
+  isUjReszv: boolean;
 
   befAdatComponent: BefAdatokComponent;
   mentalisComponent: SajatMagamElemzeseComponent;
@@ -72,6 +73,7 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.isCreatedNew = true;
+    this.isUjReszv = true;
     //this.count = this.ujBefektetesService.$count;
     //this.isSavedActualElemzes = this.ujBefektetesService.$isSavedActualElemzes;
   }
@@ -93,6 +95,7 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
     console.log(this.count);
     this.ujReszveny = this.ujBefektetesService.$visszatoltottReszveny;
     console.log("VISSZATÖLTÖTT:" + this.ujReszveny.$befektetesAdatok.vallalatNeve);
+    this.isUjReszv = true;
   }
 
 
@@ -114,6 +117,8 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
     this.isSavedActualElemzes = false;
     this.count = 0;
     this.countOfFilled = 0;
+    this.isUjReszv = false;
+
     // Reset formGroups
     // TODO
     //this.befAdatComponent.adatokFormGroup.reset();
@@ -146,6 +151,7 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
     this.isSavedActualElemzes = true;
     //this.ujBefektetesService.loadMentettElemzes(this.isSavedActualElemzes);
     this.isCreatedNew = false;
+    this.isUjReszv = true;
   }
 
   // Ezzzel adunk mindig hozzá egy elemet a listához

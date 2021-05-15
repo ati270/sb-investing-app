@@ -17,6 +17,17 @@
   color: white; 
 }
 
+.elemzes-ment-btn:disabled{
+  background: -webkit-linear-gradient(left, lightgray, darkgrey);
+}
+
+.elemzes-ment-btn:enabled{
+  background: -webkit-linear-gradient(left, rgb(51, 146, 51), darkgreen);
+  margin-left: 0.5rem;
+  border: none;
+  color: white; 
+}
+
 .uj-elemzes-btn{
   background: -webkit-linear-gradient(right, #2d5575, #3f729B);
   color: whitesmoke;
