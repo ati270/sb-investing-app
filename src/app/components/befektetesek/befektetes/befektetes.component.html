@@ -10,31 +10,66 @@
       margin-left: 2rem;
   margin-right: 2rem">
       <div class="example-button-container" id="menuItem">
-        <button mat-fab color="primary" class="mat-btn z-depth-2" (click)="routeToCelkituzes()">
-          <mat-icon>fact_check</mat-icon>
-        </button>
+        <mat-card>
+          <mat-card-subtitle style="text-align: center;">
+            <span class="items-text">Célkitűzés</span>
+          </mat-card-subtitle>
+          <mat-card-content>
+            <button mat-fab color="primary" class="mat-btn z-depth-2" (click)="routeToCelkituzes()">
+              <mat-icon>fact_check</mat-icon>
+            </button>
+          </mat-card-content>
+        </mat-card>
       </div>
       <div class="example-button-container">
-        <button mat-fab  class="mat-btn z-depth-2" (click)="routeToPenzugyek()">
-          <mat-icon>attach_money</mat-icon>
-        </button>
+        <mat-card>
+          <mat-card-subtitle style="text-align: center;">
+            <span class="items-text">Pénzügyek</span>
+          </mat-card-subtitle>
+          <mat-card-content>
+            <button mat-fab class="mat-btn z-depth-2" (click)="routeToPenzugyek()">
+              <mat-icon>attach_money</mat-icon>
+            </button>
+          </mat-card-content>
+        </mat-card>
       </div>
       <div class="example-button-container">
-        <button mat-fab  class="mat-btn z-depth-2" (click)="routeToStrategia()">
-          <mat-icon>bar_chart</mat-icon>
-        </button>
+        <mat-card>
+          <mat-card-subtitle style="text-align: center;">
+            <span class="items-text">Gazd.állapot és stratégia</span>
+          </mat-card-subtitle>
+          <mat-card-content>
+            <button mat-fab class="mat-btn z-depth-2" (click)="routeToStrategia()">
+              <mat-icon>bar_chart</mat-icon>
+            </button>
+          </mat-card-content>
+        </mat-card>
       </div>
       <div class="example-button-container">
-        <button mat-fab  class="mat-btn z-depth-2" routerLink="/befektetes">
-          <mat-icon>show_chart</mat-icon>
-        </button>
+        <mat-card>
+          <mat-card-subtitle style="text-align: center;">
+            <span class="items-text">Részvényelemzés</span>
+          </mat-card-subtitle>
+          <mat-card-content>
+            <button mat-fab class="mat-btn z-depth-2" routerLink="/befektetes">
+              <mat-icon>show_chart</mat-icon>
+            </button>
+          </mat-card-content>
+        </mat-card>
       </div>
       <div class="example-button-container">
-        <button mat-fab color="warn" class="mat-btn-i z-depth-2" (click)="redirectToInfo()">
-          <span>
-            <h1 style="font-family: Georgia;font-style: italic; color: #CC0000;">i</h1>
-          </span>
-        </button>
+        <mat-card>
+          <mat-card-subtitle style="text-align: center;">
+            <span class="items-text-utm">Útmutató</span>
+          </mat-card-subtitle>
+          <mat-card-content>
+            <button mat-fab color="warn" class="mat-btn-i z-depth-2" (click)="redirectToInfo()">
+              <span>
+                <h1 style="font-family: Georgia;font-style: italic; color: #CC0000;">i</h1>
+              </span>
+            </button>
+          </mat-card-content>
+        </mat-card>
       </div>
 
     </div>

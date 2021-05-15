@@ -1,11 +1,23 @@
 .notSavedBudge{
   padding: 0.7rem;
-  background: darkorange;
+  background: -webkit-linear-gradient(right, #b9681c, darkorange);
   color: white;
 }
 
 .savedBudge{
   padding: 0.7rem;
-  background: darkgreen;
+  background: -webkit-linear-gradient(left, rgb(51, 146, 51), darkgreen);
   color: white;
+}
+
+.elemzes-ment-btn{
+  background: -webkit-linear-gradient(left, rgb(51, 146, 51), darkgreen);
+  margin-left: 0.5rem;
+  border: none;
+  color: white; 
+}
+
+.uj-elemzes-btn{
+  background: -webkit-linear-gradient(right, #2d5575, #3f729B);
+  color: whitesmoke;
 }

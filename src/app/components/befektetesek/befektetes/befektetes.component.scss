@@ -71,7 +71,8 @@ small{
 .mat-btn{
   width: 6rem;
   height: 6rem;
-  background: #3f729B;
+  background: -webkit-linear-gradient(right, #2d5575, #3f729B);
+
 }
 
 .mat-btn-i{
@@ -82,5 +83,17 @@ small{
 }
 
 .mat-icon{
-  font-size: 1.5rem;
+  font-size: 1.8rem;
 }
+
+.items-text{
+  color: #3f729b;
+  font-weight: bold;
+}
+
+.items-text-utm{
+  color: #CC0000;
+  font-weight: bold;
+}
+
+
