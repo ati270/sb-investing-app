@@ -9,13 +9,13 @@ import { InvestmentHomeComponent } from './components/kezdolap/investment-home/i
 
 
 const routes: Routes = [
-  {path: '', redirectTo: 'investment-home', pathMatch: 'full'},
-  {path: 'investment-home', component: InvestmentHomeComponent
-} ,
-/*{path: '', redirectTo: 'befektetes', pathMatch: 'full'},*/
-  {path: 'befektetes', component: BefektetesComponent,
+  { path: '', redirectTo: 'investment-home', pathMatch: 'full' },
+  { path: 'investment-home', component: InvestmentHomeComponent },
+  /*{path: '', redirectTo: 'befektetes', pathMatch: 'full'},*/
+  {
+    path: 'befektetes', component: BefektetesComponent,
     children: [
-      {path: '', redirectTo: '/befektetes/uj-befektetes', pathMatch: 'full'},
+      { path: '', redirectTo: '/befektetes/uj-befektetes', pathMatch: 'full' },
       {
         path: 'uj-befektetes',
         loadChildren: () => import('./components/befektetesek/uj-befektetes/uj-befektetes.module').then(m => m.UjBefektetesModule)
@@ -51,23 +51,28 @@ const routes: Routes = [
       {
         path: 'strategia',
         loadChildren: () => import('./components/strategia/strategia/strategia.module').then(m => m.StrategiaModule)
-      }
+      },
 
     ]
-},
-{
-  path: 'uzenofal',
+  },
+  {
+    path: 'user/profil',
+    loadChildren: () => import('./components/user/user/user.module').then(m => m.UserModule)
+  },
+  {
+    path: 'uzenofal',
     loadChildren: () => import('./components/uzenofal/uzenofal.module').then(m => m.UzenofalModule)
 
-},
-{
-  path: 'investing-info',
-  loadChildren: () => import('./components/investing-pdf-viewer/investing-pdf-viewer.module').then(m => m.InvestingPDFViewerModule)
-},
-{
-  path: '**',
+  },
+  {
+    path: 'investing-info',
+    loadChildren: () => import('./components/investing-pdf-viewer/investing-pdf-viewer.module').then(m => m.InvestingPDFViewerModule)
+  },
+
+  {
+    path: '**',
     loadChildren: () => import('./components/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule)
-}
+  }
 
 ];
 
