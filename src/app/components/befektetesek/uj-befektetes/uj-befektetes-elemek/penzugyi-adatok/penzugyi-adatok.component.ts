@@ -18,6 +18,8 @@ export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
   @ViewChild('table', { static: false }) tableElement: ElementRef;
 
   @Output() filledPenzAdatokEmitter: EventEmitter<PenzugyiAdatok> = new EventEmitter();
+  @Output() clearFormGroupEmitter: EventEmitter<FormGroup> = new EventEmitter();
+
   allFilled: boolean;
 
   penzugyiAdatok: PenzugyiAdatok;  // ezt fogom emitternek átadni: értéke ami a service-bol jön
@@ -166,6 +168,9 @@ export class PenzugyiAdatokComponent implements OnInit, AfterViewInit {
     if(this.penzugyiAdatokService.$updatedAdatok !== undefined){
     this.loadVallKock();
     }
+
+    this.clearFormGroupEmitter.emit(this.penzugyiAdatokFormGroup);
+
   }
 
   loadVallKock() {

@@ -13,8 +13,8 @@ import { AppState } from 'src/app/components/store/reszveny/state';
 
 
 export interface dataArguments {
-  filled: boolean;
   befektetesAdatok: BefektetesAdatok;
+  valid: boolean;
 }
 
 @Component({
@@ -29,6 +29,10 @@ export class BefAdatokComponent implements OnInit, AfterViewInit {
 
   @Output() filledEmitter: EventEmitter<dataArguments> = new EventEmitter();
   @Output() filledSaveEmitter: EventEmitter<BefektetesAdatok> = new EventEmitter();
+  @Output() clearFormGroupEmitter: EventEmitter<FormGroup> = new EventEmitter();
+
+  @Input() saveReszvenyBtnIsActive: boolean; // decorate the property with @Input()
+
   allFilled: boolean;
   befAdatok: BefektetesAdatok;
 
@@ -46,6 +50,7 @@ export class BefAdatokComponent implements OnInit, AfterViewInit {
   private agazat: string;
   private strategia: string;
   private status: string;
+  isVisszatoltott: boolean;
 
 
   constructor(private _formBuilder: FormBuilder, private befAdatokService: BefAdatokService, private messageService: MessageService,
@@ -53,15 +58,40 @@ export class BefAdatokComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
-
+    this.isVisszatoltott = false;
     this.createAdatokFormGroup();
 
+    /*this.adatokFormGroup.statusChanges
+      .pipe(
+        filter(() => this.adatokFormGroup.valid))
+      .subscribe(() => this.onFormValid());*/
+
+      this.adatokFormGroup.statusChanges.subscribe((valid) => {
+        this.onFormValid(valid);
+    });
   }
 
-  ngAfterViewInit(): void {
-    if(this.befAdatokService.$updatedAdatok !== undefined){
-    this.loadBefAdatok();
+  onFormValid(valid) {
+    this.createBefAdatok();
+    this.getBefAdatok();
+
+    this.filledEmitter.emit({
+      befektetesAdatok: this.befAdatok,
+      valid: valid
     }
+    )
+  }
+
+
+
+  ngAfterViewInit(): void {
+    if (this.befAdatokService.$updatedAdatok !== undefined) {
+      this.loadBefAdatok();
+    }
+
+    this.clearFormGroupEmitter.emit(this.adatokFormGroup);
+
+
   }
 
 
@@ -81,6 +111,7 @@ export class BefAdatokComponent implements OnInit, AfterViewInit {
 
       statusCtrl: new FormControl('', Validators.required),
     });
+
 
   }
 
@@ -163,7 +194,7 @@ export class BefAdatokComponent implements OnInit, AfterViewInit {
     });*/
 
     // Toast
-    this.messageService.add({ key: 'tc', severity: 'success', summary: 'Befektetési adatok sikeresen hozzáadva!'});
+    this.messageService.add({ key: 'tc', severity: 'success', summary: 'Befektetési adatok sikeresen hozzáadva!' });
 
   }
 

@@ -28,6 +28,9 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
   manageles: Manageles;
 
   @Output() filledManagelesEmitter: EventEmitter<Manageles> = new EventEmitter();
+  @Output() clearFormGroupEmitter: EventEmitter<FormGroup[]> = new EventEmitter();
+
+
 
 
   @ViewChild('egyebSzektor') egyebSzektorInput: ElementRef;
@@ -192,6 +195,15 @@ export class ManagelesComponent implements OnInit, AfterViewInit {
     if(this.managelesService.$updatedAdatok !== undefined){
     this.loadManageles();
     }
+
+    let formgroups: Array<FormGroup> =  new Array<FormGroup>();
+    formgroups.push(this.managelesAdatokFormGroup);
+    formgroups.push(this.befManagelesFormGroup);
+    formgroups.push(this.managelesReszvenyFormGroup);
+    formgroups.push(this.managelesKulonbozoFormGroup);
+
+    this.clearFormGroupEmitter.emit(formgroups);
+
   }
 
   loadManageles(){

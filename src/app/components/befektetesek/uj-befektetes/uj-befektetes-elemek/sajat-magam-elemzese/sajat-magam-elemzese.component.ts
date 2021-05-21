@@ -24,6 +24,8 @@ export interface dataArguments {
 export class SajatMagamElemzeseComponent implements OnInit, AfterViewInit {
 
   @Output() filledSaveSajatEmitter: EventEmitter<MentalisElemzes> = new EventEmitter();
+  @Output() clearFormGroupEmitter: EventEmitter<FormGroup> = new EventEmitter();
+
   allFilled: boolean;
 
   mentalisElemzes: MentalisElemzes;
@@ -97,6 +99,9 @@ export class SajatMagamElemzeseComponent implements OnInit, AfterViewInit {
     if(this.mentalisElemzesService.$updatedMentalisElemzes !== undefined){
     this.loadMentalisElemzes();
     }
+
+    this.clearFormGroupEmitter.emit(this.sajatMagamElemzesFormGroup);
+
   }
 
   addElvegezveControls() {

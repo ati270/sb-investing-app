@@ -2,13 +2,13 @@
 
 <br>
 <p-divider align="center">
-  <span class="p-tag">A részvényelemzés megkezdéséhez kérlek,
+  <span class="p-tag">A részvényelemzés mentéséhez kérlek,
     töltsd ki az adatokat!</span>
 </p-divider>
 <form [formGroup]="adatokFormGroup" (ngSubmit)="saveBefAdatok()">
   <br>
   <div class="d-flex justify-content-start">
-  <button type="submit"  mat-raised-button class="mentesBtn" [disabled]="!adatokFormGroup.valid" >Aktuális állapot mentése</button>
+  <button type="submit"  mat-raised-button class="mentesBtn" [disabled]="!saveReszvenyBtnIsActive" >Aktuális állapot mentése</button>
   </div>
   <br>
   <!-- Form items-->

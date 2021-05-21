@@ -29,6 +29,7 @@ export interface dataArguments {
 export class VallalatVizsgKriteriumokComponent implements OnInit, AfterViewInit {
 
   @Output() filledSaveKockEmitter: EventEmitter<VallalatKockazatElemzes> = new EventEmitter();
+  @Output() clearFormGroupEmitter: EventEmitter<FormGroup> = new EventEmitter();
   allFilled: boolean;
 
   vallalatKockazatelemzes: VallalatKockazatElemzes;
@@ -982,6 +983,9 @@ export class VallalatVizsgKriteriumokComponent implements OnInit, AfterViewInit 
     if(this.vallalatVizsgKritService.$updatedAdatok !== undefined){
     this.loadVallKock();
     }
+
+    this.clearFormGroupEmitter.emit(this.vallVizsgKritGroup);
+
   }
 
   loadVallKock() {

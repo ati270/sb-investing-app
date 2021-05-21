@@ -19,6 +19,8 @@ export class VallalatPenzugyiElemzesComponent implements OnInit, AfterViewInit {
   vallalatPenzugyiElemzes: VallalatPenzugyiElemzes;
 
   @Output() filledVallPenzElemzesEmitter: EventEmitter<VallalatPenzugyiElemzes> = new EventEmitter();
+  @Output() clearFormGroupEmitter: EventEmitter<FormGroup[]> = new EventEmitter();
+
   allFilled: boolean;
 
   isLinear = false;
@@ -101,6 +103,15 @@ export class VallalatPenzugyiElemzesComponent implements OnInit, AfterViewInit {
     if(this.vallalatPenzugyiElemzesService.$updatedAdatok !== undefined){
     this.loadVallPenz();
     }
+
+    let formgroups: Array<FormGroup> =  new Array<FormGroup>();
+    formgroups.push(this.jovedelmezosegiFormGroup);
+    formgroups.push(this.hitelFormGroup);
+    formgroups.push(this.hatekonysagiFormGroup);
+    formgroups.push(this.piaciFormGroup);
+
+    this.clearFormGroupEmitter.emit(formgroups);
+
   }
 
   loadVallPenz() {

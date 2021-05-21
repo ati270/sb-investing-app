@@ -1,3 +1,4 @@
+import { FormGroup } from '@angular/forms';
 import { BefAdatokService } from 'src/app/services/befektetesek/uj-befektetes-services/befektetes-adatok/bef-adatok.service';
 import { SajatMagamElemzeseComponent } from './uj-befektetes-elemek/sajat-magam-elemzese/sajat-magam-elemzese.component';
 import { BefAdatokComponent } from './uj-befektetes-elemek/bef-adatok/bef-adatok.component';
@@ -39,7 +40,7 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
   isSavedActualElemzes: boolean;
   isCreatedNew: boolean;
   circlePrColor = "#3f729b";
-
+  iselemzesSaved = false;
 
   // Components
   befektetesAdatok: BefektetesAdatok;
@@ -62,6 +63,15 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
   changeFrom6To7Tab: boolean;
   lastTab: boolean;
   isUjReszv: boolean;
+  visszatoltott = false;
+  befFormGroup: FormGroup;
+  mentalisFormgroup: FormGroup;
+  vizsgKritFormGroup: FormGroup;
+  penzAdatokFormGroup: FormGroup;
+  celarMeghatFormGroup: FormGroup;
+  nettoJelenFormGroup: FormGroup;
+  vallPenzElemzesFormGroups: FormGroup[];
+  managelesFormGroups: FormGroup[];
 
   befAdatComponent: BefAdatokComponent;
   mentalisComponent: SajatMagamElemzeseComponent;
@@ -69,7 +79,7 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
   private haladasValue: number = 0;
   private tabValue = 12.5;
   constructor(private ujBefektetesService: UjBefektetesService, private store: Store<AppState>, private messageService: MessageService,
-    private elemzesService: ElemzesService, private befadatokService: BefAdatokService,private cdr: ChangeDetectorRef) { }
+    private elemzesService: ElemzesService, private befadatokService: BefAdatokService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.isCreatedNew = true;
@@ -78,24 +88,27 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
     //this.isSavedActualElemzes = this.ujBefektetesService.$isSavedActualElemzes;
   }
 
-  ngAfterViewInit(){
-    if(this.ujBefektetesService.$count > 0){
-    this.loadHaladas();
-    this.cdr.detectChanges();
+  ngAfterViewInit() {
+    if (this.ujBefektetesService.$count > 0) {
+      this.loadHaladas();
+      console.log(this.befFormGroup);
+      this.cdr.detectChanges();
     }
   }
 
-  loadHaladas(){
+  loadHaladas() {
+    this.visszatoltott = true;
     let halad = this.ujBefektetesService.$count;
     this.count = halad;
-    this.countOfFilled = (this.count * 8)/100;
+    this.countOfFilled = (this.count * 8) / 100;
     console.log(this.countOfFilled);
-      this.isSavedActualElemzes = true;
+    this.isSavedActualElemzes = true;
 
     console.log(this.count);
     this.ujReszveny = this.ujBefektetesService.$visszatoltottReszveny;
     console.log("VISSZATÖLTÖTT:" + this.ujReszveny.$befektetesAdatok.vallalatNeve);
     this.isUjReszv = true;
+    this.iselemzesSaved = true;
   }
 
 
@@ -117,7 +130,6 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
     this.isSavedActualElemzes = false;
     this.count = 0;
     this.countOfFilled = 0;
-    this.isUjReszv = false;
 
     // Reset formGroups
     // TODO
@@ -128,8 +140,30 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
     })*/
     this.ujBefektetesService.$ujReszveny = new UjReszveny();
     this.$ujReszveny = this.ujBefektetesService.$ujReszveny;
-
+    this.iselemzesSaved = false;
+    this.visszatoltott = false;
     //this.isCreatedNew = true;
+    this.clearFormGroups();
+
+  }
+
+  clearFormGroups(){
+      this.befFormGroup.reset();
+      this.mentalisFormgroup.reset();
+      this.vizsgKritFormGroup.reset();
+      this.penzAdatokFormGroup.reset();
+      this.celarMeghatFormGroup.reset();
+      this.nettoJelenFormGroup.reset();
+      this.vallPenzElemzesFormGroups[0].reset();
+      this.vallPenzElemzesFormGroups[1].reset();
+      this.vallPenzElemzesFormGroups[2].reset();
+      this.vallPenzElemzesFormGroups[3].reset();
+
+      this.managelesFormGroups[0].reset();
+      this.managelesFormGroups[1].reset();
+      this.managelesFormGroups[2].reset();
+      this.managelesFormGroups[3].reset();
+
 
   }
 
@@ -138,11 +172,47 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
     //this.isCreatedNew = false;
   }
 
+  clearBefAdatokFormGroup(fg: FormGroup) {
+    this.befFormGroup = fg;
+    console.log(this.befFormGroup);
+  }
+
+  clearManagelesFormGroup(fg: FormGroup[]) { this.managelesFormGroups = fg; }
+  clearNettoJelenFormGroup(fg: FormGroup) { this.nettoJelenFormGroup = fg; }
+  clearCelarMeghatFormGroup(fg: FormGroup) { this.celarMeghatFormGroup = fg; }
+  clearVallPenzElemzesFormGroup(fg: FormGroup[]) { this.vallPenzElemzesFormGroups = fg; }
+  clearPenzugyiAdatokFormGroup(fg: FormGroup) { this.penzAdatokFormGroup = fg; }
+  clearVizsKritFormGroup(fg: FormGroup) { this.vizsgKritFormGroup = fg; }
+  clearMentalisFormGroup(fg: FormGroup) { this.mentalisFormgroup = fg; }
+
+
+
+
+  method(value) {
+
+    console.log(value.valid);
+    if (value.valid == 'VALID') {
+      if (!this.visszatoltott) {
+        this.isUjReszv = false;
+        this.countOfFilled++;
+        this.count = (this.countOfFilled / 8) * 100;
+      }
+      this.befektetesAdatok = value.befektetesAdatok;
+      this.addOneItem(this.befektetesAdatok);
+      console.log("*********" + this.ujBefektetesService.$ujReszveny.$befektetesAdatok);
+      // Itt kell ellenorizni, hogy mikor visszatöltott ne számoljon
+
+      this.store.dispatch(new UpdateReszvenyAction(this.ujBefektetesService.$ujReszveny));
+    }
+    else if (value.valid == 'INVALID') {
+      this.isUjReszv = true;
+    }
+  }
+
 
   saveReszveny() {
     // Menteni kell az állapotot is, labelek
     this.ujBefektetesService.$ujReszveny.$haladas = this.count;
-    // Mentjük az új részvényt.: ami már fel van töltve az adatokkal
     this.store.dispatch(
       new AddReszvenyAction(this.ujBefektetesService.$ujReszveny)
     );
@@ -152,37 +222,40 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
     //this.ujBefektetesService.loadMentettElemzes(this.isSavedActualElemzes);
     this.isCreatedNew = false;
     this.isUjReszv = true;
+    this.iselemzesSaved = true;
+    this.visszatoltott = true;
   }
 
-  // Ezzzel adunk mindig hozzá egy elemet a listához
   addOneItem(item: any) {
     this.ujBefektetesService.addOneItem(item);
   }
 
-  onTabClick($event, index){
+  onTabClick($event, index) {
+    console.log($event);
     console.log($event.tab.textLabel);
     console.log(index);
     // Felugró ablak
-   /* this.messageService.add({
-      key: 'tab', sticky: true, severity: 'info', summary: 'Kérlek, ellenőrizd, hogy mindent elmentettél-e a továbblépés előtt!',
-      detail: 'Jelenleg itt tartózkodsz: (' + $event.tab.textLabel +  ') Esetleg lehetnek mentetlen adataid!'
-    });*/
+    /* this.messageService.add({
+       key: 'tab', sticky: true, severity: 'info', summary: 'Kérlek, ellenőrizd, hogy mindent elmentettél-e a továbblépés előtt!',
+       detail: 'Jelenleg itt tartózkodsz: (' + $event.tab.textLabel +  ') Esetleg lehetnek mentetlen adataid!'
+     });
+     */
 
 
   }
 
-  onConfirmTab(){
+  onConfirmTab() {
     //this.nextTabIndex = 4;
     // Itt engedje továb a következő tab-ra
   }
 
-  onRejectTab(){
-   this.messageService.clear('tab');
+  onRejectTab() {
+    this.messageService.clear('tab');
   }
 
   saveBefAdatok(befAdatok: BefektetesAdatok) {
-      console.log("SAVE ADATOK-----");
-      console.log(this.ujBefektetesService.$ujReszveny.$befektetesAdatok);
+    console.log("SAVE ADATOK-----");
+    console.log(this.ujBefektetesService.$ujReszveny.$befektetesAdatok);
 
     // Adjuk hozzá a listához az itemet TEhát ha még nincs hozzáadva a befektetési adat, adjuk hozzá
     if (this.ujBefektetesService.$ujReszveny.$befektetesAdatok === undefined) {
@@ -190,7 +263,7 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
       this.addOneItem(this.befektetesAdatok);
       console.log("*********" + this.ujBefektetesService.$ujReszveny.$befektetesAdatok);
       this.countOfFilled++;
-      this.count = (this.countOfFilled/8)*100;
+      this.count = (this.countOfFilled / 8) * 100;
       this.store.dispatch(new UpdateReszvenyAction(this.ujBefektetesService.$ujReszveny));
     }
 
@@ -200,7 +273,6 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
       this.addOneItem(this.befektetesAdatok);
 
       this.store.dispatch(new UpdateReszvenyAction(this.ujBefektetesService.$ujReszveny));
-      console.log("INNNE");
 
       // frissiteni kellene a menuben a számlálot
     }
@@ -216,7 +288,7 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
       this.addOneItem(mentalisElemzes);
 
       this.countOfFilled++;
-      this.count = (this.countOfFilled/8)*100;
+      this.count = (this.countOfFilled / 8) * 100;
     }
 
     else {
@@ -242,7 +314,7 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
       this.addOneItem(kockElemzes);
 
       this.countOfFilled++;
-      this.count = (this.countOfFilled/8)*100;
+      this.count = (this.countOfFilled / 8) * 100;
       console.log(this.ujBefektetesService.$ujReszveny);
     }
 
@@ -261,13 +333,13 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
 
   }
 
-  savePenzAdatok(penzAdatok: PenzugyiAdatok){
+  savePenzAdatok(penzAdatok: PenzugyiAdatok) {
     if (this.ujBefektetesService.$ujReszveny.$penzugyiAdatok === undefined) {
       this.penzugyiAdatok = penzAdatok;
       this.addOneItem(penzAdatok);
       console.log("friss pénz adatok");
       this.countOfFilled++;
-      this.count = (this.countOfFilled/8)*100;
+      this.count = (this.countOfFilled / 8) * 100;
 
       console.log(this.ujBefektetesService.$ujReszveny);
 
@@ -289,13 +361,13 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
 
   }
 
-  saveVallPenzElemzes(vallPenzElemzes: VallalatPenzugyiElemzes){
+  saveVallPenzElemzes(vallPenzElemzes: VallalatPenzugyiElemzes) {
     if (this.ujBefektetesService.$ujReszveny.$vallalatPenzugyiElemzes === undefined) {
       this.vallalatPenzugyiElemzes = vallPenzElemzes;
       this.addOneItem(vallPenzElemzes);
 
       this.countOfFilled++;
-      this.count = (this.countOfFilled/8)*100;
+      this.count = (this.countOfFilled / 8) * 100;
 
     }
 
@@ -313,13 +385,13 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
 
   }
 
-  saveCelar(celar: CelarMeghatarozas){
+  saveCelar(celar: CelarMeghatarozas) {
     if (this.ujBefektetesService.$ujReszveny.$celarMeghatarozas === undefined) {
       this.celarMeghatarozas = celar;
       this.addOneItem(celar);
 
       this.countOfFilled++;
-      this.count = (this.countOfFilled/8)*100;
+      this.count = (this.countOfFilled / 8) * 100;
     }
 
     else {
@@ -336,13 +408,13 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
 
   }
 
-  saveNettoJelenertek(nettoJelenertek: NettoJelenErtek){
+  saveNettoJelenertek(nettoJelenertek: NettoJelenErtek) {
     if (this.ujBefektetesService.$ujReszveny.$nettoJelenertek === undefined) {
       this.nettoJelenertek = nettoJelenertek;
       this.addOneItem(nettoJelenertek);
 
       this.countOfFilled++;
-      this.count = (this.countOfFilled/8)*100;
+      this.count = (this.countOfFilled / 8) * 100;
     }
 
     else {
@@ -359,13 +431,13 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
 
   }
 
-  saveManageles(manageles: Manageles){
+  saveManageles(manageles: Manageles) {
     if (this.ujBefektetesService.$ujReszveny.$manageles === undefined) {
       this.manageles = manageles;
       this.addOneItem(manageles);
 
       this.countOfFilled++;
-      this.count = (this.countOfFilled/8)*100;
+      this.count = (this.countOfFilled / 8) * 100;
     }
 
     else {
@@ -384,21 +456,21 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
   }
 
 
-    /**
-     * Setter $ujReszveny
-     * @param {UjReszveny} value
-     */
-	public set $ujReszveny(value: UjReszveny) {
-		this.ujReszveny = value;
-	}
+  /**
+   * Setter $ujReszveny
+   * @param {UjReszveny} value
+   */
+  public set $ujReszveny(value: UjReszveny) {
+    this.ujReszveny = value;
+  }
 
-    /**
-     * Getter $ujReszveny
-     * @return {UjReszveny}
-     */
-	public get $ujReszveny(): UjReszveny {
-		return this.ujReszveny;
-	}
+  /**
+   * Getter $ujReszveny
+   * @return {UjReszveny}
+   */
+  public get $ujReszveny(): UjReszveny {
+    return this.ujReszveny;
+  }
 
 
   // GETTERS

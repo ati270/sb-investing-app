@@ -83,51 +83,52 @@
             (selectedTabChange)="onTabClick($event, nextTabIndex)">
             <!--Adatok-->
             <mat-tab label="Adatok">
-              <app-bef-adatok (filledSaveEmitter)=saveBefAdatok($event)>
+              <app-bef-adatok [saveReszvenyBtnIsActive]="iselemzesSaved" (filledSaveEmitter)=saveBefAdatok($event) (filledEmitter)="method($event)"
+              (clearFormGroupEmitter)="clearBefAdatokFormGroup($event)">
               </app-bef-adatok>
             </mat-tab>
             <!--Mentális elemzés-->
             <mat-tab label="Mentális elemzés" #tab  >
               <!--[disabled]="!changeFromFirstTabToSecond"-->
-              <app-sajat-magam-elemzese (filledSaveSajatEmitter)="saveMentalisElemzes($event)">
+              <app-sajat-magam-elemzese (filledSaveSajatEmitter)="saveMentalisElemzes($event)" (clearFormGroupEmitter)="clearMentalisFormGroup($event)">
               </app-sajat-magam-elemzese>
             </mat-tab>
 
             <!--Vállalati kockázat elemzés-->
             <mat-tab label="Vállalati kockázat elemzés" #tabVallalatVizsgKr>
               <!--[disabled]='!changeFrom2To3Tab'-->
-              <app-vallalat-vizsg-kriteriumok (filledSaveKockEmitter)=saveKockazatElemzes($event)>
+              <app-vallalat-vizsg-kriteriumok (filledSaveKockEmitter)=saveKockazatElemzes($event) (clearFormGroupEmitter)="clearVizsKritFormGroup($event)">
               </app-vallalat-vizsg-kriteriumok>
             </mat-tab>
 
             <!--Pénzügyi adatok-->
             <mat-tab label="Pénzügyi adatok" #tabPenzugyi>
               <!--[disabled]="!changeFrom3To4Tab"-->
-              <app-penzugyi-adatok (filledPenzAdatokEmitter)=savePenzAdatok($event)></app-penzugyi-adatok>
+              <app-penzugyi-adatok (filledPenzAdatokEmitter)=savePenzAdatok($event) (clearFormGroupEmitter)="clearPenzugyiAdatokFormGroup($event)"></app-penzugyi-adatok>
             </mat-tab>
 
             <!--Válalalati pénzügyi elemzés-->
             <mat-tab label="Vállalat pénzügyi elemzés" #tabVallPenzElemzes>
               <!--[disabled]='!changeFrom4To5Tab'-->
-              <app-vallalat-penzugyi-elemzes (filledVallPenzElemzesEmitter)="saveVallPenzElemzes($event)">
+              <app-vallalat-penzugyi-elemzes (filledVallPenzElemzesEmitter)="saveVallPenzElemzes($event)" (clearFormGroupEmitter)="clearVallPenzElemzesFormGroup($event)">
               </app-vallalat-penzugyi-elemzes>
             </mat-tab>
             <!--Célár meghatározás-->
             <mat-tab label="Árak meghatározása" #tabCelar>
               <!--[disabled]='!changeFrom5To6Tab'-->
-              <app-celar-meghatarozas (filledCelarEmitter)="saveCelar($event)"></app-celar-meghatarozas>
+              <app-celar-meghatarozas (filledCelarEmitter)="saveCelar($event)" (clearFormGroupEmitter)="clearCelarMeghatFormGroup($event)"></app-celar-meghatarozas>
             </mat-tab>
 
             <!--Nettó jelenérték számitás-->
             <mat-tab label="Befektetés kockázatelemzése" #tabNettoJelenertek>
               <!--[disabled]='!changeFrom6To7Tab'-->
-              <app-netto-jelenertek-szamitas (filledNettoJelenertekEmitter)="saveNettoJelenertek($event)">
+              <app-netto-jelenertek-szamitas (filledNettoJelenertekEmitter)="saveNettoJelenertek($event)" (clearFormGroupEmitter)="clearNettoJelenFormGroup($event)">
               </app-netto-jelenertek-szamitas>
             </mat-tab>
             <!--Managelés-->
             <mat-tab label="Managelés" #tabManageles>
               <!--[disabled]='!lastTab'-->
-              <app-manageles (filledManagelesEmitter)="saveManageles($event)"></app-manageles>
+              <app-manageles (filledManagelesEmitter)="saveManageles($event)" (clearFormGroupEmitter)="clearManagelesFormGroup($event)"></app-manageles>
             </mat-tab>
           </mat-tab-group>
         </div>

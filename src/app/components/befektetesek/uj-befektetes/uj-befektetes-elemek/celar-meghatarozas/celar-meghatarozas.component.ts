@@ -18,6 +18,8 @@ import { AddKotesAction } from 'src/app/components/store/reszveny/actions';
 export class CelarMeghatarozasComponent implements OnInit, AfterViewInit {
 
   @Output() filledCelarEmitter: EventEmitter<CelarMeghatarozas> = new EventEmitter();
+  @Output() clearFormGroupEmitter: EventEmitter<FormGroup> = new EventEmitter();
+
   allFilled: boolean;
 
   celarMeghatarozas: CelarMeghatarozas;
@@ -58,6 +60,9 @@ export class CelarMeghatarozasComponent implements OnInit, AfterViewInit {
     if(this.celarService.$updatedAdatok !== undefined){
       this.loadCelarFrom();
     }
+
+    this.clearFormGroupEmitter.emit(this.celarFormGroup);
+
   }
 
   loadCelarFrom(){

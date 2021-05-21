@@ -15,6 +15,8 @@ import { NettoJelenertekService } from 'src/app/services/befektetesek/uj-befekte
 export class NettoJelenertekSzamitasComponent implements OnInit, AfterViewInit {
 
   @Output() filledNettoJelenertekEmitter: EventEmitter<NettoJelenErtek> = new EventEmitter();
+  @Output() clearFormGroupEmitter: EventEmitter<FormGroup> = new EventEmitter();
+
   allFilled: boolean;
 
   nettoJelenErtek: NettoJelenErtek;
@@ -62,6 +64,9 @@ export class NettoJelenertekSzamitasComponent implements OnInit, AfterViewInit {
     if (this.nettoJelenErtekService.$updatedAdatok !== undefined) {
       this.loadJelenertek();
     }
+
+    this.clearFormGroupEmitter.emit(this.nettoJelenFormGroup);
+
   }
 
 
