@@ -1,3 +1,4 @@
+import { LoaderService } from './../loader/loader-service.service';
 import { AddUserAction } from './../../store/reszveny/actions';
 import { Store } from '@ngrx/store';
 import { sha1 } from '@angular/compiler/src/i18n/digest';
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user/user.model';
-import { catchError, map, subscribeOn, tap } from 'rxjs/operators';
+import { catchError, map, subscribeOn, tap, timeout } from 'rxjs/operators';
 import CryptoJS from 'crypto-js';
 import { AppUserState } from '../../store/reszveny/state';
 import { DatePipe } from '@angular/common';
@@ -26,7 +27,7 @@ export class InvestmentHomeComponent implements OnInit {
 
 
   constructor(private _fb: FormBuilder, private router: Router,
-    private http: HttpClient,private store: Store<AppUserState>
+    private http: HttpClient, private store: Store<AppUserState>, public loaderService: LoaderService
   ) { }
   //private redux: NgRedux<IAppState>
 
@@ -42,14 +43,14 @@ export class InvestmentHomeComponent implements OnInit {
     })
   }
 
-  createRegFormGroup(){
+  createRegFormGroup() {
     this.regFormGroup = this._fb.group({
-      regEmailCtrl: new FormControl('', Validators.required), 
-      regPasswCtrl: new FormControl('', Validators.required), 
-      regFirstNameCtrl: new FormControl('', Validators.required), 
-      regLastNameCtrl: new FormControl('', Validators.required), 
+      regEmailCtrl: new FormControl('', Validators.required),
+      regPasswCtrl: new FormControl('', Validators.required),
+      regFirstNameCtrl: new FormControl('', Validators.required),
+      regLastNameCtrl: new FormControl('', Validators.required),
       regBirthDateCtrl: new FormControl('', Validators.required)
-      
+
     })
   }
 
@@ -62,41 +63,49 @@ export class InvestmentHomeComponent implements OnInit {
     const url = 'http://localhost:8080/users/user/' + email;
     let user: User = new User();
     const datepipe: DatePipe = new DatePipe('en-US')
+    
+      this.http.get(url)
+        .pipe(
+          timeout(3000)
+        )
+        .subscribe(value => {
 
-    this.http.get(url)
-      .subscribe(value => {
-        console.log(value);
-        user.$id = value['id'];
-        user.$firstName = value['firstName'];
-        user.$lastName = value['lastName'];
-        user.$birthDate = value['birthDate'];
-        datepipe.transform(user.$birthDate, 'yyyy.MM.dd');
-        user.$email = value['email'];
-        user.$passw = value['passw'];
 
-        let cryptoPsw = CryptoJS.SHA1(formPsw);
+          console.log(value);
+          user.$id = value['id'];
+          user.$firstName = value['firstName'];
+          user.$lastName = value['lastName'];
+          user.$birthDate = value['birthDate'];
+          datepipe.transform(user.$birthDate, 'yyyy.MM.dd');
+          user.$email = value['email'];
+          user.$passw = value['passw'];
 
-        let resultCryptoPsw = CryptoJS.enc.Hex.stringify(cryptoPsw);
-        console.log(resultCryptoPsw);
-       
-        if (user.$passw === resultCryptoPsw) {
-          this.store.dispatch(
-            new AddUserAction(user)
-          );
-          this.router.navigateByUrl('/befektetes');
-        }
-        else {
-          // error message
-          console.log("hibás jelszó");
-        }
+          let cryptoPsw = CryptoJS.SHA1(formPsw);
 
-        console.log(user)
-      })
+          let resultCryptoPsw = CryptoJS.enc.Hex.stringify(cryptoPsw);
+          console.log(resultCryptoPsw);
+
+          if (user.$passw === resultCryptoPsw) {
+            this.store.dispatch(
+              new AddUserAction(user)
+            );
+            this.router.navigateByUrl('/befektetes');
+          }
+          else {
+            // error message
+            console.log("hibás jelszó");
+          }
+
+          console.log(user)
+        
+        })
+    
+
 
   }
 
   // POST
-  regSubmit(){
+  regSubmit() {
     let postUser: User = new User();
     postUser.$email = this.regFormGroup.get('regEmailCtrl').value;
     postUser.$passw = this.regFormGroup.get('regPasswCtrl').value;
@@ -111,16 +120,16 @@ export class InvestmentHomeComponent implements OnInit {
     postUser.$passw = resultCryptoPsw;
 
     console.log(postUser);
-    let postUrl = "http://localhost:8080/users/add"; 
-    const body=JSON.stringify(postUser);
+    let postUrl = "http://localhost:8080/users/add";
+    const body = JSON.stringify(postUser);
     const httpOptions = {
-      headers: new HttpHeaders({'Content-Type': 'application/json'})
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     }
     this.http.post<User>(postUrl, body, httpOptions).subscribe(data => {
       error: error => {
-       
+
         console.error('There was an error!', error.message);
-    }
-  })
+      }
+    })
   }
 }

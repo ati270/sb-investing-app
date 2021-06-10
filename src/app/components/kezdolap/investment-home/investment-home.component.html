@@ -1,42 +1,100 @@
  <div class="main z-depth-3">
-    <div class="center z-depth-3">
-      <mat-card>
-        <div class="d-flex justify-content-end" style="margin-top: 1rem">
-          <img src="../../../../assets/img/logo.png" style="padding-bottom: 3rem;height: 10rem;">
-        </div>
-        <mat-tab-group>
-          <mat-tab label="Bejelentkezés">
-            <form [formGroup]="loginFormGroup" (ngSubmit)="loginSubmit()">
-              <br>
-              <mat-form-field>
+   <div class="center z-depth-3">
+     <div *ngIf="loaderService.isLoading | async" class="loader-container">
+       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+     </div>
+     <mat-card>
+       <div class="d-flex justify-content-end" style="margin-top: 1rem">
+         <img src="../../../../assets/img/logo.png" style="padding-bottom: 3rem;height: 10rem;">
+       </div>
+       <mat-tab-group mat-align-tabs="center">
+         <mat-tab>
+           <ng-template mat-tab-label>
+             <span style="color: #3f729b;">Bejelentkezés</span>
+           </ng-template>
+           <form [formGroup]="loginFormGroup" (ngSubmit)="loginSubmit()" class="needs-validation" novalidate>
+             <br>
+             <div class="form-group">
+               <label for="emailLogin">E-mail cím</label>
+               <input type="email" class="form-control" id="emailLogin" aria-describedby="emailLogin"
+                 placeholder="E-mail cím" formControlName="loginNameCtrl">
+               <div class="valid-feedback">Looks good!</div>
+             </div>
+             <br>
+             <div class="form-group">
+               <label for="passwLogin">Jelszó megadása</label>
+               <input type="password" class="form-control" id="passwLogin" aria-describedby="passwLogin"
+                 placeholder="Jelszó" formControlName="loginPasswCtrl">
+               <small id="passwLogin" class="form-text text-muted"></small>
+             </div>
+             <!--<mat-form-field>
                 <input matInput placeholder="E-mail cím" formControlName="loginNameCtrl" required>
               </mat-form-field>
               <br>
               <mat-form-field>
                 <input type="password" matInput placeholder="Jelszó" formControlName="loginPasswCtrl" required>
-              </mat-form-field>
-              <br>
-              <br>
-              <button type="submit" mat-raised-button color="primary"
-                class="btn btn-info btn-block">Bejelentkezés</button>
-              <br>
-              <br>
-              <!--<div *ngIf="!loginFormGroup.controls['loginPasswCtrl'].errors.required" class="alert alert-danger">
+              </mat-form-field>-->
+             <br>
+             <button type="submit" mat-raised-button color="primary"
+               class="btn btn-info btn-block">Bejelentkezés</button>
+             <br>
+             <br>
+             <!--<div *ngIf="!loginFormGroup.controls['loginPasswCtrl'].errors.required" class="alert alert-danger">
               Hibás jelszó!
             </div>-->
-              <!--<button mat-raised-button color="warn"
+             <!--<button mat-raised-button color="warn"
             class="btn btn-info btn-block">Bejelentkezés Google fiókkal</button>-->
-              <!--class="btn btn-outline-info btn-rounded btn-block z-depth-0 my-4 waves-effect"-->
-            </form>
-          </mat-tab>
-          <mat-tab label="Regisztráció">
-            <form [formGroup]="regFormGroup" (ngSubmit)="regSubmit()">
-              <br>
-              <mat-form-field>
+             <!--class="btn btn-outline-info btn-rounded btn-block z-depth-0 my-4 waves-effect"-->
+           </form>
+
+         </mat-tab>
+         <mat-tab>
+           <ng-template mat-tab-label>
+             Regisztráció
+           </ng-template>
+           <form [formGroup]="regFormGroup" (ngSubmit)="regSubmit()">
+             <br>
+             <div class="form-group">
+               <label for="email">E-mail cím</label>
+               <input type="email" class="form-control" id="email" aria-describedby="email" placeholder="E-mail cím"
+                 formControlName="regEmailCtrl">
+               <small id="email" class="form-text text-muted">Formailag helyes e-mail címet adj meg</small>
+             </div>
+             <br>
+
+             <div class="form-group">
+               <label for="passw">Jelszó megadása</label>
+               <input type="password" class="form-control" id="email" aria-describedby="passw" placeholder="Jelszó"
+                 formControlName="regPasswCtrl">
+               <small id="passw" class="form-text text-muted"></small>
+             </div>
+             <br>
+             <div class="form-group">
+               <label for="lastname">Vezetéknév</label>
+               <input type="text" class="form-control" id="lastname" aria-describedby="lastname"
+                 placeholder="Vezetéknév" formControlName="regLastNameCtrl">
+               <small id="lastname" class="form-text text-muted"></small>
+             </div>
+             <br>
+             <div class="form-group">
+               <label for="firstname">Keresztnév</label>
+               <input type="text" class="form-control" id="firstname" aria-describedby="firstname"
+                 placeholder="Keresztnév" formControlName="regFirstNameCtrl">
+               <small id="firstname" class="form-text text-muted"></small>
+             </div>
+             <br>
+             <div class="form-group">
+               <label for="birthdate">Születési idő</label>
+               <input type="date" class="form-control" id="birthdate" aria-describedby="birthdate"
+                 placeholder="Születési idő" formControlName="regBirthDateCtrl">
+               <small id="birthdate" class="form-text text-muted"></small>
+             </div>
+             <br>
+             <!--<mat-form-field>
                 <input matInput placeholder="E-mail cím" formControlName="regEmailCtrl" required>
               </mat-form-field>
-              <br>
-              <mat-form-field>
+              <br>-->
+             <!--<mat-form-field>
                 <input type="password" matInput placeholder="Jelszó" formControlName="regPasswCtrl" required>
               </mat-form-field>
               <br>
@@ -51,27 +109,27 @@
               <mat-form-field>
                 <input  type="date" matInput placeholder="Születési dátum" formControlName="regBirthDateCtrl" required>
               </mat-form-field>
-              <br>
-             
-              <br>
-              <button type="submit" mat-raised-button color="primary"
-                class="btn btn-info btn-block">Regisztráció</button>
-              <br>
-              <br>
-              <!--<div *ngIf="!loginFormGroup.controls['loginPasswCtrl'].errors.required" class="alert alert-danger">
+              <br>-->
+
+             <br>
+             <button type="submit" mat-raised-button color="primary"
+               class="btn btn-info btn-block">Regisztráció</button>
+             <br>
+             <br>
+             <!--<div *ngIf="!loginFormGroup.controls['loginPasswCtrl'].errors.required" class="alert alert-danger">
               Hibás jelszó!
             </div>-->
-              <!--<button mat-raised-button color="warn"
+             <!--<button mat-raised-button color="warn"
             class="btn btn-info btn-block">Bejelentkezés Google fiókkal</button>-->
-              <!--class="btn btn-outline-info btn-rounded btn-block z-depth-0 my-4 waves-effect"-->
-            </form>
-          </mat-tab>
-        </mat-tab-group>
-      </mat-card>
-    </div>
-  </div>
+             <!--class="btn btn-outline-info btn-rounded btn-block z-depth-0 my-4 waves-effect"-->
+           </form>
+         </mat-tab>
+       </mat-tab-group>
+     </mat-card>
+   </div>
+ </div>
 
-<!--<mat-grid-list cols="2" rowHeight="1:1">
+ <!--<mat-grid-list cols="2" rowHeight="1:1">
   <mat-grid-tile class="pictureCol"></mat-grid-tile>
   <mat-grid-tile colspan="1">
     <mat-card class="main-card">
@@ -102,7 +160,7 @@
   </mat-grid-tile>
 </mat-grid-list>-->
 
-<!--<div class="container">
+ <!--<div class="container">
   <div class="row">
     <div class="col-9">
     </div>
