@@ -1,9 +1,12 @@
 import { ReszvenyAction, ReszvenyActionTypes } from './actions';
 import { UjReszveny } from "src/app/models/uj-befektetes-models/uj-befektetes/uj-befektetes.model";
+import { User } from 'src/app/models/user/user.model';
 
 const initialState: Array<UjReszveny> = [];
 
 const initialKotesState: Array<number[]> = [];
+
+const initialUserState: User = new User();
 
 export function ReszvenyReducer(state: Array<UjReszveny> = initialState, action: ReszvenyAction) {
   switch (action.type) {
@@ -26,6 +29,15 @@ export function KotesReducer(stateKotes: Array<number[]> = initialKotesState, ac
     default:
       return stateKotes;
   }
+}
+
+export function UserReducer(state: User = initialUserState, action: ReszvenyAction){
+    switch(action.type){
+      case ReszvenyActionTypes.ADD_USER:
+        return action.payload;
+      default:
+        return state;
+    }
 }
 
 function handleUpdateReszveny(state: Array<UjReszveny>, payload: UjReszveny): Array<UjReszveny> {

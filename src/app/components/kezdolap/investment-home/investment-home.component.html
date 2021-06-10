@@ -9,7 +9,7 @@
             <form [formGroup]="loginFormGroup" (ngSubmit)="loginSubmit()">
               <br>
               <mat-form-field>
-                <input matInput placeholder="Felhasználónév" formControlName="loginNameCtrl" required>
+                <input matInput placeholder="E-mail cím" formControlName="loginNameCtrl" required>
               </mat-form-field>
               <br>
               <mat-form-field>
@@ -30,6 +30,41 @@
             </form>
           </mat-tab>
           <mat-tab label="Regisztráció">
+            <form [formGroup]="regFormGroup" (ngSubmit)="regSubmit()">
+              <br>
+              <mat-form-field>
+                <input matInput placeholder="E-mail cím" formControlName="regEmailCtrl" required>
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <input type="password" matInput placeholder="Jelszó" formControlName="regPasswCtrl" required>
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <input matInput placeholder="Vezetéknév" formControlName="regFirstNameCtrl" required>
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <input matInput placeholder="Keresztnév" formControlName="regLastNameCtrl" required>
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <input  type="date" matInput placeholder="Születési dátum" formControlName="regBirthDateCtrl" required>
+              </mat-form-field>
+              <br>
+             
+              <br>
+              <button type="submit" mat-raised-button color="primary"
+                class="btn btn-info btn-block">Regisztráció</button>
+              <br>
+              <br>
+              <!--<div *ngIf="!loginFormGroup.controls['loginPasswCtrl'].errors.required" class="alert alert-danger">
+              Hibás jelszó!
+            </div>-->
+              <!--<button mat-raised-button color="warn"
+            class="btn btn-info btn-block">Bejelentkezés Google fiókkal</button>-->
+              <!--class="btn btn-outline-info btn-rounded btn-block z-depth-0 my-4 waves-effect"-->
+            </form>
           </mat-tab>
         </mat-tab-group>
       </mat-card>

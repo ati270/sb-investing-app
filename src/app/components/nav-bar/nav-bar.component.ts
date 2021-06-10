@@ -1,12 +1,14 @@
+import { AppUserState } from './../store/reszveny/state';
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MoreInfoDialogComponent } from '../dialogs/more-info-dialog/more-info-dialog.component';
-import { interval, Subscription } from 'rxjs';
+import { interval, Observable, Subscription } from 'rxjs';
 import { Input } from '@angular/core';
 import { Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { User } from 'src/app/models/user/user.model';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-nav-bar',
@@ -18,10 +20,11 @@ export class NavBarComponent implements OnInit {
   //@select() logined_user;
 
   @Input() mainPanel: ElementRef;
-  user: User;
+  private userObs: Observable<User>;
+  userName: Observable<String>;
   name: string;
 
-  constructor(public dialog: MatDialog, private router: Router) { }
+  constructor(public dialog: MatDialog, private router: Router, private store: Store<AppUserState>) { }
 
   ngOnInit(): void {
     /*this.user = this.activatedRoute.paramMap
@@ -30,6 +33,7 @@ export class NavBarComponent implements OnInit {
 
     //this.name = this.user.username;
     //console.log(this.logined_user);
+    this.userName = this.store.select(store => store.user.$firstName);
   }
 
   goToReszvenyek(){

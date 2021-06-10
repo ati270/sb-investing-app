@@ -29,7 +29,7 @@ import { ConfirmDeleteCalendarDialogComponent } from './components/dialogs/confi
 import { StrategiaComponent } from './components/strategia/strategia/strategia.component';
 import { MatFabMenuModule } from '@angular-material-extensions/fab-menu';
 import { StoreModule } from '@ngrx/store';
-import { KotesReducer, ReszvenyReducer } from './components/store/reszveny/reducer';
+import { KotesReducer, ReszvenyReducer, UserReducer } from './components/store/reszveny/reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 
@@ -51,7 +51,7 @@ import { environment } from '../environments/environment';
     FlexLayoutModule,
     MatFabMenuModule,
       StoreModule.forRoot(
-        {kotesek: KotesReducer, reszvenyek: ReszvenyReducer},
+        {kotesek: KotesReducer, reszvenyek: ReszvenyReducer, user: UserReducer},
         {
         runtimeChecks: {
           strictStateImmutability: false,

@@ -1,10 +1,10 @@
 export class User {
-   id: string;
-   username: string;
-   email: string;
-   password: string;
-   firstname: string;
-   lastname: string;
+   private id: string;
+   private firstName: string;
+   private lastName: string;
+   private email: string;
+   private passw: string;
+   private birthDate: Date;
 
   constructor() {
   }
@@ -19,11 +19,19 @@ export class User {
 	}
 
     /**
-     * Getter $username
+     * Getter $firstName
      * @return {string}
      */
-	public get $username(): string {
-		return this.username;
+	public get $firstName(): string {
+		return this.firstName;
+	}
+
+    /**
+     * Getter $lastName
+     * @return {string}
+     */
+	public get $lastName(): string {
+		return this.lastName;
 	}
 
     /**
@@ -35,27 +43,19 @@ export class User {
 	}
 
     /**
-     * Getter $password
+     * Getter $passw
      * @return {string}
      */
-	public get $password(): string {
-		return this.password;
+	public get $passw(): string {
+		return this.passw;
 	}
 
     /**
-     * Getter $firstname
-     * @return {string}
+     * Getter $birthDate
+     * @return {Date}
      */
-	public get $firstname(): string {
-		return this.firstname;
-	}
-
-    /**
-     * Getter $lastname
-     * @return {string}
-     */
-	public get $lastname(): string {
-		return this.lastname;
+	public get $birthDate(): Date {
+		return this.birthDate;
 	}
 
     /**
@@ -67,11 +67,19 @@ export class User {
 	}
 
     /**
-     * Setter $username
+     * Setter $firstName
      * @param {string} value
      */
-	public set $username(value: string) {
-		this.username = value;
+	public set $firstName(value: string) {
+		this.firstName = value;
+	}
+
+    /**
+     * Setter $lastName
+     * @param {string} value
+     */
+	public set $lastName(value: string) {
+		this.lastName = value;
 	}
 
     /**
@@ -83,27 +91,19 @@ export class User {
 	}
 
     /**
-     * Setter $password
+     * Setter $passw
      * @param {string} value
      */
-	public set $password(value: string) {
-		this.password = value;
+	public set $passw(value: string) {
+		this.passw = value;
 	}
 
     /**
-     * Setter $firstname
-     * @param {string} value
+     * Setter $birthDate
+     * @param {Date} value
      */
-	public set $firstname(value: string) {
-		this.firstname = value;
-	}
-
-    /**
-     * Setter $lastname
-     * @param {string} value
-     */
-	public set $lastname(value: string) {
-		this.lastname = value;
+	public set $birthDate(value: Date) {
+		this.birthDate = value;
 	}
 
 
