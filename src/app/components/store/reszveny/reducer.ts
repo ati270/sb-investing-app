@@ -12,6 +12,9 @@ export function ReszvenyReducer(state: Array<UjReszveny> = initialState, action:
   switch (action.type) {
     case ReszvenyActionTypes.ADD_RESZVENY:
       return [...state, action.payload];
+    case ReszvenyActionTypes.CLEAR_RESZVENY_ACTION:
+      state = undefined;
+      return state;
     case ReszvenyActionTypes.UPDATE_RESZVENY:
       return handleUpdateReszveny(state, action.payload);
     case ReszvenyActionTypes.UPDATE_RESZVENY_STATUS:

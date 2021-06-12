@@ -1,3 +1,5 @@
+import { UjReszveny } from "../uj-befektetes-models/uj-befektetes/uj-befektetes.model";
+
 export class User {
    private id: string;
    private firstName: string;
@@ -5,10 +7,14 @@ export class User {
    private email: string;
    private passw: string;
    private birthDate: Date;
+   private reszvenyek: UjReszveny[];
 
   constructor() {
   }
 
+     public get $reszvenyek(): UjReszveny[]{
+          return this.reszvenyek;
+     }
 
     /**
      * Getter $id
@@ -105,6 +111,10 @@ export class User {
 	public set $birthDate(value: Date) {
 		this.birthDate = value;
 	}
+
+     public set $reszvenyek(value: UjReszveny[]){
+          this.reszvenyek = value;
+     }
 
 
 }

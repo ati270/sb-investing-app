@@ -1,3 +1,5 @@
+import { AppUserState } from './../../store/reszveny/state';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 import { BefAdatokService } from 'src/app/services/befektetesek/uj-befektetes-services/befektetes-adatok/bef-adatok.service';
 import { SajatMagamElemzeseComponent } from './uj-befektetes-elemek/sajat-magam-elemzese/sajat-magam-elemzese.component';
@@ -23,6 +25,8 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../store/reszveny/state';
 import { Observable } from 'rxjs';
 import { MessageService } from 'primeng/api';
+import { User } from 'src/app/models/user/user.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-uj-befektetes',
@@ -78,14 +82,19 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
 
   private haladasValue: number = 0;
   private tabValue = 12.5;
-  constructor(private ujBefektetesService: UjBefektetesService, private store: Store<AppState>, private messageService: MessageService,
-    private elemzesService: ElemzesService, private befadatokService: BefAdatokService, private cdr: ChangeDetectorRef) { }
+  constructor(private ujBefektetesService: UjBefektetesService, private store: Store<AppState>, private userStore: Store<AppUserState>, private messageService: MessageService,
+    private elemzesService: ElemzesService, private befadatokService: BefAdatokService, private cdr: ChangeDetectorRef,
+    private http: HttpClient) { }
 
   ngOnInit(): void {
     this.isCreatedNew = true;
     this.isUjReszv = true;
+    const datepipe: DatePipe = new DatePipe('en-US');
+
     //this.count = this.ujBefektetesService.$count;
     //this.isSavedActualElemzes = this.ujBefektetesService.$isSavedActualElemzes;
+    // töltsük be adatbázisból
+
   }
 
   ngAfterViewInit() {
@@ -94,8 +103,34 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
       console.log(this.befFormGroup);
       this.cdr.detectChanges();
     }
-  }
 
+    let userObj = this.userStore.select(store => store.user);
+    let loggedinUser: User;
+    userObj.subscribe(user => loggedinUser = user);
+
+    const url = 'http://localhost:8080/users/' + loggedinUser.$id;
+    let ujReszvenyek: UjReszveny[];
+    let ujReszv: UjReszveny;
+    //this.ujBefektetesService.$ujReszveny.$haladas = this.count;
+
+      this.http.get<User>(url).subscribe(user => {
+      ujReszvenyek = user['reszvenyek'];
+
+      for(let i = 0; i<ujReszvenyek.length;i++){
+        ujReszv = new UjReszveny();
+        // add BefAdatok
+        ujReszv.$befektetesAdatok = new BefektetesAdatok("","","","","", "");
+        ujReszv.$befektetesAdatok.$vallalatNeve = ujReszvenyek[i]['vallalatNeve'];
+        ujReszv.$befektetesAdatok.$agazat = ujReszvenyek[i]['agazat'];
+        ujReszv.$befektetesAdatok.$datum = ujReszvenyek[i]['datum'];
+        ujReszv.$befektetesAdatok.$strategia = ujReszvenyek[i]['strategia'];
+        ujReszv.$befektetesAdatok.$status = ujReszvenyek[i]['status'];
+        ujReszv.$befektetesAdatok.$ticker = ujReszvenyek[i]['ticker'];
+
+        this.store.dispatch(new AddReszvenyAction(ujReszv));
+      }
+      });
+    }
   loadHaladas() {
     this.visszatoltott = true;
     let halad = this.ujBefektetesService.$count;
@@ -106,7 +141,7 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
 
     console.log(this.count);
     this.ujReszveny = this.ujBefektetesService.$visszatoltottReszveny;
-    console.log("VISSZATÖLTÖTT:" + this.ujReszveny.$befektetesAdatok.vallalatNeve);
+    console.log("VISSZATÖLTÖTT:" + this.ujReszveny.$befektetesAdatok.$vallalatNeve);
     this.isUjReszv = true;
     this.iselemzesSaved = true;
   }
@@ -147,22 +182,22 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
 
   }
 
-  clearFormGroups(){
-      this.befFormGroup.reset();
-      this.mentalisFormgroup.reset();
-      this.vizsgKritFormGroup.reset();
-      this.penzAdatokFormGroup.reset();
-      this.celarMeghatFormGroup.reset();
-      this.nettoJelenFormGroup.reset();
-      this.vallPenzElemzesFormGroups[0].reset();
-      this.vallPenzElemzesFormGroups[1].reset();
-      this.vallPenzElemzesFormGroups[2].reset();
-      this.vallPenzElemzesFormGroups[3].reset();
+  clearFormGroups() {
+    this.befFormGroup.reset();
+    this.mentalisFormgroup.reset();
+    this.vizsgKritFormGroup.reset();
+    this.penzAdatokFormGroup.reset();
+    this.celarMeghatFormGroup.reset();
+    this.nettoJelenFormGroup.reset();
+    this.vallPenzElemzesFormGroups[0].reset();
+    this.vallPenzElemzesFormGroups[1].reset();
+    this.vallPenzElemzesFormGroups[2].reset();
+    this.vallPenzElemzesFormGroups[3].reset();
 
-      this.managelesFormGroups[0].reset();
-      this.managelesFormGroups[1].reset();
-      this.managelesFormGroups[2].reset();
-      this.managelesFormGroups[3].reset();
+    this.managelesFormGroups[0].reset();
+    this.managelesFormGroups[1].reset();
+    this.managelesFormGroups[2].reset();
+    this.managelesFormGroups[3].reset();
 
 
   }
@@ -224,6 +259,25 @@ export class UjBefektetesComponent implements OnInit, AfterViewInit {
     this.isUjReszv = true;
     this.iselemzesSaved = true;
     this.visszatoltott = true;
+
+    // mentsük el adatbázisba
+    let userIdObs = this.userStore.select(store => store.user.$id);
+    let userId = "";
+    userIdObs.subscribe(id => userId = id)
+    console.log("USERID: " + userId);
+    let addReszvenyUrl = "http://localhost:8080/users/user/addReszveny/" + userId;
+    console.log(addReszvenyUrl);
+    const body = JSON.stringify(this.ujBefektetesService.$ujReszveny.$befektetesAdatok);
+    console.log(body);
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    }
+
+    this.http.post<UjReszveny>(addReszvenyUrl, body, httpOptions).subscribe(data => {
+      error: error => {
+        console.error('There was an error!', error.message);
+      }
+    });
   }
 
   addOneItem(item: any) {

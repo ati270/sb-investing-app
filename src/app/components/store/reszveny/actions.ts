@@ -7,7 +7,8 @@ export enum ReszvenyActionTypes {
   ADD_USER = '[USER] Add User',
   ADD_KOTES = '[KOTES] Add Kotes',
   UPDATE_RESZVENY = '[RESZVENY] Update Reszveny',
-  UPDATE_RESZVENY_STATUS = '[RESZVENY STATUS] Update Reszveny Status'
+  UPDATE_RESZVENY_STATUS = '[RESZVENY STATUS] Update Reszveny Status',
+  CLEAR_RESZVENY_ACTION = '[RESZVENY] Clear Reszveny'
   //REMOVE_RESZVENY = '[RESZVENY] Remove Reszveny'
 }
 
@@ -17,6 +18,12 @@ export class AddReszvenyAction implements Action {
     readonly type = ReszvenyActionTypes.ADD_RESZVENY;
 
     constructor(public payload: UjReszveny){}
+}
+
+export class ClearReszvenyAction implements Action{
+    readonly type = ReszvenyActionTypes.CLEAR_RESZVENY_ACTION;
+
+    constructor(){}
 }
 
 export class AddKotesAction implements Action {
@@ -53,5 +60,5 @@ export class UpdateReszvenyStatusAction implements Action{
     constructor(public payload: number) {}
 }*/
 
-export type ReszvenyAction = AddReszvenyAction | UpdateReszvenyAction | UpdateReszvenyStatusAction | AddKotesAction | AddUserAction;
+export type ReszvenyAction = AddReszvenyAction | UpdateReszvenyAction | UpdateReszvenyStatusAction | AddKotesAction | AddUserAction | ClearReszvenyAction;
 

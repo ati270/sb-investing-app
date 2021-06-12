@@ -119,11 +119,11 @@ export class BefAdatokComponent implements OnInit, AfterViewInit {
     let befAdat = this.befAdatokService.$updatedAdatok;
 
     this.adatokFormGroup.patchValue({
-      vallalat_neveCtrl: befAdat.vallalatNeve,
-      reszveny_tickerCtrl: befAdat.reszvenyTicker,
-      datumCtrl: befAdat.datum,
-      agazatCtrl: befAdat.agazat,
-      strategiaCtrl: befAdat.strategia,
+      vallalat_neveCtrl: befAdat.$vallalatNeve,
+      reszveny_tickerCtrl: befAdat.$ticker,
+      datumCtrl: befAdat.$datum,
+      agazatCtrl: befAdat.$agazat,
+      strategiaCtrl: befAdat.$strategia,
       statusCtrl: befAdat.$status
       // formControlName2: myValue2 (can be omitted)
     });

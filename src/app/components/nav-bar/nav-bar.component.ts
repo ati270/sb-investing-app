@@ -1,4 +1,4 @@
-import { AppUserState } from './../store/reszveny/state';
+import { AppState, AppUserState } from './../store/reszveny/state';
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MoreInfoDialogComponent } from '../dialogs/more-info-dialog/more-info-dialog.component';
@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { User } from 'src/app/models/user/user.model';
 import { Store } from '@ngrx/store';
+import { ClearReszvenyAction } from '../store/reszveny/actions';
 
 @Component({
   selector: 'app-nav-bar',
@@ -24,7 +25,7 @@ export class NavBarComponent implements OnInit {
   userName: Observable<String>;
   name: string;
 
-  constructor(public dialog: MatDialog, private router: Router, private store: Store<AppUserState>) { }
+  constructor(public dialog: MatDialog, private router: Router, private store: Store<AppUserState>, private reszvenyStore: Store<AppState>) { }
 
   ngOnInit(): void {
     /*this.user = this.activatedRoute.paramMap
@@ -34,6 +35,14 @@ export class NavBarComponent implements OnInit {
     //this.name = this.user.username;
     //console.log(this.logined_user);
     this.userName = this.store.select(store => store.user.$firstName);
+    // Itt tároljuk le az adatokat
+
+  }
+
+  logout(){
+    // Törölni kijelentkezéskor a részvényeket
+    this.reszvenyStore.dispatch(new ClearReszvenyAction());
+    this.router.navigate(['/investment-home']);
   }
 
   goToReszvenyek(){

@@ -63,7 +63,7 @@ export class InvestmentHomeComponent implements OnInit {
     const url = 'http://localhost:8080/users/user/' + email;
     let user: User = new User();
     const datepipe: DatePipe = new DatePipe('en-US')
-    
+
       this.http.get(url)
         .pipe(
           timeout(3000)
@@ -79,6 +79,7 @@ export class InvestmentHomeComponent implements OnInit {
           datepipe.transform(user.$birthDate, 'yyyy.MM.dd');
           user.$email = value['email'];
           user.$passw = value['passw'];
+          user.$reszvenyek = value['reszvenyek'];
 
           let cryptoPsw = CryptoJS.SHA1(formPsw);
 
@@ -97,9 +98,9 @@ export class InvestmentHomeComponent implements OnInit {
           }
 
           console.log(user)
-        
+
         })
-    
+
 
 
   }
@@ -120,7 +121,7 @@ export class InvestmentHomeComponent implements OnInit {
     postUser.$passw = resultCryptoPsw;
 
     console.log(postUser);
-    let postUrl = "http://localhost:8080/users/add";
+    let postUrl = "http://localhost:8080/users/addUser";
     const body = JSON.stringify(postUser);
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
