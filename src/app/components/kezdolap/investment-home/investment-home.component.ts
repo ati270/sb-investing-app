@@ -24,7 +24,8 @@ export class InvestmentHomeComponent implements OnInit {
   regFormGroup: FormGroup;
   user: User = new User();
   invalid: boolean;
-
+  registralt: boolean;
+  activetabIndex: number;
 
   constructor(private _fb: FormBuilder, private router: Router,
     private http: HttpClient, private store: Store<AppUserState>, public loaderService: LoaderService
@@ -34,18 +35,19 @@ export class InvestmentHomeComponent implements OnInit {
   ngOnInit(): void {
     this.createFormGroup();
     this.createRegFormGroup();
+    this.registralt = false;
   }
 
   createFormGroup() {
     this.loginFormGroup = this._fb.group({
-      loginNameCtrl: new FormControl('', Validators.required),
+      loginNameCtrl: new FormControl('', [Validators.required, Validators.email]),
       loginPasswCtrl: new FormControl('', Validators.required)
     })
   }
 
   createRegFormGroup() {
     this.regFormGroup = this._fb.group({
-      regEmailCtrl: new FormControl('', Validators.required),
+      regEmailCtrl: new FormControl('', [Validators.required, Validators.email]),
       regPasswCtrl: new FormControl('', Validators.required),
       regFirstNameCtrl: new FormControl('', Validators.required),
       regLastNameCtrl: new FormControl('', Validators.required),
@@ -98,6 +100,7 @@ export class InvestmentHomeComponent implements OnInit {
           }
 
           console.log(user)
+          this.registralt = false;
 
         })
 
@@ -127,6 +130,9 @@ export class InvestmentHomeComponent implements OnInit {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     }
     this.http.post<User>(postUrl, body, httpOptions).subscribe(data => {
+      this.activetabIndex = 0;
+      this.regFormGroup.reset();
+      this.registralt = true;
       error: error => {
 
         console.error('There was an error!', error.message);

@@ -8,24 +8,27 @@
        <div class="d-flex justify-content-end" style="margin-top: 1rem">
          <img src="../../../../assets/img/logo.png" style="padding-bottom: 3rem;height: 10rem;">
        </div>
-       <mat-tab-group mat-align-tabs="center">
+       <mat-tab-group [(selectedIndex)]="activetabIndex" mat-align-tabs="center" animationDuration="1500ms">
          <mat-tab>
            <ng-template mat-tab-label>
              <span style="color: #3f729b;">Bejelentkezés</span>
            </ng-template>
            <form [formGroup]="loginFormGroup" (ngSubmit)="loginSubmit()" class="needs-validation" novalidate>
              <br>
+             <div *ngIf="registralt"><span style="color: #3f729b;text-align: center;text-decoration: solid;">Most már
+                 bejelentkezhetsz a fiókodba!</span></div>
+             <br>
              <div class="form-group">
                <label for="emailLogin">E-mail cím</label>
                <input type="email" class="form-control" id="emailLogin" aria-describedby="emailLogin"
-                 placeholder="E-mail cím" formControlName="loginNameCtrl">
+                 placeholder="E-mail cím" formControlName="loginNameCtrl" required>
                <div class="valid-feedback">Looks good!</div>
              </div>
              <br>
              <div class="form-group">
                <label for="passwLogin">Jelszó megadása</label>
                <input type="password" class="form-control" id="passwLogin" aria-describedby="passwLogin"
-                 placeholder="Jelszó" formControlName="loginPasswCtrl">
+                 placeholder="Jelszó" formControlName="loginPasswCtrl" required>
                <small id="passwLogin" class="form-text text-muted"></small>
              </div>
              <!--<mat-form-field>
@@ -37,7 +40,7 @@
               </mat-form-field>-->
              <br>
              <button type="submit" mat-raised-button color="primary"
-               class="btn btn-info btn-block gomb">Bejelentkezés</button>
+               class="btn btn-info btn-block gomb" [disabled]="loginFormGroup.invalid">Bejelentkezés</button>
              <br>
              <br>
              <!--<div *ngIf="!loginFormGroup.controls['loginPasswCtrl'].errors.required" class="alert alert-danger">
@@ -58,37 +61,57 @@
              <div class="form-group">
                <label for="email">E-mail cím</label>
                <input type="email" class="form-control" id="email" aria-describedby="email" placeholder="E-mail cím"
-                 formControlName="regEmailCtrl">
+                 formControlName="regEmailCtrl" required>
                <small id="email" class="form-text text-muted">Formailag helyes e-mail címet adj meg</small>
+
+             </div>
+             <div *ngIf="regFormGroup.controls['regEmailCtrl'].invalid && (regFormGroup.controls['regEmailCtrl'].dirty
+               || regFormGroup.controls['regEmailCtrl'].touched)" class="alert alert-danger">
+               Az email cím formátuma helytelen
              </div>
              <br>
-
              <div class="form-group">
                <label for="passw">Jelszó megadása</label>
-               <input type="password" class="form-control" id="email" aria-describedby="passw" placeholder="Jelszó"
-                 formControlName="regPasswCtrl">
+               <input type="password" class="form-control" id="passw" aria-describedby="passw" placeholder="Jelszó"
+                 formControlName="regPasswCtrl" required>
                <small id="passw" class="form-text text-muted"></small>
+             </div>
+             <div *ngIf="regFormGroup.controls['regPasswCtrl'].invalid && (regFormGroup.controls['regPasswCtrl'].dirty
+             || regFormGroup.controls['regPasswCtrl'].touched)" class="alert alert-danger">
+               A jelszó megadása kötelező
              </div>
              <br>
              <div class="form-group">
                <label for="lastname">Vezetéknév</label>
                <input type="text" class="form-control" id="lastname" aria-describedby="lastname"
-                 placeholder="Vezetéknév" formControlName="regLastNameCtrl">
+                 placeholder="Vezetéknév" formControlName="regLastNameCtrl" required>
                <small id="lastname" class="form-text text-muted"></small>
+             </div>
+             <div *ngIf="regFormGroup.controls['regLastNameCtrl'].invalid && (regFormGroup.controls['regLastNameCtrl'].dirty
+             || regFormGroup.controls['regLastNameCtrl'].touched)" class="alert alert-danger">
+               A vezetéknév megadása kötelező
              </div>
              <br>
              <div class="form-group">
                <label for="firstname">Keresztnév</label>
                <input type="text" class="form-control" id="firstname" aria-describedby="firstname"
-                 placeholder="Keresztnév" formControlName="regFirstNameCtrl">
+                 placeholder="Keresztnév" formControlName="regFirstNameCtrl" required>
                <small id="firstname" class="form-text text-muted"></small>
+             </div>
+             <div *ngIf="regFormGroup.controls['regFirstNameCtrl'].invalid && (regFormGroup.controls['regFirstNameCtrl'].dirty
+             || regFormGroup.controls['regFirstNameCtrl'].touched)" class="alert alert-danger">
+               A keresztnév megadása kötelező
              </div>
              <br>
              <div class="form-group">
                <label for="birthdate">Születési idő</label>
                <input type="date" class="form-control" id="birthdate" aria-describedby="birthdate"
-                 placeholder="Születési idő" formControlName="regBirthDateCtrl">
+                 placeholder="Születési idő" formControlName="regBirthDateCtrl" required>
                <small id="birthdate" class="form-text text-muted"></small>
+             </div>
+             <div *ngIf="regFormGroup.controls['regBirthDateCtrl'].invalid && (regFormGroup.controls['regBirthDateCtrl'].dirty
+             || regFormGroup.controls['regBirthDateCtrl'].touched)" class="alert alert-danger">
+               A születési idő megadása kötelező
              </div>
              <br>
              <!--<mat-form-field>
@@ -114,7 +137,7 @@
 
              <br>
              <button type="submit" mat-raised-button color="primary"
-               class="btn btn-info btn-block gomb">Regisztráció</button>
+               class="btn btn-info btn-block gomb" [disabled]="regFormGroup.invalid">Regisztráció</button>
              <br>
              <br>
              <!--<div *ngIf="!loginFormGroup.controls['loginPasswCtrl'].errors.required" class="alert alert-danger">
