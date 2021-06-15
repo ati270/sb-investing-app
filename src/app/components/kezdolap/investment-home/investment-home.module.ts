@@ -13,8 +13,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
-
+import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 @NgModule({
   imports: [CommonModule,
     InvestmentHomeRoutingModule,
@@ -22,6 +21,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     HttpClientModule,
     MatProgressBarModule,
     MatButtonModule,
+    MatPasswordStrengthModule,
     MatGridListModule,
     MatCardModule,
     MatIconModule,

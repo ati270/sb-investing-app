@@ -38,6 +38,10 @@ export class InvestmentHomeComponent implements OnInit {
     this.registralt = false;
   }
 
+  onStrengthChanged(strength: number) {
+    console.log('password strength = ', strength);
+  }
+
   createFormGroup() {
     this.loginFormGroup = this._fb.group({
       loginNameCtrl: new FormControl('', [Validators.required, Validators.email]),
@@ -66,43 +70,43 @@ export class InvestmentHomeComponent implements OnInit {
     let user: User = new User();
     const datepipe: DatePipe = new DatePipe('en-US')
 
-      this.http.get(url)
-        .pipe(
-          timeout(3000)
-        )
-        .subscribe(value => {
+    this.http.get(url)
+      .pipe(
+        timeout(3000)
+      )
+      .subscribe(value => {
 
 
-          console.log(value);
-          user.$id = value['id'];
-          user.$firstName = value['firstName'];
-          user.$lastName = value['lastName'];
-          user.$birthDate = value['birthDate'];
-          datepipe.transform(user.$birthDate, 'yyyy.MM.dd');
-          user.$email = value['email'];
-          user.$passw = value['passw'];
-          user.$reszvenyek = value['reszvenyek'];
+        console.log(value);
+        user.$id = value['id'];
+        user.$firstName = value['firstName'];
+        user.$lastName = value['lastName'];
+        user.$birthDate = value['birthDate'];
+        datepipe.transform(user.$birthDate, 'yyyy.MM.dd');
+        user.$email = value['email'];
+        user.$passw = value['passw'];
+        user.$reszvenyek = value['reszvenyek'];
 
-          let cryptoPsw = CryptoJS.SHA1(formPsw);
+        let cryptoPsw = CryptoJS.SHA1(formPsw);
 
-          let resultCryptoPsw = CryptoJS.enc.Hex.stringify(cryptoPsw);
-          console.log(resultCryptoPsw);
+        let resultCryptoPsw = CryptoJS.enc.Hex.stringify(cryptoPsw);
+        console.log(resultCryptoPsw);
 
-          if (user.$passw === resultCryptoPsw) {
-            this.store.dispatch(
-              new AddUserAction(user)
-            );
-            this.router.navigateByUrl('/befektetes');
-          }
-          else {
-            // error message
-            console.log("hibás jelszó");
-          }
+        if (user.$passw === resultCryptoPsw) {
+          this.store.dispatch(
+            new AddUserAction(user)
+          );
+          this.router.navigateByUrl('/befektetes');
+        }
+        else {
+          // error message
+          console.log("hibás jelszó");
+        }
 
-          console.log(user)
-          this.registralt = false;
+        console.log(user)
+        this.registralt = false;
 
-        })
+      })
 
 
 
@@ -129,14 +133,11 @@ export class InvestmentHomeComponent implements OnInit {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     }
-    this.http.post<User>(postUrl, body, httpOptions).subscribe(data => {
-      this.activetabIndex = 0;
-      this.regFormGroup.reset();
-      this.registralt = true;
-      error: error => {
-
-        console.error('There was an error!', error.message);
-      }
+    this.http.post<User>(postUrl, body, httpOptions)
+    .subscribe(data => {
+        this.activetabIndex = 0;
+        this.regFormGroup.reset();
+        this.registralt = true;
     })
   }
 }

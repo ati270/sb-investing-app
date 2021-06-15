@@ -3,12 +3,14 @@
      <div *ngIf="loaderService.isLoading | async" class="loader-container">
        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
      </div>
+
      <mat-card>
        <span class="cel">Céloktól a befektetésig</span>
        <div class="d-flex justify-content-end" style="margin-top: 1rem">
-         <img src="../../../../assets/img/logo.png" style="padding-bottom: 3rem;height: 10rem;">
+         <img src="../../../../assets/img/logo.png" style="padding-bottom: 1rem;height: 5rem;">
        </div>
-       <mat-tab-group [(selectedIndex)]="activetabIndex" mat-align-tabs="center" animationDuration="1500ms">
+       <mat-tab-group [(selectedIndex)]="activetabIndex" mat-align-tabs="center" animationDuration="1500ms"
+         style="height: 100%;">
          <mat-tab>
            <ng-template mat-tab-label>
              <span style="color: #3f729b;">Bejelentkezés</span>
@@ -39,8 +41,8 @@
                 <input type="password" matInput placeholder="Jelszó" formControlName="loginPasswCtrl" required>
               </mat-form-field>-->
              <br>
-             <button type="submit" mat-raised-button color="primary"
-               class="btn btn-info btn-block gomb" [disabled]="loginFormGroup.invalid">Bejelentkezés</button>
+             <button type="submit" mat-raised-button color="primary" class="btn btn-info btn-block gomb"
+               [disabled]="loginFormGroup.invalid">Bejelentkezés</button>
              <br>
              <br>
              <!--<div *ngIf="!loginFormGroup.controls['loginPasswCtrl'].errors.required" class="alert alert-danger">
@@ -58,7 +60,7 @@
            </ng-template>
            <form [formGroup]="regFormGroup" (ngSubmit)="regSubmit()">
              <br>
-             <div class="form-group">
+             <!--<div class="form-group">
                <label for="email">E-mail cím</label>
                <input type="email" class="form-control" id="email" aria-describedby="email" placeholder="E-mail cím"
                  formControlName="regEmailCtrl" required>
@@ -69,19 +71,77 @@
                || regFormGroup.controls['regEmailCtrl'].touched)" class="alert alert-danger">
                Az email cím formátuma helytelen
              </div>
-             <br>
-             <div class="form-group">
+            -->
+             <mat-form-field>
+               <mat-label>E-mail cím</mat-label>
+               <input matInput type="email" id="email" placeholder="E-mail cím" formControlName="regEmailCtrl" required>
+               <mat-error *ngIf="regFormGroup.controls['regEmailCtrl'].invalid && (regFormGroup.controls['regEmailCtrl'].dirty
+              || regFormGroup.controls['regEmailCtrl'].touched)">Az email cím helytelen</mat-error>
+             </mat-form-field>
+             <br><br>
+             <!-- <div class="form-group">
                <label for="passw">Jelszó megadása</label>
-               <input type="password" class="form-control" id="passw" aria-describedby="passw" placeholder="Jelszó"
+               <input #password type="password" class="form-control" id="passw" aria-describedby="passw" placeholder="Jelszó"
                  formControlName="regPasswCtrl" required>
                <small id="passw" class="form-text text-muted"></small>
+               <br>
+               <mat-password-strength #passwordComponent (onStrengthChanged)="onStrengthChanged($event)"
+                 [password]="password.value" class="green">
+               </mat-password-strength>
              </div>
+
              <div *ngIf="regFormGroup.controls['regPasswCtrl'].invalid && (regFormGroup.controls['regPasswCtrl'].dirty
              || regFormGroup.controls['regPasswCtrl'].touched)" class="alert alert-danger">
                A jelszó megadása kötelező
-             </div>
+             </div>-->
+
+             <mat-form-field>
+               <mat-label>Jelszó</mat-label>
+               <input #password matInput type="password" id="passw" placeholder="Add meg a jelszót"
+                 formControlName="regPasswCtrl" required>
+               <mat-error *ngIf="regFormGroup.controls['regPasswCtrl'].invalid && (regFormGroup.controls['regPasswCtrl'].dirty
+                 || regFormGroup.controls['regPasswCtrl'].touched)">A jelszó megadása kötelező</mat-error>
+             </mat-form-field>
              <br>
-             <div class="form-group">
+             <div class="container">
+              <div class="row">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                  <mat-password-strength #passwordComponent (onStrengthChanged)="onStrengthChanged($event)"
+                  [password]="password.value" class="green">
+                </mat-password-strength>
+                </div>
+              </div>
+             </div>
+
+
+             <br>
+             <div class="container">
+               <div class="row">
+                 <div class="col-md-6">
+                  <mat-form-field>
+                    <mat-label>Vezetéknév</mat-label>
+                    <input #password matInput type="text" id="lastname" placeholder="Add meg avezetéknevet"
+                      formControlName="regLastNameCtrl" required>
+                    <mat-error *ngIf="regFormGroup.controls['regLastNameCtrl'].invalid && (regFormGroup.controls['regLastNameCtrl'].dirty
+                      || regFormGroup.controls['regLastNameCtrl'].touched)">A vezetéknév megadása kötelező</mat-error>
+                  </mat-form-field>
+                 </div>
+                 <div class="col-md-6">
+                  <mat-form-field>
+                    <mat-label>Keresztnév</mat-label>
+                    <input #password matInput type="text" id="firstname" placeholder="Add meg a keresztnevet"
+                      formControlName="regFirstNameCtrl" required>
+                    <mat-error *ngIf="regFormGroup.controls['regFirstNameCtrl'].invalid && (regFormGroup.controls['regFirstNameCtrl'].dirty
+                      || regFormGroup.controls['regFirstNameCtrl'].touched)">A keresztnév megadása kötelező</mat-error>
+                  </mat-form-field>
+                 </div>
+               </div>
+
+             </div>
+
+
+          <!--   <div class="form-group">
                <label for="lastname">Vezetéknév</label>
                <input type="text" class="form-control" id="lastname" aria-describedby="lastname"
                  placeholder="Vezetéknév" formControlName="regLastNameCtrl" required>
@@ -90,8 +150,10 @@
              <div *ngIf="regFormGroup.controls['regLastNameCtrl'].invalid && (regFormGroup.controls['regLastNameCtrl'].dirty
              || regFormGroup.controls['regLastNameCtrl'].touched)" class="alert alert-danger">
                A vezetéknév megadása kötelező
-             </div>
+             </div> -->
              <br>
+
+            <!--
              <div class="form-group">
                <label for="firstname">Keresztnév</label>
                <input type="text" class="form-control" id="firstname" aria-describedby="firstname"
@@ -101,9 +163,16 @@
              <div *ngIf="regFormGroup.controls['regFirstNameCtrl'].invalid && (regFormGroup.controls['regFirstNameCtrl'].dirty
              || regFormGroup.controls['regFirstNameCtrl'].touched)" class="alert alert-danger">
                A keresztnév megadása kötelező
-             </div>
-             <br>
-             <div class="form-group">
+             </div> -->
+             <mat-form-field>
+              <mat-label>Születési idő</mat-label>
+              <input #password matInput type="date" id="birthdate" placeholder="Add meg a keresztnevet"
+                formControlName="regBirthDateCtrl" required>
+              <mat-error *ngIf="regFormGroup.controls['regBirthDateCtrl'].invalid && (regFormGroup.controls['regBirthDateCtrl'].dirty
+                || regFormGroup.controls['regBirthDateCtrl'].touched)">A születési megadása kötelező</mat-error>
+            </mat-form-field>
+
+             <!--<div class="form-group">
                <label for="birthdate">Születési idő</label>
                <input type="date" class="form-control" id="birthdate" aria-describedby="birthdate"
                  placeholder="Születési idő" formControlName="regBirthDateCtrl" required>
@@ -112,7 +181,7 @@
              <div *ngIf="regFormGroup.controls['regBirthDateCtrl'].invalid && (regFormGroup.controls['regBirthDateCtrl'].dirty
              || regFormGroup.controls['regBirthDateCtrl'].touched)" class="alert alert-danger">
                A születési idő megadása kötelező
-             </div>
+             </div>-->
              <br>
              <!--<mat-form-field>
                 <input matInput placeholder="E-mail cím" formControlName="regEmailCtrl" required>
@@ -135,9 +204,8 @@
               </mat-form-field>
               <br>-->
 
-             <br>
-             <button type="submit" mat-raised-button color="primary"
-               class="btn btn-info btn-block gomb" [disabled]="regFormGroup.invalid">Regisztráció</button>
+             <button type="submit" mat-raised-button color="primary" class="btn btn-info btn-block gomb"
+               [disabled]="regFormGroup.invalid">Regisztráció</button>
              <br>
              <br>
              <!--<div *ngIf="!loginFormGroup.controls['loginPasswCtrl'].errors.required" class="alert alert-danger">
