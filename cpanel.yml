@@ -1,6 +1,6 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/sbinvest/repositories/sb-investing-app
+    - export DEPLOYPATH=/home/sbinvest/analysis
     - /bin/cp index.html $DEPLOYPATH
     - /bin/cp style.css $DEPLOYPATH
